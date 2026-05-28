@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "future", "label": "future", "shape": "dot", "size": 30, "title": "future"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "artificial", "label": "artificial", "shape": "dot", "size": 28, "title": "artificial (18\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "intelligence", "label": "intelligence", "shape": "dot", "size": 26, "title": "intelligence (16\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "current", "label": "current", "shape": "dot", "size": 17, "title": "current (7\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "directions", "label": "directions", "shape": "dot", "size": 16, "title": "directions (6\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "present", "label": "present", "shape": "dot", "size": 14, "title": "present (4\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "medicine", "label": "medicine", "shape": "dot", "size": 14, "title": "medicine (4\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "analysis", "label": "analysis", "shape": "dot", "size": 13, "title": "analysis (3\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "cancer", "label": "cancer", "shape": "dot", "size": 13, "title": "cancer (3\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "applications", "label": "applications", "shape": "dot", "size": 13, "title": "applications (3\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "review", "label": "review", "shape": "dot", "size": 13, "title": "review (3\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "screening", "label": "screening", "shape": "dot", "size": 12, "title": "screening (2\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "medical", "label": "medical", "shape": "dot", "size": 12, "title": "medical (2\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "methods", "label": "methods", "shape": "dot", "size": 12, "title": "methods (2\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "bibliometric", "label": "bibliometric", "shape": "dot", "size": 11, "title": "bibliometric (1\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "avenues", "label": "avenues", "shape": "dot", "size": 11, "title": "avenues (1\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "research", "label": "research", "shape": "dot", "size": 11, "title": "research (1\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "potential", "label": "potential", "shape": "dot", "size": 11, "title": "potential (1\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "lung", "label": "lung", "shape": "dot", "size": 11, "title": "lung (1\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "care", "label": "care", "shape": "dot", "size": 11, "title": "care (1\u00d7)"}, {"color": "#97c2fc", "font": {"color": "#ffffff"}, "id": "modern", "label": "modern", "shape": "dot", "size": 11, "title": "modern (1\u00d7)"}]);
+                  edges = new vis.DataSet([{"from": "future", "to": "artificial", "value": 18}, {"from": "future", "to": "intelligence", "value": 16}, {"from": "future", "to": "current", "value": 7}, {"from": "future", "to": "directions", "value": 6}, {"from": "future", "to": "present", "value": 4}, {"from": "future", "to": "medicine", "value": 4}, {"from": "future", "to": "analysis", "value": 3}, {"from": "future", "to": "cancer", "value": 3}, {"from": "future", "to": "applications", "value": 3}, {"from": "future", "to": "review", "value": 3}, {"from": "future", "to": "screening", "value": 2}, {"from": "future", "to": "medical", "value": 2}, {"from": "future", "to": "methods", "value": 2}, {"from": "future", "to": "bibliometric", "value": 1}, {"from": "future", "to": "avenues", "value": 1}, {"from": "future", "to": "research", "value": 1}, {"from": "future", "to": "potential", "value": 1}, {"from": "future", "to": "lung", "value": 1}, {"from": "future", "to": "care", "value": 1}, {"from": "future", "to": "modern", "value": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,60 @@
+@startuml
+
+!pragma layout smetana
+skinparam componentStyle rectangle
+skinparam defaultTextAlignment center
+skinparam component {
+}
+
+component "Bibliographic\nAnalysis UI\n(main_app.py)" as MAIN 
+
+
+package "data" {
+    component "Data-Preparation\n(data_preparation.py)" as DP 
+}
+
+
+package "analysis" {
+    component "Performance-Analysis\n(performance_analysis.py)" as PA 
+    component "Science-Mapping\n(science_mapping.py)"       as SM 
+}
+
+
+cloud "Crossref API"                          as CR
+database "Excel (.xlsx)"                      as XLSX
+
+collections "pandas"           as PANDAS
+frame       "numpy"            as NUMPY
+component   "matplotlib"       as MPL
+component   "networkx"         as NX
+component   "NLTK"             as NLTK
+component   "pyvis"            as PYVIS
+
+
+
+MAIN  --> DP : show_data()
+MAIN  --> PA : show_performance()
+MAIN  --> SM : show_science_mapping()
+
+' Data-preparation
+DP --> CR     : REST calls\n(get_field_from_api)
+DP --> REQ
+DP --> PANDAS
+DP --> XLSX
+
+' Performance-analysis
+PA --> PANDAS
+PA --> NUMPY
+PA --> MPL
+PA --> XLSX
+
+' Science-mapping
+SM --> PANDAS
+SM --> NX
+SM --> NLTK
+SM --> PYVIS
+SM --> XLSX
+
+
+MAIN --> XLSX : user upload / download
+@enduml
