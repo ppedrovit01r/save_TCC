@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #222222;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"font": {"color": "#ffffff"}, "group": 1, "id": "W1485876394", "label": "1-1", "shape": "dot", "size": 55.0, "title": "W1485876394\nDegree: 9.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W165807459", "label": "1-2", "shape": "dot", "size": 50.55555555555556, "title": "W165807459\nDegree: 8.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W1513984747", "label": "1-3", "shape": "dot", "size": 41.666666666666664, "title": "W1513984747\nDegree: 6.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W1993922719", "label": "1-4", "shape": "dot", "size": 41.666666666666664, "title": "W1993922719\nDegree: 6.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2008695134", "label": "1-5", "shape": "dot", "size": 37.22222222222222, "title": "W2008695134\nDegree: 5.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W1999182952", "label": "1-6", "shape": "dot", "size": 28.333333333333332, "title": "W1999182952\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W6677168553", "label": "1-7", "shape": "dot", "size": 28.333333333333332, "title": "W6677168553\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2014872028", "label": "1-8", "shape": "dot", "size": 28.333333333333332, "title": "W2014872028\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2116253700", "label": "1-9", "shape": "dot", "size": 28.333333333333332, "title": "W2116253700\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2120448006", "label": "1-10", "shape": "dot", "size": 23.88888888888889, "title": "W2120448006\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W1983177443", "label": "1-11", "shape": "dot", "size": 23.88888888888889, "title": "W1983177443\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2123517881", "label": "1-12", "shape": "dot", "size": 23.88888888888889, "title": "W2123517881\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2111584934", "label": "1-13", "shape": "dot", "size": 23.88888888888889, "title": "W2111584934\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2263099603", "label": "1-14", "shape": "dot", "size": 19.444444444444443, "title": "W2263099603\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W3010956862", "label": "1-15", "shape": "dot", "size": 19.444444444444443, "title": "W3010956862\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2094108443", "label": "1-16", "shape": "dot", "size": 19.444444444444443, "title": "W2094108443\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W3109856192", "label": "1-17", "shape": "dot", "size": 19.444444444444443, "title": "W3109856192\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2146175859", "label": "1-18", "shape": "dot", "size": 19.444444444444443, "title": "W2146175859\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W2091691807", "label": "1-19", "shape": "dot", "size": 19.444444444444443, "title": "W2091691807\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 1, "id": "W1554901925", "label": "1-20", "shape": "dot", "size": 19.444444444444443, "title": "W1554901925\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W1528620860", "label": "2-1", "shape": "dot", "size": 46.111111111111114, "title": "W1528620860\nDegree: 7.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W4239510810", "label": "2-2", "shape": "dot", "size": 37.22222222222222, "title": "W4239510810\nDegree: 5.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W1563088657", "label": "2-3", "shape": "dot", "size": 28.333333333333332, "title": "W1563088657\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W2119821739", "label": "2-4", "shape": "dot", "size": 28.333333333333332, "title": "W2119821739\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W2156909104", "label": "2-5", "shape": "dot", "size": 28.333333333333332, "title": "W2156909104\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W2139212933", "label": "2-6", "shape": "dot", "size": 23.88888888888889, "title": "W2139212933\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W4206686222", "label": "2-7", "shape": "dot", "size": 23.88888888888889, "title": "W4206686222\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W2172000360", "label": "2-8", "shape": "dot", "size": 19.444444444444443, "title": "W2172000360\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W2148603752", "label": "2-9", "shape": "dot", "size": 19.444444444444443, "title": "W2148603752\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 2, "id": "W2187993330", "label": "2-10", "shape": "dot", "size": 19.444444444444443, "title": "W2187993330\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W1892476167", "label": "3-1", "shape": "dot", "size": 55.0, "title": "W1892476167\nDegree: 9.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W2154854629", "label": "3-2", "shape": "dot", "size": 19.444444444444443, "title": "W2154854629\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W2159682002", "label": "3-3", "shape": "dot", "size": 19.444444444444443, "title": "W2159682002\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W2151191515", "label": "3-4", "shape": "dot", "size": 19.444444444444443, "title": "W2151191515\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W1972720640", "label": "3-5", "shape": "dot", "size": 19.444444444444443, "title": "W1972720640\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W2068117451", "label": "3-6", "shape": "dot", "size": 19.444444444444443, "title": "W2068117451\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W1984449853", "label": "3-7", "shape": "dot", "size": 19.444444444444443, "title": "W1984449853\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W3134208756", "label": "3-8", "shape": "dot", "size": 19.444444444444443, "title": "W3134208756\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W2072267206", "label": "3-9", "shape": "dot", "size": 19.444444444444443, "title": "W2072267206\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 3, "id": "W2117774526", "label": "3-10", "shape": "dot", "size": 19.444444444444443, "title": "W2117774526\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W131856359", "label": "4-1", "shape": "dot", "size": 28.333333333333332, "title": "W131856359\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W1971784203", "label": "4-2", "shape": "dot", "size": 28.333333333333332, "title": "W1971784203\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W2319660501", "label": "4-3", "shape": "dot", "size": 23.88888888888889, "title": "W2319660501\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W2091921805", "label": "4-4", "shape": "dot", "size": 23.88888888888889, "title": "W2091921805\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W1995875735", "label": "4-5", "shape": "dot", "size": 23.88888888888889, "title": "W1995875735\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W2482589566", "label": "4-6", "shape": "dot", "size": 23.88888888888889, "title": "W2482589566\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W2993383518", "label": "4-7", "shape": "dot", "size": 19.444444444444443, "title": "W2993383518\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 4, "id": "W1990368529", "label": "4-8", "shape": "dot", "size": 19.444444444444443, "title": "W1990368529\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 5, "id": "W1571903778", "label": "5-1", "shape": "dot", "size": 50.55555555555556, "title": "W1571903778\nDegree: 8.0000"}, {"font": {"color": "#ffffff"}, "group": 5, "id": "W1557590941", "label": "5-2", "shape": "dot", "size": 23.88888888888889, "title": "W1557590941\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 5, "id": "W4249859530", "label": "5-3", "shape": "dot", "size": 19.444444444444443, "title": "W4249859530\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 5, "id": "W4385490334", "label": "5-4", "shape": "dot", "size": 19.444444444444443, "title": "W4385490334\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 5, "id": "W6646069973", "label": "5-5", "shape": "dot", "size": 19.444444444444443, "title": "W6646069973\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 5, "id": "W6677944711", "label": "5-6", "shape": "dot", "size": 19.444444444444443, "title": "W6677944711\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 5, "id": "W4321468255", "label": "5-7", "shape": "dot", "size": 19.444444444444443, "title": "W4321468255\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 6, "id": "W4285719527", "label": "6-1", "shape": "dot", "size": 28.333333333333332, "title": "W4285719527\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 6, "id": "W2145790759", "label": "6-2", "shape": "dot", "size": 28.333333333333332, "title": "W2145790759\nDegree: 3.0000"}, {"font": {"color": "#ffffff"}, "group": 6, "id": "W2122410182", "label": "6-3", "shape": "dot", "size": 23.88888888888889, "title": "W2122410182\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 6, "id": "W1903683453", "label": "6-4", "shape": "dot", "size": 23.88888888888889, "title": "W1903683453\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 6, "id": "W1983362322", "label": "6-5", "shape": "dot", "size": 19.444444444444443, "title": "W1983362322\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 6, "id": "W6681603819", "label": "6-6", "shape": "dot", "size": 19.444444444444443, "title": "W6681603819\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 7, "id": "W2114067856", "label": "7-1", "shape": "dot", "size": 23.88888888888889, "title": "W2114067856\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 7, "id": "W1916709771", "label": "7-2", "shape": "dot", "size": 19.444444444444443, "title": "W1916709771\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 7, "id": "W2153185479", "label": "7-3", "shape": "dot", "size": 19.444444444444443, "title": "W2153185479\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 8, "id": "W1986755980", "label": "8-1", "shape": "dot", "size": 23.88888888888889, "title": "W1986755980\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 8, "id": "W1996109622", "label": "8-2", "shape": "dot", "size": 19.444444444444443, "title": "W1996109622\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 8, "id": "W6646781758", "label": "8-3", "shape": "dot", "size": 19.444444444444443, "title": "W6646781758\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 9, "id": "W2098907614", "label": "9-1", "shape": "dot", "size": 23.88888888888889, "title": "W2098907614\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 9, "id": "W2126105956", "label": "9-2", "shape": "dot", "size": 23.88888888888889, "title": "W2126105956\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 9, "id": "W4297917482", "label": "9-3", "shape": "dot", "size": 23.88888888888889, "title": "W4297917482\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 10, "id": "W1497120980", "label": "10-1", "shape": "dot", "size": 23.88888888888889, "title": "W1497120980\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 10, "id": "W6648367431", "label": "10-2", "shape": "dot", "size": 23.88888888888889, "title": "W6648367431\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 10, "id": "W1991609163", "label": "10-3", "shape": "dot", "size": 23.88888888888889, "title": "W1991609163\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 11, "id": "W2066636486", "label": "11-1", "shape": "dot", "size": 23.88888888888889, "title": "W2066636486\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 11, "id": "W1981202432", "label": "11-2", "shape": "dot", "size": 23.88888888888889, "title": "W1981202432\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 11, "id": "W2138621811", "label": "11-3", "shape": "dot", "size": 23.88888888888889, "title": "W2138621811\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 12, "id": "W1576818901", "label": "12-1", "shape": "dot", "size": 23.88888888888889, "title": "W1576818901\nDegree: 2.0000"}, {"font": {"color": "#ffffff"}, "group": 12, "id": "W1788708300", "label": "12-2", "shape": "dot", "size": 19.444444444444443, "title": "W1788708300\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 12, "id": "W4297825776", "label": "12-3", "shape": "dot", "size": 19.444444444444443, "title": "W4297825776\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 13, "id": "W6675354045", "label": "13-1", "shape": "dot", "size": 19.444444444444443, "title": "W6675354045\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 13, "id": "W2101234009", "label": "13-2", "shape": "dot", "size": 19.444444444444443, "title": "W2101234009\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 14, "id": "W2127218421", "label": "14-1", "shape": "dot", "size": 19.444444444444443, "title": "W2127218421\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 14, "id": "W1987971958", "label": "14-2", "shape": "dot", "size": 19.444444444444443, "title": "W1987971958\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 15, "id": "W6638786369", "label": "15-1", "shape": "dot", "size": 19.444444444444443, "title": "W6638786369\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 15, "id": "W4301118033", "label": "15-2", "shape": "dot", "size": 19.444444444444443, "title": "W4301118033\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 16, "id": "W6656506093", "label": "16-1", "shape": "dot", "size": 19.444444444444443, "title": "W6656506093\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 16, "id": "W2024060531", "label": "16-2", "shape": "dot", "size": 19.444444444444443, "title": "W2024060531\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 17, "id": "W1499824367", "label": "17-1", "shape": "dot", "size": 19.444444444444443, "title": "W1499824367\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 17, "id": "W6629883159", "label": "17-2", "shape": "dot", "size": 19.444444444444443, "title": "W6629883159\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 18, "id": "W1557561422", "label": "18-1", "shape": "dot", "size": 19.444444444444443, "title": "W1557561422\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 18, "id": "W2156876717", "label": "18-2", "shape": "dot", "size": 19.444444444444443, "title": "W2156876717\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 19, "id": "W1578876701", "label": "19-1", "shape": "dot", "size": 19.444444444444443, "title": "W1578876701\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 19, "id": "W949909655", "label": "19-2", "shape": "dot", "size": 19.444444444444443, "title": "W949909655\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 20, "id": "W2987635609", "label": "20-1", "shape": "dot", "size": 19.444444444444443, "title": "W2987635609\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 20, "id": "W1597356853", "label": "20-2", "shape": "dot", "size": 19.444444444444443, "title": "W1597356853\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 21, "id": "W6664771284", "label": "21-1", "shape": "dot", "size": 19.444444444444443, "title": "W6664771284\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 21, "id": "W1964647125", "label": "21-2", "shape": "dot", "size": 19.444444444444443, "title": "W1964647125\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 22, "id": "W4301253858", "label": "22-1", "shape": "dot", "size": 19.444444444444443, "title": "W4301253858\nDegree: 1.0000"}, {"font": {"color": "#ffffff"}, "group": 22, "id": "W1667165204", "label": "22-2", "shape": "dot", "size": 19.444444444444443, "title": "W1667165204\nDegree: 1.0000"}]);
+                  edges = new vis.DataSet([{"from": "W2101234009", "to": "W6675354045", "value": 6}, {"from": "W2145790759", "to": "W4285719527", "value": 4}, {"from": "W2145790759", "to": "W6681603819", "value": 3}, {"from": "W2145790759", "to": "W1903683453", "value": 3}, {"from": "W4285719527", "to": "W1903683453", "value": 3}, {"from": "W4285719527", "to": "W2122410182", "value": 3}, {"from": "W2114067856", "to": "W2153185479", "value": 4}, {"from": "W2114067856", "to": "W1916709771", "value": 2}, {"from": "W1986755980", "to": "W6646781758", "value": 3}, {"from": "W1986755980", "to": "W1996109622", "value": 2}, {"from": "W2156909104", "to": "W4206686222", "value": 3}, {"from": "W2156909104", "to": "W4239510810", "value": 3}, {"from": "W2156909104", "to": "W1528620860", "value": 2}, {"from": "W4206686222", "to": "W4239510810", "value": 3}, {"from": "W1983362322", "to": "W2122410182", "value": 3}, {"from": "W1987971958", "to": "W2127218421", "value": 3}, {"from": "W4239510810", "to": "W2119821739", "value": 3}, {"from": "W4239510810", "to": "W1563088657", "value": 3}, {"from": "W4239510810", "to": "W1528620860", "value": 3}, {"from": "W4301118033", "to": "W6638786369", "value": 3}, {"from": "W2119821739", "to": "W1563088657", "value": 3}, {"from": "W2119821739", "to": "W1528620860", "value": 3}, {"from": "W2126105956", "to": "W4297917482", "value": 3}, {"from": "W2126105956", "to": "W2098907614", "value": 3}, {"from": "W4297917482", "to": "W2098907614", "value": 3}, {"from": "W2139212933", "to": "W2148603752", "value": 3}, {"from": "W2139212933", "to": "W1528620860", "value": 2}, {"from": "W1563088657", "to": "W1528620860", "value": 3}, {"from": "W1497120980", "to": "W6648367431", "value": 3}, {"from": "W1497120980", "to": "W1991609163", "value": 3}, {"from": "W6648367431", "to": "W1991609163", "value": 3}, {"from": "W1528620860", "to": "W2172000360", "value": 2}, {"from": "W1528620860", "to": "W2187993330", "value": 2}, {"from": "W2024060531", "to": "W6656506093", "value": 3}, {"from": "W1981202432", "to": "W2138621811", "value": 3}, {"from": "W1981202432", "to": "W2066636486", "value": 3}, {"from": "W2138621811", "to": "W2066636486", "value": 3}, {"from": "W1995875735", "to": "W2993383518", "value": 3}, {"from": "W1995875735", "to": "W2091921805", "value": 2}, {"from": "W1499824367", "to": "W6629883159", "value": 3}, {"from": "W1557561422", "to": "W2156876717", "value": 2}, {"from": "W2008695134", "to": "W3010956862", "value": 2}, {"from": "W2008695134", "to": "W1513984747", "value": 2}, {"from": "W2008695134", "to": "W3109856192", "value": 2}, {"from": "W2008695134", "to": "W6677168553", "value": 2}, {"from": "W2008695134", "to": "W1485876394", "value": 2}, {"from": "W1485876394", "to": "W1513984747", "value": 2}, {"from": "W1485876394", "to": "W1554901925", "value": 2}, {"from": "W1485876394", "to": "W1557590941", "value": 2}, {"from": "W1485876394", "to": "W1571903778", "value": 2}, {"from": "W1485876394", "to": "W165807459", "value": 2}, {"from": "W1485876394", "to": "W1983177443", "value": 2}, {"from": "W1485876394", "to": "W1993922719", "value": 2}, {"from": "W1485876394", "to": "W1999182952", "value": 2}, {"from": "W1513984747", "to": "W1983177443", "value": 2}, {"from": "W1513984747", "to": "W1993922719", "value": 2}, {"from": "W1513984747", "to": "W1999182952", "value": 2}, {"from": "W1513984747", "to": "W2014872028", "value": 2}, {"from": "W1892476167", "to": "W1972720640", "value": 2}, {"from": "W1892476167", "to": "W1984449853", "value": 2}, {"from": "W1892476167", "to": "W2068117451", "value": 2}, {"from": "W1892476167", "to": "W2072267206", "value": 2}, {"from": "W1892476167", "to": "W2117774526", "value": 2}, {"from": "W1892476167", "to": "W2151191515", "value": 2}, {"from": "W1892476167", "to": "W2154854629", "value": 2}, {"from": "W1892476167", "to": "W2159682002", "value": 2}, {"from": "W1892476167", "to": "W3134208756", "value": 2}, {"from": "W2014872028", "to": "W2116253700", "value": 2}, {"from": "W2014872028", "to": "W6677168553", "value": 2}, {"from": "W2116253700", "to": "W165807459", "value": 2}, {"from": "W2116253700", "to": "W1993922719", "value": 2}, {"from": "W1571903778", "to": "W4249859530", "value": 2}, {"from": "W1571903778", "to": "W4321468255", "value": 2}, {"from": "W1571903778", "to": "W4385490334", "value": 2}, {"from": "W1571903778", "to": "W6646069973", "value": 2}, {"from": "W1571903778", "to": "W6677168553", "value": 2}, {"from": "W1571903778", "to": "W6677944711", "value": 2}, {"from": "W1571903778", "to": "W1557590941", "value": 2}, {"from": "W165807459", "to": "W2091691807", "value": 2}, {"from": "W165807459", "to": "W2094108443", "value": 2}, {"from": "W165807459", "to": "W2111584934", "value": 2}, {"from": "W165807459", "to": "W2120448006", "value": 2}, {"from": "W165807459", "to": "W2123517881", "value": 2}, {"from": "W165807459", "to": "W2146175859", "value": 2}, {"from": "W1578876701", "to": "W949909655", "value": 2}, {"from": "W1576818901", "to": "W4297825776", "value": 2}, {"from": "W1576818901", "to": "W1788708300", "value": 2}, {"from": "W131856359", "to": "W1971784203", "value": 2}, {"from": "W131856359", "to": "W2091921805", "value": 2}, {"from": "W131856359", "to": "W2319660501", "value": 2}, {"from": "W1971784203", "to": "W2319660501", "value": 2}, {"from": "W1971784203", "to": "W2482589566", "value": 2}, {"from": "W1990368529", "to": "W2482589566", "value": 2}, {"from": "W1597356853", "to": "W2987635609", "value": 2}, {"from": "W1993922719", "to": "W2111584934", "value": 2}, {"from": "W1993922719", "to": "W2120448006", "value": 2}, {"from": "W1993922719", "to": "W2123517881", "value": 2}, {"from": "W1999182952", "to": "W2263099603", "value": 2}, {"from": "W1964647125", "to": "W6664771284", "value": 2}, {"from": "W1667165204", "to": "W4301253858", "value": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
