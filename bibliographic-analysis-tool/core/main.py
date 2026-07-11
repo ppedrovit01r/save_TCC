@@ -6,19 +6,25 @@ from core.ingestion import parse_file, TARGET_COLUMNS
 from core.enrichment import enrich_dataset_openalex
 from core.export import df_to_csv, df_to_excel, df_to_ris, df_to_bib
 
-def show():
-    st.title("Data Preparation & Upload")
+def show(is_sidebar=False):
+    # Adjust titles based on context
+    if not is_sidebar:
+        st.header("Data Preparation & Upload")
+    else:
+        st.subheader("Upload & Enrich")
 
     if "execution_logs" not in st.session_state:
         st.session_state.execution_logs = []
 
     uploaded_file = st.file_uploader(
-        "Upload your dataset (Excel, CSV, RIS, or BibTeX format):",
-        type=["csv", "xls", "xlsx", "bib", "ris"]
+        "Upload dataset (Excel, CSV, RIS, BibTeX):",
+        type=["csv", "xls", "xlsx", "bib", "ris"],
+        key="uploader_sidebar" if is_sidebar else "uploader_main"
     )
 
     if uploaded_file is None:
-        st.info("Please upload a file to begin.")
+        if not is_sidebar:
+            st.info("Please upload a file to begin.")
         return
 
     # Read and Normalize Immediately
@@ -31,69 +37,68 @@ def show():
             st.session_state.raw_df = df_normalized
             st.session_state.last_uploaded = uploaded_file.name
             st.session_state.execution_logs.append(f"File '{uploaded_file.name}' ingested and normalized in {duration:.2f} seconds.")
-            
     except Exception as e:
         st.error(f"Error parsing file: {e}")
         return
 
-    st.write("### Data Preview")
-    st.dataframe(st.session_state.raw_df.head(7))
+    if not is_sidebar:
+        st.write("### Data Preview")
+        st.dataframe(st.session_state.raw_df.head(4))
+        st.divider()
 
-    st.markdown("---")
-    st.subheader("What do you want to do with this file?")
-
-    col1, col2 = st.columns(2)
+    # --- ACTION BUTTONS ---
+    st.markdown("**Process Options**")
+    
+    # If in main screen, use columns. If in sidebar, stack vertically.
+    if not is_sidebar:
+        col1, col2 = st.columns(2)
+    else:
+        col1, col2 = st.container(), st.container()
 
     with col1:
-        st.markdown("#### Direct Usage")
-        st.write("Load data directly into memory without querying external APIs.")
-        if st.button("Load to Memory", use_container_width=True):
+        if st.button("Load Directly to Memory", use_container_width=True, type="primary" if is_sidebar else "secondary"):
             st.session_state.master_df = st.session_state.raw_df.copy()
-            st.session_state.execution_logs.append("Data loaded directly into memory for analysis.")
-            st.success("Data loaded successfully! Proceed to analysis tabs.")
-
-    with col2:
-        st.markdown("#### Enrichment (using OpenAlex API)")
-        fields_to_enrich = st.multiselect(
-            "Select which missing fields to fetch:",
-            options=['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References'],
-            default=['Times Cited', 'Article References']
-        )
-
-        can_process = len(fields_to_enrich) > 0
-        
-        if st.button("Process and Load", use_container_width=True, disabled=not can_process):
-            with st.spinner("Querying OpenAlex..."):
-                df_processed = enrich_dataset_openalex(
-                    st.session_state.raw_df.copy(), 
-                    fields_to_enrich, 
-                    st.session_state.execution_logs
-                )
-                st.session_state.master_df = df_processed
-                st.success("Enrichment complete! Data loaded into memory.")
-
-    #Logs
-    st.markdown("---")
-    with st.expander("System Execution Logs", expanded=True):
-        for log in st.session_state.execution_logs:
-            st.text(f"> {log}")
-        if st.button("Clear Logs"):
-            st.session_state.execution_logs = []
+            st.session_state.execution_logs.append("Data loaded directly into memory.")
+            st.session_state.fullscreen_core = False # Auto-collapse fullscreen
             st.rerun()
 
-    # Export
+    with col2:
+        with st.expander("Enrich with OpenAlex", expanded=not is_sidebar):
+            fields_to_enrich = st.multiselect(
+                "Select missing fields:",
+                options=['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References'],
+                default=['Times Cited', 'Article References']
+            )
+            if st.button("Process & Load", use_container_width=True, disabled=len(fields_to_enrich)==0):
+                with st.spinner("Querying OpenAlex..."):
+                    df_processed = enrich_dataset_openalex(
+                        st.session_state.raw_df.copy(), 
+                        fields_to_enrich, 
+                        st.session_state.execution_logs
+                    )
+                    st.session_state.master_df = df_processed
+                    st.session_state.fullscreen_core = False # Auto-collapse fullscreen
+                    st.rerun()
+
+    # --- EXPORT ---
     if st.session_state.get('master_df') is not None:
-        st.markdown("---")
-        st.subheader("Export Processed Data")
-        
+        st.divider()
+        st.markdown("**Export Processed Data**")
         df_export = st.session_state.master_df
         
-        exp_col1, exp_col2, exp_col3, exp_col4 = st.columns(4)
-        with exp_col1:
-            st.download_button("Export as CSV", data=df_to_csv(df_export), file_name="processed_data.csv", mime="text/csv", use_container_width=True)
-        with exp_col2:
-            st.download_button("Export as Excel", data=df_to_excel(df_export), file_name="processed_data.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", use_container_width=True)
-        with exp_col3:
-            st.download_button("Export as RIS", data=df_to_ris(df_export), file_name="processed_data.ris", mime="application/x-research-info-systems", use_container_width=True)
-        with exp_col4:
-            st.download_button("Export as BibTeX", data=df_to_bib(df_export), file_name="processed_data.bib", mime="application/x-bibtex", use_container_width=True)
+        if not is_sidebar:
+            ec1, ec2, ec3, ec4 = st.columns(4)
+        else:
+            ec1, ec2, ec3, ec4 = st.container(), st.container(), st.container(), st.container()
+            
+        with ec1: st.download_button("CSV", data=df_to_csv(df_export), file_name="processed_data.csv", use_container_width=True)
+        with ec2: st.download_button("Excel", data=df_to_excel(df_export), file_name="processed_data.xlsx", use_container_width=True)
+        with ec3: st.download_button("RIS", data=df_to_ris(df_export), file_name="processed_data.ris", use_container_width=True)
+        with ec4: st.download_button("BibTeX", data=df_to_bib(df_export), file_name="processed_data.bib", use_container_width=True)
+
+    # Logs
+    if not is_sidebar:
+        st.divider()
+        with st.expander("System Execution Logs"):
+            for log in st.session_state.execution_logs:
+                st.text(f"> {log}")

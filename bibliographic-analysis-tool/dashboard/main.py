@@ -11,7 +11,7 @@ from dashboard.metrics_general import display_header_data, display_most_cited_pe
 from dashboard.metrics_impact import calculate_metrics_per_author, display_top_10_tables, display_gini_and_lorenz
 from dashboard.metrics_aging import display_citation_data_per_year
 
-def show():
+def show(profile="ALL"):
     st.title("Main Dashboard")
 
     if 'master_df' not in st.session_state or st.session_state.master_df is None:
@@ -53,8 +53,8 @@ def show():
 
     # Graphs and tables
     display_top_10_tables(df_results)
-    display_most_cited_per_year_graph(df)
+    if profile in ["ALL", "RESEARCHER"]: display_most_cited_per_year_graph(df)
     display_authors_with_more_citations(df_results, df)
     display_gini_and_lorenz(df_results)
-    display_citation_data_per_year(df)
+    if profile in ["ALL", "RESEARCHER"]: display_citation_data_per_year(df)
     display_error_info(df)
