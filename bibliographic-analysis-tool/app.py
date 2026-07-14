@@ -11,6 +11,7 @@ from dashboard.main import show as show_dashboard
 # from features.assistants import show_prisma, show_review_matcher
 
 from utils.style import apply_custom_css
+from streamlit_option_menu import option_menu
 
 st.set_page_config(page_title="Editorial Decision Support", layout="wide", initial_sidebar_state="expanded")
 apply_custom_css()
@@ -62,9 +63,12 @@ else:
             label_visibility="collapsed"
         )
 
-        st.divider
+        st.divider()
         st.subheader("Data Overview")
-        num_articles = len(st.session_state.master_df)
+        if st.session_state.master_df is not None:
+            num_articles = len(st.session_state.master_df)
+        else:
+            num_articles = 0
         st.metric("Articles in Memory", f"{num_articles:,}")
         # You can add more brief metrics here (e.g., total authors, years span)
         
@@ -73,12 +77,15 @@ else:
         st.subheader("Navigation")
         # Base feature available to everyone
         menu_options = ["Main Dashboard"]
+        menu_icons = ["grid-1x2"]
         # Features for Researchers
         if profile in ["ALL", "RESEARCHER"]:
             menu_options.extend(["Co-citation Networks", "PRISMA Assistant"])
+            menu_icons.extend(["diagram-3", "book"])
         # Features for Editorials
         if profile in ["ALL", "EDITORIAL"]:
             menu_options.extend(["Endogeneity Index", "Review Matcher"])
+            menu_icons.extend(["chart-line", "people"])
         # Shared Auxiliary Features
         menu_options.extend([
             "Thematic Stratification", 
@@ -86,8 +93,21 @@ else:
             "Geographic Mapping", 
             "Gender Mapping"
         ])
-        # The Radio Menu
-        page = st.radio("Select Feature:", menu_options, label_visibility="collapsed")
+        menu_icons.extend([
+            "layers", 
+            "arrow-right", 
+            "geo-alt",
+            "gender-ambiguous"
+        ])
+        # vertical menu
+        page = option_menu(
+            menu_title=None, # Removes the extra redundant header text inside the menu
+            options=menu_options,
+            icons=menu_icons,
+            menu_icon="cast",
+            default_index=0,
+            orientation="vertical" # Keeps it running top-to-bottom
+        )
         st.markdown('</div>', unsafe_allow_html=True)
 
     # --- CONTENT ROUTING ---

@@ -1,0 +1,490 @@
+OpenAlex Enrichment Log - 2026-07-14 13:42:31
+------------------------------------------------------------
+Total time elapsed: 138.74 seconds
+Records requiring enrichment: 483
+Records successfully updated: 482
+------------------------------------------------------------
+Detailed Misses (Requested fields not found in OpenAlex):
+Row 5 (DOI: 10.22456/2175-2745.104342): Failed to find Publisher, Funding
+Row 7 (DOI: 10.22456/2175-2745.106277): Failed to find Publisher, Funding
+Row 0 (DOI: 10.22456/2175-2745.10082): Failed to find Publisher, Funding
+Row 1 (DOI: 10.22456/2175-2745.100968): Failed to find Publisher, Funding
+Row 2 (DOI: 10.22456/2175-2745.102061): Failed to find Publisher, Funding
+Row 6 (DOI: 10.22456/2175-2745.105893): Failed to find Publisher, Funding
+Row 8 (DOI: 10.22456/2175-2745.106794): Failed to find Publisher, Funding
+Row 3 (DOI: 10.22456/2175-2745.103182): Failed to find Publisher, Funding
+Row 4 (DOI: 10.22456/2175-2745.10385): Failed to find Publisher, Funding
+Row 9 (DOI: 10.22456/2175-2745.106828): Failed to find Publisher, Funding
+Row 10 (DOI: 10.22456/2175-2745.106891): Failed to find Publisher, Funding
+Row 13 (DOI: 10.22456/2175-2745.107128): Failed to find Publisher, Funding
+Row 12 (DOI: 10.22456/2175-2745.107041): Failed to find Publisher, Funding
+Row 16 (DOI: 10.22456/2175-2745.107176): Failed to find Publisher, Funding
+Row 11 (DOI: 10.22456/2175-2745.107021): Failed to find Publisher, Funding
+Row 18 (DOI: 10.22456/2175-2745.107292): Failed to find Publisher, Funding
+Row 14 (DOI: 10.22456/2175-2745.107149): Failed to find Publisher, Funding
+Row 15 (DOI: 10.22456/2175-2745.107154): Failed to find Publisher, Funding
+Row 17 (DOI: 10.22456/2175-2745.107202): Failed to find Affiliations, Country, Publisher, Funding
+Row 19 (DOI: 10.22456/2175-2745.107478): Failed to find Publisher, Funding
+Row 20 (DOI: 10.22456/2175-2745.107748): Failed to find Affiliations, Country, Publisher, Funding
+Row 21 (DOI: 10.22456/2175-2745.107964): Failed to find Publisher, Funding
+Row 22 (DOI: 10.22456/2175-2745.108126): Failed to find Publisher, Funding
+Row 25 (DOI: 10.22456/2175-2745.11066): Failed to find Publisher, Funding
+Row 24 (DOI: 10.22456/2175-2745.110111): Failed to find Publisher, Funding
+Row 23 (DOI: 10.22456/2175-2745.110015): Failed to find Publisher, Funding
+Row 28 (DOI: 10.22456/2175-2745.110837): Failed to find Publisher, Funding
+Row 27 (DOI: 10.22456/2175-2745.110830): Failed to find Publisher, Funding
+Row 26 (DOI: 10.22456/2175-2745.110818): Failed to find Publisher, Funding
+Row 29 (DOI: 10.22456/2175-2745.111817): Failed to find Publisher, Funding
+Row 30 (DOI: 10.22456/2175-2745.111993): Failed to find Publisher, Funding
+Row 31 (DOI: 10.22456/2175-2745.112006): Failed to find Publisher, Funding
+Row 32 (DOI: 10.22456/2175-2745.11221): Failed to find Publisher, Funding
+Row 33 (DOI: 10.22456/2175-2745.112813): Failed to find Publisher, Funding
+Row 34 (DOI: 10.22456/2175-2745.11296): Failed to find Publisher, Funding
+Row 38 (DOI: 10.22456/2175-2745.11469): Failed to find Publisher, Funding
+Row 35 (DOI: 10.22456/2175-2745.11384): Failed to find Publisher, Funding
+Row 37 (DOI: 10.22456/2175-2745.11468): Failed to find Publisher, Funding
+Row 36 (DOI: 10.22456/2175-2745.11467): Failed to find Publisher, Funding
+Row 39 (DOI: 10.22456/2175-2745.11471): Failed to find Affiliations, Country, Publisher, Funding
+Row 40 (DOI: 10.22456/2175-2745.11473): Failed to find Publisher, Funding
+Row 41 (DOI: 10.22456/2175-2745.11477): Failed to find Publisher, Funding
+Row 42 (DOI: 10.22456/2175-2745.116017): Failed to find Publisher, Funding
+Row 43 (DOI: 10.22456/2175-2745.11607): Failed to find Publisher, Funding
+Row 44 (DOI: 10.22456/2175-2745.11631): Failed to find Publisher, Funding
+Row 47 (DOI: 10.22456/2175-2745.11695): Failed to find Publisher, Funding
+Row 45 (DOI: 10.22456/2175-2745.116606): Failed to find Publisher, Funding
+Row 46 (DOI: 10.22456/2175-2745.11662): Failed to find Publisher, Funding
+Row 48 (DOI: 10.22456/2175-2745.117481): Failed to find Publisher, Funding
+Row 49 (DOI: 10.22456/2175-2745.118372): Failed to find Publisher, Funding
+Row 50 (DOI: 10.22456/2175-2745.119164): Failed to find Publisher, Funding
+Row 51 (DOI: 10.22456/2175-2745.119196): Failed to find Publisher, Funding
+Row 52 (DOI: 10.22456/2175-2745.119207): Failed to find Publisher, Funding
+Row 53 (DOI: 10.22456/2175-2745.120399): Failed to find Publisher, Funding
+Row 54 (DOI: 10.22456/2175-2745.12104): Failed to find Publisher, Funding
+Row 55 (DOI: 10.22456/2175-2745.12119): Failed to find Publisher, Funding
+Row 56 (DOI: 10.22456/2175-2745.121388): Failed to find Publisher, Funding
+Row 58 (DOI: 10.22456/2175-2745.122929): Failed to find Publisher, Funding
+Row 59 (DOI: 10.22456/2175-2745.12327): Failed to find Publisher, Funding
+Row 57 (DOI: 10.22456/2175-2745.121425): Failed to find Publisher, Funding
+Row 60 (DOI: 10.22456/2175-2745.12361): Failed to find Article References, Publisher, Funding
+Row 61 (DOI: 10.22456/2175-2745.12362): Failed to find Article References, Publisher, Funding
+Row 62 (DOI: 10.22456/2175-2745.124564): Failed to find Publisher, Funding
+Row 63 (DOI: 10.22456/2175-2745.12509): Failed to find Publisher, Funding
+Row 64 (DOI: 10.22456/2175-2745.125288): Failed to find Article References, Funding
+Row 65 (DOI: 10.22456/2175-2745.125396): Failed to find Publisher, Funding
+Row 66 (DOI: 10.22456/2175-2745.125567): Failed to find Publisher, Funding
+Row 67 (DOI: 10.22456/2175-2745.12569): Failed to find Publisher, Funding
+Row 68 (DOI: 10.22456/2175-2745.12570): Failed to find Publisher, Funding
+Row 70 (DOI: 10.22456/2175-2745.12572): Failed to find Affiliations, Country, Publisher, Funding
+Row 69 (DOI: 10.22456/2175-2745.12571): Failed to find Affiliations, Country, Publisher, Funding
+Row 71 (DOI: 10.22456/2175-2745.12573): Failed to find Publisher, Funding
+Row 72 (DOI: 10.22456/2175-2745.12576): Failed to find Affiliations, Country, Publisher, Funding
+Row 73 (DOI: 10.22456/2175-2745.12577): Failed to find Publisher, Funding
+Row 74 (DOI: 10.22456/2175-2745.12578): Failed to find Publisher, Funding
+Row 75 (DOI: 10.22456/2175-2745.12579): Failed to find Publisher, Funding
+Row 76 (DOI: 10.22456/2175-2745.12580): Failed to find Affiliations, Country, Publisher, Funding
+Row 77 (DOI: 10.22456/2175-2745.12581): Failed to find Publisher, Funding
+Row 78 (DOI: 10.22456/2175-2745.12582): Failed to find Affiliations, Country, Publisher, Funding
+Row 79 (DOI: 10.22456/2175-2745.125825): Failed to find Publisher, Funding
+Row 81 (DOI: 10.22456/2175-2745.12584): Failed to find Publisher, Funding
+Row 80 (DOI: 10.22456/2175-2745.12583): Failed to find Affiliations, Country, Publisher, Funding
+Row 82 (DOI: 10.22456/2175-2745.12585): Failed to find Publisher, Funding
+Row 83 (DOI: 10.22456/2175-2745.12586): Failed to find Publisher, Funding
+Row 84 (DOI: 10.22456/2175-2745.12587): Failed to find Publisher, Funding
+Row 85 (DOI: 10.22456/2175-2745.12588): Failed to find Publisher, Funding
+Row 86 (DOI: 10.22456/2175-2745.12590): Failed to find Publisher, Funding
+Row 87 (DOI: 10.22456/2175-2745.126016): Failed to find Publisher, Funding
+Row 89 (DOI: 10.22456/2175-2745.12631): Failed to find Article References, Publisher, Funding
+Row 88 (DOI: 10.22456/2175-2745.126309): Failed to find Publisher, Funding
+Row 90 (DOI: 10.22456/2175-2745.12643): Failed to find Publisher, Funding
+Row 91 (DOI: 10.22456/2175-2745.126544): Failed to find Article References, Funding
+Row 92 (DOI: 10.22456/2175-2745.12669): Failed to find Publisher, Funding
+Row 93 (DOI: 10.22456/2175-2745.127207): Failed to find Publisher, Funding
+Row 94 (DOI: 10.22456/2175-2745.128836): Failed to find Article References, Publisher, Funding
+Row 95 (DOI: 10.22456/2175-2745.12923): Failed to find Publisher, Funding
+Row 96 (DOI: 10.22456/2175-2745.12943): Failed to find Affiliations, Country, Publisher, Funding
+Row 97 (DOI: 10.22456/2175-2745.129783): Failed to find Article References, Publisher, Funding
+Row 98 (DOI: 10.22456/2175-2745.129787): Failed to find Article References, Publisher, Funding
+Row 99 (DOI: 10.22456/2175-2745.129990): Failed to find Article References, Publisher, Funding
+Row 100 (DOI: 10.22456/2175-2745.130465): Failed to find Article References, Publisher, Funding
+Row 101 (DOI: 10.22456/2175-2745.130579): Failed to find Article References, Publisher, Funding
+Row 102 (DOI: 10.22456/2175-2745.130630): Failed to find Article References, Funding
+Row 103 (DOI: 10.22456/2175-2745.130645): Failed to find Article References, Publisher, Funding
+Row 104 (DOI: 10.22456/2175-2745.130662): Failed to find Article References, Publisher, Funding
+Row 105 (DOI: 10.22456/2175-2745.130669): Failed to find Article References, Publisher, Funding
+Row 106 (DOI: 10.22456/2175-2745.133375): Failed to find Article References, Publisher, Funding
+Row 107 (DOI: 10.22456/2175-2745.133785): Failed to find Publisher, Funding
+Row 108 (DOI: 10.22456/2175-2745.134925): Failed to find Article References, Funding
+Row 109 (DOI: 10.22456/2175-2745.135436): Failed to find Article References, Publisher, Funding
+Row 110 (DOI: 10.22456/2175-2745.135781): Failed to find Article References, Publisher, Funding
+Row 111 (DOI: 10.22456/2175-2745.136072): Failed to find Article References, Publisher, Funding
+Row 112 (DOI: 10.22456/2175-2745.136309): Failed to find Article References, Publisher, Funding
+Row 113 (DOI: 10.22456/2175-2745.136568): Failed to find Article References, Publisher, Funding
+Row 114 (DOI: 10.22456/2175-2745.137324): Failed to find Article References, Publisher, Funding
+Row 115 (DOI: 10.22456/2175-2745.13764): Failed to find Publisher, Funding
+Row 116 (DOI: 10.22456/2175-2745.139289): Failed to find Article References, Publisher, Funding
+Row 117 (DOI: 10.22456/2175-2745.139523): Failed to find Article References, Publisher, Funding
+Row 118 (DOI: 10.22456/2175-2745.139902): Failed to find Article References, Publisher, Funding
+Row 119 (DOI: 10.22456/2175-2745.140067): Failed to find Article References, Publisher, Funding
+Row 120 (DOI: 10.22456/2175-2745.140149): Failed to find Article References, Publisher, Funding
+Row 121 (DOI: 10.22456/2175-2745.140214): Failed to find Article References, Publisher, Funding
+Row 122 (DOI: 10.22456/2175-2745.140570): Failed to find Article References, Publisher, Funding
+Row 123 (DOI: 10.22456/2175-2745.140750): Failed to find Article References, Publisher, Funding
+Row 124 (DOI: 10.22456/2175-2745.141585): Failed to find Article References, Publisher, Funding
+Row 125 (DOI: 10.22456/2175-2745.141618): Failed to find Article References, Publisher, Funding
+Row 126 (DOI: 10.22456/2175-2745.142111): Failed to find Article References, Publisher, Funding
+Row 127 (DOI: 10.22456/2175-2745.142129): Failed to find Article References, Publisher, Funding
+Row 128 (DOI: 10.22456/2175-2745.142648): Failed to find Article References, Publisher, Funding
+Row 129 (DOI: 10.22456/2175-2745.142954): Failed to find Article References, Publisher, Funding
+Row 130 (DOI: 10.22456/2175-2745.143066): Failed to find Article References, Publisher, Funding
+Row 131 (DOI: 10.22456/2175-2745.143123): Failed to find Article References, Publisher, Funding
+Row 132 (DOI: 10.22456/2175-2745.143318): Failed to find Article References, Publisher, Funding
+Row 133 (DOI: 10.22456/2175-2745.143329): Failed to find Article References, Publisher, Funding
+Row 134 (DOI: 10.22456/2175-2745.143357): Failed to find Article References, Publisher, Funding
+Row 135 (DOI: 10.22456/2175-2745.143392): Failed to find Article References, Publisher, Funding
+Row 136 (DOI: 10.22456/2175-2745.143437): Failed to find Article References, Publisher, Funding
+Row 137 (DOI: 10.22456/2175-2745.143443): Failed to find Article References, Publisher, Funding
+Row 138 (DOI: 10.22456/2175-2745.143458): Failed to find Article References, Publisher, Funding
+Row 139 (DOI: 10.22456/2175-2745.143463): Failed to find Article References, Publisher, Funding
+Row 140 (DOI: 10.22456/2175-2745.143478): Failed to find Article References, Publisher, Funding
+Row 141 (DOI: 10.22456/2175-2745.143480): Failed to find Article References, Publisher, Funding
+Row 142 (DOI: 10.22456/2175-2745.143486): Failed to find Article References, Publisher, Funding
+Row 143 (DOI: 10.22456/2175-2745.143487): Failed to find Article References, Publisher, Funding
+Row 144 (DOI: 10.22456/2175-2745.143490): Failed to find Article References, Publisher, Funding
+Row 145 (DOI: 10.22456/2175-2745.143494): Failed to find Article References, Publisher, Funding
+Row 146 (DOI: 10.22456/2175-2745.143495): Failed to find Article References, Publisher, Funding
+Row 147 (DOI: 10.22456/2175-2745.143502): Failed to find Article References, Publisher, Funding
+Row 148 (DOI: 10.22456/2175-2745.143508): Failed to find Article References, Publisher, Funding
+Row 149 (DOI: 10.22456/2175-2745.143513): Failed to find Article References, Publisher, Funding
+Row 150 (DOI: 10.22456/2175-2745.143514): Failed to find Article References, Publisher, Funding
+Row 152 (DOI: 10.22456/2175-2745.143520): Failed to find Article References, Publisher, Funding
+Row 153 (DOI: 10.22456/2175-2745.143521): Failed to find Article References, Publisher, Funding
+Row 151 (DOI: 10.22456/2175-2745.143516): Failed to find Article References, Publisher, Funding
+Row 154 (DOI: 10.22456/2175-2745.143522): Failed to find Article References, Publisher, Funding
+Row 155 (DOI: 10.22456/2175-2745.143523): Failed to find Article References, Publisher, Funding
+Row 156 (DOI: 10.22456/2175-2745.143526): Failed to find Article References, Publisher, Funding
+Row 157 (DOI: 10.22456/2175-2745.143528): Failed to find Article References, Publisher, Funding
+Row 158 (DOI: 10.22456/2175-2745.143530): Failed to find Article References, Publisher, Funding
+Row 159 (DOI: 10.22456/2175-2745.143534): Failed to find Article References, Publisher, Funding
+Row 160 (DOI: 10.22456/2175-2745.143537): Failed to find Article References, Publisher, Funding
+Row 161 (DOI: 10.22456/2175-2745.143539): Failed to find Article References, Publisher, Funding
+Row 163 (DOI: 10.22456/2175-2745.143544): Failed to find Article References, Publisher, Funding
+Row 162 (DOI: 10.22456/2175-2745.143541): Failed to find Article References, Publisher, Funding
+Row 164 (DOI: 10.22456/2175-2745.143545): Failed to find Article References, Publisher, Funding
+Row 165 (DOI: 10.22456/2175-2745.143546): Failed to find Article References, Publisher, Funding
+Row 166 (DOI: 10.22456/2175-2745.143548): Failed to find Article References, Publisher, Funding
+Row 168 (DOI: 10.22456/2175-2745.143684): Failed to find Article References, Publisher, Funding
+Row 167 (DOI: 10.22456/2175-2745.143633): Failed to find Article References, Publisher, Funding
+Row 169 (DOI: 10.22456/2175-2745.143785): Failed to find Article References, Publisher, Funding
+Row 170 (DOI: 10.22456/2175-2745.143959): Failed to find Article References, Publisher, Funding
+Row 171 (DOI: 10.22456/2175-2745.144479): Failed to find Article References, Publisher, Funding
+Row 172 (DOI: 10.22456/2175-2745.145569): Failed to find Article References, Publisher, Funding
+Row 173 (DOI: 10.22456/2175-2745.145580): Failed to find Article References, Publisher, Funding
+Row 174 (DOI: 10.22456/2175-2745.145795): Failed to find Article References, Publisher, Funding
+Row 175 (DOI: 10.22456/2175-2745.145838): Failed to find Article References, Publisher, Funding
+Row 176 (DOI: 10.22456/2175-2745.146658): Failed to find Article References, Publisher, Funding
+Row 177 (DOI: 10.22456/2175-2745.146689): Failed to find Article References, Publisher, Funding
+Row 178 (DOI: 10.22456/2175-2745.146905): Failed to find Article References, Publisher, Funding
+Row 179 (DOI: 10.22456/2175-2745.146990): Failed to find Article References, Publisher, Funding
+Row 180 (DOI: 10.22456/2175-2745.147347): Failed to find Article References, Publisher, Funding
+Row 181 (DOI: 10.22456/2175-2745.147966): Failed to find Article References, Publisher, Funding
+Row 182 (DOI: 10.22456/2175-2745.149849): Failed to find Article References, Publisher, Funding
+Row 183 (DOI: 10.22456/2175-2745.150105): Failed to find Article References, Publisher, Funding
+Row 185 (DOI: 10.22456/2175-2745.150620): Failed to find Article References, Publisher, Funding
+Row 184 (DOI: 10.22456/2175-2745.150232): Failed to find Article References, Publisher, Funding
+Row 186 (DOI: 10.22456/2175-2745.150621): Failed to find Article References, Publisher, Funding
+Row 187 (DOI: 10.22456/2175-2745.150622): Failed to find Article References, Publisher, Funding
+Row 188 (DOI: 10.22456/2175-2745.150636): Failed to find Article References, Publisher, Funding
+Row 189 (DOI: 10.22456/2175-2745.150723): Failed to find Article References, Publisher, Funding
+Row 190 (DOI: 10.22456/2175-2745.150751): Failed to find Article References, Publisher, Funding
+Row 191 (DOI: 10.22456/2175-2745.150755): Failed to find Article References, Publisher, Funding
+Row 192 (DOI: 10.22456/2175-2745.150810): Failed to find Article References, Publisher, Funding
+Row 193 (DOI: 10.22456/2175-2745.150824): Failed to find Article References, Publisher, Funding
+Row 194 (DOI: 10.22456/2175-2745.150833): Failed to find Article References, Publisher, Funding
+Row 195 (DOI: 10.22456/2175-2745.150894): Failed to find Article References, Publisher, Funding
+Row 196 (DOI: 10.22456/2175-2745.150896): Failed to find Article References, Publisher, Funding
+Row 197 (DOI: 10.22456/2175-2745.150897): Failed to find Article References, Publisher, Funding
+Row 198 (DOI: 10.22456/2175-2745.150900): Failed to find Article References, Publisher, Funding
+Row 199 (DOI: 10.22456/2175-2745.150902): Failed to find Article References, Publisher, Funding
+Row 200 (DOI: 10.22456/2175-2745.150903): Failed to find Article References, Publisher, Funding
+Row 201 (DOI: 10.22456/2175-2745.150904): Failed to find Article References, Publisher, Funding
+Row 202 (DOI: 10.22456/2175-2745.150907): Failed to find Article References, Publisher, Funding
+Row 203 (DOI: 10.22456/2175-2745.150908): Failed to find Article References, Publisher, Funding
+Row 205 (DOI: 10.22456/2175-2745.150917): Failed to find Article References, Publisher, Funding
+Row 204 (DOI: 10.22456/2175-2745.150916): Failed to find Article References, Publisher, Funding
+Row 206 (DOI: 10.22456/2175-2745.150920): Failed to find Article References, Publisher, Funding
+Row 207 (DOI: 10.22456/2175-2745.150921): Failed to find Article References, Publisher, Funding
+Row 208 (DOI: 10.22456/2175-2745.150922): Failed to find Article References, Publisher, Funding
+Row 209 (DOI: 10.22456/2175-2745.150923): Failed to find Article References, Publisher, Funding
+Row 210 (DOI: 10.22456/2175-2745.150924): Failed to find Article References, Publisher, Funding
+Row 211 (DOI: 10.22456/2175-2745.150926): Failed to find Article References, Publisher, Funding
+Row 212 (DOI: 10.22456/2175-2745.150929): Failed to find Article References, Publisher, Funding
+Row 213 (DOI: 10.22456/2175-2745.150930): Failed to find Article References, Funding
+Row 214 (DOI: 10.22456/2175-2745.150932): Failed to find Article References, Publisher, Funding
+Row 215 (DOI: 10.22456/2175-2745.150936): Failed to find Article References, Publisher, Funding
+Row 217 (DOI: 10.22456/2175-2745.150940): Failed to find Affiliations, Country, Article References, Publisher, Funding
+Row 216 (DOI: 10.22456/2175-2745.150939): Failed to find Article References, Publisher, Funding
+Row 218 (DOI: 10.22456/2175-2745.150941): Failed to find Article References, Publisher, Funding
+Row 219 (DOI: 10.22456/2175-2745.150942): Failed to find Article References, Publisher, Funding
+Row 220 (DOI: 10.22456/2175-2745.150950): Failed to find Article References, Publisher, Funding
+Row 221 (DOI: 10.22456/2175-2745.150955): Failed to find Affiliations, Country, Article References, Publisher, Funding
+Row 222 (DOI: 10.22456/2175-2745.150960): Failed to find Article References, Publisher, Funding
+Row 223 (DOI: 10.22456/2175-2745.150968): Failed to find Article References, Publisher, Funding
+Row 224 (DOI: 10.22456/2175-2745.150973): Failed to find Article References, Publisher, Funding
+Row 225 (DOI: 10.22456/2175-2745.150974): Failed to find Article References, Publisher, Funding
+Row 226 (DOI: 10.22456/2175-2745.150976): Failed to find Article References, Funding
+Row 227 (DOI: 10.22456/2175-2745.150978): Failed to find Article References, Publisher, Funding
+Row 228 (DOI: 10.22456/2175-2745.150979): Failed to find Article References, Publisher, Funding
+Row 230 (DOI: 10.22456/2175-2745.150996): Failed to find Article References, Publisher, Funding
+Row 231 (DOI: 10.22456/2175-2745.15126): Failed to find Affiliations, Country, Publisher, Funding
+Row 232 (DOI: 10.22456/2175-2745.151469): Failed to find Article References, Publisher, Funding
+Row 233 (DOI: 10.22456/2175-2745.15581): Failed to find Publisher, Funding
+Row 234 (DOI: 10.22456/2175-2745.16413): Failed to find Publisher, Funding
+Row 235 (DOI: 10.22456/2175-2745.16572): Failed to find Publisher, Funding
+Row 236 (DOI: 10.22456/2175-2745.16730): Failed to find Publisher, Funding
+Row 237 (DOI: 10.22456/2175-2745.16996): Failed to find Publisher, Funding
+Row 238 (DOI: 10.22456/2175-2745.17679): Failed to find Publisher, Funding
+Row 239 (DOI: 10.22456/2175-2745.18244): Failed to find Publisher, Funding
+Row 229 (DOI: 10.22456/2175-2745.150980): Failed to find Times Cited, Language, Author, Concepts, Keywords, Open Access, Affiliations, Document Type, Country, Abstract, Publication Year, Article References, Publisher, Funding
+Row 240 (DOI: 10.22456/2175-2745.19730): Failed to find Publisher, Funding
+Row 241 (DOI: 10.22456/2175-2745.20020): Failed to find Publisher, Funding
+Row 242 (DOI: 10.22456/2175-2745.20688): Failed to find Publisher, Funding
+Row 243 (DOI: 10.22456/2175-2745.20816): Failed to find Publisher, Funding
+Row 244 (DOI: 10.22456/2175-2745.21062): Failed to find Publisher, Funding
+Row 245 (DOI: 10.22456/2175-2745.21506): Failed to find Article References, Publisher, Funding
+Row 246 (DOI: 10.22456/2175-2745.21979): Failed to find Publisher, Funding
+Row 247 (DOI: 10.22456/2175-2745.23471): Failed to find Publisher, Funding
+Row 248 (DOI: 10.22456/2175-2745.25070): Failed to find Publisher, Funding
+Row 249 (DOI: 10.22456/2175-2745.25202): Failed to find Publisher, Funding
+Row 250 (DOI: 10.22456/2175-2745.25210): Failed to find Publisher, Funding
+Row 251 (DOI: 10.22456/2175-2745.25515): Failed to find Publisher, Funding
+Row 252 (DOI: 10.22456/2175-2745.25646): Failed to find Publisher, Funding
+Row 253 (DOI: 10.22456/2175-2745.25720): Failed to find Publisher, Funding
+Row 254 (DOI: 10.22456/2175-2745.25803): Failed to find Publisher, Funding
+Row 255 (DOI: 10.22456/2175-2745.25876): Failed to find Publisher, Funding
+Row 256 (DOI: 10.22456/2175-2745.25948): Failed to find Publisher, Funding
+Row 257 (DOI: 10.22456/2175-2745.25965): Failed to find Publisher, Funding
+Row 258 (DOI: 10.22456/2175-2745.26055): Failed to find Affiliations, Country, Publisher, Funding
+Row 259 (DOI: 10.22456/2175-2745.26211): Failed to find Affiliations, Country, Publisher, Funding
+Row 260 (DOI: 10.22456/2175-2745.26274): Failed to find Publisher, Funding
+Row 261 (DOI: 10.22456/2175-2745.26296): Failed to find Publisher, Funding
+Row 262 (DOI: 10.22456/2175-2745.26421): Failed to find Publisher, Funding
+Row 263 (DOI: 10.22456/2175-2745.26629): Failed to find Publisher, Funding
+Row 264 (DOI: 10.22456/2175-2745.26905): Failed to find Publisher, Funding
+Row 265 (DOI: 10.22456/2175-2745.27556): Failed to find Publisher, Funding
+Row 266 (DOI: 10.22456/2175-2745.28371): Failed to find Publisher, Funding
+Row 267 (DOI: 10.22456/2175-2745.29997): Failed to find Publisher, Funding
+Row 268 (DOI: 10.22456/2175-2745.30242): Failed to find Publisher, Funding
+Row 269 (DOI: 10.22456/2175-2745.30317): Failed to find Publisher, Funding
+Row 270 (DOI: 10.22456/2175-2745.30492): Failed to find Publisher, Funding
+Row 272 (DOI: 10.22456/2175-2745.33065): Failed to find Publisher, Funding
+Row 271 (DOI: 10.22456/2175-2745.31690): Failed to find Publisher, Funding
+Row 273 (DOI: 10.22456/2175-2745.36371): Failed to find Publisher, Funding
+Row 274 (DOI: 10.22456/2175-2745.36756): Failed to find Publisher, Funding
+Row 275 (DOI: 10.22456/2175-2745.36801): Failed to find Publisher, Funding
+Row 276 (DOI: 10.22456/2175-2745.36851): Failed to find Publisher, Funding
+Row 277 (DOI: 10.22456/2175-2745.37349): Failed to find Publisher, Funding
+Row 278 (DOI: 10.22456/2175-2745.37768): Failed to find Publisher, Funding
+Row 279 (DOI: 10.22456/2175-2745.37870): Failed to find Publisher, Funding
+Row 280 (DOI: 10.22456/2175-2745.39702): Failed to find Publisher, Funding
+Row 281 (DOI: 10.22456/2175-2745.40202): Failed to find Publisher, Funding
+Row 282 (DOI: 10.22456/2175-2745.40994): Failed to find Publisher, Funding
+Row 284 (DOI: 10.22456/2175-2745.43300): Failed to find Publisher, Funding
+Row 283 (DOI: 10.22456/2175-2745.41936): Failed to find Publisher, Funding
+Row 286 (DOI: 10.22456/2175-2745.43510): Failed to find Publisher, Funding
+Row 285 (DOI: 10.22456/2175-2745.43468): Failed to find Publisher, Funding
+Row 287 (DOI: 10.22456/2175-2745.44199): Failed to find Publisher, Funding
+Row 288 (DOI: 10.22456/2175-2745.46848): Failed to find Publisher, Funding
+Row 289 (DOI: 10.22456/2175-2745.47524): Failed to find Publisher, Funding
+Row 290 (DOI: 10.22456/2175-2745.47589): Failed to find Publisher, Funding
+Row 292 (DOI: 10.22456/2175-2745.48395): Failed to find Publisher, Funding
+Row 291 (DOI: 10.22456/2175-2745.48184): Failed to find Publisher, Funding
+Row 293 (DOI: 10.22456/2175-2745.49045): Failed to find Publisher, Funding
+Row 294 (DOI: 10.22456/2175-2745.49242): Failed to find Publisher, Funding
+Row 295 (DOI: 10.22456/2175-2745.49491): Failed to find Publisher, Funding
+Row 296 (DOI: 10.22456/2175-2745.49492): Failed to find Publisher, Funding
+Row 297 (DOI: 10.22456/2175-2745.49694): Failed to find Publisher, Funding
+Row 298 (DOI: 10.22456/2175-2745.50383): Failed to find Affiliations, Country, Publisher, Funding
+Row 299 (DOI: 10.22456/2175-2745.51121): Failed to find Publisher, Funding
+Row 300 (DOI: 10.22456/2175-2745.51452): Failed to find Publisher, Funding
+Row 301 (DOI: 10.22456/2175-2745.51756): Failed to find Publisher, Funding
+Row 302 (DOI: 10.22456/2175-2745.52511): Failed to find Publisher, Funding
+Row 304 (DOI: 10.22456/2175-2745.52963): Failed to find Publisher, Funding
+Row 303 (DOI: 10.22456/2175-2745.52609): Failed to find Publisher, Funding
+Row 305 (DOI: 10.22456/2175-2745.53120): Failed to find Publisher, Funding
+Row 306 (DOI: 10.22456/2175-2745.53236): Failed to find Publisher, Funding
+Row 307 (DOI: 10.22456/2175-2745.53751): Failed to find Publisher, Funding
+Row 308 (DOI: 10.22456/2175-2745.54043): Failed to find Publisher, Funding
+Row 309 (DOI: 10.22456/2175-2745.54370): Failed to find Publisher, Funding
+Row 310 (DOI: 10.22456/2175-2745.54772): Failed to find Publisher, Funding
+Row 311 (DOI: 10.22456/2175-2745.55723): Failed to find Publisher, Funding
+Row 312 (DOI: 10.22456/2175-2745.56162): Failed to find Publisher, Funding
+Row 313 (DOI: 10.22456/2175-2745.56177): Failed to find Publisher, Funding
+Row 314 (DOI: 10.22456/2175-2745.56368): Failed to find Publisher, Funding
+Row 315 (DOI: 10.22456/2175-2745.56371): Failed to find Publisher, Funding
+Row 316 (DOI: 10.22456/2175-2745.56374): Failed to find Publisher, Funding
+Row 317 (DOI: 10.22456/2175-2745.56384): Failed to find Publisher, Funding
+Row 318 (DOI: 10.22456/2175-2745.56437): Failed to find Publisher, Funding
+Row 319 (DOI: 10.22456/2175-2745.56498): Failed to find Publisher, Funding
+Row 320 (DOI: 10.22456/2175-2745.5683): Failed to find Publisher, Funding
+Row 321 (DOI: 10.22456/2175-2745.5685): Failed to find Publisher, Funding
+Row 322 (DOI: 10.22456/2175-2745.5690): Failed to find Publisher, Funding
+Row 323 (DOI: 10.22456/2175-2745.5691): Failed to find Publisher, Funding
+Row 324 (DOI: 10.22456/2175-2745.5692): Failed to find Publisher, Funding
+Row 325 (DOI: 10.22456/2175-2745.5693): Failed to find Publisher, Funding
+Row 326 (DOI: 10.22456/2175-2745.5694): Failed to find Affiliations, Country, Publisher, Funding
+Row 327 (DOI: 10.22456/2175-2745.5695): Failed to find Publisher, Funding
+Row 329 (DOI: 10.22456/2175-2745.56977): Failed to find Publisher, Funding
+Row 328 (DOI: 10.22456/2175-2745.5696): Failed to find Publisher, Funding
+Row 330 (DOI: 10.22456/2175-2745.5746): Failed to find Publisher, Funding
+Row 331 (DOI: 10.22456/2175-2745.5759): Failed to find Article References, Publisher, Funding
+Row 332 (DOI: 10.22456/2175-2745.58022): Failed to find Affiliations, Country, Publisher, Funding
+Row 333 (DOI: 10.22456/2175-2745.58551): Failed to find Publisher, Funding
+Row 334 (DOI: 10.22456/2175-2745.59104): Failed to find Publisher, Funding
+Row 335 (DOI: 10.22456/2175-2745.59336): Failed to find Publisher, Funding
+Row 336 (DOI: 10.22456/2175-2745.5956): Failed to find Article References, Publisher, Funding
+Row 337 (DOI: 10.22456/2175-2745.5961): Failed to find Publisher, Funding
+Row 338 (DOI: 10.22456/2175-2745.59614): Failed to find Publisher, Funding
+Row 339 (DOI: 10.22456/2175-2745.5962): Failed to find Publisher, Funding
+Row 340 (DOI: 10.22456/2175-2745.5963): Failed to find Country, Publisher, Funding
+Row 341 (DOI: 10.22456/2175-2745.5964): Failed to find Publisher, Funding
+Row 342 (DOI: 10.22456/2175-2745.5978): Failed to find Publisher, Funding
+Row 344 (DOI: 10.22456/2175-2745.5980): Failed to find Affiliations, Country, Article References, Publisher, Funding
+Row 343 (DOI: 10.22456/2175-2745.5979): Failed to find Publisher, Funding
+Row 345 (DOI: 10.22456/2175-2745.5981): Failed to find Publisher, Funding
+Row 346 (DOI: 10.22456/2175-2745.5982): Failed to find Publisher, Funding
+Row 347 (DOI: 10.22456/2175-2745.5983): Failed to find Publisher, Funding
+Row 348 (DOI: 10.22456/2175-2745.6011): Failed to find Publisher, Funding
+Row 349 (DOI: 10.22456/2175-2745.6012): Failed to find Publisher, Funding
+Row 350 (DOI: 10.22456/2175-2745.6014): Failed to find Publisher, Funding
+Row 351 (DOI: 10.22456/2175-2745.6015): Failed to find Publisher, Funding
+Row 352 (DOI: 10.22456/2175-2745.6016): Failed to find Publisher, Funding
+Row 354 (DOI: 10.22456/2175-2745.6024): Failed to find Article References, Publisher, Funding
+Row 353 (DOI: 10.22456/2175-2745.60234): Failed to find Publisher, Funding
+Row 356 (DOI: 10.22456/2175-2745.60989): Failed to find Publisher, Funding
+Row 355 (DOI: 10.22456/2175-2745.6025): Failed to find Article References, Publisher, Funding
+Row 357 (DOI: 10.22456/2175-2745.61220): Failed to find Publisher, Funding
+Row 358 (DOI: 10.22456/2175-2745.62211): Failed to find Publisher, Funding
+Row 359 (DOI: 10.22456/2175-2745.62657): Failed to find Publisher, Funding
+Row 360 (DOI: 10.22456/2175-2745.63581): Failed to find Publisher, Funding
+Row 362 (DOI: 10.22456/2175-2745.64413): Failed to find Publisher, Funding
+Row 361 (DOI: 10.22456/2175-2745.64206): Failed to find Publisher, Funding
+Row 363 (DOI: 10.22456/2175-2745.64431): Failed to find Publisher, Funding
+Row 364 (DOI: 10.22456/2175-2745.65061): Failed to find Publisher, Funding
+Row 365 (DOI: 10.22456/2175-2745.65372): Failed to find Publisher, Funding
+Row 366 (DOI: 10.22456/2175-2745.65538): Failed to find Publisher, Funding
+Row 367 (DOI: 10.22456/2175-2745.65827): Failed to find Article References, Publisher, Funding
+Row 368 (DOI: 10.22456/2175-2745.6586): Failed to find Article References, Publisher, Funding
+Row 369 (DOI: 10.22456/2175-2745.67253): Failed to find Publisher, Funding
+Row 370 (DOI: 10.22456/2175-2745.6865): Failed to find Article References, Publisher, Funding
+Row 372 (DOI: 10.22456/2175-2745.69309): Failed to find Publisher, Funding
+Row 371 (DOI: 10.22456/2175-2745.6867): Failed to find Article References, Publisher, Funding
+Row 373 (DOI: 10.22456/2175-2745.69479): Failed to find Publisher, Funding
+Row 374 (DOI: 10.22456/2175-2745.6998): Failed to find Publisher, Funding
+Row 375 (DOI: 10.22456/2175-2745.6999): Failed to find Publisher, Funding
+Row 376 (DOI: 10.22456/2175-2745.7015): Failed to find Publisher, Funding
+Row 377 (DOI: 10.22456/2175-2745.7016): Failed to find Publisher, Funding
+Row 378 (DOI: 10.22456/2175-2745.7023): Failed to find Publisher, Funding
+Row 379 (DOI: 10.22456/2175-2745.7024): Failed to find Publisher, Funding
+Row 380 (DOI: 10.22456/2175-2745.7029): Failed to find Affiliations, Country, Publisher, Funding
+Row 381 (DOI: 10.22456/2175-2745.7031): Failed to find Publisher, Funding
+Row 382 (DOI: 10.22456/2175-2745.7032): Failed to find Publisher, Funding
+Row 383 (DOI: 10.22456/2175-2745.7033): Failed to find Publisher, Funding
+Row 384 (DOI: 10.22456/2175-2745.71429): Failed to find Publisher, Funding
+Row 385 (DOI: 10.22456/2175-2745.71439): Failed to find Publisher, Funding
+Row 386 (DOI: 10.22456/2175-2745.7146): Failed to find Article References, Publisher, Funding
+Row 387 (DOI: 10.22456/2175-2745.7147): Failed to find Publisher, Funding
+Row 388 (DOI: 10.22456/2175-2745.7148): Failed to find Article References, Publisher, Funding
+Row 389 (DOI: 10.22456/2175-2745.71775): Failed to find Publisher, Funding
+Row 390 (DOI: 10.22456/2175-2745.73173): Failed to find Publisher, Funding
+Row 391 (DOI: 10.22456/2175-2745.7386): Failed to find Publisher, Funding
+Row 392 (DOI: 10.22456/2175-2745.74030): Failed to find Publisher, Funding
+Row 394 (DOI: 10.22456/2175-2745.75048): Failed to find Publisher, Funding
+Row 393 (DOI: 10.22456/2175-2745.74992): Failed to find Publisher, Funding
+Row 395 (DOI: 10.22456/2175-2745.75063): Failed to find Publisher, Funding
+Row 396 (DOI: 10.22456/2175-2745.7522): Failed to find Publisher, Funding
+Row 397 (DOI: 10.22456/2175-2745.75255): Failed to find Publisher, Funding
+Row 398 (DOI: 10.22456/2175-2745.75300): Failed to find Publisher, Funding
+Row 399 (DOI: 10.22456/2175-2745.75327): Failed to find Publisher, Funding
+Row 400 (DOI: 10.22456/2175-2745.76189): Failed to find Publisher, Funding
+Row 401 (DOI: 10.22456/2175-2745.76387): Failed to find Publisher, Funding
+Row 402 (DOI: 10.22456/2175-2745.76452): Failed to find Publisher, Funding
+Row 403 (DOI: 10.22456/2175-2745.76460): Failed to find Publisher, Funding
+Row 405 (DOI: 10.22456/2175-2745.7796): Failed to find Publisher, Funding
+Row 404 (DOI: 10.22456/2175-2745.77654): Failed to find Publisher, Funding
+Row 406 (DOI: 10.22456/2175-2745.77994): Failed to find Publisher, Funding
+Row 407 (DOI: 10.22456/2175-2745.78391): Failed to find Publisher, Funding
+Row 408 (DOI: 10.22456/2175-2745.7857): Failed to find Publisher, Funding
+Row 409 (DOI: 10.22456/2175-2745.79152): Failed to find Publisher, Funding
+Row 410 (DOI: 10.22456/2175-2745.79158): Failed to find Publisher, Funding
+Row 411 (DOI: 10.22456/2175-2745.79310): Failed to find Publisher, Funding
+Row 412 (DOI: 10.22456/2175-2745.79333): Failed to find Publisher, Funding
+Row 413 (DOI: 10.22456/2175-2745.79334): Failed to find Publisher, Funding
+Row 415 (DOI: 10.22456/2175-2745.79994): Failed to find Publisher, Funding
+Row 414 (DOI: 10.22456/2175-2745.79885): Failed to find Publisher, Funding
+Row 416 (DOI: 10.22456/2175-2745.8046): Failed to find Publisher, Funding
+Row 417 (DOI: 10.22456/2175-2745.80478): Failed to find Publisher, Funding
+Row 418 (DOI: 10.22456/2175-2745.80525): Failed to find Publisher, Funding
+Row 419 (DOI: 10.22456/2175-2745.80557): Failed to find Publisher, Funding
+Row 420 (DOI: 10.22456/2175-2745.80598): Failed to find Publisher, Funding
+Row 421 (DOI: 10.22456/2175-2745.80702): Failed to find Publisher, Funding
+Row 422 (DOI: 10.22456/2175-2745.80721): Failed to find Publisher, Funding
+Row 423 (DOI: 10.22456/2175-2745.80912): Failed to find Publisher, Funding
+Row 424 (DOI: 10.22456/2175-2745.8168): Failed to find Publisher, Funding
+Row 425 (DOI: 10.22456/2175-2745.82043): Failed to find Publisher, Funding
+Row 426 (DOI: 10.22456/2175-2745.82079): Failed to find Publisher, Funding
+Row 427 (DOI: 10.22456/2175-2745.82395): Failed to find Publisher, Funding
+Row 428 (DOI: 10.22456/2175-2745.82412): Failed to find Publisher, Funding
+Row 429 (DOI: 10.22456/2175-2745.8260): Failed to find Publisher, Funding
+Row 430 (DOI: 10.22456/2175-2745.8261): Failed to find Publisher, Funding
+Row 431 (DOI: 10.22456/2175-2745.8263): Failed to find Publisher, Funding
+Row 432 (DOI: 10.22456/2175-2745.8265): Failed to find Publisher, Funding
+Row 433 (DOI: 10.22456/2175-2745.8266): Failed to find Publisher, Funding
+Row 434 (DOI: 10.22456/2175-2745.82772): Failed to find Publisher, Funding
+Row 435 (DOI: 10.22456/2175-2745.83498): Failed to find Publisher, Funding
+Row 436 (DOI: 10.22456/2175-2745.83581): Failed to find Publisher, Funding
+Row 437 (DOI: 10.22456/2175-2745.84330): Failed to find Publisher, Funding
+Row 438 (DOI: 10.22456/2175-2745.8441): Failed to find Publisher, Funding
+Row 439 (DOI: 10.22456/2175-2745.84814): Failed to find Publisher, Funding
+Row 440 (DOI: 10.22456/2175-2745.85091): Failed to find Publisher, Funding
+Row 441 (DOI: 10.22456/2175-2745.8522): Failed to find Publisher, Funding
+Row 442 (DOI: 10.22456/2175-2745.8611): Failed to find Publisher, Funding
+Row 443 (DOI: 10.22456/2175-2745.86196): Failed to find Publisher, Funding
+Row 444 (DOI: 10.22456/2175-2745.86380): Failed to find Publisher, Funding
+Row 445 (DOI: 10.22456/2175-2745.86439): Failed to find Publisher, Funding
+Row 446 (DOI: 10.22456/2175-2745.86478): Failed to find Publisher, Funding
+Row 447 (DOI: 10.22456/2175-2745.86534): Failed to find Publisher, Funding
+Row 448 (DOI: 10.22456/2175-2745.87085): Failed to find Publisher, Funding
+Row 449 (DOI: 10.22456/2175-2745.87511): Failed to find Publisher, Funding
+Row 450 (DOI: 10.22456/2175-2745.88822): Failed to find Publisher, Funding
+Row 451 (DOI: 10.22456/2175-2745.88911): Failed to find Publisher, Funding
+Row 452 (DOI: 10.22456/2175-2745.89063): Failed to find Publisher, Funding
+Row 454 (DOI: 10.22456/2175-2745.9009): Failed to find Publisher, Funding
+Row 453 (DOI: 10.22456/2175-2745.89115): Failed to find Publisher, Funding
+Row 455 (DOI: 10.22456/2175-2745.90724): Failed to find Publisher, Funding
+Row 456 (DOI: 10.22456/2175-2745.90822): Failed to find Publisher, Funding
+Row 457 (DOI: 10.22456/2175-2745.91414): Failed to find Publisher, Funding
+Row 458 (DOI: 10.22456/2175-2745.91522): Failed to find Publisher, Funding
+Row 459 (DOI: 10.22456/2175-2745.91814): Failed to find Publisher, Funding
+Row 460 (DOI: 10.22456/2175-2745.92117): Failed to find Affiliations, Country, Publisher, Funding
+Row 461 (DOI: 10.22456/2175-2745.92406): Failed to find Publisher, Funding
+Row 462 (DOI: 10.22456/2175-2745.92486): Failed to find Publisher, Funding
+Row 463 (DOI: 10.22456/2175-2745.93733): Failed to find Publisher, Funding
+Row 464 (DOI: 10.22456/2175-2745.94016): Failed to find Publisher, Funding
+Row 465 (DOI: 10.22456/2175-2745.94082): Failed to find Publisher, Funding
+Row 466 (DOI: 10.22456/2175-2745.94235): Failed to find Publisher, Funding
+Row 467 (DOI: 10.22456/2175-2745.94319): Failed to find Publisher, Funding
+Row 468 (DOI: 10.22456/2175-2745.94845): Failed to find Publisher, Funding
+Row 469 (DOI: 10.22456/2175-2745.95095): Failed to find Publisher, Funding
+Row 470 (DOI: 10.22456/2175-2745.96081): Failed to find Publisher, Funding
+Row 471 (DOI: 10.22456/2175-2745.96181): Failed to find Publisher, Funding
+Row 472 (DOI: 10.22456/2175-2745.9644): Failed to find Publisher, Funding
+Row 473 (DOI: 10.22456/2175-2745.97411): Failed to find Publisher, Funding
+Row 474 (DOI: 10.22456/2175-2745.97479): Failed to find Publisher, Funding
+Row 475 (DOI: 10.22456/2175-2745.97835): Failed to find Publisher, Funding
+Row 477 (DOI: 10.22456/2175-2745.98362): Failed to find Publisher, Funding
+Row 476 (DOI: 10.22456/2175-2745.98203): Failed to find Publisher, Funding
+Row 478 (DOI: 10.22456/2175-2745.98367): Failed to find Publisher, Funding
+Row 479 (DOI: 10.22456/2175-2745.98369): Failed to find Affiliations, Country, Publisher, Funding
+Row 480 (DOI: 10.22456/2175-2745.98483): Failed to find Affiliations, Country, Publisher, Funding
+Row 481 (DOI: 10.22456/2175-2745.98904): Failed to find Publisher, Funding
+Row 482 (DOI: 10.22456/2175-2745.99849): Failed to find Publisher, Funding

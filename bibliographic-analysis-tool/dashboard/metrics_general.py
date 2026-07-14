@@ -80,30 +80,88 @@ def display_authors_with_more_citations(df_results: pd.DataFrame, df: pd.DataFra
 @safe_run
 def display_error_info(df: pd.DataFrame):
     st.header("Error Information (Missing Data)")
-    st.subheader("Articles Missing Citation Information")
-    missing_citations = df[df["Times Cited"].isna()][["Title", "Publication Year"]]
+    st.write("Overview of missing information across all loaded columns.")
+
     total_articles = len(df)
-    count_missing = len(missing_citations)
-    perc = (count_missing / total_articles * 100) if total_articles else 0.0
+    if total_articles == 0:
+        st.info("No data available.")
+        return
 
-    st.markdown(f"**{count_missing} articles** do not have citation information ({perc:.2f}% of {total_articles}).")
-    if not missing_citations.empty:
-        st.dataframe(missing_citations)
-        _download_button(missing_citations, "Download Missing Data", "missing_citations.csv")
+    # 1. Calculate missing data across all columns
+    missing_counts = df.isna().sum()
+    
+    # Safely count empty/whitespace strings across all columns without using the .str accessor
+    for col in df.columns:
+        empty_str_count = df[col].apply(lambda x: isinstance(x, str) and x.strip() == '').sum()
+        missing_counts[col] += empty_str_count
 
-    st.subheader("📊 Articles with Zero or Missing Citations by Year")
-    uncited_or_missing = (
-        df[df["Times Cited"].isna() | (df["Times Cited"] == 0)]
-        .groupby("Publication Year").size().reset_index(name="Uncited or Missing")
+    missing_df = pd.DataFrame({
+        "Column": missing_counts.index,
+        "Missing Count": missing_counts.values,
+        "Missing Percentage": (missing_counts.values / total_articles) * 100
+    }).sort_values(by="Missing Percentage", ascending=False)
+
+    # Filter out columns with 100% completeness for the chart
+    missing_filtered = missing_df[missing_df["Missing Count"] > 0]
+
+    # 2. Visual Overview (Horizontal Bar Chart)
+    if not missing_filtered.empty:
+        # Dynamically adjust height based on the number of columns missing data
+        chart_height = max(5, len(missing_filtered) * 0.5)
+        fig, ax = plt.subplots(figsize=(10, chart_height))
+        
+        # Using the sepia/gold tone to fit your theme
+        bars = ax.barh(missing_filtered["Column"], missing_filtered["Missing Percentage"], color="#C69C55")
+        
+        ax.set_xlabel("% Missing")
+        ax.set_title("Percentage of Missing Data by Column")
+        ax.set_xlim(0, 100)
+        ax.invert_yaxis() # Highest missing percentage on top
+
+        # Add percentage labels directly onto the bars for quick scanning
+        for bar in bars:
+            width = bar.get_width()
+            ax.text(width + 1, bar.get_y() + bar.get_height()/2, f'{width:.1f}%', va='center', fontsize=10)
+
+        # Remove border spines for a cleaner, modern look
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        
+        st.pyplot(fig)
+    else:
+        st.success("🎉 100% Data Completeness! No missing values detected in the current dataset.")
+
+    # 3. Tabular Overview
+    st.subheader("Detailed Breakdown")
+    st.dataframe(
+        missing_df.style.format({"Missing Percentage": "{:.2f}%"}),
+        use_container_width=True,
+        hide_index=True
     )
-    fig, ax = plt.subplots(figsize=(8, 5))
-    bars = ax.bar(uncited_or_missing["Publication Year"].astype(str), uncited_or_missing["Uncited or Missing"], alpha=0.8)
-    for bar in bars:
-        height = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width() / 2, height, f"{int(height)}", ha="center", va="bottom", fontsize=9)
-    ax.set_xlabel("Publication Year")
-    ax.set_ylabel("Number of Articles")
-    ax.set_title("Articles with Zero or Missing Citations by Year")
-    ax.set_xticks(range(len(uncited_or_missing)))
-    ax.set_xticklabels(uncited_or_missing["Publication Year"].astype(str), rotation=90)
-    st.pyplot(fig)
+
+    # 4. Targeted Sub-setting & Download
+    if not missing_filtered.empty:
+        st.markdown("---")
+        st.subheader("Extract Incomplete Records")
+        st.write("Select a specific column to isolate and download the records missing that information.")
+
+        col_to_check = st.selectbox(
+            "Select column to inspect:", 
+            missing_filtered["Column"].tolist()
+        )
+
+        if col_to_check:
+            # Catch both NaNs and empty strings
+            is_nan = df[col_to_check].isna()
+            is_empty = df[col_to_check].apply(lambda x: isinstance(x, str) and x.strip() == '') if df[col_to_check].dtype == object else False
+
+            incomplete_records = df[is_nan | is_empty]
+            
+            st.warning(f"Found **{len(incomplete_records)}** records missing **{col_to_check}**.")
+            st.dataframe(incomplete_records.head(5)) # Only show preview to save memory
+            
+            _download_button(
+                incomplete_records, 
+                f"Download Records Missing {col_to_check}", 
+                f"missing_{col_to_check.lower().replace(' ', '_')}.csv"
+            )

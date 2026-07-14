@@ -1,0 +1,8 @@
+OpenAlex Enrichment Log - 2026-07-14 14:17:52
+------------------------------------------------------------
+Total time elapsed: 54.48 seconds
+Records requiring enrichment: 483
+Records successfully updated: 482
+------------------------------------------------------------
+Detailed Misses (Requested fields not found in OpenAlex):
+Row 229 (DOI: 10.22456/2175-2745.150980): Failed to find Times Cited

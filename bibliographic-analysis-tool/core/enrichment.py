@@ -70,23 +70,50 @@ def format_references(referenced_works: list) -> str:
     ref_ids = [str(rw).replace("https://openalex.org/", "") for rw in referenced_works]
     return "; ".join(ref_ids)
 
+def reconstruct_abstract(inverted_index: dict) -> str:
+    """OpenAlex returns abstracts as an inverted index. This rebuilds the text."""
+    if not inverted_index: return pd.NA
+    try:
+        max_idx = max([idx for positions in inverted_index.values() for idx in positions])
+        words = [""] * (max_idx + 1)
+        for word, positions in inverted_index.items():
+            for pos in positions:
+                words[pos] = word
+        return " ".join(words).strip()
+    except Exception:
+        return pd.NA
+
+def format_affiliations_and_countries(authorships: list) -> tuple:
+    """Extracts a consolidated list of institutions and country codes."""
+    if not authorships: return pd.NA, pd.NA
+    affiliations, countries = [], []
+    for auth in authorships:
+        for inst in auth.get('institutions', []):
+            if inst.get('display_name'): affiliations.append(inst['display_name'])
+            if inst.get('country_code'): countries.append(inst['country_code'])
+            
+    aff_str = "; ".join(sorted(set(affiliations))) if affiliations else pd.NA
+    cnt_str = "; ".join(sorted(set(countries))) if countries else pd.NA
+    return aff_str, cnt_str
+
+def format_list_of_dicts(data: list, key: str = 'display_name') -> str:
+    """Generic extractor for Keywords, Concepts, and Funding."""
+    if not data: return pd.NA
+    items = [item.get(key) for item in data if item.get(key)]
+    return "; ".join(items) if items else pd.NA
+
 def needs_enrichment(row: pd.Series, fields_to_enrich: list) -> bool:
-    # check if DOI is missing or empty, and Title is present
+    # Check if DOI is missing or empty, and Title is present
     if pd.isna(row.get('DOI')) or str(row.get('DOI')).strip() == '':
         if pd.notna(row.get('Title')) and str(row.get('Title')).strip() != '':
             return True
         
-    # regular checks for each field
-    if 'Author' in fields_to_enrich and (pd.isna(row.get('Author')) or str(row.get('Author')).strip() == ''):
-        return True
-    if 'Publication Year' in fields_to_enrich and pd.isna(row.get('Publication Year')):
-        return True
-    if 'Times Cited' in fields_to_enrich and pd.isna(row.get('Times Cited')):
-        return True
-    if 'Publisher' in fields_to_enrich and (pd.isna(row.get('Publisher')) or str(row.get('Publisher')).strip() == ''):
-        return True
-    if 'Article References' in fields_to_enrich and (pd.isna(row.get('Article References')) or str(row.get('Article References')).strip() == ''):
-        return True
+    # Dynamically check all selected fields
+    for field in fields_to_enrich:
+        val = row.get(field)
+        if pd.isna(val) or str(val).strip() == '':
+            return True
+            
     return False
 
 def process_single_row(task_tuple: tuple, fields_to_enrich: list) -> tuple:
@@ -100,46 +127,103 @@ def process_single_row(task_tuple: tuple, fields_to_enrich: list) -> tuple:
     has_title = pd.notna(title) and str(title).strip() != ''
 
     oa_data = None
-    search_key = doi if has_doi else title if has_title else None #well, if there's no title... we're done
+
+    if has_doi:
+        oa_data = fetch_openalex_data_by_doi(doi)
+        
+    if not oa_data and has_title:
+        oa_data = fetch_openalex_data_by_title(title)
     
     if oa_data:
         updates['enriched'] = True
-        # If found by title, save the missing DOI back into the dataset!
+        
+        # 1. Identifiers
         if not has_doi:
             new_doi = oa_data.get('doi')
-            if new_doi:
-                updates['DOI'] = str(new_doi).replace("https://doi.org/", "")
-            else:
-                missed.append('DOI (Not returned by OpenAlex Title Search)')
-        
-        if 'Author' in fields_to_enrich and (pd.isna(row.get('Author')) or str(row.get('Author')).strip() == ''):
-            val = format_authors(oa_data.get('authorships'))
-            if pd.isna(val) or val == '': missed.append('Author')
-            else: updates['Author'] = val
+            if new_doi: updates['DOI'] = str(new_doi).replace("https://doi.org/", "")
+            else: missed.append('DOI (Not returned by Title Search)')
             
-        if 'Publication Year' in fields_to_enrich and pd.isna(row.get('Publication Year')):
+        updates['OpenAlex ID'] = str(oa_data.get('id')).replace("https://openalex.org/", "")
+
+        # Helper lambda to check if a field needs updating
+        needs_update = lambda f: f in fields_to_enrich and (pd.isna(row.get(f)) or str(row.get(f)).strip() == '')
+
+        # 2. Metadata (Demographics & Endogeneity)
+        if needs_update('Author'):
+            val = format_authors(oa_data.get('authorships'))
+            if pd.isna(val): missed.append('Author')
+            else: updates['Author'] = val
+
+        if needs_update('Affiliations') or needs_update('Country'):
+            aff_val, cnt_val = format_affiliations_and_countries(oa_data.get('authorships'))
+            if needs_update('Affiliations'):
+                if pd.isna(aff_val): missed.append('Affiliations')
+                else: updates['Affiliations'] = aff_val
+            if needs_update('Country'):
+                if pd.isna(cnt_val): missed.append('Country')
+                else: updates['Country'] = cnt_val
+
+        # 3. Semantic Intelligence
+        if needs_update('Abstract'):
+            val = reconstruct_abstract(oa_data.get('abstract_inverted_index'))
+            if pd.isna(val): missed.append('Abstract')
+            else: updates['Abstract'] = val
+            
+        if needs_update('Keywords'):
+            val = format_list_of_dicts(oa_data.get('keywords'))
+            if pd.isna(val): missed.append('Keywords')
+            else: updates['Keywords'] = val
+            
+        if needs_update('Concepts'):
+            val = format_list_of_dicts(oa_data.get('concepts'))
+            if pd.isna(val): missed.append('Concepts')
+            else: updates['Concepts'] = val
+
+        # 4. Topology & Metrics
+        if needs_update('Article References'):
+            val = format_references(oa_data.get('referenced_works'))
+            if pd.isna(val): missed.append('Article References')
+            else: updates['Article References'] = val
+             
+        if needs_update('Publication Year'):
             val = oa_data.get('publication_year')
             if pd.isna(val): missed.append('Publication Year')
             else: updates['Publication Year'] = val
             
-        if 'Times Cited' in fields_to_enrich and pd.isna(row.get('Times Cited')):
+        if needs_update('Times Cited'):
             val = oa_data.get('cited_by_count')
             if pd.isna(val): missed.append('Times Cited')
             else: updates['Times Cited'] = val
-            
-        if 'Publisher' in fields_to_enrich and (pd.isna(row.get('Publisher')) or str(row.get('Publisher')).strip() == ''):
+
+        # 5. Methodological & Context
+        if needs_update('Publisher'):
             primary_loc = oa_data.get('primary_location')
             val = primary_loc['source'].get('host_organization_name') if primary_loc and primary_loc.get('source') else pd.NA
-            if pd.isna(val) or val == '': missed.append('Publisher')
+            if pd.isna(val): missed.append('Publisher')
             else: updates['Publisher'] = val
             
-        if 'Article References' in fields_to_enrich and (pd.isna(row.get('Article References')) or str(row.get('Article References')).strip() == ''):
-             val = format_references(oa_data.get('referenced_works'))
-             if pd.isna(val) or val == '': missed.append('Article References')
-             else: updates['Article References'] = val
+        if needs_update('Document Type'):
+            val = oa_data.get('type')
+            if pd.isna(val): missed.append('Document Type')
+            else: updates['Document Type'] = str(val).title()
+            
+        if needs_update('Language'):
+            val = oa_data.get('language')
+            if pd.isna(val): missed.append('Language')
+            else: updates['Language'] = str(val).upper()
+            
+        if needs_update('Open Access'):
+            oa_status = oa_data.get('open_access', {}).get('is_oa')
+            if oa_status is None: missed.append('Open Access')
+            else: updates['Open Access'] = bool(oa_status)
+            
+        if needs_update('Funding'):
+            val = format_list_of_dicts(oa_data.get('grants'), key='funder_display_name')
+            if pd.isna(val): missed.append('Funding')
+            else: updates['Funding'] = val
+
     else:
-        if not has_doi:
-            missed.append('DOI (Failed to find article by Title)')
+        if not has_doi: missed.append('DOI (Failed to find article by Title)')
         missed.extend(fields_to_enrich)
         
     return index, updates, missed, doi
