@@ -19,14 +19,21 @@ def display_citation_data_per_year(df: pd.DataFrame):
 
     pubs_per_year = df_year.groupby("Publication Year").size()
     citations_per_year = df_year.groupby("Publication Year")["Times Cited"].sum()
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(pubs_per_year.index, pubs_per_year.values, marker="o", label="Publications")
-    ax.plot(citations_per_year.index, citations_per_year.values, marker="s", label="Citations")
-    ax.set_xlabel("Year")
-    ax.set_ylabel("Count")
-    ax.set_title("Publications and Citations by Year")
-    ax.legend()
-    st.pyplot(fig)
+    
+    import plotly.graph_objects as go
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=pubs_per_year.index, y=pubs_per_year.values, mode='lines+markers', name="Publications", line=dict(color="#C69C55")))
+    fig.add_trace(go.Scatter(x=citations_per_year.index, y=citations_per_year.values, mode='lines+markers', name="Citations", line=dict(color="#64B5F6")))
+    
+    fig.update_layout(
+        title="Publications and Citations by Year",
+        xaxis=dict(title="Year"),
+        yaxis=dict(title="Count"),
+        margin=dict(l=20, r=20, t=40, b=40),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
+    )
+    st.plotly_chart(fig, width="stretch")
     _display_average_citation_year(citations_per_year, pubs_per_year)
 
 @safe_run
@@ -35,13 +42,20 @@ def _display_average_citation_year(citations_per_year, pubs_per_year):
     with np.errstate(divide="ignore", invalid="ignore"):
         avg_citations_per_year = citations_per_year / pubs_per_year
         avg_citations_per_year.replace([np.inf, -np.inf], np.nan, inplace=True)
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.plot(avg_citations_per_year.index, avg_citations_per_year.values, marker="o", color="purple")
-    ax.set_xlabel("Publication Year")
-    ax.set_ylabel("Average Citations")
-    ax.set_title("Average Citations per Article by Year")
-    st.pyplot(fig)
+        
+    import plotly.graph_objects as go
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=avg_citations_per_year.index, y=avg_citations_per_year.values, mode='lines+markers', name="Avg Citations", line=dict(color="purple")))
+    fig.update_layout(
+        title="Average Citations per Article by Year",
+        xaxis=dict(title="Publication Year"),
+        yaxis=dict(title="Average Citations"),
+        margin=dict(l=20, r=20, t=40, b=40),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
+    )
+    st.plotly_chart(fig, width="stretch")
     avg_table = avg_citations_per_year.reset_index()
     avg_table.columns = ["Publication Year", "Average Citations per Paper"]
-    st.dataframe(avg_table)
+    st.dataframe(avg_table, width="stretch", height=180)
     _download_button(avg_table, "Download CSV", "avg_citations_per_paper.csv")

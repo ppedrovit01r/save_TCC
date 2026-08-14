@@ -1,0 +1,11 @@
+streamlit
+pandas
+networkx
+nltk
+pyvis
+bertopic
+tomotopy
+scipy
+google-generativeai
+openai
+scikit-learn

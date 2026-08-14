@@ -99,13 +99,21 @@ def display_gini_and_lorenz(df_results: pd.DataFrame):
 
     cumulative_citations = np.cumsum(sorted_citations) / sorted_citations.sum()
     x_axis = np.arange(1, len(sorted_citations) + 1) / len(sorted_citations)
-    fig, ax = plt.subplots(figsize=(8, 6))
-    ax.plot(x_axis, cumulative_citations, label="Lorenz Curve", color="blue")
-    ax.plot([0, 1], [0, 1], "--", color="black", label="Equality Line")
-    ax.set_xlabel("Cumulative Fraction of Authors")
-    ax.set_ylabel("Cumulative Fraction of Citations")
-    ax.set_title("Lorenz Curve")
-    st.pyplot(fig)
+    
+    import plotly.graph_objects as go
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=x_axis, y=cumulative_citations, mode='lines', name="Lorenz Curve", line=dict(color="#C69C55", width=2)))
+    fig.add_trace(go.Scatter(x=[0, 1], y=[0, 1], mode='lines', name="Equality Line", line=dict(color="gray", dash="dash")))
+    
+    fig.update_layout(
+        title="Lorenz Curve of Citation Distribution",
+        xaxis=dict(title="Cumulative Fraction of Authors", range=[0, 1.02]),
+        yaxis=dict(title="Cumulative Fraction of Citations", range=[0, 1.02]),
+        margin=dict(l=20, r=20, t=40, b=40),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)"
+    )
+    st.plotly_chart(fig, width="stretch")
 
     n = len(sorted_citations)
     cumulative_sum = np.cumsum(sorted_citations)

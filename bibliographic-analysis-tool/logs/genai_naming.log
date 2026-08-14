@@ -1,0 +1,1161 @@
+2026-08-12 18:02:17,426 - [INFO] - --- New Request ---
+2026-08-12 18:02:17,426 - [INFO] - Provider: Gemini
+2026-08-12 18:02:17,427 - [INFO] - Input Words: ['philosophy', 'sistemas', 'science', 'algoritmo', 'physics', 'imagens', 'abordagem', 'trabalho', 'dados', 'computer', 'apresenta', 'resultados', 'humanities']
+2026-08-12 18:02:22,131 - [INFO] - Success (4.70s). Raw LLM Response: {"name": "Digital Humanities Science", "description": "Interdisciplinary research integrating computer algorithms, data, and physical sciences with philosophy and the humanities."}
+2026-08-12 18:02:22,131 - [INFO] - --- New Request ---
+2026-08-12 18:02:22,131 - [INFO] - Provider: Gemini
+2026-08-12 18:02:22,131 - [INFO] - Input Words: ['science', 'performance', 'problem', 'process', 'model', 'models', 'cloud', 'energy', 'system', 'computer', 'computing', 'learning', 'data', 'engineering', 'artificial', 'network']
+2026-08-12 18:02:27,101 - [INFO] - Success (4.97s). Raw LLM Response: {"name": "Advanced Computing Systems", "description": "This topic covers high-performance computational methods, cloud infrastructure, and artificial intelligence models used in data engineering and system optimization."}
+2026-08-12 18:02:27,101 - [INFO] - --- New Request ---
+2026-08-12 18:02:27,102 - [INFO] - Provider: Gemini
+2026-08-12 18:02:27,103 - [INFO] - Input Words: ['political', 'teórica', 'editorial', 'database', 'machine', 'web', 'data', 'humanities', 'algorithm', 'mining', 'revista', 'evidências', 'information', 'aplicada', 'rita', 'science', 'informática', 'computer', 'language']
+2026-08-12 18:02:30,420 - [INFO] - Success (3.32s). Raw LLM Response: {"name": "Computational Humanities", "description": "This topic explores the application of data mining, algorithms, and computer science techniques to research in the humanities and political science."}
+2026-08-12 18:02:30,421 - [INFO] - --- New Request ---
+2026-08-12 18:02:30,421 - [INFO] - Provider: Gemini
+2026-08-12 18:02:30,421 - [INFO] - Input Words: ['programming', 'science', 'type', 'logic', 'haskell', 'process', 'software', 'business', 'system', 'computer', 'language', 'functional', 'theory', 'engineering', 'code']
+2026-08-12 18:02:34,056 - [INFO] - Success (3.63s). Raw LLM Response: {"name": "Functional Programming", "description": "This topic explores the theoretical and practical foundations of computer science, software engineering, and logic, with an emphasis on functional programming languages like Haskell."}
+2026-08-12 18:02:34,056 - [INFO] - --- New Request ---
+2026-08-12 18:02:34,056 - [INFO] - Provider: Gemini
+2026-08-12 18:02:34,056 - [INFO] - Input Words: ['image', 'images', 'models', 'convolutional', 'detection', 'neural', 'deep', 'learning', 'segmentation', 'accuracy']
+2026-08-12 18:02:37,271 - [INFO] - Success (3.22s). Raw LLM Response: {"name": "Computer Vision Models", "description": "Techniques and deep neural network architectures used for computer vision tasks such as image detection and segmentation."}
+2026-08-12 18:02:37,272 - [INFO] - --- New Request ---
+2026-08-12 18:02:37,272 - [INFO] - Provider: Gemini
+2026-08-12 18:02:37,272 - [INFO] - Input Words: ['3d', 'science', 'programming', 'development', 'interaction', 'coordinates', 'computer', 'virtual', 'reality', 'graphics']
+2026-08-12 18:02:40,535 - [INFO] - Success (3.26s). Raw LLM Response: {"name": "3D Graphics Programming", "description": "This topic focuses on the software development, coordinate systems, and interactive techniques used to create 3D computer graphics and virtual reality environments."}
+2026-08-13 09:53:01,378 - [INFO] - --- New Request ---
+2026-08-13 09:53:01,385 - [INFO] - Provider: Gemini
+2026-08-13 09:53:01,386 - [INFO] - Input Words: ['revista', 'philosophy', 'studies', 'en', 'journal', 'law', 'sciences', 'el', 'science', 'la', 'history', 'social', 'health', 'language', 'cincia']
+2026-08-13 09:53:05,646 - [INFO] - Success (4.26s). Raw LLM Response: {"name": "Academic Journal Publications", "description": "This topic encompasses multilingual scholarly research and publications across various fields including humanities, social sciences, law, and health."}
+2026-08-13 09:53:05,647 - [INFO] - --- New Request ---
+2026-08-13 09:53:05,647 - [INFO] - Provider: Gemini
+2026-08-13 09:53:05,647 - [INFO] - Input Words: ['learning', 'computer', 'students', 'cs', 'research', 'science', 'curriculum', 'computing', 'mathematics', 'education', 'data', 'engineering']
+2026-08-13 09:53:15,179 - [INFO] - Success (9.53s). Raw LLM Response: {"name": "Computer Science Education", "description": "This topic focuses on research, curriculum development, and teaching methodologies within computer science and technical disciplines."}
+2026-08-13 09:53:15,179 - [INFO] - --- New Request ---
+2026-08-13 09:53:15,179 - [INFO] - Provider: Gemini
+2026-08-13 09:53:15,179 - [INFO] - Input Words: ['scientific', 'type', 'computer', 'algorithm', 'causal', 'students', 'research', 'engagement', 'achievement', 'science', 'communication', 'variation', 'programming', 'education', 'open', 'psychology', 'convergence', 'inference']
+2026-08-13 09:53:29,266 - [INFO] - Success (14.09s). Raw LLM Response: {"name": "Computer Science Education", "description": "This topic explores the application of computational methods, scientific research, and algorithmic learning to enhance educational practices and student engagement."}
+2026-08-13 09:53:29,266 - [INFO] - --- New Request ---
+2026-08-13 09:53:29,266 - [INFO] - Provider: Gemini
+2026-08-13 09:53:29,268 - [INFO] - Input Words: ['است', 'resource', 'turisztikai', 'computer', 'archaeology', 'النفسية', 'science', 'ark', 'مجلة', 'این']
+2026-08-13 09:53:57,012 - [INFO] - Success (27.74s). Raw LLM Response: {"name": "Multidisciplinary Academic Terms", "description": "A collection of multilingual terms and stopwords spanning various academic disciplines, including archaeology, computer science, and tourism studies."}
+2026-08-13 09:53:57,013 - [INFO] - --- New Request ---
+2026-08-13 09:53:57,013 - [INFO] - Provider: Gemini
+2026-08-13 09:53:57,013 - [INFO] - Input Words: ['medicine', 'sea', 'revista', 'una', 'del', 'science', 'political', 'enlace', 'los', 'nombre']
+2026-08-13 09:54:01,061 - [INFO] - Success (4.05s). Raw LLM Response: {"name": "Academic Science Publications", "description": "This topic covers interdisciplinary academic and scientific journal publications spanning medicine, politics, and other research fields."}
+2026-08-13 09:54:01,062 - [INFO] - --- New Request ---
+2026-08-13 09:54:01,062 - [INFO] - Provider: Gemini
+2026-08-13 09:54:01,062 - [INFO] - Input Words: ['crystal', 'player', 'system', 'receptor', 'token', 'workflow', 'fuzzy', 'biology', 'control', 'management']
+2026-08-13 09:54:05,909 - [INFO] - Success (4.85s). Raw LLM Response: {"name": "Complex Systems Control", "description": "This topic encompasses concepts related to biological modeling, workflow management, decision logic, and system control mechanisms."}
+2026-08-13 09:54:05,909 - [INFO] - --- New Request ---
+2026-08-13 09:54:05,909 - [INFO] - Provider: Gemini
+2026-08-13 09:54:05,909 - [INFO] - Input Words: ['ciência', 'revista', 'philosophy', 'educação', 'arte', 'science', 'testes', 'humanities', 'informação', 'ensino']
+2026-08-13 09:54:09,160 - [INFO] - Success (3.25s). Raw LLM Response: {"name": "Science and Humanities", "description": "This topic covers academic research, higher education, scientific publishing, and humanistic studies."}
+2026-08-13 09:57:44,609 - [INFO] - --- New Request ---
+2026-08-13 09:57:44,610 - [INFO] - Provider: Gemini
+2026-08-13 09:57:44,611 - [INFO] - Input Words: ['learning', 'computer', 'students', 'cs', 'research', 'science', 'curriculum', 'computing', 'mathematics', 'education', 'data', 'engineering']
+2026-08-13 09:58:06,762 - [INFO] - Success (22.15s). Raw LLM Response: {"name": "Computer Science Education", "description": "Research and curriculum development focused on teaching and learning in computer science, mathematics, and engineering."}
+2026-08-13 09:58:06,763 - [INFO] - --- New Request ---
+2026-08-13 09:58:06,763 - [INFO] - Provider: Gemini
+2026-08-13 09:58:06,763 - [INFO] - Input Words: ['literature', 'revista', 'linguistica', 'studies', 'vol', 'law', 'journal', 'philosophy', 'international', 'science', 'spinas', 'history', 'pp', 'linguistics', 'language', 'otmar', 'portuguese']
+2026-08-13 09:58:21,508 - [INFO] - Success (14.75s). Raw LLM Response: {"name": "Academic Humanities Publications", "description": "This topic encompasses academic journals, research articles, and international studies focusing on linguistics, literature, philosophy, and law."}
+2026-08-13 09:58:21,509 - [INFO] - --- New Request ---
+2026-08-13 09:58:21,509 - [INFO] - Provider: Gemini
+2026-08-13 09:58:21,517 - [INFO] - Input Words: ['students', 'achievement', 'open', 'education', 'causal', 'communication', 'variation', 'inference', 'scientific', 'type', 'algorithm', 'computer', 'research', 'science', 'programming', 'informação', 'ciência', 'attitudes', 'engagement']
+2026-08-13 09:58:31,861 - [INFO] - Success (10.34s). Raw LLM Response: {"name": "Educational Data Science", "description": "This topic focuses on the application of computational methods, scientific research, and causal inference to analyze student learning and achievement."}
+2026-08-13 09:58:31,861 - [INFO] - --- New Request ---
+2026-08-13 09:58:31,861 - [INFO] - Provider: Gemini
+2026-08-13 09:58:31,861 - [INFO] - Input Words: ['revista', 'philosophy', 'séria', 'en', 'sea', 'una', 'arte', 'del', 'el', 'science', 'la', 'un', 'los', 'testes', 'humanities', 'tratamentos', 'cincia']
+2026-08-13 09:58:36,054 - [INFO] - Success (4.19s). Raw LLM Response: {"name": "Science and Humanities", "description": "This topic covers academic journals and publications bridging philosophy, science, arts, and the humanities."}
+2026-08-13 09:58:36,054 - [INFO] - --- New Request ---
+2026-08-13 09:58:36,054 - [INFO] - Provider: Gemini
+2026-08-13 09:58:36,054 - [INFO] - Input Words: ['crystal', 'cdna', 'medicine', 'oocyte', 'molecular', 'endocrinology', 'journal', 'biochemistry', 'receptor', 'pharmaceutical', 'published', 'tristritertbutoxysilanethiolatearseniciii', 'health', 'structure', 'biology', 'chemistry', 'pharmacy']
+2026-08-13 09:58:40,398 - [INFO] - Success (4.34s). Raw LLM Response: {"name": "Biomedical Sciences", "description": "This topic encompasses published scientific research at the intersection of biochemistry, molecular biology, and pharmaceutical development."}
+2026-08-13 09:58:40,398 - [INFO] - --- New Request ---
+2026-08-13 09:58:40,398 - [INFO] - Provider: Gemini
+2026-08-13 09:58:40,398 - [INFO] - Input Words: ['grassroots', 'agricultural', 'rodrigusia', 'revista', 'journal', 'natural', 'law', 'research', 'published', 'email', 'science', 'sciences', 'social', 'agriculture', 'health', 'economics', 'orcid', 'university']
+2026-08-13 09:58:44,743 - [INFO] - Success (4.35s). Raw LLM Response: {"name": "Academic Research Journals", "description": "This topic encompasses academic journal publishing and multidisciplinary research across the natural, agricultural, and social sciences."}
+2026-08-13 09:58:44,743 - [INFO] - --- New Request ---
+2026-08-13 09:58:44,743 - [INFO] - Provider: Gemini
+2026-08-13 09:58:44,743 - [INFO] - Input Words: ['است', 'also', 'power', 'turisztikai', 'tanulmányok', 'computer', 'vidékfejlesztési', 'technology', 'science', 'النفسية', 'things', 'development', 'للدراسات', 'tnc', 'internet', 'مجلة', 'این']
+2026-08-13 09:58:45,326 - [ERROR] - Failed after 0.36s
+2026-08-13 09:58:45,326 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash
+Please retry in 14.394513782s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 5
+}
+, retry_delay {
+  seconds: 14
+}
+]
+2026-08-13 09:58:45,326 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash
+Please retry in 14.394513782s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 5
+}
+, retry_delay {
+  seconds: 14
+}
+]
+
+2026-08-13 09:58:45,326 - [INFO] - --- New Request ---
+2026-08-13 09:58:45,327 - [INFO] - Provider: Gemini
+2026-08-13 09:58:45,327 - [INFO] - Input Words: ['mining', 'power', 'pattern', 'player', 'recognition', 'business', 'computer', 'system', 'process', 'kms', 'control', 'token', 'workflow', 'science', 'fuzzy', 'immune', 'management']
+2026-08-13 09:58:45,646 - [ERROR] - Failed after 0.32s
+2026-08-13 09:58:45,646 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash
+Please retry in 13.84867583s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 5
+}
+, retry_delay {
+  seconds: 13
+}
+]
+2026-08-13 09:58:45,647 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash
+Please retry in 13.84867583s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 5
+}
+, retry_delay {
+  seconds: 13
+}
+]
+
+2026-08-13 09:58:45,647 - [INFO] - --- New Request ---
+2026-08-13 09:58:45,647 - [INFO] - Provider: Gemini
+2026-08-13 09:58:45,647 - [INFO] - Input Words: ['creativity', 'geração', 'contexto', 'flow', 'remota', 'discovery', 'informetrics', 'scientific', 'archaeology', 'knowledge', 'educação', 'teste', 'science', 'datasets', 'data', 'testes', 'desempenho', 'resource', 'ai', 'ark']
+2026-08-13 09:58:50,538 - [INFO] - Success (4.89s). Raw LLM Response: {"name": "Scientific Knowledge Discovery", "description": "This topic explores the use of data science, artificial intelligence, and research methodologies to generate knowledge and drive creative discovery across various fields."}
+2026-08-13 09:58:50,539 - [INFO] - --- New Request ---
+2026-08-13 09:58:50,539 - [INFO] - Provider: Gemini
+2026-08-13 09:58:50,539 - [INFO] - Input Words: ['безопасность', 'musical', 'помещений', 'обеспечения', 'method', 'складских', 'music', 'безопасности', 'bass', 'деятельности', 'recommendation', 'пожарной', 'складах', 'solution', 'аспекты', 'programming', 'mathematics', 'digital', 'ranking', 'audio']
+2026-08-13 09:58:50,866 - [ERROR] - Failed after 0.33s
+2026-08-13 09:58:50,866 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash
+Please retry in 8.628896335s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 5
+}
+, retry_delay {
+  seconds: 8
+}
+]
+2026-08-13 09:58:50,866 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 5, model: gemini-3.6-flash
+Please retry in 8.628896335s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerMinutePerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 5
+}
+, retry_delay {
+  seconds: 8
+}
+]
+
+2026-08-13 10:05:04,496 - [INFO] - --- New Request ---
+2026-08-13 10:05:04,496 - [INFO] - Provider: Gemini
+2026-08-13 10:05:04,497 - [INFO] - Input Words: ['genetic', 'wildlife', 'mountain', 'population', 'concolor', 'puma', 'habitat', 'data', 'lions', 'management', 'species', 'lion']
+2026-08-13 10:05:12,067 - [INFO] - Success (7.57s). Raw LLM Response: {"name": "Mountain Lion Genetics", "description": "Research and management data focusing on the genetic diversity, habitat, and population dynamics of mountain lions."}
+2026-08-13 10:05:12,067 - [INFO] - --- New Request ---
+2026-08-13 10:05:12,067 - [INFO] - Provider: Gemini
+2026-08-13 10:05:12,067 - [INFO] - Input Words: ['model', 'type', 'computer', 'business', 'system', 'process', 'work', 'engineering', 'science', 'programming', 'language', 'xplatform', 'data', 'control', 'management', 'malware']
+2026-08-13 10:05:23,240 - [INFO] - Success (11.17s). Raw LLM Response: {"name": "Computing and Systems", "description": "A topic encompassing software engineering, computer systems, programming languages, and data management processes."}
+2026-08-13 10:05:23,240 - [INFO] - --- New Request ---
+2026-08-13 10:05:23,240 - [INFO] - Provider: Gemini
+2026-08-13 10:05:23,240 - [INFO] - Input Words: ['identificação', 'apresenta', 'software', 'objetos', 'philosophy', 'sistemas', 'projeto', 'desenvolvimento', 'ferramenta', 'medição', 'método', 'conhecimento', 'análise', 'desempenho', 'testes', 'humanities']
+2026-08-13 10:05:26,935 - [INFO] - Success (3.70s). Raw LLM Response: {"name": "Software Systems Development", "description": "This topic covers methodologies, tools, and analytical approaches for designing, testing, and evaluating software systems."}
+2026-08-13 10:05:26,935 - [INFO] - --- New Request ---
+2026-08-13 10:05:26,935 - [INFO] - Provider: Gemini
+2026-08-13 10:05:26,935 - [INFO] - Input Words: ['software', 'entorno', 'kernel', 'monitoramento', 'radiotelemetria', 'parque', 'xplatform', 'computer', 'mac', 'operating', 'reintroduzida', 'área', 'onça', 'estadual', 'parda', 'security', 'system', 'apps', 'reintroduzido', 'malware']
+2026-08-13 10:05:35,006 - [INFO] - Success (8.07s). Raw LLM Response: {"name": "Wildlife Monitoring Systems", "description": "This topic covers the use of software, security systems, and telemetry technology for tracking and monitoring wildlife reintroduction efforts in natural areas."}
+2026-08-13 10:05:35,006 - [INFO] - --- New Request ---
+2026-08-13 10:05:35,006 - [INFO] - Provider: Gemini
+2026-08-13 10:05:35,007 - [INFO] - Input Words: ['heritage', 'genome', 'mountain', 'narrative', 'computer', 'cultural', 'concolor', 'important', 'science', 'history', 'assembly', 'intangible', 'biology', 'art', 'virtual', 'cave']
+2026-08-13 10:05:39,753 - [INFO] - Success (4.75s). Raw LLM Response: {"name": "Science and Heritage", "description": "An interdisciplinary domain combining biological research, digital technology, and history to study and preserve natural and cultural heritage."}
+2026-08-13 10:05:39,753 - [INFO] - --- New Request ---
+2026-08-13 10:05:39,753 - [INFO] - Provider: Gemini
+2026-08-13 10:05:39,753 - [INFO] - Input Words: ['problem', 'algorithms', 'ecology', 'survivorship', 'lions', 'impulse', 'lion', 'mountain', 'optimization', 'algorithm', 'felis', 'artificial', 'biology', 'bioinspired', 'metaheuristic', 'concolor', 'puma', 'clustering', 'path', 'arizona']
+2026-08-13 10:05:45,595 - [INFO] - Success (5.84s). Raw LLM Response: {"name": "Bioinspired Optimization Algorithms", "description": "Research focusing on bio-inspired metaheuristic algorithms modeled after feline behavior and ecology to solve complex computational optimization problems."}
+2026-08-13 10:47:45,299 - [INFO] - --- New Request ---
+2026-08-13 10:47:45,302 - [INFO] - Provider: Gemini
+2026-08-13 10:47:45,302 - [INFO] - Input Words: ['lion', 'lions', 'management', 'mountain', 'habitat', 'puma', 'predation', 'species', 'selection', 'prey', 'population', 'wildlife', 'predator', 'areas', 'deer', 'data']
+2026-08-13 10:47:50,210 - [INFO] - Success (4.91s). Raw LLM Response: {"name": "Mountain Lion Management", "description": "Research and management strategies focusing on mountain lion populations, habitat selection, and predator-prey dynamics."}
+2026-08-13 10:47:50,211 - [INFO] - --- New Request ---
+2026-08-13 10:47:50,212 - [INFO] - Provider: Gemini
+2026-08-13 10:47:50,212 - [INFO] - Input Words: ['biology', 'lion', 'felis', 'concolor', 'lions', 'survivorship', 'mountain', 'puma', 'habitat', 'arizona', 'texas', 'ecology', 'diversity', 'population', 'populations', 'genetic']
+2026-08-13 10:47:50,647 - [ERROR] - Failed after 0.40s
+2026-08-13 10:47:50,647 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 8.943744619s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+2026-08-13 10:47:50,648 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 8.943744619s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+
+2026-08-13 10:47:50,649 - [INFO] - --- New Request ---
+2026-08-13 10:47:50,649 - [INFO] - Provider: Gemini
+2026-08-13 10:47:50,650 - [INFO] - Input Words: ['h5n1', 'reintroduzida', 'área', 'influenza', 'entorno', 'parque', 'virus', 'medicine', 'monitoramento', 'reintroduzido', 'disease', 'onça', 'lion', 'estadual', 'transmission', 'feline', 'mountain', 'radiotelemetria', 'parda', 'prion']
+2026-08-13 10:47:51,010 - [ERROR] - Failed after 0.36s
+2026-08-13 10:47:51,010 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 8.546840611s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+2026-08-13 10:47:51,010 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 8.546840611s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+
+2026-08-13 10:47:51,011 - [INFO] - --- New Request ---
+2026-08-13 10:47:51,011 - [INFO] - Provider: Gemini
+2026-08-13 10:47:51,011 - [INFO] - Input Words: ['apps', 'system', 'kernel', 'computing', 'management', 'operating', 'mac', 'computer', 'software', 'control', 'cloud', 'security', 'xplatform', 'malware', 'science']
+2026-08-13 10:47:51,364 - [ERROR] - Failed after 0.35s
+2026-08-13 10:47:51,364 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 8.191296501s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+2026-08-13 10:47:51,364 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 8.191296501s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 8
+}
+]
+
+2026-08-13 10:47:51,364 - [INFO] - --- New Request ---
+2026-08-13 10:47:51,364 - [INFO] - Provider: Gemini
+2026-08-13 10:47:51,364 - [INFO] - Input Words: ['objetos', 'humanities', 'análise', 'desenvolvimento', 'medição', 'identificação', 'philosophy', 'testes', 'conhecimento', 'software', 'forma', 'projeto', 'desempenho', 'sistemas']
+2026-08-13 10:47:51,709 - [ERROR] - Failed after 0.34s
+2026-08-13 10:47:51,709 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 7.850889309s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 7
+}
+]
+2026-08-13 10:47:51,710 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 7.850889309s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 7
+}
+]
+
+2026-08-13 10:47:51,711 - [INFO] - --- New Request ---
+2026-08-13 10:47:51,711 - [INFO] - Provider: Gemini
+2026-08-13 10:47:51,711 - [INFO] - Input Words: ['music', 'science', 'learn', 'sound', 'digital', 'audio', 'type', 'language', 'algorithm', 'signal', 'computer', 'musical', 'mac', 'inference', 'feedback', 'interaction', 'programming']
+2026-08-13 10:47:52,204 - [ERROR] - Failed after 0.47s
+2026-08-13 10:47:52,205 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 7.421335506s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 7
+}
+]
+2026-08-13 10:47:52,206 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 7.421335506s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 7
+}
+]
+
+2026-08-13 10:47:52,207 - [INFO] - --- New Request ---
+2026-08-13 10:47:52,210 - [INFO] - Provider: Gemini
+2026-08-13 10:47:52,211 - [INFO] - Input Words: ['art', 'narrative', 'reality', 'intangible', 'virtual', 'theater', 'cave', 'heritage', 'cultural', 'science', 'history']
+2026-08-13 10:47:52,572 - [ERROR] - Failed after 0.36s
+2026-08-13 10:47:52,573 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 6.990757146s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 6
+}
+]
+2026-08-13 10:47:52,577 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 6.990757146s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 6
+}
+]
+
+2026-08-13 10:47:52,580 - [INFO] - --- New Request ---
+2026-08-13 10:47:52,581 - [INFO] - Provider: Gemini
+2026-08-13 10:47:52,581 - [INFO] - Input Words: ['model', 'system', 'management', 'business', 'process', 'computer', 'work', 'engineering', 'science', 'data']
+2026-08-13 10:47:52,941 - [ERROR] - Failed after 0.36s
+2026-08-13 10:47:52,942 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 6.612265967s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 6
+}
+]
+2026-08-13 10:47:52,943 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 6.612265967s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 6
+}
+]
+
+2026-08-13 10:47:52,944 - [INFO] - --- New Request ---
+2026-08-13 10:47:52,944 - [INFO] - Provider: Gemini
+2026-08-13 10:47:52,944 - [INFO] - Input Words: ['public', 'lion', 'attitudes', 'risk', 'management', 'mountain', 'restoration', 'wildlife', 'residents', 'tolerance']
+2026-08-13 10:47:53,327 - [ERROR] - Failed after 0.34s
+2026-08-13 10:47:53,327 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 6.282463667s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 6
+}
+]
+2026-08-13 10:47:53,329 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 6.282463667s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 6
+}
+]
+
+2026-08-13 10:47:53,329 - [INFO] - --- New Request ---
+2026-08-13 10:47:53,343 - [INFO] - Provider: Gemini
+2026-08-13 10:47:53,343 - [INFO] - Input Words: ['wildlife', 'object', 'camera', 'training', 'hyperparameter', 'trap', 'generalization', 'deep', 'detection', 'data']
+2026-08-13 10:47:53,714 - [ERROR] - Failed after 0.37s
+2026-08-13 10:47:53,714 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 5.845207022s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 5
+}
+]
+2026-08-13 10:47:53,714 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 5.845207022s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 5
+}
+]
+
+2026-08-13 10:47:53,714 - [INFO] - --- New Request ---
+2026-08-13 10:47:53,715 - [INFO] - Provider: Gemini
+2026-08-13 10:47:53,715 - [INFO] - Input Words: ['clustering', 'optimization', 'artificial', 'problem', 'impulse', 'metaheuristic', 'bioinspired', 'algorithm', 'algorithms', 'path']
+2026-08-13 10:47:54,070 - [ERROR] - Failed after 0.35s
+2026-08-13 10:47:54,070 - [ERROR] - Exception Message: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 5.489947618s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 5
+}
+]
+2026-08-13 10:47:54,070 - [ERROR] - Stack Trace:
+Traceback (most recent call last):
+  File "C:\Users\pedro\Videos\save_TCC\bibliographic-analysis-tool\lib\topic_modeling\genai.py", line 50, in generate_topic_name
+    response = model.generate_content(prompt)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\generativeai\generative_models.py", line 331, in generate_content
+    response = self._client.generate_content(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pedro\AppData\Roaming\Python\Python312\site-packages\google\ai\generativelanguage_v1beta\services\generative_service\client.py", line 835, in generate_content
+    response = rpc(
+               ^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\gapic_v1\method.py", line 131, in __call__
+    return wrapped_func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 294, in retry_wrapped_func
+    return retry_target(
+           ^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 156, in retry_target
+    next_sleep = _retry_error_helper(
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_base.py", line 214, in _retry_error_helper
+    raise final_exc from source_exc
+  File "C:\Python312\Lib\site-packages\google\api_core\retry\retry_unary.py", line 147, in retry_target
+    result = target()
+             ^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\timeout.py", line 130, in func_with_timeout
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\google\api_core\grpc_helpers.py", line 77, in error_remapped_callable
+    raise exceptions.from_grpc_error(exc) from exc
+google.api_core.exceptions.ResourceExhausted: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. 
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.6-flash
+Please retry in 5.489947618s. [links {
+  description: "Learn more about Gemini API quotas"
+  url: "https://ai.google.dev/gemini-api/docs/rate-limits"
+}
+, violations {
+  quota_metric: "generativelanguage.googleapis.com/generate_content_free_tier_requests"
+  quota_id: "GenerateRequestsPerDayPerProjectPerModel-FreeTier"
+  quota_dimensions {
+    key: "model"
+    value: "gemini-3.6-flash"
+  }
+  quota_dimensions {
+    key: "location"
+    value: "global"
+  }
+  quota_value: 20
+}
+, retry_delay {
+  seconds: 5
+}
+]
+

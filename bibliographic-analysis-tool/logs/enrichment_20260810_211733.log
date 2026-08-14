@@ -1,0 +1,2470 @@
+================================================================================
+                     5-TIER DATA ENRICHMENT DETAILED AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-08-10 21:17:22  -->  2026-08-10 21:17:33 (11.03 seconds)
+Target Fields Requested (14 fields): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 483
+• Total Records Evaluated for Enrichment: 483
+• Cluster Source Files Breakdown (1 files):
+    - RITA.csv: 483 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 19
+    - Records Resolved: 19 (100.0%)
+    - Total Field Values Populated: 207 lines
+    - Field Breakdown: {'OpenAlex ID': 19, 'Author': 19, 'Affiliations': 18, 'Country': 18, 'Keywords': 19, 'Concepts': 19, 'Article References': 19, 'Publication Year': 19, 'Times Cited': 19, 'Language': 19, 'Open Access': 19}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 19
+    - Records Resolved: 19
+    - Total Field Values Populated: 38 lines
+    - Field Breakdown: {'Publisher': 19, 'Author': 19}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 0
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 0 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 483 / 483
+
+• [Row 0] Source: RITA.csv
+  Title: 'Geração de Testes de Desempenho e Estresse a partir de ' | DOI: '10.22456/2175-2745.10082'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 1] Source: RITA.csv
+  Title: 'A Mechanized Proof of a Textbook Type Unification Algor' | DOI: '10.22456/2175-2745.100968'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 2] Source: RITA.csv
+  Title: 'A New Artificial Immune System Based on Continuous Lear' | DOI: '10.22456/2175-2745.102061'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 3] Source: RITA.csv
+  Title: 'Low-Latency f0 Estimation for the Finger Plucked Electr' | DOI: '10.22456/2175-2745.103182'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 4] Source: RITA.csv
+  Title: 'TSML: A XML-based Format for Exchange of Training Sampl' | DOI: '10.22456/2175-2745.10385'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 5] Source: RITA.csv
+  Title: 'Creating Digital Musical Instruments with libmosaic-sou' | DOI: '10.22456/2175-2745.104342'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 6] Source: RITA.csv
+  Title: 'Overload Control in a Token Player for a Fuzzy Workflow' | DOI: '10.22456/2175-2745.105893'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 7] Source: RITA.csv
+  Title: 'An operational support approach for Mining Unstructured' | DOI: '10.22456/2175-2745.106277'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 8] Source: RITA.csv
+  Title: 'Cloud infrastructure for HPC investment analysis' | DOI: '10.22456/2175-2745.106794'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 9] Source: RITA.csv
+  Title: 'Business Process Models in the Context of Predictive Pr' | DOI: '10.22456/2175-2745.106828'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 10] Source: RITA.csv
+  Title: 'Integrating Exploitative and Explorative Thinking in Bu' | DOI: '10.22456/2175-2745.106891'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 11] Source: RITA.csv
+  Title: 'A Model for Predicting Music Popularity on Streaming Pl' | DOI: '10.22456/2175-2745.107021'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 12] Source: RITA.csv
+  Title: 'An Agent-Based Model for Simulating Irrigated Agricultu' | DOI: '10.22456/2175-2745.107041'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 13] Source: RITA.csv
+  Title: 'Hash Tables for a Digital Lexicon' | DOI: '10.22456/2175-2745.107128'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 14] Source: RITA.csv
+  Title: 'System for Identifying Pests and Diseases in Soybean Cr' | DOI: '10.22456/2175-2745.107149'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 15] Source: RITA.csv
+  Title: 'Centralized Algorithms Based on Clustering with Self-tu' | DOI: '10.22456/2175-2745.107154'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 16] Source: RITA.csv
+  Title: 'Dimensioning the relationship between availability and ' | DOI: '10.22456/2175-2745.107176'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 17] Source: RITA.csv
+  Title: 'Iracema: a Python library for audio content analysis' | DOI: '10.22456/2175-2745.107202'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Funding', 'Country', 'Affiliations']
+
+• [Row 18] Source: RITA.csv
+  Title: 'Challenges and Perspectives on Real-time Singing Voice ' | DOI: '10.22456/2175-2745.107292'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 19] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 20] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 21] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 22] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 23] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 24] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 25] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 26] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 27] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 28] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 29] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 30] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 31] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 32] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 33] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 34] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 35] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 36] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 37] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 38] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 39] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 40] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 41] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 42] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 43] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 44] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 45] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 46] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 47] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 48] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 49] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 50] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 51] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 52] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 53] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 54] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 55] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 56] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 57] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 58] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 59] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 60] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 61] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 62] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 63] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 64] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 65] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 66] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 67] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 68] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 69] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 70] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 71] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 72] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 73] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 74] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 75] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 76] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 77] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 78] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 79] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 80] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 81] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 82] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 83] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 84] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 85] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 86] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 87] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 88] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 89] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 90] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 91] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 92] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 93] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 94] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 95] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 96] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 97] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 98] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 99] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 100] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 101] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 102] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 103] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 104] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 105] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 106] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 107] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 108] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 109] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 110] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 111] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 112] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 113] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 114] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 115] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 116] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 117] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 118] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 119] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 120] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 121] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 122] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 123] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 124] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 125] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 126] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 127] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 128] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 129] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 130] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 131] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 132] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 133] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 134] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 135] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 136] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 137] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 138] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 139] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 140] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 141] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 142] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 143] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 144] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 145] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 146] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 147] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 148] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 149] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 150] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 151] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 152] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 153] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 154] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 155] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 156] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 157] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 158] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 159] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 160] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 161] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 162] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 163] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 164] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 165] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 166] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 167] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 168] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 169] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 170] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 171] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 172] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 173] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 174] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 175] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 176] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 177] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 178] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 179] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 180] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 181] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 182] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 183] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 184] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 185] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 186] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 187] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 188] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 189] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 190] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 191] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 192] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 193] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 194] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 195] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 196] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 197] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 198] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 199] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 200] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 201] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 202] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 203] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 204] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 205] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 206] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 207] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 208] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 209] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 210] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 211] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 212] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 213] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 214] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 215] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 216] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 217] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 218] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 219] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 220] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 221] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 222] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 223] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 224] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 225] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 226] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 227] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 228] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 229] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 230] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 231] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 232] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 233] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 234] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 235] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 236] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 237] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 238] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 239] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 240] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 241] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 242] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 243] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 244] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 245] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 246] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 247] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 248] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 249] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 250] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 251] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 252] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 253] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 254] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 255] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 256] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 257] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 258] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 259] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 260] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 261] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 262] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 263] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 264] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 265] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 266] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 267] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 268] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 269] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 270] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 271] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 272] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 273] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 274] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 275] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 276] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 277] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 278] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 279] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 280] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 281] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 282] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 283] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 284] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 285] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 286] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 287] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 288] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 289] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 290] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 291] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 292] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 293] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 294] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 295] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 296] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 297] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 298] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 299] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 300] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 301] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 302] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 303] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 304] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 305] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 306] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 307] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 308] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 309] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 310] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 311] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 312] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 313] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 314] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 315] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 316] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 317] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 318] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 319] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 320] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 321] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 322] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 323] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 324] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 325] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 326] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 327] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 328] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 329] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 330] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 331] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 332] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 333] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 334] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 335] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 336] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 337] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 338] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 339] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 340] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 341] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 342] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 343] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 344] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 345] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 346] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 347] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 348] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 349] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 350] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 351] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 352] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 353] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 354] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 355] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 356] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 357] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 358] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 359] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 360] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 361] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 362] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 363] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 364] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 365] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 366] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 367] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 368] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 369] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 370] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 371] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 372] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 373] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 374] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 375] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 376] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 377] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 378] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 379] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 380] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 381] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 382] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 383] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 384] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 385] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 386] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 387] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 388] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 389] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 390] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 391] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 392] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 393] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 394] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 395] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 396] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 397] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 398] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 399] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 400] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 401] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 402] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 403] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 404] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 405] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 406] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 407] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 408] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 409] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 410] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 411] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 412] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 413] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 414] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 415] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 416] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 417] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 418] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 419] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 420] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 421] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 422] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 423] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 424] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 425] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 426] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 427] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 428] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 429] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 430] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 431] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 432] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 433] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 434] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 435] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 436] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 437] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 438] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 439] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 440] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 441] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 442] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 443] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 444] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 445] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 446] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 447] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 448] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 449] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 450] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 451] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 452] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 453] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 454] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 455] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 456] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 457] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 458] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 459] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 460] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 461] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 462] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 463] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 464] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 465] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 466] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 467] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 468] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 469] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 470] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 471] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 472] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 473] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 474] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 475] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 476] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 477] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 478] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 479] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 480] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 481] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+• [Row 482] Source: RITA.csv
+  Title: 'Untitled Record' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Times Cited', 'Keywords', 'Article References', 'Abstract', 'Concepts', 'Language', 'Publication Year', 'Open Access', 'Funding', 'Country', 'Author', 'Affiliations', 'Document Type', 'Publisher']
+
+================================================================================
+FINAL SUMMARY: 0/483 records fully updated. Audit saved to disk.
+================================================================================

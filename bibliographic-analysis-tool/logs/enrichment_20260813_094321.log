@@ -1,0 +1,1790 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-08-13 09:36:19 → 2026-08-13 09:43:21 (Duration: 422.51s)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 345
+• Total Records Evaluated for Enrichment: 345
+• Records with Valid DOIs (Tier 1-4 Candidates): 203
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 142
+• Successfully Enriched Records: 2 (0.6%)
+• Unresolved / Missing Data Records: 343 (99.4%)
+
+Target Fields Requested (15 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 345
+• Total Records Evaluated for Enrichment: 345
+• Cluster Source Files Breakdown (12 files):
+    - doaj_article.ris: 1 records
+    - scielo.csv: 10 records
+    - acm_less.bib: 109 records
+    - doaj_journal_less.csv: 130 records
+    - RITA.csv: 19 records
+    - EBSCO.csv: 10 records
+    - econlit.bib: 1 records
+    - eric.nbib: 10 records
+    - PsycNET.csv: 10 records
+    - ieee_xplore.bib: 25 records
+    - pubmed.csv: 10 records
+    - scopus.csv: 10 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 203
+    - Records Resolved: 197 (97.0%)
+    - Total Field Values Populated: 2122 lines
+    - Field Breakdown: {'OpenAlex ID': 197, 'Title': 197, 'Affiliations': 172, 'Country': 180, 'Abstract': 164, 'Keywords': 197, 'Concepts': 197, 'Times Cited': 189, 'Document Type': 145, 'Open Access': 195, 'Article References': 145, 'Language': 91, 'Author': 19, 'Publication Year': 19, 'Publisher': 15}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 53
+    - Records Resolved: 50
+    - Total Field Values Populated: 138 lines
+    - Field Breakdown: {'Title': 50, 'Publisher': 50, 'Author': 19, 'Abstract': 19}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 3 (with valid PMID)
+    - Records Resolved: 3
+    - Total Field Values Populated: 3 lines
+    - Field Breakdown: {'Concepts': 3}
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 3
+    - Records Resolved: 3
+    - Total Field Values Populated: 3 lines
+    - Field Breakdown: {'Title': 3}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 142 (searched by Title)
+    - Records Resolved: 73
+    - Total Field Values Populated: 833 lines
+    - Field Breakdown: {'DOI': 54, 'OpenAlex ID': 73, 'Title': 73, 'Abstract': 43, 'Keywords': 70, 'Concepts': 70, 'Article References': 23, 'Times Cited': 73, 'Publisher': 7, 'Document Type': 73, 'Open Access': 73, 'Affiliations': 28, 'Country': 5, 'Publication Year': 64, 'Author': 45, 'Language': 59}
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 343 / 345
+
+• [Row 0] Source: doaj_article.ris
+  Title: 'Crystal structure of tris(tri-tert-butoxysilanethiolate' | DOI: '10.1524/ncrs.1997.212.jg.343'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 1] Source: scielo.csv
+  Title: 'Uma Análise Distintiva entre o Estudo de Caso, A Pesqui' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Open Access', 'Funding']
+
+• [Row 2] Source: scielo.csv
+  Title: 'A ciência da informação na visão dos professores da ECI' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 3] Source: scielo.csv
+  Title: 'A história da ciência e o objeto de seu estudo: confron' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Open Access', 'Funding']
+
+• [Row 4] Source: scielo.csv
+  Title: 'Investigating accessibility in Latin American science m' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 5] Source: scielo.csv
+  Title: 'ESTRATÉGIAS DE ESCRITA PARA ABORDAGEM DA COMUNICAÇÃO PÚ' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 6] Source: scielo.csv
+  Title: 'Pesquisa acadêmica e avanços em Ciência, Tecnologia e I' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Open Access', 'Funding']
+
+• [Row 7] Source: scielo.csv
+  Title: 'PROMOTING UNDERGRADUATE STUDENTS’ SCIENTIFIC LITERACY T' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 8] Source: scielo.csv
+  Title: 'Ciência cidadã como caminho para uma construção epistem' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 9] Source: scielo.csv
+  Title: 'Natureza da Ciência (NOS): para além do consenso' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 10] Source: scielo.csv
+  Title: 'Science communication in Brazil: A historical review an' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 11] Source: acm_less.bib
+  Title: 'Confidence Outpaces Interest: Upper Elementary AI Attit' | DOI: '10.1145/3803401.3812014'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 12] Source: acm_less.bib
+  Title: 'Bridging Computational Thinking, Science, and Storytell' | DOI: '10.1145/3770762.3772559'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 13] Source: acm_less.bib
+  Title: 'Data Science in Computer Science Classrooms: Insights f' | DOI: '10.1145/3770761.3777235'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 14] Source: acm_less.bib
+  Title: 'Influences of Precollege Out-of-School Time Computer Sc' | DOI: '10.1145/3770069'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 15] Source: acm_less.bib
+  Title: 'Experience Report: Teaching Computer Science Ethics usi' | DOI: '10.1145/3770762.3772570'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 16] Source: acm_less.bib
+  Title: 'From Science to the Arts and Back: Computational Creati' | DOI: '10.1145/3787492'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 17] Source: acm_less.bib
+  Title: 'Blurring the Boundaries between Science, Math and Compu' | DOI: '10.1145/3626253.3635580'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 18] Source: acm_less.bib
+  Title: 'The Role of Calculus I in Computer Science Education' | DOI: '10.1145/3803400.3809328'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 19] Source: acm_less.bib
+  Title: 'Teaching Track Faculty in Computer Science' | DOI: '10.1145/3770761.3777080'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 20] Source: acm_less.bib
+  Title: 'Gendered Perceptions of Success in Computer Science' | DOI: '10.1145/3803401.3811990'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 21] Source: acm_less.bib
+  Title: 'Computing Science Education on the AI Innovation Landsc' | DOI: '10.1145/3803401.3812053'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 22] Source: acm_less.bib
+  Title: 'Teaching Responsible AI From the Borders of Computer Sc' | DOI: '10.1145/3803400.3809391'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 23] Source: acm_less.bib
+  Title: 'Informal Learning in Computer Science' | DOI: '10.1145/3770761.3777299'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 24] Source: acm_less.bib
+  Title: 'Interaction Patterns With Data Science AI Tutor In Proj' | DOI: '10.1145/3803400.3809369'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 25] Source: acm_less.bib
+  Title: 'Teaching Data Science without the Programming Barrier: ' | DOI: '10.1145/3803400.3809345'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 26] Source: acm_less.bib
+  Title: 'Examining Computer Science Educators’ Professional Iden' | DOI: '10.1145/3729537'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 27] Source: acm_less.bib
+  Title: 'The Efficacy of One Computer Science Course's Approach ' | DOI: '10.1145/3770761.3777274'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 28] Source: acm_less.bib
+  Title: 'The Ethics of Augmented Reality in Computer Science Edu' | DOI: '10.1145/3770761.3777220'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 29] Source: acm_less.bib
+  Title: 'Becoming a Data Scientist: Understanding the Data Scien' | DOI: '10.1145/3641555.3705067'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 30] Source: acm_less.bib
+  Title: 'DASPROMM - Data Science Project Management and MLOpS' | DOI: '10.1145/3783862.3783870'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 31] Source: acm_less.bib
+  Title: 'An Introduction to the Joint Taskforce on Undergraduate' | DOI: '10.1145/3770761.3777132'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 32] Source: acm_less.bib
+  Title: 'Designing Vibes in a Science Museum: from @Science to @' | DOI: '10.1145/3800645.3813762'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 33] Source: acm_less.bib
+  Title: 'Reverse Mathematics for Teaching Theoretical Computer S' | DOI: '10.1145/3770761.3777184'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 34] Source: acm_less.bib
+  Title: 'A Survey of AI for Materials Science: Foundation Models' | DOI: '10.1145/3822503'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 35] Source: acm_less.bib
+  Title: 'Conceptual Models for Teaching and Learning Computer Sc' | DOI: '10.1145/3770761.3777262'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 36] Source: acm_less.bib
+  Title: 'Fostering Computer Science Theory Literacy: What makes ' | DOI: '10.1145/3770761.3777103'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 37] Source: acm_less.bib
+  Title: 'Evaluating Behavior Change Interventions for Responsibl' | DOI: '10.1145/3772318.3791566'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 38] Source: acm_less.bib
+  Title: 'Undergraduate Students' Struggles in Computer Science' | DOI: '10.1145/3770761.3777147'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 39] Source: acm_less.bib
+  Title: 'Exploring Differences in Perceived Confidence Between N' | DOI: '10.1145/3770761.3777286'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 40] Source: acm_less.bib
+  Title: 'BOF: Learner-Centered Grading in Computer Science Cours' | DOI: '10.1145/3770761.3777085'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 41] Source: acm_less.bib
+  Title: 'Computer Science Curricula CS2023 Revisited in Light of' | DOI: '10.1145/3770761.3777135'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 42] Source: acm_less.bib
+  Title: 'Computer Science Enrollment Through a Community Data Le' | DOI: '10.1145/3770761.3777278'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 43] Source: acm_less.bib
+  Title: 'Culturally Responsive Computer Science and Social Studi' | DOI: '10.1145/3770762.3772614'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 44] Source: acm_less.bib
+  Title: 'Introducing Computational Thinking and Computer Science' | DOI: '10.1145/3641554.3701899'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 45] Source: acm_less.bib
+  Title: 'A Correctness-First Introduction to Computer Science' | DOI: '10.1145/3803400.3809367'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 46] Source: acm_less.bib
+  Title: 'Growing Together: Building a Community of Graduate Stud' | DOI: '10.1145/3770761.3777097'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 47] Source: acm_less.bib
+  Title: 'From Fragmentation to Architecture: A Spiral Curriculum' | DOI: '10.1145/3803401.3812003'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 48] Source: acm_less.bib
+  Title: 'Collaborative Learning for Computer Science Courses: An' | DOI: '10.1145/3770761.3777353'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 49] Source: acm_less.bib
+  Title: 'API Can Code: Laying the Computational Foundations of D' | DOI: '10.1145/3770762.3772533'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 50] Source: acm_less.bib
+  Title: 'Blockchain Education Demystified: Blended Learning as a' | DOI: '10.1145/3803400.3809326'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 51] Source: acm_less.bib
+  Title: 'LLM-Enhanced Knowledge Discovery for Polar Data Science' | DOI: '10.1145/3764922.3771175'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 52] Source: acm_less.bib
+  Title: 'Defining Gaps in Student Affect Research for Computer S' | DOI: '10.1145/3770761.3777199'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 53] Source: acm_less.bib
+  Title: 'Enhancing Undergraduate Data Science Education Through ' | DOI: '10.1145/3770761.3777034'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 54] Source: acm_less.bib
+  Title: 'Effects of GenAI Assistance in Computer Science Theory ' | DOI: '10.1145/3770761.3777270'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 55] Source: acm_less.bib
+  Title: 'A Case Study of Elementary Teachers' Enactment of an NG' | DOI: '10.1145/3641554.3701792'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 56] Source: acm_less.bib
+  Title: 'Personal Informatics in Undergraduate Data Science: Lea' | DOI: '10.1145/3770761.3777190'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 57] Source: acm_less.bib
+  Title: 'Spatial Skills Training Effects Throughout a Computer S' | DOI: '10.1145/3803400.3809298'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 58] Source: acm_less.bib
+  Title: 'Computing Science Research: Broadening Participation th' | DOI: '10.1145/3760545.3783972'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 59] Source: acm_less.bib
+  Title: 'Developing Problem-Solving Competency in Data Science: ' | DOI: '10.1145/3770762.3772656'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 60] Source: acm_less.bib
+  Title: 'Research on model innovation and international cooperat' | DOI: '10.1145/3810158.3810184'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 61] Source: acm_less.bib
+  Title: 'Teaching Indigenous Languages and Knowledges Through Co' | DOI: '10.1145/3796496.3811781'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 62] Source: acm_less.bib
+  Title: 'At the Intersection of Computer Science and Law' | DOI: '10.1145/3788646.3789532'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 63] Source: acm_less.bib
+  Title: 'Social Media and the Construction of Computer Science O' | DOI: '10.1145/3803401.3811947'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 64] Source: acm_less.bib
+  Title: 'OCCTIVE: Animated Core Computing Concept Videos for Non' | DOI: '10.1145/3770761.3777292'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 65] Source: acm_less.bib
+  Title: 'Challenges and Opportunities in Introductory Computer S' | DOI: '10.1145/3803401.3811940'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 66] Source: acm_less.bib
+  Title: 'Towards Agentic AI for Science Hypothesis Generation, C' | DOI: '10.1145/3701716.3718485'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 67] Source: acm_less.bib
+  Title: 'Beyond One-Size-Fits-All Exercises: Personalizing Compu' | DOI: '10.1145/3803400.3809330'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 68] Source: acm_less.bib
+  Title: 'GenAI as a Learning Companion: Interactive Patterns for' | DOI: '10.1145/3803401.3811938'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 69] Source: acm_less.bib
+  Title: 'Understanding Rural Strengths and Challenges Related to' | DOI: '10.1145/3770761.3777254'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 70] Source: acm_less.bib
+  Title: 'Debugging Boredom: The Quest for Joy in Computer Scienc' | DOI: '10.1145/3770761.3777165'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 71] Source: acm_less.bib
+  Title: 'Spatial-Temporal Data Mining for Ocean Science: Data, M' | DOI: '10.1145/3748259'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 72] Source: acm_less.bib
+  Title: 'Integrating Computer Science into Classrooms: A Profess' | DOI: '10.1145/3770761.3777237'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 73] Source: acm_less.bib
+  Title: 'Fostering Cross-disciplinary Competency in Undergraduat' | DOI: '10.1145/3770761.3777187'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 74] Source: acm_less.bib
+  Title: 'Towards Recommendation on Good Quality Data Science Sol' | DOI: '10.1145/3746235'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 75] Source: acm_less.bib
+  Title: 'Museum Game Jams as Community-Engaged Design and Comput' | DOI: '10.1145/3803400.3809340'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 76] Source: acm_less.bib
+  Title: 'Towards a Computer Science Topics Ontology' | DOI: '10.1145/3770762.3772566'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 77] Source: acm_less.bib
+  Title: 'The Dangerous Allure of Science-Fiction in Conversation' | DOI: '10.1145/3816046.3816310'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 78] Source: acm_less.bib
+  Title: 'Integrating Human-Centered Data Science into Computing ' | DOI: '10.1145/3770761.3777231'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 79] Source: acm_less.bib
+  Title: 'Bibliometric analysis for highly cited papers in agricu' | DOI: '10.1145/3778450.3778481'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 80] Source: acm_less.bib
+  Title: 'Computing in Data Science or Data in Computer Science? ' | DOI: '10.1145/3626253.3631654'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 81] Source: acm_less.bib
+  Title: 'Where are the Faculty? The Missing Perspective on Teach' | DOI: '10.1145/3770762.3772589'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 82] Source: acm_less.bib
+  Title: 'Students with Disabilities in Computer Science Principl' | DOI: '10.1145/3770762.3772527'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 83] Source: acm_less.bib
+  Title: 'Mapping Research on Student Self-Efficacy in Computer S' | DOI: '10.1145/3803401.3812026'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 84] Source: acm_less.bib
+  Title: 'Ethical Web Science Workshop Overview' | DOI: '10.1145/3720554.3737366'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 85] Source: acm_less.bib
+  Title: 'Toolkit for Educators of Data Science: Using Physical C' | DOI: '10.1145/3641554.3701970'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 86] Source: acm_less.bib
+  Title: 'Confounding Components: Problems with Cognitive Load Su' | DOI: '10.1145/3803400.3809387'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 87] Source: acm_less.bib
+  Title: 'Causal Inference in Science of Science' | DOI: '10.1145/3677389.3702497'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 88] Source: acm_less.bib
+  Title: 'Planting the Seeds of Access: Connections Between a Sta' | DOI: '10.1145/3770761.3777213'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 89] Source: acm_less.bib
+  Title: 'From SQL Struggles to Visual Insights: Revealing Transf' | DOI: '10.1145/3803401.3811954'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 90] Source: acm_less.bib
+  Title: 'Science Communication for Human–Computer Interaction Re' | DOI: '10.1145/3805029.3818269'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 91] Source: acm_less.bib
+  Title: 'The Development of Intercultural Competence through Inf' | DOI: '10.1145/3770762.3772580'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 92] Source: acm_less.bib
+  Title: 'How Retrieval Augmented Generation Can Assist Secondary' | DOI: '10.1145/3770761.3777063'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 93] Source: acm_less.bib
+  Title: 'Towards Building Data Science 2Y: Data Science Curricul' | DOI: '10.1145/3649405.3659510'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 94] Source: acm_less.bib
+  Title: 'Bachelor of Arts versus Bachelor of Science Degrees in ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Times Cited', 'Article References', 'Affiliations', 'Country', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 95] Source: acm_less.bib
+  Title: 'Edge interventions can mitigate demographic and prestig' | DOI: '10.1145/3805689.3806762'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 96] Source: acm_less.bib
+  Title: 'Integrating Computer Science in Middle School Lessons t' | DOI: '10.1145/3770761.3777229'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 97] Source: acm_less.bib
+  Title: 'Exploring Effective Early Research Exposure for Broaden' | DOI: '10.1145/3724389.3731278'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 98] Source: acm_less.bib
+  Title: 'Mapping Required Ethics Education in Computer Science: ' | DOI: '10.1145/3770762.3772637'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 99] Source: acm_less.bib
+  Title: 'Exploring Computer Science Education in Rural and Urban' | DOI: '10.1145/3796496.3811807'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 100] Source: acm_less.bib
+  Title: 'A Longitudinal Pilot Study Exploring the Impacts of Coa' | DOI: '10.1145/3770762.3772569'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 101] Source: acm_less.bib
+  Title: 'StoryStudio: Enhancing Data Science Education with Expl' | DOI: '10.1145/3724389.3730811'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 102] Source: acm_less.bib
+  Title: 'Towards a Scoping Review of Interpretivism in Computer ' | DOI: '10.1145/3803401.3812049'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 103] Source: acm_less.bib
+  Title: 'Novel Pedagogical Games Powered by Large Language Model' | DOI: '10.1145/3770761.3777057'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 104] Source: acm_less.bib
+  Title: 'Pathways to Teaching K12 Computer Science: Implications' | DOI: '10.1145/3770761.3777200'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 105] Source: acm_less.bib
+  Title: 'Teacher Perspectives on Leveraging Computer Science for' | DOI: '10.1145/3828723'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 106] Source: acm_less.bib
+  Title: 'Disability and Accessibility in Computer Science Educat' | DOI: '10.1145/3770761.3777092'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 107] Source: acm_less.bib
+  Title: 'CIVICS - Citizen Science Advanced Interfaces: from Sens' | DOI: '10.1145/3811427.3811488'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 108] Source: acm_less.bib
+  Title: 'Beyond Gender: Breadth of Computer Science Education Ex' | DOI: '10.1145/3796496.3811778'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 109] Source: acm_less.bib
+  Title: 'Show or Tell? Piloting an AI Feedback Tool for Data Sto' | DOI: '10.1145/3770761.3777192'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 110] Source: acm_less.bib
+  Title: 'CSTutorBench: Benchmarking Large Language Models for Re' | DOI: '10.1145/3770761.3777333'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 111] Source: acm_less.bib
+  Title: 'Theory Is Cool But So Are Microcontrollers: Computer Sc' | DOI: '10.1145/3770762.3772499'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 112] Source: acm_less.bib
+  Title: 'Incorporating Fabrication into Computer Science Courses' | DOI: '10.1145/3770761.3777096'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 113] Source: acm_less.bib
+  Title: 'Designing a Feedback Loop Between a Human and Their AI ' | DOI: '10.1145/3816046.3816205'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 114] Source: acm_less.bib
+  Title: 'Building a Test Collection for Social Science Dataset R' | DOI: '10.1145/3786304.3787949'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 115] Source: acm_less.bib
+  Title: 'Relative Self-Efficacy in Computer Science Courses' | DOI: '10.1145/3770762.3772603'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 116] Source: acm_less.bib
+  Title: 'Enhancing Computer Science Transfer Pathways with an AI' | DOI: '10.1145/3803401.3812041'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 117] Source: acm_less.bib
+  Title: 'A Simple Interactive Tool for Bridging Discrete Math an' | DOI: '10.1145/3803401.3811975'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 118] Source: acm_less.bib
+  Title: 'Empowering Computer Science Teachers by Integrating AI ' | DOI: '10.1145/3770761.3777071'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Language', 'Funding']
+
+• [Row 119] Source: acm_less.bib
+  Title: 'Co-creating Course Expectations with Students in a Comp' | DOI: '10.1145/3803401.3812034'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 120] Source: doaj_journal_less.csv
+  Title: 'Keria: Studia Latina et Graeca' | DOI: 'No DOI'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Language', 'Funding']
+
+• [Row 121] Source: doaj_journal_less.csv
+  Title: 'Redes (Canoas)' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Funding']
+
+• [Row 122] Source: doaj_journal_less.csv
+  Title: 'ELOPE' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Abstract', 'Funding']
+
+• [Row 123] Source: doaj_journal_less.csv
+  Title: 'Slovenščina 2.0: Empirične, aplikativne in interdiscipl' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 124] Source: doaj_journal_less.csv
+  Title: 'Stoa' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Abstract', 'Funding']
+
+• [Row 125] Source: doaj_journal_less.csv
+  Title: 'Linguistica' | DOI: 'No DOI'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Funding']
+
+• [Row 126] Source: doaj_journal_less.csv
+  Title: 'Revista Peruana de Ciencias de la Salud' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 127] Source: doaj_journal_less.csv
+  Title: 'Учёт. Анализ. Аудит' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 128] Source: doaj_journal_less.csv
+  Title: 'Ethnobiology Letters' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 129] Source: doaj_journal_less.csv
+  Title: 'Ciência Rural' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 130] Source: doaj_journal_less.csv
+  Title: 'Al-Manahij: Jurnal Kajian Hukum Islam' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Funding']
+
+• [Row 131] Source: doaj_journal_less.csv
+  Title: 'Maghza: Jurnal Ilmu Al Qur'an dan Tafsir' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 132] Source: doaj_journal_less.csv
+  Title: 'Sociología del Trabajo' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Abstract', 'Funding']
+
+• [Row 133] Source: doaj_journal_less.csv
+  Title: 'Cluj Veterinary Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 134] Source: doaj_journal_less.csv
+  Title: 'REBIOL' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 135] Source: doaj_journal_less.csv
+  Title: 'Tánc és Nevelés' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Author', 'Article References', 'Affiliations', 'Funding']
+
+• [Row 136] Source: doaj_journal_less.csv
+  Title: 'Iranian Journal of Neonatology' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 137] Source: doaj_journal_less.csv
+  Title: 'Portuguese Language Journal' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Author', 'Article References', 'Affiliations', 'Funding']
+
+• [Row 138] Source: doaj_journal_less.csv
+  Title: 'Argomenti: Rivista di Economia, Cultura e Ricerca Socia' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 139] Source: doaj_journal_less.csv
+  Title: 'Bollettino Epidemiologico Nazionale' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 140] Source: doaj_journal_less.csv
+  Title: 'Neimenggu dianli jishu' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 141] Source: doaj_journal_less.csv
+  Title: 'Enfoques' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 142] Source: doaj_journal_less.csv
+  Title: 'Boletín Geológico' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 143] Source: doaj_journal_less.csv
+  Title: 'RUDN Journal of World History' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 144] Source: doaj_journal_less.csv
+  Title: 'RUDN Journal of Language Studies, Semiotics and Semanti' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 145] Source: doaj_journal_less.csv
+  Title: 'SeBaSa' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 146] Source: doaj_journal_less.csv
+  Title: 'Journal of Threatened Taxa' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 147] Source: doaj_journal_less.csv
+  Title: 'International Journal of Group Theory' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Language', 'Funding']
+
+• [Row 148] Source: doaj_journal_less.csv
+  Title: 'Nongye tushu qingbao xuebao' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 149] Source: doaj_journal_less.csv
+  Title: 'Turisztikai és Vidékfejlesztési Tanulmányok' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Author', 'Article References', 'Affiliations', 'Funding']
+
+• [Row 150] Source: doaj_journal_less.csv
+  Title: 'Psicosomática y Psiquiatría' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Funding']
+
+• [Row 151] Source: doaj_journal_less.csv
+  Title: 'Revista Mad' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 152] Source: doaj_journal_less.csv
+  Title: 'Boletín de Filología' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 153] Source: doaj_journal_less.csv
+  Title: 'Zhejiang dianli' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 154] Source: doaj_journal_less.csv
+  Title: 'Revista Brasileira de Meteorologia' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 155] Source: doaj_journal_less.csv
+  Title: 'Educação & Realidade' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 156] Source: doaj_journal_less.csv
+  Title: 'Geodetski Vestnik' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 157] Source: doaj_journal_less.csv
+  Title: 'The Journal of Philosophical Economics' | DOI: 'No DOI'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Publication Year', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Language', 'Funding']
+
+• [Row 158] Source: doaj_journal_less.csv
+  Title: 'Revista Desenvolvimento e Civilização' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 159] Source: doaj_journal_less.csv
+  Title: 'Photosynthetica' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 160] Source: doaj_journal_less.csv
+  Title: 'Фармацевтичний журнал' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 161] Source: doaj_journal_less.csv
+  Title: 'Rodriguésia' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 162] Source: doaj_journal_less.csv
+  Title: 'Boletín Médico del Hospital Infantil de México' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Abstract', 'Funding']
+
+• [Row 163] Source: doaj_journal_less.csv
+  Title: 'Umjetnost Riječi' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 164] Source: doaj_journal_less.csv
+  Title: 'Put i Saobraćaj' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 165] Source: doaj_journal_less.csv
+  Title: 'Em Construção' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 166] Source: doaj_journal_less.csv
+  Title: 'Revista Española de Derecho Canónico' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 167] Source: doaj_journal_less.csv
+  Title: 'Jurnal Poli Teknologi' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 168] Source: doaj_journal_less.csv
+  Title: 'الآداب للدراسات النفسية والتربوية' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Author', 'Article References', 'Affiliations', 'Funding']
+
+• [Row 169] Source: doaj_journal_less.csv
+  Title: 'Catalogue and Index' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 170] Source: doaj_journal_less.csv
+  Title: 'Corpus: Archivos Virtuales de la Alteridad Americana' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 171] Source: doaj_journal_less.csv
+  Title: 'Acta Medica Indonesiana' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 172] Source: doaj_journal_less.csv
+  Title: 'Pandaemonium Germanicum: Revista de Estudos Germanístic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 173] Source: doaj_journal_less.csv
+  Title: 'E-Management' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 174] Source: doaj_journal_less.csv
+  Title: 'Intersecciones en Comunicación' | DOI: 'No DOI'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 175] Source: doaj_journal_less.csv
+  Title: 'مهندسی مکانیک شریف' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 176] Source: doaj_journal_less.csv
+  Title: 'Journal of Socio-Economics on Tropical Agriculture (Jur' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 177] Source: doaj_journal_less.csv
+  Title: 'The Review of Korean Studies' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 178] Source: doaj_journal_less.csv
+  Title: 'The American Journal of Combinatorics' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 179] Source: doaj_journal_less.csv
+  Title: 'Sciences du Jeu' | DOI: 'No DOI'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Abstract', 'Funding']
+
+• [Row 180] Source: doaj_journal_less.csv
+  Title: 'Българска неврология' | DOI: 'No DOI'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Language', 'Funding']
+
+• [Row 181] Source: doaj_journal_less.csv
+  Title: 'نگره' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Funding']
+
+• [Row 182] Source: doaj_journal_less.csv
+  Title: 'Sillages Critiques' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 183] Source: doaj_journal_less.csv
+  Title: 'Актуальные вопросы пожарной безопасности' | DOI: 'No DOI'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Publication Year', 'Article References', 'Affiliations', 'Language', 'Funding']
+
+• [Row 184] Source: doaj_journal_less.csv
+  Title: 'International Journal of Multicultural Education' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 185] Source: doaj_journal_less.csv
+  Title: 'Farmacja Polska' | DOI: 'No DOI'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Concepts', 'Funding']
+
+• [Row 186] Source: doaj_journal_less.csv
+  Title: 'Journal of Agricultural Sciences (Belgrade)' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 187] Source: doaj_journal_less.csv
+  Title: 'Journal on Efficiency and Responsibility in Education a' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 188] Source: doaj_journal_less.csv
+  Title: 'International Journal of School Social Work' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Language', 'Funding']
+
+• [Row 189] Source: doaj_journal_less.csv
+  Title: 'Revista Facultad Nacional de Salud Pública' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 190] Source: doaj_journal_less.csv
+  Title: 'JIP  (Jurnal Informatika Polinema)' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 191] Source: doaj_journal_less.csv
+  Title: 'Revista Portuguesa de Pedagogia' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 192] Source: doaj_journal_less.csv
+  Title: 'Journal of Architectural Sciences and Applications' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 193] Source: doaj_journal_less.csv
+  Title: 'Lamahu' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 194] Source: doaj_journal_less.csv
+  Title: 'Indonesian TESOL Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 195] Source: doaj_journal_less.csv
+  Title: 'Journal of the American Society for Horticultural Scien' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 196] Source: doaj_journal_less.csv
+  Title: 'Zeszyty Cyrylo-Metodiańskie' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Author', 'Article References', 'Affiliations', 'Funding']
+
+• [Row 197] Source: doaj_journal_less.csv
+  Title: 'Dolomites Research Notes on Approximation' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Language', 'Funding']
+
+• [Row 198] Source: doaj_journal_less.csv
+  Title: 'İstanbul Hukuk Mecmuası' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 199] Source: doaj_journal_less.csv
+  Title: 'ARCHive-SR' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Abstract', 'Funding']
+
+• [Row 200] Source: doaj_journal_less.csv
+  Title: 'Şarkiyat Mecmuası' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 201] Source: doaj_journal_less.csv
+  Title: 'Environmental Science and Sustainable Development' | DOI: 'No DOI'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 202] Source: doaj_journal_less.csv
+  Title: 'Dianoia' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Abstract', 'Funding']
+
+• [Row 203] Source: doaj_journal_less.csv
+  Title: 'BioProducts Business' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Funding']
+
+• [Row 204] Source: doaj_journal_less.csv
+  Title: 'Cappadocia Journal of Area Studies' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 205] Source: doaj_journal_less.csv
+  Title: 'Revista Jurídica Portucalense' | DOI: 'No DOI'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Author', 'Article References', 'Affiliations', 'Funding']
+
+• [Row 206] Source: doaj_journal_less.csv
+  Title: 'Uluslararası Uygur Araştırmaları Dergisi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 207] Source: doaj_journal_less.csv
+  Title: 'Revista Agroecossistemas' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 208] Source: doaj_journal_less.csv
+  Title: 'Bond Law Review' | DOI: 'No DOI'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 209] Source: doaj_journal_less.csv
+  Title: 'Transactions on Combinatorics' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 210] Source: doaj_journal_less.csv
+  Title: 'Research Results in Pharmacology' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 211] Source: doaj_journal_less.csv
+  Title: 'Acta Biologica Sibirica' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 212] Source: doaj_journal_less.csv
+  Title: 'Tidsskrift for Ungdomsforskning' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 213] Source: doaj_journal_less.csv
+  Title: 'Nuevas Poligrafías, Revista de Teoría Literaria y Liter' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 214] Source: doaj_journal_less.csv
+  Title: 'Areté' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 215] Source: doaj_journal_less.csv
+  Title: 'Historia de la Educación Anuario' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 216] Source: doaj_journal_less.csv
+  Title: 'Fajar Historia: Jurnal Ilmu Sejarah dan Pendidikan' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 217] Source: doaj_journal_less.csv
+  Title: 'Transactions on Aerospace Research' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 218] Source: doaj_journal_less.csv
+  Title: 'پزشکی بالینی ابن سینا' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 219] Source: doaj_journal_less.csv
+  Title: 'The International Journal of Information, Diversity, & ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 220] Source: doaj_journal_less.csv
+  Title: 'Elementary Mathematics Education Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 221] Source: doaj_journal_less.csv
+  Title: 'Cihan University-Erbil Journal of Humanities and Social' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 222] Source: doaj_journal_less.csv
+  Title: 'Archiwum Kryminologii' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 223] Source: doaj_journal_less.csv
+  Title: 'Halo 194' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 224] Source: doaj_journal_less.csv
+  Title: 'Revista Sustinere' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 225] Source: doaj_journal_less.csv
+  Title: 'Studia Antiqua et Archaeologica' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 226] Source: doaj_journal_less.csv
+  Title: 'CMAJ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 227] Source: doaj_journal_less.csv
+  Title: 'Eurasian Journal of Science and Engineering' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 228] Source: doaj_journal_less.csv
+  Title: 'Schème: Revista Eletrônica de Psicologia e Epistemologi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 229] Source: doaj_journal_less.csv
+  Title: 'CoSMO' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 230] Source: doaj_journal_less.csv
+  Title: 'Revista de Etnologie şi Culturologie' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 231] Source: doaj_journal_less.csv
+  Title: 'La Colmena' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 232] Source: doaj_journal_less.csv
+  Title: 'Commons: Revista de Comunicación y Ciudadanía Digital' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 233] Source: doaj_journal_less.csv
+  Title: 'Journal of Mountain Area Research' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 234] Source: doaj_journal_less.csv
+  Title: 'جغرافیا و برنامه‌ریزی محیطی' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 235] Source: doaj_journal_less.csv
+  Title: 'Muhandisī-i Bihdāsht-i Muḥīṭ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 236] Source: doaj_journal_less.csv
+  Title: 'Al-Iqtishad: Jurnal Ilmu Ekonomi Syariah' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 237] Source: doaj_journal_less.csv
+  Title: 'Revista Investigium IRE' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 238] Source: doaj_journal_less.csv
+  Title: 'SA Heart Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 239] Source: doaj_journal_less.csv
+  Title: 'Ethnorêma' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 240] Source: doaj_journal_less.csv
+  Title: 'Computational Methods in Social Sciences' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 241] Source: doaj_journal_less.csv
+  Title: 'Lentera Hukum' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 242] Source: doaj_journal_less.csv
+  Title: 'Revista Colombiana de Endocrinología, Diabetes y Metabo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 243] Source: doaj_journal_less.csv
+  Title: 'Наукові записки НаУКМА: Філософія та релігієзнавство' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 244] Source: doaj_journal_less.csv
+  Title: 'Explorations (Opole)' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 245] Source: doaj_journal_less.csv
+  Title: 'ORL.ro' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 246] Source: doaj_journal_less.csv
+  Title: 'Актуальні проблеми української лінгвістики: теорія і ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 247] Source: doaj_journal_less.csv
+  Title: 'Lifestyle Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 248] Source: doaj_journal_less.csv
+  Title: 'Erasmus Law Review' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 249] Source: doaj_journal_less.csv
+  Title: 'Revista de Contabilidade e Organizações' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Publication Year', 'Times Cited', 'Article References', 'Affiliations', 'Abstract', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 250] Source: RITA.csv
+  Title: 'Geração de Testes de Desempenho e Estresse a partir de ' | DOI: '10.22456/2175-2745.10082'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 251] Source: RITA.csv
+  Title: 'A Mechanized Proof of a Textbook Type Unification Algor' | DOI: '10.22456/2175-2745.100968'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 252] Source: RITA.csv
+  Title: 'A New Artificial Immune System Based on Continuous Lear' | DOI: '10.22456/2175-2745.102061'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 253] Source: RITA.csv
+  Title: 'Low-Latency f0 Estimation for the Finger Plucked Electr' | DOI: '10.22456/2175-2745.103182'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 254] Source: RITA.csv
+  Title: 'TSML: A XML-based Format for Exchange of Training Sampl' | DOI: '10.22456/2175-2745.10385'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 255] Source: RITA.csv
+  Title: 'Creating Digital Musical Instruments with libmosaic-sou' | DOI: '10.22456/2175-2745.104342'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 256] Source: RITA.csv
+  Title: 'Overload Control in a Token Player for a Fuzzy Workflow' | DOI: '10.22456/2175-2745.105893'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 257] Source: RITA.csv
+  Title: 'An operational support approach for Mining Unstructured' | DOI: '10.22456/2175-2745.106277'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 258] Source: RITA.csv
+  Title: 'Cloud infrastructure for HPC investment analysis' | DOI: '10.22456/2175-2745.106794'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 259] Source: RITA.csv
+  Title: 'Business Process Models in the Context of Predictive Pr' | DOI: '10.22456/2175-2745.106828'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 260] Source: RITA.csv
+  Title: 'Integrating Exploitative and Explorative Thinking in Bu' | DOI: '10.22456/2175-2745.106891'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 261] Source: RITA.csv
+  Title: 'A Model for Predicting Music Popularity on Streaming Pl' | DOI: '10.22456/2175-2745.107021'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 262] Source: RITA.csv
+  Title: 'An Agent-Based Model for Simulating Irrigated Agricultu' | DOI: '10.22456/2175-2745.107041'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 263] Source: RITA.csv
+  Title: 'Hash Tables for a Digital Lexicon' | DOI: '10.22456/2175-2745.107128'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 264] Source: RITA.csv
+  Title: 'System for Identifying Pests and Diseases in Soybean Cr' | DOI: '10.22456/2175-2745.107149'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 265] Source: RITA.csv
+  Title: 'Centralized Algorithms Based on Clustering with Self-tu' | DOI: '10.22456/2175-2745.107154'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 266] Source: RITA.csv
+  Title: 'Dimensioning the relationship between availability and ' | DOI: '10.22456/2175-2745.107176'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 267] Source: RITA.csv
+  Title: 'Iracema: a Python library for audio content analysis' | DOI: '10.22456/2175-2745.107202'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 268] Source: RITA.csv
+  Title: 'Challenges and Perspectives on Real-time Singing Voice ' | DOI: '10.22456/2175-2745.107292'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 269] Source: EBSCO.csv
+  Title: 'Enhancing the sustainability of cultural identity in sc' | DOI: '10.1371/journal.pone.0353777'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 270] Source: EBSCO.csv
+  Title: 'Leveraging microcredentials for sustainability literacy' | DOI: '10.1371/journal.pone.0351510'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 271] Source: EBSCO.csv
+  Title: 'Negotiating knowledge: The role of network hedging in t' | DOI: '10.1371/journal.pone.0352349'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 272] Source: EBSCO.csv
+  Title: 'Iran's great scientific divergence: The Middle-Income t' | DOI: '10.1371/journal.pone.0349342'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 273] Source: EBSCO.csv
+  Title: 'Design and Science' | DOI: 'NL$3435643$PDF ; NL$3435643$EPUB'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Times Cited', 'Article References', 'Affiliations', 'Country', 'Concepts', 'Open Access', 'Funding']
+
+• [Row 274] Source: EBSCO.csv
+  Title: 'The field factor: Industry publishing contribution and ' | DOI: '10.1371/journal.pone.0346227'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 275] Source: EBSCO.csv
+  Title: 'Lessons learned from interdisciplinary US national scie' | DOI: '10.1371/journal.pone.0343307'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 276] Source: EBSCO.csv
+  Title: 'The importance of science communication and public enga' | DOI: '10.1002/ase.70017'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 277] Source: EBSCO.csv
+  Title: 'The mosaic of science: Disciplinary diversity and scien' | DOI: '10.1371/journal.pone.0343738'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 278] Source: EBSCO.csv
+  Title: 'Knowledge flows from science to AI technology: Identify' | DOI: '10.1371/journal.pone.0341005'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 279] Source: econlit.bib
+  Title: 'Friendship Networks and Political Opinions' | DOI: '10.1257/aer.20231344'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 280] Source: eric.nbib
+  Title: 'Advancing Educational Equity in Computer Science: A Gui' | DOI: 'https://sunypress.edu/Books/A/Advancing-Educational-Equity-in-Computer-Science'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 281] Source: eric.nbib
+  Title: 'Prevention of and Response to Sexual Harassment in High' | DOI: 'https://doi.org/10.17226/29413'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Article References', 'Affiliations', 'Country', 'Language', 'Funding']
+
+• [Row 282] Source: eric.nbib
+  Title: 'Assessing NASA Science Activation 2.0: Progress, Achiev' | DOI: 'https://doi.org/10.17226/27989'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Country']
+
+• [Row 283] Source: eric.nbib
+  Title: 'Understanding and Addressing Misinformation about Scien' | DOI: 'https://doi.org/10.17226/27894'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Affiliations', 'Country']
+
+• [Row 284] Source: eric.nbib
+  Title: 'Building Institutional Capacity for Engaged Research. P' | DOI: 'https://doi.org/10.17226/28337'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 285] Source: eric.nbib
+  Title: 'Assessing Research Security Efforts in Higher Education' | DOI: 'https://doi.org/10.17226/29241'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 286] Source: eric.nbib
+  Title: 'The Status of Informal Science and Engineering Educatio' | DOI: 'https://doi.org/10.17226/29291'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Article References', 'Affiliations', 'Country', 'Language', 'Funding']
+
+• [Row 287] Source: eric.nbib
+  Title: 'Reinventing Science Standards to Better Support Meaning' | DOI: 'http://dx.doi.org/10.1002/tea.70021'
+  Status: Enriched 3 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Times Cited', 'Article References', 'Affiliations', 'Country', 'Concepts', 'Open Access', 'Funding']
+
+• [Row 288] Source: eric.nbib
+  Title: 'Political Science as a Science: Exploring Political Sci' | DOI: 'http://dx.doi.org/10.1007/s11191-025-00614-7'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Times Cited', 'Article References', 'Affiliations', 'Country', 'Concepts', 'Open Access', 'Funding']
+
+• [Row 289] Source: eric.nbib
+  Title: 'Playing for Science: Designing Science Games' | DOI: 'http://dx.doi.org/10.1177/01447394251332601'
+  Status: Enriched 3 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Times Cited', 'Article References', 'Affiliations', 'Country', 'Concepts', 'Open Access', 'Funding']
+
+• [Row 290] Source: PsycNET.csv
+  Title: 'Patterns of agentic engagement, autonomy support, and e' | DOI: 'https://doi.org/10.1037/edu0001051'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 291] Source: PsycNET.csv
+  Title: 'Advancing clinical psychology with improved doctoral tr' | DOI: 'https://doi.org/10.1037/tep0000556'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 292] Source: PsycNET.csv
+  Title: 'Dimensionalities of home science environment and family' | DOI: 'https://doi.org/10.1037/dev0002235'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 293] Source: PsycNET.csv
+  Title: 'Willingness to defend science violently: Extremity mode' | DOI: 'https://doi.org/10.1037/vio0000695'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 294] Source: PsycNET.csv
+  Title: 'How to communicate science to the public? Recommendatio' | DOI: 'https://doi.org/10.1027/2151-2604/a000572'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 295] Source: PsycNET.csv
+  Title: 'Certainly uncertainty: Communicating uncertainty in sci' | DOI: 'https://doi.org/10.1027/2151-2604/a000569'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 296] Source: PsycNET.csv
+  Title: 'Qualitative methods in philosophy of science: Historica' | DOI: 'https://doi.org/10.1037/qup0000294'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 297] Source: PsycNET.csv
+  Title: 'Science communication gets personal: Ambivalent effects' | DOI: 'https://doi.org/10.1037/xap0000489'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 298] Source: PsycNET.csv
+  Title: 'Load reduction instruction in science and students’ sci' | DOI: 'https://doi.org/10.1037/edu0000552'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 299] Source: PsycNET.csv
+  Title: 'Educational psychology’s past and future contributions ' | DOI: 'https://doi.org/10.1037/edu0000195'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 300] Source: ieee_xplore.bib
+  Title: 'Cultural Function and Spiritual Value of Computer Scien' | DOI: '10.1109/ETCS.2009.431'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 301] Source: ieee_xplore.bib
+  Title: 'Embedding Data Science into Computer Science Education' | DOI: '10.1109/EIT.2019.8833753'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 302] Source: ieee_xplore.bib
+  Title: 'Who speaks for science? A response to the National Acad' | DOI: '10.1093/lpr/mgp032'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 303] Source: ieee_xplore.bib
+  Title: 'Examining the citations received by DOAJ's journals fro' | DOI: '10.1109/ICICIS.2010.5534720'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 304] Source: ieee_xplore.bib
+  Title: 'Stages of development of history of science and technol' | DOI: '10.1109/UkrMiCo61577.2023.10380397'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 305] Source: ieee_xplore.bib
+  Title: 'On Abstract Sciences: From Data, Information, Knowledge' | DOI: '10.1109/ICCICC57084.2022.10101670'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 306] Source: ieee_xplore.bib
+  Title: 'Promoting K-12 Computer Science Education : A Computati' | DOI: '10.1109/CSCE60160.2023.00175'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 307] Source: ieee_xplore.bib
+  Title: 'Science, Mathematics, Computer Science, Software Engine' | DOI: '10.1093/comjnl/bxr090'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 308] Source: ieee_xplore.bib
+  Title: 'Building a New Data Science Program Based on an Existin' | DOI: '10.1109/FIE44824.2020.9273934'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 309] Source: ieee_xplore.bib
+  Title: 'Analysis of the Driving Role of Computer Science and Te' | DOI: '10.1109/CISAI54367.2021.00179'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 310] Source: ieee_xplore.bib
+  Title: 'Engaging Students and Teachers with Big Data: Adapting ' | DOI: '10.1109/WIBI64774.2025.11115724'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 311] Source: ieee_xplore.bib
+  Title: 'Research on Multimedia Technology Applied into Teaching' | DOI: '10.1109/ETCS.2009.73'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 312] Source: ieee_xplore.bib
+  Title: 'A curriculum of MOS (management of service) course base' | DOI: '10.1109/ICSSSM.2010.5530252'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 313] Source: ieee_xplore.bib
+  Title: 'Observations on accreditation of computer science progr' | DOI: '10.1109/HICSS.1988.11753'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 314] Source: ieee_xplore.bib
+  Title: 'Bridging Information Science and Data Science: The Stra' | DOI: '10.1109/IC3INA68387.2025.11325285'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 315] Source: ieee_xplore.bib
+  Title: 'Teaching Data Science to Non-Computer Science Students:' | DOI: '10.1109/FIE58773.2023.10343463'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 316] Source: ieee_xplore.bib
+  Title: 'Knowledge Management System (KMS) readiness level based' | DOI: '10.1109/ICSITech.2017.8257203'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 317] Source: ieee_xplore.bib
+  Title: 'Science Communication Based on the Web2.0: Give the son' | DOI: '10.1109/ICCIT.2009.111'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 318] Source: ieee_xplore.bib
+  Title: 'Research on the effectiveness of narrative design into ' | DOI: '10.1109/ICISE-IE53922.2021.00258'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 319] Source: ieee_xplore.bib
+  Title: 'The assessment of cognitive skills for computer science' | DOI: '10.1109/FIE.1999.841623'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 320] Source: ieee_xplore.bib
+  Title: 'Work in Progress: Assessing the Teaching of the Science' | DOI: '10.1109/FIE.2006.322568'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 321] Source: ieee_xplore.bib
+  Title: 'Gaming for (Citizen) Science: Exploring Motivation and ' | DOI: '10.1109/eScienceW.2011.14'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 322] Source: ieee_xplore.bib
+  Title: 'Examining science and engineering students' attitudes t' | DOI: '10.1109/FIE.2009.5350836'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 323] Source: ieee_xplore.bib
+  Title: 'The computer science education crisis: fact or illusion' | DOI: '10.1016/S0953-5438(97)00005-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 324] Source: ieee_xplore.bib
+  Title: 'Engineering undergraduate's science and technology comp' | DOI: '10.1109/ICCSE.2015.7250379'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 325] Source: pubmed.csv
+  Title: 'Science and society' | DOI: '10.1038/d41586-019-03365-y'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Abstract', 'Funding']
+
+• [Row 326] Source: pubmed.csv
+  Title: 'Science and the crisis of trust' | DOI: '10.1016/j.copsyc.2025.102202'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 327] Source: pubmed.csv
+  Title: 'Is science's dominant funding model broken?' | DOI: '10.1038/d41586-024-02080-7'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Affiliations', 'Country', 'Abstract', 'Funding']
+
+• [Row 328] Source: pubmed.csv
+  Title: 'Science communication in the field of fundamental biome' | DOI: '10.1016/j.semcdb.2017.08.017'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 329] Source: pubmed.csv
+  Title: 'Editor's view: What makes science successful?' | DOI: '10.7189/jogh.15.01005'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 330] Source: pubmed.csv
+  Title: 'A call for more science in forensic science' | DOI: '10.1073/pnas.1712161115'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 331] Source: pubmed.csv
+  Title: 'Combat corporate greenwashing with better science' | DOI: '10.1038/d41586-023-03815-8'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Author', 'Affiliations', 'Country', 'Funding']
+
+• [Row 332] Source: pubmed.csv
+  Title: 'Celebrating science's next generation' | DOI: '10.1074/jbc.E119.008002'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 333] Source: pubmed.csv
+  Title: 'Health sciences librarians' engagement in open science:' | DOI: '10.5195/jmla.2021.1256'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 334] Source: pubmed.csv
+  Title: 'Nursing science's crucial role in addressing social and' | DOI: '10.1016/j.outlook.2023.102087'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Abstract', 'Funding']
+
+• [Row 335] Source: scopus.csv
+  Title: 'First-year pre-service teachers in taiwan—do they enter' | DOI: '10.1080/09585190500186401'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 336] Source: scopus.csv
+  Title: 'Implementation Path of Open Science in Canada and Its I' | DOI: '10.13266/j.issn.0252-3116.2025.08.002'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Country', 'Concepts', 'Open Access']
+
+• [Row 337] Source: scopus.csv
+  Title: 'Science engagement and science achievement in the conte' | DOI: '10.1080/09500693.2017.1313468'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 340] Source: scopus.csv
+  Title: 'The review of a book by Ratko Zelenika: The science on ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (6): ['Publisher', 'Article References', 'Country', 'Concepts', 'Open Access', 'Funding']
+
+• [Row 341] Source: scopus.csv
+  Title: 'Teacher-Directed Versus Inquiry-Based Science Instructi' | DOI: '10.1080/1046560X.2020.1753309'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 342] Source: scopus.csv
+  Title: 'Profiles of student science attitudes and its associati' | DOI: '10.1080/09500693.2022.2101705'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 343] Source: scopus.csv
+  Title: 'Negotiating science content: A structural barrier in sc' | DOI: '10.1007/978-94-007-7651-7_8'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 344] Source: scopus.csv
+  Title: 'Variable relationships among different science learners' | DOI: '10.1007/s10763-007-9121-8'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+================================================================================
+FINAL SUMMARY: 2/345 records fully updated. Audit saved to disk.
+================================================================================

@@ -1,0 +1,856 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-08-13 10:01:45 → 2026-08-13 10:03:30 (Duration: 104.62s)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 194
+• Total Records Evaluated for Enrichment: 194
+• Records with Valid DOIs (Tier 1-4 Candidates): 186
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 8
+• Successfully Enriched Records: 37 (19.1%)
+• Unresolved / Missing Data Records: 157 (80.9%)
+
+Target Fields Requested (15 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 194
+• Total Records Evaluated for Enrichment: 194
+• Cluster Source Files Breakdown (8 files):
+    - PsycNET.csv: 1 records
+    - acm.bib: 21 records
+    - ieee_xplore.bib: 11 records
+    - scielo.csv: 1 records
+    - pubmed.csv: 20 records
+    - scopus_less.csv: 50 records
+    - scopus_all.csv: 50 records
+    - RITA-40.csv: 40 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 186
+    - Records Resolved: 183 (98.4%)
+    - Total Field Values Populated: 1940 lines
+    - Field Breakdown: {'OpenAlex ID': 183, 'Title': 183, 'Affiliations': 125, 'Country': 170, 'Abstract': 169, 'Keywords': 183, 'Concepts': 183, 'Article References': 127, 'Times Cited': 135, 'Language': 134, 'Open Access': 151, 'Author': 42, 'Document Type': 51, 'Publisher': 63, 'Publication Year': 41}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 56
+    - Records Resolved: 54
+    - Total Field Values Populated: 182 lines
+    - Field Breakdown: {'Title': 54, 'Publisher': 54, 'Abstract': 34, 'Author': 40}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 4 (with valid PMID)
+    - Records Resolved: 3
+    - Total Field Values Populated: 5 lines
+    - Field Breakdown: {'Abstract': 3, 'Concepts': 2}
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 7
+    - Records Resolved: 7
+    - Total Field Values Populated: 11 lines
+    - Field Breakdown: {'Title': 7, 'Abstract': 4}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 8 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 157 / 194
+
+• [Row 0] Source: PsycNET.csv
+  Title: 'The time course of plausibility effects on eye movement' | DOI: 'https://doi.org/10.1037/0278-7393.33.6.1162'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 1] Source: acm.bib
+  Title: 'OS X mountain lion: the missing manual by David Pogue' | DOI: '10.1145/2532780.2532796'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 2] Source: acm.bib
+  Title: 'OS X mountain lion pocket guide by Chris Seibold' | DOI: '10.1145/2413038.2413058'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 3] Source: acm.bib
+  Title: 'Improving Mac OS X security through gray box fuzzing te' | DOI: '10.1145/2592791.2592793'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 4] Source: acm.bib
+  Title: 'GreenCrossingAI: A Camera Trap/Computer Vision Pipeline' | DOI: '10.1145/3708035.3736003'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 5] Source: acm.bib
+  Title: 'Lion taming: desktop management of Apple devices' | DOI: '10.1145/2504776.2504800'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 6] Source: acm.bib
+  Title: 'Deep Integrated Explanations' | DOI: '10.1145/3583780.3614836'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 7] Source: acm.bib
+  Title: 'Scrolling and One-Dimensional Input' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Times Cited', 'Article References', 'Affiliations', 'Country', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 8] Source: acm.bib
+  Title: 'Hiking Hacks: Workshop Model for Exploring Wilderness I' | DOI: '10.1145/3196709.3196748'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 9] Source: acm.bib
+  Title: 'Cave: making collective virtual narrative' | DOI: '10.1145/3306211.3320138'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 10] Source: acm.bib
+  Title: 'DMP without DMP, full-CG environments for The Lion King' | DOI: '10.1145/3306307.3328195'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 11] Source: acm.bib
+  Title: 'State of the Sandbox: Investigating macOS Application S' | DOI: '10.1145/3338498.3358654'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 12] Source: acm.bib
+  Title: 'Evaluating Smartwatch-based Sound Feedback for Deaf and' | DOI: '10.1145/3313831.3376406'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 13] Source: acm.bib
+  Title: 'OpenCV Performance Measurements on Mobile Devices' | DOI: '10.1145/2578726.2578798'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 14] Source: acm.bib
+  Title: 'POSTER: Cross-platform malware: write once, infect ever' | DOI: '10.1145/2508859.2512517'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 15] Source: acm.bib
+  Title: 'Application of Virtual Reality Technology in the Protec' | DOI: '10.1145/3545822.3545825'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 16] Source: acm.bib
+  Title: 'A Mobile-based Multimedia System for Learning Japanese' | DOI: '10.1145/2536853.2536917'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 17] Source: acm.bib
+  Title: 'A decade of OS access-control extensibility' | DOI: '10.1145/2408776.2408792'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 18] Source: acm.bib
+  Title: 'Front line help desk at Rice University' | DOI: '10.1145/2504776.2504793'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 19] Source: acm.bib
+  Title: 'KASLR: Break It, Fix It, Repeat' | DOI: '10.1145/3320269.3384747'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 20] Source: acm.bib
+  Title: 'Short paper: exploiting WPA2-enterprise vendor implemen' | DOI: '10.1145/2627393.2627411'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 21] Source: acm.bib
+  Title: 'Traffic Analysis of Encrypted Messaging Services: Apple' | DOI: '10.1145/2677046.2677048'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 22] Source: ieee_xplore.bib
+  Title: 'Bio-Inspired Ant Lion Optimizer for a Constrained Petro' | DOI: '10.1109/ACCESS.2022.3204811'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 23] Source: ieee_xplore.bib
+  Title: 'Research on UAV Smooth Path Planning Method Based on Im' | DOI: '10.1109/ICAA53760.2021.00039'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 24] Source: ieee_xplore.bib
+  Title: 'Wireless Communication Modeling for the Deployment of T' | DOI: '10.1109/LSENS.2019.2918331'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 25] Source: ieee_xplore.bib
+  Title: 'Optimal Parameters Estimation of Lightning Impulse Volt' | DOI: '10.1109/EICEEAI60672.2023.10590142'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 26] Source: ieee_xplore.bib
+  Title: 'Analysis of the 2017 June Maoxian landslide processes w' | DOI: '10.1093/gji/ggaa269'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 27] Source: ieee_xplore.bib
+  Title: 'Predicting gravity and sediment thickness in Afghanista' | DOI: '10.1093/gji/ggs038'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 28] Source: ieee_xplore.bib
+  Title: '1 Hacker States' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Times Cited', 'Article References', 'Affiliations', 'Country', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 29] Source: ieee_xplore.bib
+  Title: 'Acoustical localisation system for the tracking of unde' | DOI: '10.1109/OCEANS.1974.1161407'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 30] Source: ieee_xplore.bib
+  Title: 'Towards Automatic Ethiopian Endemic Animals Detection o' | DOI: '10.1109/PRAI53619.2021.9550798'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 31] Source: ieee_xplore.bib
+  Title: 'Improving the Generalization Performance of YOLO-Based ' | DOI: '10.1109/IEMCON67450.2025.11381141'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Language', 'Funding']
+
+• [Row 32] Source: ieee_xplore.bib
+  Title: 'IEEE Student Branch profile: Out of Africa' | DOI: '10.1109/MPOT.2010.938252'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 33] Source: scielo.csv
+  Title: 'Untitled Record' | DOI: 'https://doi.org/10.15517/rbt.v66i4.32247'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 34] Source: pubmed.csv
+  Title: 'Rustrela Virus in Wild Mountain Lion (Puma concolor) wi' | DOI: '10.3201/eid3008.240411'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 35] Source: pubmed.csv
+  Title: 'Impacts of management practices on habitat selection du' | DOI: '10.1002/ece3.70097'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 36] Source: pubmed.csv
+  Title: 'Minimum habitat thresholds required for conserving moun' | DOI: '10.1002/ece3.6723'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 37] Source: pubmed.csv
+  Title: 'Behavioral Observations From a Mountain Lion Nursery in' | DOI: '10.1002/ece3.71687'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 38] Source: pubmed.csv
+  Title: 'A chromosome-level genome assembly of the mountain lion' | DOI: '10.1093/jhered/esae063'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 39] Source: pubmed.csv
+  Title: 'MOUNTAIN LIONS (PUMA CONCOLOR) RESIST LONG-TERM DIETARY' | DOI: '10.7589/JWD-D-21-00029'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 40] Source: pubmed.csv
+  Title: 'Increased contact transmission of contemporary Human H5' | DOI: '10.1038/s41467-026-68900-8'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 41] Source: pubmed.csv
+  Title: 'Habitat selection and outdoor recreation help explain h' | DOI: '10.1016/j.cub.2026.05.037'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 42] Source: pubmed.csv
+  Title: 'Dental and Temporomandibular Joint Pathology of the Cal' | DOI: '10.1016/j.jcpa.2016.11.269'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 43] Source: pubmed.csv
+  Title: 'PHOTORECEPTOR DEGENERATION IN A MOUNTAIN LION CUB (PUMA' | DOI: '10.1638/2015-0305.1'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 44] Source: pubmed.csv
+  Title: 'Primary pneumonic plague contracted from a mountain lio' | DOI: '10.1086/600818'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 45] Source: pubmed.csv
+  Title: 'Genetic structure of mountain lion (Puma concolor) popu' | DOI: '10.1023/A:1024069014911'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 46] Source: pubmed.csv
+  Title: 'THE PUMA, OR MOUNTAIN LION' | DOI: '10.1126/science.3.64.443'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Article References', 'Abstract', 'Funding']
+
+• [Row 47] Source: pubmed.csv
+  Title: 'First reproductive signs of inbreeding depression in So' | DOI: '10.1016/j.theriogenology.2021.10.016'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 48] Source: pubmed.csv
+  Title: 'Reduction of Chronic Wasting Disease Prion Seeding Acti' | DOI: '10.1128/msphere.00812-21'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 49] Source: pubmed.csv
+  Title: 'Microsurgical scalp reconstruction after a mountain lio' | DOI: '10.1097/SAP.0b013e318160dff1'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 50] Source: pubmed.csv
+  Title: 'Mountain lions avoid burned areas and increase risky be' | DOI: '10.1016/j.cub.2022.08.082'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 51] Source: pubmed.csv
+  Title: 'Highly pathogenic avian influenza H5N1 clade 2.3.4.4b g' | DOI: '10.1038/s41467-025-60407-y'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 52] Source: pubmed.csv
+  Title: 'Habitat selection by wolves and mountain lions during s' | DOI: '10.1371/journal.pone.0254827'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 53] Source: pubmed.csv
+  Title: 'Cutaneous fibropapilloma in a mountain lion (Felis conc' | DOI: '10.1638/1042-7260(2003)034[0179:CFIAML]2.0.CO;2'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 54] Source: scopus_less.csv
+  Title: 'Learn Cocoa on the Mac' | DOI: '10.1007/978-1-4302-4543-8'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Times Cited', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 55] Source: scopus_less.csv
+  Title: 'Zoonotic Disease Risk Perception and Use of Personal Pr' | DOI: '10.1080/10871200903460252'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 56] Source: scopus_less.csv
+  Title: 'CARNIVORE: A disruption-tolerant system for studying wi' | DOI: '10.1155/2011/968046'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 57] Source: scopus_less.csv
+  Title: 'Reconstructing the San Gabriel Mountains bighorn sheep ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 58] Source: scopus_less.csv
+  Title: 'Development and validation of a fecal PCR assay for Not' | DOI: '10.7589/2012-05-136'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 59] Source: scopus_less.csv
+  Title: 'Pride diaries: Sex, brain size and sociality in the Afr' | DOI: '10.1159/000338670'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 60] Source: scopus_less.csv
+  Title: 'Evidence confirms the presence of cougars (Puma concolo' | DOI: '10.22621/cfn.v125i2.1194'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 61] Source: scopus_less.csv
+  Title: 'Influence of predator harvest, biological factors, and ' | DOI: '10.2193/2007-506'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 62] Source: scopus_less.csv
+  Title: 'Landscape genetics of mountain lions (Puma concolor) in' | DOI: '10.1016/j.mambio.2010.08.002'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 63] Source: scopus_less.csv
+  Title: 'Top-down versus bottom-up forcing: Evidence from mounta' | DOI: '10.1644/12-MAMM-A-014.1'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 64] Source: scopus_less.csv
+  Title: 'Molecular techniques for identifying intraguild predato' | DOI: '10.1002/wsb.287'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 65] Source: scopus_less.csv
+  Title: 'Seasonal variation in survivorship and mortality of des' | DOI: '10.1670/08-055.1'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 66] Source: scopus_less.csv
+  Title: 'Genetic Predictions of Prion Disease Susceptibility in ' | DOI: '10.1371/journal.pone.0050623'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 67] Source: scopus_less.csv
+  Title: 'Mountain lions prey selectively on prion-infected mule ' | DOI: '10.1098/rsbl.2009.0742'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 68] Source: scopus_less.csv
+  Title: 'Learn C on the Mac: For OS X and iOS' | DOI: '10.1007/978-1-4302-4534-6'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 69] Source: scopus_less.csv
+  Title: 'Radiotelemetry monitoring of the home range of cougar r' | DOI: '10.1590/S0103-84782011000700019'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 70] Source: scopus_less.csv
+  Title: 'Attitudes toward mountain lion management in the Midwes' | DOI: '10.1080/10871209.2010.507564'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 71] Source: scopus_less.csv
+  Title: 'Comparison between two glycerol concentrations to cryop' | DOI: '10.1590/S0100-736X2013000400015'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 72] Source: scopus_less.csv
+  Title: 'Genetic diversity, population structure, and movements ' | DOI: '10.1644/11-MAMM-A-326.2'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 73] Source: scopus_less.csv
+  Title: 'Estimating abundance of mountain lions from unstructure' | DOI: '10.1002/jwmg.412'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 74] Source: scopus_less.csv
+  Title: 'Serosurvey of mountain lions in southern Arizona' | DOI: '10.1002/wsb.155'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 75] Source: scopus_less.csv
+  Title: 'Encounter competition between a cougar, puma concolor, ' | DOI: '10.22621/cfn.v127i1.1410'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 76] Source: scopus_less.csv
+  Title: 'Demographic history of an elusive carnivore: Using muse' | DOI: '10.1111/j.1752-4571.2012.00241.x'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 77] Source: scopus_less.csv
+  Title: 'Explaining Reported Puma-Related Behaviors and Behavior' | DOI: '10.1080/10871209.2012.627581'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 78] Source: scopus_less.csv
+  Title: 'Characteristics of two mountain lion Puma concolor popu' | DOI: '10.2981/10-024'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 79] Source: scopus_less.csv
+  Title: 'Past lives: Entering the Buddhist imagination' | DOI: '10.1080/15505340903393229'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 80] Source: scopus_less.csv
+  Title: 'Cougars, Puma concolor, in Ontario: Additional evidence' | DOI: '10.22621/cfn.v126i4.1377'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 81] Source: scopus_less.csv
+  Title: 'Genetic structure and conservation of mountain lions in' | DOI: '10.1590/S1415-47572011005000062'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 82] Source: scopus_less.csv
+  Title: 'Conserving Mountain Lions in a Changing Landscape' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 83] Source: scopus_less.csv
+  Title: 'Where do you come from, where do you go? Directional mi' | DOI: '10.1111/mec.12032'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 84] Source: scopus_less.csv
+  Title: 'Genetic analysis of scats reveals minimum number and se' | DOI: '10.3996/042010-JFWM-008'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 85] Source: scopus_less.csv
+  Title: 'CARNIVORE: A disruption-tolerant system for studying wi' | DOI: '10.1109/ICCCN.2010.5560161'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 86] Source: scopus_less.csv
+  Title: 'Report of Physaloptera praepntialis (Von Linstow 1889, ' | DOI: '10.3923/javaa.2010.601.603'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Affiliations', 'Country', 'Abstract', 'Funding']
+
+• [Row 87] Source: scopus_less.csv
+  Title: 'Mountain Lion Management: Resolving Public Conflict' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 88] Source: scopus_less.csv
+  Title: 'Coexisting with Large Carnivores: Lessons from Greater ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 89] Source: scopus_less.csv
+  Title: 'Birth Timing for Mountain Lions (Puma concolor); Testin' | DOI: '10.1371/journal.pone.0044625'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 90] Source: scopus_less.csv
+  Title: 'Domestic calf mortality and producer detection rates in' | DOI: '10.1016/j.biocon.2010.12.014'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 91] Source: scopus_less.csv
+  Title: 'Phantoms of the prairie: The return of cougars to the M' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 92] Source: scopus_less.csv
+  Title: 'Lost and found: how to treat Alzheimer's patients.' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Language', 'Open Access', 'Funding']
+
+• [Row 93] Source: scopus_less.csv
+  Title: 'Exploring risk attenuation and crisis communication aft' | DOI: '10.1080/13669877.2012.725673'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 94] Source: scopus_less.csv
+  Title: 'Erratum to Genetic analysis of scats reveals minimum nu' | DOI: '10.3996/1944-687X-2.2.282'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 95] Source: scopus_less.csv
+  Title: 'Identification of source-sink dynamics in mountain lion' | DOI: '10.1111/j.1365-294X.2012.05740.x'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 96] Source: scopus_less.csv
+  Title: 'New flea and tick records for mountain lions in southwe' | DOI: '10.2461/wbp.2011.7.4'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 97] Source: scopus_less.csv
+  Title: 'Demographic response of mule deer to experimental reduc' | DOI: '10.1002/wmon.4'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 98] Source: scopus_less.csv
+  Title: 'Spatial and temporal interactions of sympatric mountain' | DOI: '10.1007/s10344-011-0528-8'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 99] Source: scopus_less.csv
+  Title: 'Carcass damage and digested bone from mountain lions (F' | DOI: '10.1016/j.jas.2011.10.020'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 100] Source: scopus_less.csv
+  Title: 'Effects of urbanization on carnivore species distributi' | DOI: '10.1644/09-MAMM-A-312.1'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 101] Source: scopus_less.csv
+  Title: 'Observations of reproduction in mountain lions from Neb' | DOI: '10.3398/064.070.0211'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 102] Source: scopus_less.csv
+  Title: 'Zoonotic vector-borne bacterial pathogens in California' | DOI: '10.1089/vbz.2011.0858'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 103] Source: scopus_less.csv
+  Title: 'Use of intraperitoneal radiotransmitters to study mount' | DOI: '10.1002/wsb.105'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 106] Source: scopus_all.csv
+  Title: 'Habitat selection and outdoor recreation help explain h' | DOI: '10.1016/j.cub.2026.05.037'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 107] Source: scopus_all.csv
+  Title: 'NEW FACES IN AN OLD GENUS: MUSEUM COLLECTIONS AND NEW M' | DOI: '10.1645/24-143'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 109] Source: scopus_all.csv
+  Title: 'Relationships among Mountain Sheep and Their Predators' | DOI: '10.1201/9781003518686-10'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Country', 'Funding']
+
+• [Row 112] Source: scopus_all.csv
+  Title: 'VIDEO CAPTURE OF MOUNTAIN LION ATTACK ON JAVELINA' | DOI: '10.1894/0038-4909-69.4.10'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 118] Source: scopus_all.csv
+  Title: 'EDUCATING GRIZZLY BEARS (1860)' | DOI: '10.4324/9781003032809-5'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Affiliations', 'Country', 'Concepts', 'Open Access', 'Funding']
+
+• [Row 119] Source: scopus_all.csv
+  Title: 'Rayleigh step-selection functions and connections to co' | DOI: '10.1186/s40462-023-00442-w'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 125] Source: scopus_all.csv
+  Title: 'Multi-scale habitat selection highlights the importance' | DOI: '10.1007/s13364-025-00807-z'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 134] Source: scopus_all.csv
+  Title: 'Impact of the 2025 California Wildfires on Mountain Lio' | DOI: '10.5194/isprs-annals-X-4-W8-2025-609-2026'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 137] Source: scopus_all.csv
+  Title: 'Reconstructing the climate and environmental characteri' | DOI: '10.16562/j.cnki.0256-1492.2024011501'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Country', 'Concepts', 'Open Access', 'Funding']
+
+• [Row 145] Source: scopus_all.csv
+  Title: 'Toxic load at the top of the food chain: Eurasian Lynx ' | DOI: '10.1016/j.ecoenv.2026.120232'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 146] Source: scopus_all.csv
+  Title: 'PREDATION OF THE MAPIMÍ BOLSON TORTOISE (GOPHERUS FLAVO' | DOI: '10.22201/fc.25942158e.2024.4.1033'
+  Status: Enriched 5 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Country', 'Funding']
+
+• [Row 147] Source: scopus_all.csv
+  Title: 'A case of mistaken identity: a reassessment of puma (Pu' | DOI: '10.1080/02724634.2026.2687611'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 150] Source: scopus_all.csv
+  Title: 'Mountain lions (Puma concolor) and their current manage' | DOI: '10.3897/natureconservation.60.140566'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 154] Source: RITA-40.csv
+  Title: 'Geração de Testes de Desempenho e Estresse a partir de ' | DOI: '10.22456/2175-2745.10082'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 155] Source: RITA-40.csv
+  Title: 'A Mechanized Proof of a Textbook Type Unification Algor' | DOI: '10.22456/2175-2745.100968'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 156] Source: RITA-40.csv
+  Title: 'A New Artificial Immune System Based on Continuous Lear' | DOI: '10.22456/2175-2745.102061'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 157] Source: RITA-40.csv
+  Title: 'Low-Latency f0 Estimation for the Finger Plucked Electr' | DOI: '10.22456/2175-2745.103182'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 158] Source: RITA-40.csv
+  Title: 'TSML: A XML-based Format for Exchange of Training Sampl' | DOI: '10.22456/2175-2745.10385'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 159] Source: RITA-40.csv
+  Title: 'Creating Digital Musical Instruments with libmosaic-sou' | DOI: '10.22456/2175-2745.104342'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 160] Source: RITA-40.csv
+  Title: 'Overload Control in a Token Player for a Fuzzy Workflow' | DOI: '10.22456/2175-2745.105893'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 161] Source: RITA-40.csv
+  Title: 'An operational support approach for Mining Unstructured' | DOI: '10.22456/2175-2745.106277'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 162] Source: RITA-40.csv
+  Title: 'Cloud infrastructure for HPC investment analysis' | DOI: '10.22456/2175-2745.106794'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 163] Source: RITA-40.csv
+  Title: 'Business Process Models in the Context of Predictive Pr' | DOI: '10.22456/2175-2745.106828'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 164] Source: RITA-40.csv
+  Title: 'Integrating Exploitative and Explorative Thinking in Bu' | DOI: '10.22456/2175-2745.106891'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 165] Source: RITA-40.csv
+  Title: 'A Model for Predicting Music Popularity on Streaming Pl' | DOI: '10.22456/2175-2745.107021'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 166] Source: RITA-40.csv
+  Title: 'An Agent-Based Model for Simulating Irrigated Agricultu' | DOI: '10.22456/2175-2745.107041'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 167] Source: RITA-40.csv
+  Title: 'Hash Tables for a Digital Lexicon' | DOI: '10.22456/2175-2745.107128'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 168] Source: RITA-40.csv
+  Title: 'System for Identifying Pests and Diseases in Soybean Cr' | DOI: '10.22456/2175-2745.107149'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 169] Source: RITA-40.csv
+  Title: 'Centralized Algorithms Based on Clustering with Self-tu' | DOI: '10.22456/2175-2745.107154'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 170] Source: RITA-40.csv
+  Title: 'Dimensioning the relationship between availability and ' | DOI: '10.22456/2175-2745.107176'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 171] Source: RITA-40.csv
+  Title: 'Iracema: a Python library for audio content analysis' | DOI: '10.22456/2175-2745.107202'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 172] Source: RITA-40.csv
+  Title: 'Challenges and Perspectives on Real-time Singing Voice ' | DOI: '10.22456/2175-2745.107292'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 173] Source: RITA-40.csv
+  Title: 'Optimization Inspired on Herd Immunity Applied to Non-H' | DOI: '10.22456/2175-2745.107478'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 174] Source: RITA-40.csv
+  Title: 'Co-creating Service-Dominant Business Artifacts with Ac' | DOI: '10.22456/2175-2745.107748'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 175] Source: RITA-40.csv
+  Title: 'The Explainable Business Process (XBP) - An Exploratory' | DOI: '10.22456/2175-2745.107964'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 176] Source: RITA-40.csv
+  Title: 'Classification Based on Rules for the Study of Cotton P' | DOI: '10.22456/2175-2745.108126'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 177] Source: RITA-40.csv
+  Title: 'Using the Myers-Briggs Type Indicator (MBTI) for Modeli' | DOI: '10.22456/2175-2745.110015'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 178] Source: RITA-40.csv
+  Title: 'A Novel Approach to the Measurement of Bourdieusian Soc' | DOI: '10.22456/2175-2745.110111'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 179] Source: RITA-40.csv
+  Title: 'Implantação de Medição no Processo de Desenvolvimento d' | DOI: '10.22456/2175-2745.11066'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 180] Source: RITA-40.csv
+  Title: 'An Adaptive Trust Model Based on Fuzzy Logic' | DOI: '10.22456/2175-2745.110818'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 181] Source: RITA-40.csv
+  Title: 'A Conceptual Model for Situating Purposes in Artificial' | DOI: '10.22456/2175-2745.110830'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 182] Source: RITA-40.csv
+  Title: 'Integrating Embedded Multiagent Systems with Urban Simu' | DOI: '10.22456/2175-2745.110837'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 183] Source: RITA-40.csv
+  Title: 'Towards Causal Effect Estimation of Emotional Labeling ' | DOI: '10.22456/2175-2745.111817'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 184] Source: RITA-40.csv
+  Title: 'Ab Initio Protein Structure Prediction Using Evolutiona' | DOI: '10.22456/2175-2745.111993'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 185] Source: RITA-40.csv
+  Title: 'The Notification Oriented Paradigm Language to Digital ' | DOI: '10.22456/2175-2745.112006'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 186] Source: RITA-40.csv
+  Title: 'Identificação da Autoria de Manuscritos com Base em Atr' | DOI: '10.22456/2175-2745.11221'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 187] Source: RITA-40.csv
+  Title: 'A Review of Testbeds on SCADA Systems with Malware Anal' | DOI: '10.22456/2175-2745.112813'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 188] Source: RITA-40.csv
+  Title: 'Ambiente Virtual Interativo com Colisão e Deformação de' | DOI: '10.22456/2175-2745.11296'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 189] Source: RITA-40.csv
+  Title: 'QOC*: utilizando Design Rationale como ferramenta para ' | DOI: '10.22456/2175-2745.11384'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 190] Source: RITA-40.csv
+  Title: 'Uso da ferramenta PreText para mineração de textos extr' | DOI: '10.22456/2175-2745.11467'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 191] Source: RITA-40.csv
+  Title: 'ALUPAS: Avaliação de desempenho e consumo de energia de' | DOI: '10.22456/2175-2745.11468'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 192] Source: RITA-40.csv
+  Title: 'Avaliação Pró-ativa da Deterioração de Sistemas de Info' | DOI: '10.22456/2175-2745.11469'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 193] Source: RITA-40.csv
+  Title: 'High Performance Computing: CUDA as a Supporting Techno' | DOI: '10.22456/2175-2745.11471'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+================================================================================
+FINAL SUMMARY: 37/194 records fully updated. Audit saved to disk.
+================================================================================

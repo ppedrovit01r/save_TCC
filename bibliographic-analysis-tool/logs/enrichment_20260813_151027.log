@@ -1,0 +1,749 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-08-13 15:08:01 → 2026-08-13 15:10:27 (Duration: 146.19s)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 345
+• Total Records Evaluated for Enrichment: 139
+• Records with Valid DOIs (Tier 1-4 Candidates): 51
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 88
+• Successfully Enriched Records: 2 (1.4%)
+• Unresolved / Missing Data Records: 137 (98.6%)
+
+Target Fields Requested (2 fields): ['Affiliations', 'Country']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 345
+• Total Records Evaluated for Enrichment: 139
+• Cluster Source Files Breakdown (1 files):
+    - exported_data (5).csv: 345 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 51
+    - Records Resolved: 45 (88.2%)
+    - Total Field Values Populated: 45 lines
+    - Field Breakdown: {'OpenAlex ID': 45}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 6
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 0
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 88 (searched by Title)
+    - Records Resolved: 3
+    - Total Field Values Populated: 3 lines
+    - Field Breakdown: {'OpenAlex ID': 3}
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 137 / 139
+
+• [Row 1] Source: scielo.csv
+  Title: 'Uma Análise Distintiva entre o Estudo de Caso, A Pesqui' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 2] Source: scielo.csv
+  Title: 'A ciência da informação na visão dos professores da ECI' | DOI: '10.1590/s1413-99362007000200002'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 3] Source: scielo.csv
+  Title: 'A história da ciência e o objeto de seu estudo: confron' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 6] Source: scielo.csv
+  Title: 'Pesquisa acadêmica e avanços em Ciência, Tecnologia e I' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 7] Source: scielo.csv
+  Title: 'PROMOTING UNDERGRADUATE STUDENTS’ SCIENTIFIC LITERACY T' | DOI: '10.21577/0100-4042.20250174'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 94] Source: acm_less.bib
+  Title: 'Bachelor of Arts versus Bachelor of Science Degrees in ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 120] Source: doaj_journal_less.csv
+  Title: 'Keria: Studia Latina et Graeca' | DOI: '10.4312/keria'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 121] Source: doaj_journal_less.csv
+  Title: 'CANOA, EN MARCHA. RED PANHISPÁNICA. INTERNACIONALIZA LA' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 123] Source: doaj_journal_less.csv
+  Title: 'Slovenščina 2.0: Empirične, aplikativne in interdiscipl' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 125] Source: doaj_journal_less.csv
+  Title: 'Folia Linguistica Historica' | DOI: '10.1515/flih'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 127] Source: doaj_journal_less.csv
+  Title: 'Деловые коммуникации на иностранном языке (английском) ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 128] Source: doaj_journal_less.csv
+  Title: '(2018) "Does Cognition Still Matter in Ethnobiology?" E' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 130] Source: doaj_journal_less.csv
+  Title: 'Al-MANAHIJ : Jurnal Kajian Hukum Islam' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 131] Source: doaj_journal_less.csv
+  Title: 'Maghza: Jurnal Ilmu Al Qur'an dan Tafsir' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 132] Source: doaj_journal_less.csv
+  Title: 'Tratado latinoamericano de sociología del trabajo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 133] Source: doaj_journal_less.csv
+  Title: 'Cluj Veterinary Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 134] Source: doaj_journal_less.csv
+  Title: 'REBIOL' | DOI: '10.17268/rebiol'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 135] Source: doaj_journal_less.csv
+  Title: 'Tánc és Nevelés' | DOI: '10.46819/tn'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 136] Source: doaj_journal_less.csv
+  Title: 'Iranian Journal of Neonatology' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 137] Source: doaj_journal_less.csv
+  Title: 'Portuguese Language Journal' | DOI: '10.56515/plj47547'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 138] Source: doaj_journal_less.csv
+  Title: 'Argomenti: Rivista di Economia, Cultura e Ricerca Socia' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 139] Source: doaj_journal_less.csv
+  Title: 'Bollettino Epidemiologico Nazionale' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 140] Source: doaj_journal_less.csv
+  Title: 'Neimenggu dianli jishu' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 141] Source: doaj_journal_less.csv
+  Title: 'O discurso do sujeito coletivo: um novo enfoque em pesq' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 142] Source: doaj_journal_less.csv
+  Title: 'BOLETÍN GEOLÓGICO Y MINERO' | DOI: '10.21701/bolgeomin'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 143] Source: doaj_journal_less.csv
+  Title: 'RUDN Journal of World History' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 144] Source: doaj_journal_less.csv
+  Title: 'RUDN Journal of Language Studies, Semiotics and Semanti' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 146] Source: doaj_journal_less.csv
+  Title: 'Journal of Threatened Taxa' | DOI: '10.11609/jott'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 147] Source: doaj_journal_less.csv
+  Title: '"Obligations of Non-State Armed Groups under Internatio' | DOI: '10.31219/osf.io/ezrmc_v1'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 148] Source: doaj_journal_less.csv
+  Title: 'Nongye tushu qingbao xuebao' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 149] Source: doaj_journal_less.csv
+  Title: 'Turisztikai és Vidékfejlesztési Tanulmányok' | DOI: '10.15170/tvt'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 150] Source: doaj_journal_less.csv
+  Title: 'Un nombre para la conceptuación y la práctica de la med' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 152] Source: doaj_journal_less.csv
+  Title: 'Boletín de filología' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 153] Source: doaj_journal_less.csv
+  Title: 'Zhejiang dianli' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 154] Source: doaj_journal_less.csv
+  Title: 'Revista Brasileira de Meteorologia' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 156] Source: doaj_journal_less.csv
+  Title: 'Geodetski vestnik' | DOI: '10.15292/geodetski-vestnik'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 157] Source: doaj_journal_less.csv
+  Title: 'The Journal of Philosophical Economics' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 158] Source: doaj_journal_less.csv
+  Title: 'Revista Desenvolvimento e Civilização' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 160] Source: doaj_journal_less.csv
+  Title: 'Фармацевтичний журнал' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 163] Source: doaj_journal_less.csv
+  Title: 'Umjetnost riječi' | DOI: '10.22210/ur'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 164] Source: doaj_journal_less.csv
+  Title: 'Put i saobraćaj' | DOI: '10.31075/pis'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 166] Source: doaj_journal_less.csv
+  Title: 'Revista Española de Derecho Canónico' | DOI: '10.36576/summa.3722'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 167] Source: doaj_journal_less.csv
+  Title: 'Jurnal Poli-Teknologi' | DOI: '10.32722/pt'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 168] Source: doaj_journal_less.csv
+  Title: 'مجلة الآداب للدراسات النفسية والتربوية' | DOI: '10.53285/2117'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 170] Source: doaj_journal_less.csv
+  Title: 'Presentación editorial de Corpus - Archivos virtuales d' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 171] Source: doaj_journal_less.csv
+  Title: 'Acta medica indonesiana : the indonesian journal of int' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 172] Source: doaj_journal_less.csv
+  Title: 'Pandaemonium Germanicum: Revista de Estudos Germanístic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 173] Source: doaj_journal_less.csv
+  Title: 'F&E-Management' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 175] Source: doaj_journal_less.csv
+  Title: 'مهندسی مکانیک شریف' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 176] Source: doaj_journal_less.csv
+  Title: 'Journal of Socio-Economics on Tropical Agriculture (Jur' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 180] Source: doaj_journal_less.csv
+  Title: 'ARK - Решение за постоянен идентификатор за онлайн изда' | DOI: '10.67667/neu.v25i2.178'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 181] Source: doaj_journal_less.csv
+  Title: 'بررسی انتقادی نگره علمشناختی تفکیکی' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 182] Source: doaj_journal_less.csv
+  Title: 'Sillages de la peste noire en Afrique subsaharienne : u' | DOI: '10.4000/afriques.2084'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 183] Source: doaj_journal_less.csv
+  Title: 'АКТУАЛЬНЫЕ ВОПРОСЫ ПОЖАРНОЙ БЕЗОПАСНОСТИ НА СКЛАДАХ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 185] Source: doaj_journal_less.csv
+  Title: 'Farmacja Polska' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 186] Source: doaj_journal_less.csv
+  Title: 'Journal of Agricultural Sciences (Belgrade)' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 187] Source: doaj_journal_less.csv
+  Title: 'Journal on Efficiency and Responsibility in Education a' | DOI: '10.7160/eriesj'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 188] Source: doaj_journal_less.csv
+  Title: 'Grassroots Journal of Natural Resources (ISSN:2581-6853' | DOI: '10.33002/nr2581.6853.080314'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 189] Source: doaj_journal_less.csv
+  Title: 'Revista Facultad Nacional de Salud Pública' | DOI: '10.17533/udea.rfnsp'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 190] Source: doaj_journal_less.csv
+  Title: 'JIP  (Jurnal Informatika Polinema)' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 194] Source: doaj_journal_less.csv
+  Title: 'Indonesian TESOL Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 195] Source: doaj_journal_less.csv
+  Title: 'Thank You Journal of the American Society for Horticult' | DOI: '10.21273/jashs1491reviewers'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 196] Source: doaj_journal_less.csv
+  Title: 'Zeszyty Cyrylo-Metodiańskie' | DOI: '10.17951/zcm'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 197] Source: doaj_journal_less.csv
+  Title: 'Dolomites Research Notes on Approximation' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 198] Source: doaj_journal_less.csv
+  Title: 'İstanbul Hukuk Mecmuası' | DOI: '10.26650/mecmua'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 200] Source: doaj_journal_less.csv
+  Title: 'Şarkiyat Mecmuası - Journal of Oriental Studies' | DOI: '10.26650/jos.'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 202] Source: doaj_journal_less.csv
+  Title: 'Plato's Divided Line: Essay I The Problem of Dianoia' | DOI: '10.1515/apeiron.1973.7.2.1'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 203] Source: doaj_journal_less.csv
+  Title: 'Maine Bioproducts Business Pathways' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 204] Source: doaj_journal_less.csv
+  Title: 'Cappadocia Journal of Area Studies' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 205] Source: doaj_journal_less.csv
+  Title: 'Revista Jurídica Portucalense' | DOI: '10.21788/issn.2183-5705'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 206] Source: doaj_journal_less.csv
+  Title: 'Uluslararası Uygur Araştırmaları Dergisi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 207] Source: doaj_journal_less.csv
+  Title: 'Revista Agroecossistemas' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 209] Source: doaj_journal_less.csv
+  Title: 'Transactions on Combinatorics' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 210] Source: doaj_journal_less.csv
+  Title: 'Research Results in Pharmacology' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 211] Source: doaj_journal_less.csv
+  Title: 'Acta Biologica Sibirica' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 212] Source: doaj_journal_less.csv
+  Title: 'Tidsskrift for Ungdomsforskning' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 213] Source: doaj_journal_less.csv
+  Title: 'Nuevas Poligrafías, Revista de Teoría Literaria y Liter' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 214] Source: doaj_journal_less.csv
+  Title: 'Areté' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 215] Source: doaj_journal_less.csv
+  Title: 'Historia de la Educación Anuario' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 216] Source: doaj_journal_less.csv
+  Title: 'Fajar Historia: Jurnal Ilmu Sejarah dan Pendidikan' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 217] Source: doaj_journal_less.csv
+  Title: 'Transactions on Aerospace Research' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 218] Source: doaj_journal_less.csv
+  Title: 'پزشکی بالینی ابن سینا' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 219] Source: doaj_journal_less.csv
+  Title: 'The International Journal of Information, Diversity, & ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 220] Source: doaj_journal_less.csv
+  Title: 'Elementary Mathematics Education Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 221] Source: doaj_journal_less.csv
+  Title: 'Cihan University-Erbil Journal of Humanities and Social' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 222] Source: doaj_journal_less.csv
+  Title: 'Archiwum Kryminologii' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 223] Source: doaj_journal_less.csv
+  Title: 'Halo 194' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 224] Source: doaj_journal_less.csv
+  Title: 'Revista Sustinere' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 225] Source: doaj_journal_less.csv
+  Title: 'Studia Antiqua et Archaeologica' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 226] Source: doaj_journal_less.csv
+  Title: 'CMAJ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 227] Source: doaj_journal_less.csv
+  Title: 'Eurasian Journal of Science and Engineering' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 228] Source: doaj_journal_less.csv
+  Title: 'Schème: Revista Eletrônica de Psicologia e Epistemologi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 229] Source: doaj_journal_less.csv
+  Title: 'CoSMO' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 230] Source: doaj_journal_less.csv
+  Title: 'Revista de Etnologie şi Culturologie' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 231] Source: doaj_journal_less.csv
+  Title: 'La Colmena' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 232] Source: doaj_journal_less.csv
+  Title: 'Commons: Revista de Comunicación y Ciudadanía Digital' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 233] Source: doaj_journal_less.csv
+  Title: 'Journal of Mountain Area Research' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 234] Source: doaj_journal_less.csv
+  Title: 'جغرافیا و برنامه‌ریزی محیطی' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 235] Source: doaj_journal_less.csv
+  Title: 'Muhandisī-i Bihdāsht-i Muḥīṭ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 236] Source: doaj_journal_less.csv
+  Title: 'Al-Iqtishad: Jurnal Ilmu Ekonomi Syariah' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 237] Source: doaj_journal_less.csv
+  Title: 'Revista Investigium IRE' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 238] Source: doaj_journal_less.csv
+  Title: 'SA Heart Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 239] Source: doaj_journal_less.csv
+  Title: 'Ethnorêma' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 240] Source: doaj_journal_less.csv
+  Title: 'Computational Methods in Social Sciences' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 241] Source: doaj_journal_less.csv
+  Title: 'Lentera Hukum' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 242] Source: doaj_journal_less.csv
+  Title: 'Revista Colombiana de Endocrinología, Diabetes y Metabo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 243] Source: doaj_journal_less.csv
+  Title: 'Наукові записки НаУКМА: Філософія та релігієзнавство' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 244] Source: doaj_journal_less.csv
+  Title: 'Explorations (Opole)' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 245] Source: doaj_journal_less.csv
+  Title: 'ORL.ro' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 246] Source: doaj_journal_less.csv
+  Title: 'Актуальні проблеми української лінгвістики: теорія і ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 247] Source: doaj_journal_less.csv
+  Title: 'Lifestyle Journal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 248] Source: doaj_journal_less.csv
+  Title: 'Erasmus Law Review' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 249] Source: doaj_journal_less.csv
+  Title: 'Revista de Contabilidade e Organizações' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Affiliations']
+
+• [Row 267] Source: RITA.csv
+  Title: 'Iracema: a Python library for audio content analysis' | DOI: '10.22456/2175-2745.107202'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 273] Source: EBSCO.csv
+  Title: 'Design and Science' | DOI: 'NL$3435643$PDF ; NL$3435643$EPUB'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 280] Source: eric.nbib
+  Title: 'Advancing Educational Equity in Computer Science: A Gui' | DOI: 'https://sunypress.edu/Books/A/Advancing-Educational-Equity-in-Computer-Science'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 281] Source: eric.nbib
+  Title: 'Prevention of and Response to Sexual Harassment in High' | DOI: 'https://doi.org/10.17226/29413'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 282] Source: eric.nbib
+  Title: 'Assessing NASA Science Activation 2.0: Progress' | DOI: 'https://doi.org/10.17226/27989'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 283] Source: eric.nbib
+  Title: 'Understanding and Addressing Misinformation About Scien' | DOI: 'https://doi.org/10.17226/27894'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 284] Source: eric.nbib
+  Title: 'Building Institutional Capacity for Engaged Research' | DOI: 'https://doi.org/10.17226/28337'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 285] Source: eric.nbib
+  Title: 'Assessing Research Security Efforts in Higher Education' | DOI: 'https://doi.org/10.17226/29241'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 286] Source: eric.nbib
+  Title: 'The Status of Informal Science and Engineering Educatio' | DOI: 'https://doi.org/10.17226/29291'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 287] Source: eric.nbib
+  Title: 'Reinventing Science Standards to Better Support Meaning' | DOI: 'http://dx.doi.org/10.1002/tea.70021'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 288] Source: eric.nbib
+  Title: 'Political Science as a Science' | DOI: 'http://dx.doi.org/10.1007/s11191-025-00614-7'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 289] Source: eric.nbib
+  Title: 'Playing for science: Designing science games' | DOI: 'http://dx.doi.org/10.1177/01447394251332601'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 290] Source: PsycNET.csv
+  Title: 'Patterns of Agentic Engagement, Autonomy Support, and E' | DOI: 'https://doi.org/10.1037/edu0001051'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 293] Source: PsycNET.csv
+  Title: 'Willingness to defend science violently: Extremity mode' | DOI: 'https://doi.org/10.1037/vio0000695'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 296] Source: PsycNET.csv
+  Title: 'Qualitative methods in philosophy of science: Historica' | DOI: 'https://doi.org/10.1037/qup0000294'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 298] Source: PsycNET.csv
+  Title: 'Load reduction instruction in science and students’ sci' | DOI: 'https://doi.org/10.1037/edu0000552'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 299] Source: PsycNET.csv
+  Title: 'Educational psychology’s past and future contributions ' | DOI: 'https://doi.org/10.1037/edu0000195'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 309] Source: ieee_xplore.bib
+  Title: 'Analysis of the Driving Role of Computer Science and Te' | DOI: '10.1109/CISAI54367.2021.00179'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 323] Source: ieee_xplore.bib
+  Title: 'The computer science education crisis: fact or illusion' | DOI: '10.1016/S0953-5438(97)00005-2'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 327] Source: pubmed.csv
+  Title: 'Is science’s dominant funding model broken?' | DOI: '10.1038/d41586-024-02080-7'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 331] Source: pubmed.csv
+  Title: 'Combat corporate greenwashing with better science' | DOI: '10.1038/d41586-023-03815-8'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 332] Source: pubmed.csv
+  Title: 'Celebrating science's next generation' | DOI: '10.1074/jbc.E119.008002'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Affiliations', 'Country']
+
+• [Row 336] Source: scopus.csv
+  Title: 'Implementation Path of Open Science in Canada and Its I' | DOI: '10.13266/j.issn.0252-3116.2025.08.002'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Country']
+
+• [Row 340] Source: scopus.csv
+  Title: 'The review of a book by Ratko Zelenika: The science on ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Country']
+
+================================================================================
+FINAL SUMMARY: 2/139 records fully updated. Audit saved to disk.
+================================================================================

@@ -12,14 +12,17 @@ from dashboard.metrics_impact import calculate_metrics_per_author, display_top_1
 from dashboard.metrics_aging import display_citation_data_per_year
 
 def show(profile="ALL"):
-    st.title("Main Dashboard")
+    st.markdown("<h2 style='font-size: 24px; font-weight: 700; color: #1E293B;'><i class='bi bi-bar-chart-line-fill' style='color: #697aa2;'></i> Main Dashboard</h2>", unsafe_allow_html=True)
 
     if 'master_df' not in st.session_state or st.session_state.master_df is None:
-        st.warning("⚠️ Please upload or process a file in the 'Data Prep & Upload' tab first.")
+        st.warning("Please upload or process a file in the 'Data Prep & Upload' tab first.")
         return
 
-    # Fetch the dataset directly from memory
-    df = st.session_state.master_df.copy()
+    # Fetch the dataset directly from memory (use working_df for Focus Mode support)
+    if 'working_df' in st.session_state:
+        df = st.session_state.working_df.copy()
+    else:
+        df = st.session_state.master_df.copy()
 
     # Safety validation to ensure required columns exist
     expected = {"Author", "Title", "Times Cited", "Publication Year"}
@@ -27,6 +30,9 @@ def show(profile="ALL"):
     if missing:
         st.error(f"Missing required columns for this analysis: {', '.join(missing)}")
         return
+
+    if "Publication Year" in df.columns:
+        df["Publication Year"] = df["Publication Year"].astype(str).str.extract(r'((?:18|19|20)\d{2})')[0]
 
     numeric_cols = ["Times Cited", "Publication Year"]
     for col in numeric_cols:
@@ -57,4 +63,4 @@ def show(profile="ALL"):
     display_authors_with_more_citations(df_results, df)
     display_gini_and_lorenz(df_results)
     if profile in ["ALL", "RESEARCHER"]: display_citation_data_per_year(df)
-    display_error_info(df)
+    display_error_info(df, key_prefix="dash_main")

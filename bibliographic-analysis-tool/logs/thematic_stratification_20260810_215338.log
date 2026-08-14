@@ -1,0 +1,28 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-08-10 21:51:59  -->  2026-08-10 21:53:38 (98.92 seconds)
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Target Number of Topics (k): 7
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 7
+• Outlier Documents (-1): 0 (0.0%)
+• Average Assignment Confidence: 0.69
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [2] (Similarity: 0.25)
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [6] (Similarity: 0.05)
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [1] (Similarity: 0.00)
+• Unified Topic 3: BERTopic [3] ↔ GSDMM [0] (Similarity: 0.00)
+• Unified Topic 4: BERTopic [4] ↔ GSDMM [3] (Similarity: 0.11)
+• Unified Topic 5: BERTopic [5] ↔ GSDMM [5] (Similarity: 0.05)
+• Unified Topic 6: BERTopic [None] ↔ GSDMM [4] (Similarity: 0.00)
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

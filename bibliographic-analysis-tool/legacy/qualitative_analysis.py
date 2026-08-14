@@ -404,7 +404,7 @@ def show():
             if tbl.empty:
                 st.info(f"No article cites or uses **{nice_name}**.")
             else:
-                st.dataframe(tbl, hide_index=True, use_container_width=True)
+                st.dataframe(tbl, hide_index=True, width="stretch")
                 st.download_button(f"Download {nice_name} article list",
                                    tbl.to_csv(index=False).encode("utf-8"),
                                    f"articles_{nice_name.lower()}.csv",
