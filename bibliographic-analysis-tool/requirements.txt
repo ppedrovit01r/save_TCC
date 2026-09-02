@@ -4,8 +4,14 @@ networkx
 nltk
 pyvis
 bertopic
+torchvision
 tomotopy
 scipy
 google-generativeai
 openai
 scikit-learn
+bibtexparser
+rispy
+requests_cache
+matplotlib
+xlsxwriter

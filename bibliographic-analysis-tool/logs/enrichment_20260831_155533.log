@@ -1,0 +1,2480 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-08-31 15:54:21 → 2026-08-31 15:55:33 (Duration: 71.86s)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 483
+• Total Records Evaluated for Enrichment: 483
+• Records with Valid DOIs (Tier 1-4 Candidates): 483
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 0
+• Fully Enriched Records (Found 100% of requested fields): 0 (0.0%)
+• Partially Enriched Records (Gained new data): 478 (99.0%)
+• Unresolved Records (Gained NO data): 5 (1.0%)
+
+Target Fields Requested (15 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 483
+• Total Records Evaluated for Enrichment: 483
+• Cluster Source Files Breakdown (1 files):
+    - articles-RITA-20260617-dointext.csv: 483 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 483
+    - Records Resolved: 478 (99.0%)
+    - Total Field Values Populated: 6977 lines
+    - Field Breakdown: {'OpenAlex ID': 478, 'Title': 478, 'Author': 478, 'Affiliations': 455, 'Country': 454, 'Abstract': 478, 'Keywords': 478, 'Concepts': 478, 'Article References': 332, 'Publication Year': 478, 'Times Cited': 478, 'Publisher': 478, 'Document Type': 478, 'Language': 478, 'Open Access': 478}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 5
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 5
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 0 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 483 / 483
+
+• [Row 0] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Geração de Testes de Desempenho e Estresse a partir de ' | DOI: '10.22456/2175-2745.10082'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 1] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Mechanized Proof of a Textbook Type Unification Algor' | DOI: '10.22456/2175-2745.100968'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 2] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A New Artificial Immune System Based on Continuous Lear' | DOI: '10.22456/2175-2745.102061'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 3] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Low-Latency f0 Estimation for the Finger Plucked Electr' | DOI: '10.22456/2175-2745.103182'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 4] Source: articles-RITA-20260617-dointext.csv
+  Title: 'TSML: A XML-based Format for Exchange of Training Sampl' | DOI: '10.22456/2175-2745.10385'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 5] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Creating Digital Musical Instruments with libmosaic-sou' | DOI: '10.22456/2175-2745.104342'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 6] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Overload Control in a Token Player for a Fuzzy Workflow' | DOI: '10.22456/2175-2745.105893'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 7] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An operational support approach for Mining Unstructured' | DOI: '10.22456/2175-2745.106277'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 8] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Cloud infrastructure for HPC investment analysis' | DOI: '10.22456/2175-2745.106794'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 9] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Business Process Models in the Context of Predictive Pr' | DOI: '10.22456/2175-2745.106828'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 10] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Integrating Exploitative and Explorative Thinking in Bu' | DOI: '10.22456/2175-2745.106891'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 11] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Model for Predicting Music Popularity on Streaming Pl' | DOI: '10.22456/2175-2745.107021'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 12] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Agent-Based Model for Simulating Irrigated Agricultu' | DOI: '10.22456/2175-2745.107041'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 13] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Hash Tables for a Digital Lexicon' | DOI: '10.22456/2175-2745.107128'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 14] Source: articles-RITA-20260617-dointext.csv
+  Title: 'System for Identifying Pests and Diseases in Soybean Cr' | DOI: '10.22456/2175-2745.107149'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 15] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Centralized Algorithms Based on Clustering with Self-tu' | DOI: '10.22456/2175-2745.107154'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 16] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Dimensioning the relationship between availability and ' | DOI: '10.22456/2175-2745.107176'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 17] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Iracema: a Python library for audio content analysis' | DOI: '10.22456/2175-2745.107202'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 18] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Challenges and Perspectives on Real-time Singing Voice ' | DOI: '10.22456/2175-2745.107292'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 19] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Optimization Inspired on Herd Immunity Applied to Non-H' | DOI: '10.22456/2175-2745.107478'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 20] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Co-creating Service-Dominant Business Artifacts with Ac' | DOI: '10.22456/2175-2745.107748'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 21] Source: articles-RITA-20260617-dointext.csv
+  Title: 'The Explainable Business Process (XBP) - An Exploratory' | DOI: '10.22456/2175-2745.107964'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 22] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Classification Based on Rules for the Study of Cotton P' | DOI: '10.22456/2175-2745.108126'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 23] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Using the Myers-Briggs Type Indicator (MBTI) for Modeli' | DOI: '10.22456/2175-2745.110015'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 24] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Novel Approach to the Measurement of Bourdieusian Soc' | DOI: '10.22456/2175-2745.110111'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 25] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Implantação de Medição no Processo de Desenvolvimento d' | DOI: '10.22456/2175-2745.11066'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 26] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Adaptive Trust Model Based on Fuzzy Logic' | DOI: '10.22456/2175-2745.110818'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 27] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Conceptual Model for Situating Purposes in Artificial' | DOI: '10.22456/2175-2745.110830'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 28] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Integrating Embedded Multiagent Systems with Urban Simu' | DOI: '10.22456/2175-2745.110837'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 29] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Towards Causal Effect Estimation of Emotional Labeling ' | DOI: '10.22456/2175-2745.111817'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 30] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Ab Initio Protein Structure Prediction Using Evolutiona' | DOI: '10.22456/2175-2745.111993'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 31] Source: articles-RITA-20260617-dointext.csv
+  Title: 'The Notification Oriented Paradigm Language to Digital ' | DOI: '10.22456/2175-2745.112006'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 32] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Identificação da Autoria de Manuscritos com Base em Atr' | DOI: '10.22456/2175-2745.11221'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 33] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Review of Testbeds on SCADA Systems with Malware Anal' | DOI: '10.22456/2175-2745.112813'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 34] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Ambiente Virtual Interativo com Colisão e Deformação de' | DOI: '10.22456/2175-2745.11296'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 35] Source: articles-RITA-20260617-dointext.csv
+  Title: 'QOC*: utilizando Design Rationale como ferramenta para ' | DOI: '10.22456/2175-2745.11384'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 36] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uso da ferramenta PreText para mineração de textos extr' | DOI: '10.22456/2175-2745.11467'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 37] Source: articles-RITA-20260617-dointext.csv
+  Title: 'ALUPAS: Avaliação de desempenho e consumo de energia de' | DOI: '10.22456/2175-2745.11468'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 38] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Avaliação Pró-ativa da Deterioração de Sistemas de Info' | DOI: '10.22456/2175-2745.11469'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 39] Source: articles-RITA-20260617-dointext.csv
+  Title: 'High Performance Computing: CUDA as a Supporting Techno' | DOI: '10.22456/2175-2745.11471'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 40] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Efeitos Visuais, uma Abordagem a Partir do Processament' | DOI: '10.22456/2175-2745.11473'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 41] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Tutorial: Introdução à Visão Computacional usando OpenC' | DOI: '10.22456/2175-2745.11477'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 42] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluating the Causal Effect of Multimedia and Affectiv' | DOI: '10.22456/2175-2745.116017'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 43] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Análise do Controle Motor com Interações usando Disposi' | DOI: '10.22456/2175-2745.11607'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 44] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Variation Detection applied in User Signature Verificat' | DOI: '10.22456/2175-2745.11631'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 45] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Contributions on Computer Music from the SBCM 2019' | DOI: '10.22456/2175-2745.116606'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 46] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aprendizado e Controle de Robôs Móveis Autônomos Utiliz' | DOI: '10.22456/2175-2745.11662'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 47] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estratégias de Atualização de Políticas para a Coordena' | DOI: '10.22456/2175-2745.11695'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 48] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Exploring Supervised Techniques for Automated Recogniti' | DOI: '10.22456/2175-2745.117481'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 49] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Building Contrastive Summaries of Subjective Text Via O' | DOI: '10.22456/2175-2745.118372'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 50] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SSM: A Semantic Metasearch Platform for Scientific Data' | DOI: '10.22456/2175-2745.119164'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 51] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Stochastic Models for Planning VLE Moodle Environments ' | DOI: '10.22456/2175-2745.119196'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 52] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Efficient Breast Cancer Classification Using Histopatho' | DOI: '10.22456/2175-2745.119207'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 53] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Application of Profile Prediction for Proactive Schedul' | DOI: '10.22456/2175-2745.120399'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 54] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estimação de Probabilidade de Perda de Dados em Redes A' | DOI: '10.22456/2175-2745.12104'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 55] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Desenvolvimento e Avaliação de um Protocolo Eletrônico ' | DOI: '10.22456/2175-2745.12119'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 56] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Optimal Control and Adaptive Learning for Stabilization' | DOI: '10.22456/2175-2745.121388'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 57] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SEGBEE: Mobile Application for Honey Segmentation in Ap' | DOI: '10.22456/2175-2745.121425'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 58] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Multi-Objective, Multi-Armed Bandits: Algorithms for Re' | DOI: '10.22456/2175-2745.122929'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 59] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Snake-3D na Modelagem Tridimensional e Medição do Compr' | DOI: '10.22456/2175-2745.12327'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 60] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Editorial: 20 anos da Revista de Informática Teórica e ' | DOI: '10.22456/2175-2745.12361'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 61] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Prefácio à Seção Especial dos Tutoriais do SIBGRAPI'08' | DOI: '10.22456/2175-2745.12362'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 62] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Neural Classification of Rotor Faults in Three-Phase In' | DOI: '10.22456/2175-2745.124564'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 63] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Quantools: A MDA transformation approach' | DOI: '10.22456/2175-2745.12509'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 64] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Optimization Inspired by the Organization of Interiors ' | DOI: '10.22456/2175-2745.125288'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 65] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparative Analysis of Blockchain-Based Platforms for ' | DOI: '10.22456/2175-2745.125396'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 66] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Performance Assessment of a Wireless Mesh Network for P' | DOI: '10.22456/2175-2745.125567'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 67] Source: articles-RITA-20260617-dointext.csv
+  Title: 'HiME: Hierarchical i* Modeling Editor' | DOI: '10.22456/2175-2745.12569'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 68] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Ontology-Based Framework for Heterogeneous Data Sour' | DOI: '10.22456/2175-2745.12570'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 69] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Temporal-Rule Based Verification System for Business ' | DOI: '10.22456/2175-2745.12571'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 70] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Semantic Web and Knowledge Management in User Data Priv' | DOI: '10.22456/2175-2745.12572'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 71] Source: articles-RITA-20260617-dointext.csv
+  Title: 'MatchMaking – A Tool to Match OWL Schemas' | DOI: '10.22456/2175-2745.12573'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 72] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Web Information Extraction by Semantic Tagging' | DOI: '10.22456/2175-2745.12576'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 73] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SAMSTARplus: An Automatic Tool for Generating Multi- Di' | DOI: '10.22456/2175-2745.12577'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 74] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Approach for Reducing the Gap between BPMN Models an' | DOI: '10.22456/2175-2745.12578'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 75] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Frame-Based System for Automatic Classification of Se' | DOI: '10.22456/2175-2745.12579'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 76] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Dealing with Uncertainty in Lexical Annotation' | DOI: '10.22456/2175-2745.12580'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 77] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Towards Generating Richer Code by Binding Security Abst' | DOI: '10.22456/2175-2745.12581'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 78] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Eclipse-based Tool for Model Driven Web Applications' | DOI: '10.22456/2175-2745.12582'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 79] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Chatbot Optimization using Sentiment Analysis and Timel' | DOI: '10.22456/2175-2745.125825'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 80] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Conceptual Modeling: the Linguistic Approach' | DOI: '10.22456/2175-2745.12583'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 81] Source: articles-RITA-20260617-dointext.csv
+  Title: 'UMLtoSBVR: An SBVR-based tool to validate UML conceptua' | DOI: '10.22456/2175-2745.12584'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 82] Source: articles-RITA-20260617-dointext.csv
+  Title: 'The Animated Database Courseware (ADbC) and the Databas' | DOI: '10.22456/2175-2745.12585'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 83] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aumento de Resolução Temporal de Sequências de Imagens ' | DOI: '10.22456/2175-2745.12586'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 84] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Eliminação de Ruído Impulsivo Usando um Filtro Mediano ' | DOI: '10.22456/2175-2745.12587'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 85] Source: articles-RITA-20260617-dointext.csv
+  Title: 'HSM: A New Color Space used in the Processing of Color ' | DOI: '10.22456/2175-2745.12588'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 86] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Approach Based on Maintainability Criteria for Build' | DOI: '10.22456/2175-2745.12590'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 87] Source: articles-RITA-20260617-dointext.csv
+  Title: 'COVID-19 Detection Using Forced Cough Sounds and Medica' | DOI: '10.22456/2175-2745.126016'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 88] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Autism Spectrum Disorder Diagnosis Assistance using Mac' | DOI: '10.22456/2175-2745.126309'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 89] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Editorial' | DOI: '10.22456/2175-2745.12631'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 90] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Avaliação do Desempenho da Utilização de Threads em use' | DOI: '10.22456/2175-2745.12643'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 91] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Provision and Collection of Safety Evidence: A Systemat' | DOI: '10.22456/2175-2745.126544'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 92] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Modelo Estatístico para a Determinação do Número Ótimo ' | DOI: '10.22456/2175-2745.12669'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 93] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Livestock Monitoring Prototype Implementation and Valid' | DOI: '10.22456/2175-2745.127207'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 94] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Catboost Algorithm Application in Legal Texts and UN 20' | DOI: '10.22456/2175-2745.128836'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 95] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Inteligência Swarm e Equilíbrio de Verhulst Aplicados à' | DOI: '10.22456/2175-2745.12923'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 96] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Integração de evidências em redes credais e a regra de ' | DOI: '10.22456/2175-2745.12943'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 97] Source: articles-RITA-20260617-dointext.csv
+  Title: 'The Use of Technology in the Diagnosis and Treatment of' | DOI: '10.22456/2175-2745.129783'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 98] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Road Pavement Damage Detection using Computer Vision Te' | DOI: '10.22456/2175-2745.129787'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 99] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluation of the Relationship Between the Age of the P' | DOI: '10.22456/2175-2745.129990'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 100] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Predictive Maintenance based on Log Analysis: A Systema' | DOI: '10.22456/2175-2745.130465'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 101] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automated Lung Region Segmentation in Pediatric Chest R' | DOI: '10.22456/2175-2745.130579'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 102] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Power Allocation in Orthogonal Frequency Division Multi' | DOI: '10.22456/2175-2745.130630'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 103] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Image Classification Using Convolutional Neural Network' | DOI: '10.22456/2175-2745.130645'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 104] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Use of wearable chemical sensors in IoT: a systematic l' | DOI: '10.22456/2175-2745.130662'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 105] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Machine Learning Algorithms for Peripheral Blood Cell C' | DOI: '10.22456/2175-2745.130669'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 106] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Predicting Startup Success Using Tree-Based Machine Lea' | DOI: '10.22456/2175-2745.133375'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 107] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Machine learning in medicine using JavaScript: building' | DOI: '10.22456/2175-2745.133785'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 108] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Random Generation of Haskell Programs Applied to Opti' | DOI: '10.22456/2175-2745.134925'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 109] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Detection and Pose Adjustment in Physical Exercises usi' | DOI: '10.22456/2175-2745.135436'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 110] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Performance Evaluation and Operational Availability of ' | DOI: '10.22456/2175-2745.135781'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 111] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Prediction of Stock Prices Using Ensemble Models' | DOI: '10.22456/2175-2745.136072'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 112] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Framework for Security Risk Assessment (FSRA) and Fuzzy' | DOI: '10.22456/2175-2745.136309'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 113] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Energy Consumption and Performance Evaluation of Multi-' | DOI: '10.22456/2175-2745.136568'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 114] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Modeling and Analysis of a Telesurgery Environment Cons' | DOI: '10.22456/2175-2745.137324'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 115] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Tutorial sobre Fuzzy-c-Means e Fuzzy Learning Vector Qu' | DOI: '10.22456/2175-2745.13764'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 116] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Rough Sets and Multilayer Perceptron in Tandem for Proc' | DOI: '10.22456/2175-2745.139289'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 117] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparative Study of Predictive Models Based on Moving ' | DOI: '10.22456/2175-2745.139523'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 118] Source: articles-RITA-20260617-dointext.csv
+  Title: 'UnbIAs - Google Translate Gender Bias Mitigation and Ad' | DOI: '10.22456/2175-2745.139902'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 119] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Supervised Learning Algorithms Evaluation on Sweet Pota' | DOI: '10.22456/2175-2745.140067'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 120] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Analysis of Forensic Tools for Recovery of Formatted Da' | DOI: '10.22456/2175-2745.140149'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 121] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Systematic Literature Review on the Application of Cont' | DOI: '10.22456/2175-2745.140214'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 122] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Ontology for Healthcare AI Privacy in Brazil' | DOI: '10.22456/2175-2745.140570'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 123] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Parameterized Model for Multimedia-Content Placement ' | DOI: '10.22456/2175-2745.140750'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 124] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Machine Learning Applied to Biological Sequence Compari' | DOI: '10.22456/2175-2745.141585'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 125] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Symmetric Peer-to-Peer Applications' | DOI: '10.22456/2175-2745.141618'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 126] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Bibliometric Study on the Applications of Neural Netw' | DOI: '10.22456/2175-2745.142111'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 127] Source: articles-RITA-20260617-dointext.csv
+  Title: 'On the Use of  Spectral Data from Smartphone Accelerome' | DOI: '10.22456/2175-2745.142129'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 128] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparison of AI Models for Data Extraction in Glucomet' | DOI: '10.22456/2175-2745.142648'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 129] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Optimizing Mikrotik-Based Network Security using Addres' | DOI: '10.22456/2175-2745.142954'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 130] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Composite Material Defect Segmentation Using Deep Learn' | DOI: '10.22456/2175-2745.143066'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 131] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Speech Emotion Recognition Approach Using Discrete Wa' | DOI: '10.22456/2175-2745.143123'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 132] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Deep Semantic Segmentation Applied to Honey Bee Comb Ce' | DOI: '10.22456/2175-2745.143318'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 133] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Deep Learning-Based Instance Segmentation for Enhanced ' | DOI: '10.22456/2175-2745.143329'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 134] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Transfer Learning and Handcrafted Features Ensembles fo' | DOI: '10.22456/2175-2745.143357'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 135] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A New Approach for Soil Carbon and Nitrogen Assessment ' | DOI: '10.22456/2175-2745.143392'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 136] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Mini-map Alignment Approach using Landmark Observatio' | DOI: '10.22456/2175-2745.143437'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 137] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Case Study of Deep Learning Methods for Depth Estimatio' | DOI: '10.22456/2175-2745.143443'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 138] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Rust Detection in Coffee Leaves Using Otsu's Method and' | DOI: '10.22456/2175-2745.143458'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 139] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Identifying Malignant Skin Diseases Through Deep Learni' | DOI: '10.22456/2175-2745.143463'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 140] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Medical Image Classification with Privacy: Centralized ' | DOI: '10.22456/2175-2745.143478'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 141] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Federated Learning in Breast Cancer Diagnosis' | DOI: '10.22456/2175-2745.143480'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 142] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Digital Fencing for Farms: Enhancing Object Detection t' | DOI: '10.22456/2175-2745.143486'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 143] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automatic Identification of Relevant Moments in Securit' | DOI: '10.22456/2175-2745.143487'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 144] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluating Deep Learning Models for Effective Weed Clas' | DOI: '10.22456/2175-2745.143490'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 145] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aedes aegypti Egg Counting with Neural Networks for Obj' | DOI: '10.22456/2175-2745.143494'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 146] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Castor Beans Identification in Sugarcane Plantations Us' | DOI: '10.22456/2175-2745.143495'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 147] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Analyzing Bee Behavior Through Video Tracking Using Com' | DOI: '10.22456/2175-2745.143502'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 148] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Data Augmentation and Convolutional Network Architectur' | DOI: '10.22456/2175-2745.143508'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 149] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Portal to Other Dimensions: use of Computer Vision to c' | DOI: '10.22456/2175-2745.143513'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 150] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Construction of Rolled Digital for Newborns Using Image' | DOI: '10.22456/2175-2745.143514'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 151] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Deep Learning-Based Segmentation of Nanomaterial Images' | DOI: '10.22456/2175-2745.143516'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 152] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Classification of Agricultural Pests Through Digital Im' | DOI: '10.22456/2175-2745.143520'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 153] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Exploiting Data Augmentation Strategies to Improve the ' | DOI: '10.22456/2175-2745.143521'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 154] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automatic Detection and Counting of Tuta Absoluta Insec' | DOI: '10.22456/2175-2745.143522'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 155] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Fusion of Satellite and Drone Images for Identifying Wa' | DOI: '10.22456/2175-2745.143523'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 156] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Artificial Intelligence for Gas Leak Detection with The' | DOI: '10.22456/2175-2745.143526'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 157] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Big Data in Healthcare: Possibilities and Challenges - ' | DOI: '10.22456/2175-2745.143528'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 158] Source: articles-RITA-20260617-dointext.csv
+  Title: 'How Misleading Can The Analysis of Human Eye Movements ' | DOI: '10.22456/2175-2745.143530'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 159] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Sheep Behavioral Analysis with Optical Flow' | DOI: '10.22456/2175-2745.143534'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 160] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Leveraging Optimal Methods for Diverse Skin Types Class' | DOI: '10.22456/2175-2745.143537'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 161] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Renal Cancer Classification in Tomographic Images Using' | DOI: '10.22456/2175-2745.143539'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 162] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Bulldogs Nose Detection using Deep Learning' | DOI: '10.22456/2175-2745.143541'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 163] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Novel Brazilian Dataset for Automatic Detection of Ps' | DOI: '10.22456/2175-2745.143544'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 164] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Preprocessing and Optimizer impact on Image-Based Autoi' | DOI: '10.22456/2175-2745.143545'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 165] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Segmentation of Skin Lesions and their Attributes in De' | DOI: '10.22456/2175-2745.143546'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 166] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Classification of Cells Infected by Malaria with Vision' | DOI: '10.22456/2175-2745.143548'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 167] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Safer Stack: Safe Dump of Off-Highways Trucks in Slope ' | DOI: '10.22456/2175-2745.143633'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 168] Source: articles-RITA-20260617-dointext.csv
+  Title: 'YOLO and CNN for Cat Detection and Recognition' | DOI: '10.22456/2175-2745.143684'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 169] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Application of Denoising Diffusion Probabilistic Method' | DOI: '10.22456/2175-2745.143785'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 170] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Notification Oriented Paradigm based on Internet Protoc' | DOI: '10.22456/2175-2745.143959'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 171] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Do Deep Learning Models Generalize Facial Emotion Recog' | DOI: '10.22456/2175-2745.144479'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 172] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Exploring Topic Modeling in Short Texts from Social Med' | DOI: '10.22456/2175-2745.145569'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 173] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Transformers or Not: A Comparative Study on Defect Insp' | DOI: '10.22456/2175-2745.145580'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 174] Source: articles-RITA-20260617-dointext.csv
+  Title: 'NOPL - Improvements in the Language and its Compiler fo' | DOI: '10.22456/2175-2745.145795'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 175] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Hybrid Convolutional Neural Network on Fault Detection ' | DOI: '10.22456/2175-2745.145838'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 176] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Ontology of Tobacco Production: Enriching Large Lang' | DOI: '10.22456/2175-2745.146658'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 177] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Hybrid Machine Learning Model for Cache Performance Pre' | DOI: '10.22456/2175-2745.146689'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 178] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Machine Learning and Explainable Artificial Intelligenc' | DOI: '10.22456/2175-2745.146905'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 179] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Cognitive Modeling and its Applications in Industry: : ' | DOI: '10.22456/2175-2745.146990'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 180] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Synergizing CNNs and ViTs: A Survey on Hybrid Models fo' | DOI: '10.22456/2175-2745.147347'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 181] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluating Contactless Fingerprint Segmentation for Int' | DOI: '10.22456/2175-2745.147966'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 182] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Analyzing Code Commits Addressing Vulnerabilities in th' | DOI: '10.22456/2175-2745.149849'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 183] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Systematic Literature Review of Autonomous Line-Follo' | DOI: '10.22456/2175-2745.150105'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 184] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Improving the Resilience of Smart City Systems During N' | DOI: '10.22456/2175-2745.150232'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 185] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Combining Complex Networks and Multi-level Local Binary' | DOI: '10.22456/2175-2745.150620'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 186] Source: articles-RITA-20260617-dointext.csv
+  Title: 'PSO-based Client Selection to Improve Medical Image Cla' | DOI: '10.22456/2175-2745.150621'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 187] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Ensemble of Handcrafted and Learned Features using a Li' | DOI: '10.22456/2175-2745.150622'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 188] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Federated Learning on Non-IID Environmental Images for ' | DOI: '10.22456/2175-2745.150636'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 189] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Graph-Based Nearest Centroid for Image Classification' | DOI: '10.22456/2175-2745.150723'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 190] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Efficient Pothole Segmentation Using Quantization and P' | DOI: '10.22456/2175-2745.150751'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 191] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Cross-Validation Deep Learning for Breast Cancer Detect' | DOI: '10.22456/2175-2745.150755'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 192] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Classifying Synthetic Facial Images: : A Quantitative a' | DOI: '10.22456/2175-2745.150810'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 193] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Impact of Wavelet Pre-processing on Deep Learning Archi' | DOI: '10.22456/2175-2745.150824'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 194] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automated Analysis of Packaging Seal Failures Using Com' | DOI: '10.22456/2175-2745.150833'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 195] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SARS-CoV-2 Detection in Genosensor Images via Deep Lear' | DOI: '10.22456/2175-2745.150894'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 196] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Assessing Deep Hybrid Representations for Colorectal Po' | DOI: '10.22456/2175-2745.150896'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 197] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Enhanced Engine Vibration by Computer Vision Methods fo' | DOI: '10.22456/2175-2745.150897'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 198] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Generalization in Deepfake Detection: : A Comparative A' | DOI: '10.22456/2175-2745.150900'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 199] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automated Segmentation of the Spinal Column in MRI Volu' | DOI: '10.22456/2175-2745.150902'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 200] Source: articles-RITA-20260617-dointext.csv
+  Title: 'KLT Revisited: Spatio-Temporal Affine Regression for Fe' | DOI: '10.22456/2175-2745.150903'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 201] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Two-Stage Fine-Tuning of Object Detectors for Industria' | DOI: '10.22456/2175-2745.150904'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 202] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparison of Low-Cost 3D Reconstruction Techniques for' | DOI: '10.22456/2175-2745.150907'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 203] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Deep Learning-Based Brain Tumor Classification in MRI w' | DOI: '10.22456/2175-2745.150908'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 204] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Semantic Segmentation of Coffee Regions From Satellite ' | DOI: '10.22456/2175-2745.150916'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 205] Source: articles-RITA-20260617-dointext.csv
+  Title: 'HEVA: Integrating ViT and ResNet50 with ABCD Clinical F' | DOI: '10.22456/2175-2745.150917'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 206] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluating Preprocessing and Data Augmentation for Soyb' | DOI: '10.22456/2175-2745.150920'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 207] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Federated Semantic Segmentation of Synthetic UAV Imager' | DOI: '10.22456/2175-2745.150921'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 208] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluating Deep Segmentation Models for Wildfire Mappin' | DOI: '10.22456/2175-2745.150922'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 209] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Deep Learning Models for Brachial Lumen Segmentation: :' | DOI: '10.22456/2175-2745.150923'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 210] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Poultry Detection on Hooks in Meat Processing Plant Pro' | DOI: '10.22456/2175-2745.150924'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 211] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Livestock Fish Larvae Counting using DETR and YOLO base' | DOI: '10.22456/2175-2745.150926'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 212] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Radiomics for the Classification of Radiological Patter' | DOI: '10.22456/2175-2745.150929'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 213] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Exploratory Study on Mastitis Identification in Bovine ' | DOI: '10.22456/2175-2745.150930'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 214] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Performance Evaluation of Low-Cost 3D Scanning Techniqu' | DOI: '10.22456/2175-2745.150932'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 215] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SAR Images Despeckling Using Convolutional Neural Netwo' | DOI: '10.22456/2175-2745.150936'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 216] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Sign Language Segmentation Models and Their Impact on A' | DOI: '10.22456/2175-2745.150939'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 217] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparative Evaluation of YOLO-family Detectors for Pig' | DOI: '10.22456/2175-2745.150940'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 218] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Improving Image Classification through Active Learning ' | DOI: '10.22456/2175-2745.150941'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 219] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automation of Coffee Biotic Stresses Classification Usi' | DOI: '10.22456/2175-2745.150942'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 220] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Human Gesture Recognition using CNNs for Human-Robot In' | DOI: '10.22456/2175-2745.150950'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 221] Source: articles-RITA-20260617-dointext.csv
+  Title: 'CoSegXAI: A Pipeline for Context vs. Segmented ROI Imag' | DOI: '10.22456/2175-2745.150955'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 222] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Multi-Fruit Tracking and 3-D Structure Recovery via CoT' | DOI: '10.22456/2175-2745.150960'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 223] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Magnetic Resonance Imaging Acceleration Using Diffusion' | DOI: '10.22456/2175-2745.150968'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 224] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A  Luminous Pen for Air-Writing: Hybrid Approach with C' | DOI: '10.22456/2175-2745.150973'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 225] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Bias Analysis and Data Augmentation Strategies in Skin ' | DOI: '10.22456/2175-2745.150974'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 226] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Deep Transfer Learning Strategy for Identifying Photo' | DOI: '10.22456/2175-2745.150976'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 227] Source: articles-RITA-20260617-dointext.csv
+  Title: 'On the use of Image-Based Feature Extraction for Non-In' | DOI: '10.22456/2175-2745.150978'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 228] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Grad-CAM Sensitivity to Orientation Transformations in ' | DOI: '10.22456/2175-2745.150979'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 229] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Two-Dimensional Image Processing for Fault Diagnosis in' | DOI: '10.22456/2175-2745.150980'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (14): ['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Article References', 'Affiliations', 'Country', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding']
+
+• [Row 230] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluating Monocular Depth Estimation on Embedded Platf' | DOI: '10.22456/2175-2745.150996'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 231] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Um Arcabouço para Desenvolvimento de Algoritmos da Anál' | DOI: '10.22456/2175-2745.15126'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 232] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Tracking Ethological Behaviors of Broiler Chickens Thro' | DOI: '10.22456/2175-2745.151469'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 233] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Detecção de Inclinação em Imagens de Documentos' | DOI: '10.22456/2175-2745.15581'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 234] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Usando CSP, RSL e o Modelo PopOrg na Especificação Form' | DOI: '10.22456/2175-2745.16413'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 235] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aplicação de Agentes BDI com Percepção Fuzzy em um Mode' | DOI: '10.22456/2175-2745.16572'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 236] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Um Sistema de Apoio à Decisão Baseado em Agentes para T' | DOI: '10.22456/2175-2745.16730'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 237] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Identifying people who are talking about the same topic' | DOI: '10.22456/2175-2745.16996'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 238] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Planejamento de um Serious Games Voltado para Saúde Buc' | DOI: '10.22456/2175-2745.17679'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 239] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparative Analyses of Power Consumption in Arithmetic' | DOI: '10.22456/2175-2745.18244'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 240] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Detecção e Correção Automática de Estilos de Aprendizag' | DOI: '10.22456/2175-2745.19730'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 241] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Sistema Pervasivo de Informação em Saúde Projetado para' | DOI: '10.22456/2175-2745.20020'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 242] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Protocolo de Leilões Simultâneos com Escalonamento: Apl' | DOI: '10.22456/2175-2745.20688'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 243] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Utilização do Caminhamento Aleatório na Identificação d' | DOI: '10.22456/2175-2745.20816'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 244] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Arquitetura Aberta e Orientada a Serviços para Soft' | DOI: '10.22456/2175-2745.21062'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 245] Source: articles-RITA-20260617-dointext.csv
+  Title: 'LTI Agent Rescue: A Partial Global Approach for Task Al' | DOI: '10.22456/2175-2745.21506'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 246] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estudo do Padrão Avançado de Criptografia AES – Advance' | DOI: '10.22456/2175-2745.21979'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 247] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Combinando Workflows e Semântica para Facilitar o Reuso' | DOI: '10.22456/2175-2745.23471'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 248] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Common Dissimilarity Measures are Inappropriate for Tim' | DOI: '10.22456/2175-2745.25070'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 249] Source: articles-RITA-20260617-dointext.csv
+  Title: 'From UML to SIMULINK CAAM: Formal Specification and Tra' | DOI: '10.22456/2175-2745.25202'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 250] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Graph Grammar to Transform a Dataflow Graph into a Mu' | DOI: '10.22456/2175-2745.25210'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 251] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Métodos Computacionais e Estatísticos no Estudo das Ond' | DOI: '10.22456/2175-2745.25515'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 252] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Seleção Automática de Casos de Teste de Regressão Basea' | DOI: '10.22456/2175-2745.25646'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 253] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Generating Integration Test Orders for Aspect Oriented ' | DOI: '10.22456/2175-2745.25720'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 254] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Compilação Just-In-Time: Histórico, Arquitetura, Princí' | DOI: '10.22456/2175-2745.25803'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 255] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aplicação de Modelos Intencionais e Sistemas Multiagent' | DOI: '10.22456/2175-2745.25876'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 256] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Um Sistema para Inspeções de Garantia da Qualidade Base' | DOI: '10.22456/2175-2745.25948'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 257] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Avaliação de Desempenho da Política EBS para Escaloname' | DOI: '10.22456/2175-2745.25965'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 258] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma introdução ao tema Recuperação de Informações Textu' | DOI: '10.22456/2175-2745.26055'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 259] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Intrusion Detection in Unstructured Contexts Using On-l' | DOI: '10.22456/2175-2745.26211'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 260] Source: articles-RITA-20260617-dointext.csv
+  Title: 'PColorAnt3-RT: Um Algoritmo ACO Paralelo para Coloração' | DOI: '10.22456/2175-2745.26274'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 261] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Decision making for a delivery robot through a fuzzy sy' | DOI: '10.22456/2175-2745.26296'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 262] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Serviços em Redes Futuras: Objetivos, Tecnologias e Com' | DOI: '10.22456/2175-2745.26421'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 263] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Um Sistema de Realização Superficial para Geração de Te' | DOI: '10.22456/2175-2745.26629'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 264] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Deterministic and efficient minimal perfect hashing sch' | DOI: '10.22456/2175-2745.26905'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 265] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Abordagem para Jogos Bayesianos Fuzzy com base na  ' | DOI: '10.22456/2175-2745.27556'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 266] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Avaliação do Esquema de Gerenciamento de Chave Base' | DOI: '10.22456/2175-2745.28371'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 267] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Simulação do Espalhamento da Influenza na Cidade de Cas' | DOI: '10.22456/2175-2745.29997'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 268] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Independent learners in abstract traffic scenarios' | DOI: '10.22456/2175-2745.30242'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 269] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aplicando Conceitos de Sistemas Multiagentes na Elabora' | DOI: '10.22456/2175-2745.30317'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 270] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Extending the RoboCup Rescue to Support Stigmergy: Expe' | DOI: '10.22456/2175-2745.30492'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 271] Source: articles-RITA-20260617-dointext.csv
+  Title: 'On the Influence of  Latent Semantic Analysis Parameter' | DOI: '10.22456/2175-2745.31690'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 272] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Modelagem de Tráfego VoIP Utilizando Misturas Gaussiana' | DOI: '10.22456/2175-2745.33065'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 273] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aplicação de Modelos de Aprendizado Semissupervisionado' | DOI: '10.22456/2175-2745.36371'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 274] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Prolog: A Linguagem, A Máquina Abstrata de Warren e Imp' | DOI: '10.22456/2175-2745.36756'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 275] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Seleção de Transformações Baseada em Estatística' | DOI: '10.22456/2175-2745.36801'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 276] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Teste de Linha de Produto de Software Baseado em Mutaçã' | DOI: '10.22456/2175-2745.36851'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 277] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Analysis of Using Metric Access Methods for Visual Sear' | DOI: '10.22456/2175-2745.37349'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 278] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Filtragem Wavelet de Sinais Cardíacos através de Algori' | DOI: '10.22456/2175-2745.37768'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 279] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Estratégia Baseada em Difusão de Informação para De' | DOI: '10.22456/2175-2745.37870'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 280] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Support Vector Machines and Kernel Functions for Text P' | DOI: '10.22456/2175-2745.39702'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 281] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Assessing the Semiotic Inspection Method – The Evaluato' | DOI: '10.22456/2175-2745.40202'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 282] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Expressiveness of Automatic Semantic Web Service Compos' | DOI: '10.22456/2175-2745.40994'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 283] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Introdução aos Sistemas de Recomendação para Grupos' | DOI: '10.22456/2175-2745.41936'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 284] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Seleção de Casos de Teste para Agentes Racionais' | DOI: '10.22456/2175-2745.43300'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 285] Source: articles-RITA-20260617-dointext.csv
+  Title: 'XIRU: Interface de Rede Extensível para Integração de N' | DOI: '10.22456/2175-2745.43468'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 286] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Segurança em Redes-em-Chip:  Conceitos e Revisão do Est' | DOI: '10.22456/2175-2745.43510'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 287] Source: articles-RITA-20260617-dointext.csv
+  Title: 'O Teste de Mutação apoiado pelo Algoritmo Genético Coev' | DOI: '10.22456/2175-2745.44199'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 288] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Local Binary Patterns Applied to Breast Cancer Classifi' | DOI: '10.22456/2175-2745.46848'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 289] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparativo entre o algoritmo de Luhn e o algoritmo Gis' | DOI: '10.22456/2175-2745.47524'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 290] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Do multiple sclerosis lesions affect the outcome of mag' | DOI: '10.22456/2175-2745.47589'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 291] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Tutorial Sobre o Uso de Técnicas para Controle de Parâm' | DOI: '10.22456/2175-2745.48184'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 292] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Reconhecimento de Padrões em Tecnologia Portável – Um E' | DOI: '10.22456/2175-2745.48395'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 293] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Predição do tráfego de rede de computadores usando rede' | DOI: '10.22456/2175-2745.49045'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 294] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Predição de função de proteínas através da extração de ' | DOI: '10.22456/2175-2745.49242'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 295] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SciPy and OpenCV as an interactive computing environmen' | DOI: '10.22456/2175-2745.49491'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 296] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Visual Computing and Machine Learning Techniques for Di' | DOI: '10.22456/2175-2745.49492'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 297] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Programação matemática e imersões métricas para aproxim' | DOI: '10.22456/2175-2745.49694'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 298] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Proof Tactics for Theorem Proving  Graph  Grammars thro' | DOI: '10.22456/2175-2745.50383'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 299] Source: articles-RITA-20260617-dointext.csv
+  Title: 'QJava: A Monadic Java Library for Quantum Programming' | DOI: '10.22456/2175-2745.51121'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 300] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Deconvolução Cega Aplicada à Correção de Artefatos de M' | DOI: '10.22456/2175-2745.51452'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 301] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Software para Auxílio no Processo de Elaboração do Cari' | DOI: '10.22456/2175-2745.51756'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 302] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Coverage Criteria for Set-Based Specifications' | DOI: '10.22456/2175-2745.52511'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 303] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Identificação de Viabilidade de Leveduras Com Corante V' | DOI: '10.22456/2175-2745.52609'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 304] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Huginn for Jason: Uma arquitetura para agentes normativ' | DOI: '10.22456/2175-2745.52963'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 305] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Abordagem Proativa para a Gestão Integrada dos Trabalho' | DOI: '10.22456/2175-2745.53120'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 306] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estudo Comparativo entre as Redes Neurais Artificiais M' | DOI: '10.22456/2175-2745.53236'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 307] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Recuperação de modelos médicos por conteúdo usando Extr' | DOI: '10.22456/2175-2745.53751'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 308] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Linguagens de consulta para bases de dados em grafos: u' | DOI: '10.22456/2175-2745.54043'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 309] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Classificador de imagens de pulmão utilizando wavelets ' | DOI: '10.22456/2175-2745.54370'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 310] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evolução Diferencial com ensemble de Operadores de Muta' | DOI: '10.22456/2175-2745.54772'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 311] Source: articles-RITA-20260617-dointext.csv
+  Title: 'O Potencial do Uso de Estimativas de Desempenho na Expl' | DOI: '10.22456/2175-2745.55723'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 312] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Detecção de Tubos em Imagens Radiográficas Digitais' | DOI: '10.22456/2175-2745.56162'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 313] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automating mobile application development: UML-based co' | DOI: '10.22456/2175-2745.56177'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 314] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Método Sistêmico com Suporte em GORE para Análise de Co' | DOI: '10.22456/2175-2745.56368'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 315] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Desenvolvimento de Aplicações Gráficas Interativas com ' | DOI: '10.22456/2175-2745.56371'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 316] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Revisão Sobre as Publicações de Sistemas de Detecçã' | DOI: '10.22456/2175-2745.56374'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 317] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Programming in CUDA for Kepler and Maxwell Architecture' | DOI: '10.22456/2175-2745.56384'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 318] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Hyperspectral Modeling of Material Appearance: General ' | DOI: '10.22456/2175-2745.56437'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 319] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Análise Visual utilizando Projeções Multidimensionais' | DOI: '10.22456/2175-2745.56498'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 320] Source: articles-RITA-20260617-dointext.csv
+  Title: 'TVX - Time and Versions in XML' | DOI: '10.22456/2175-2745.5683'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 321] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Proposta de Framework para Desenvolvimento de Aplic' | DOI: '10.22456/2175-2745.5685'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 322] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Introdução às Support Vector Machines' | DOI: '10.22456/2175-2745.5690'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 323] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Técnicas probabilísticas para análise de yield em nível' | DOI: '10.22456/2175-2745.5691'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 324] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aplicação de Redes Neurais Artificiais na Classificação' | DOI: '10.22456/2175-2745.5692'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 325] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Performance Evaluation of CORBA Concurrency Control Ser' | DOI: '10.22456/2175-2745.5693'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 326] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Processos de Decisão de Markov: um tutorial' | DOI: '10.22456/2175-2745.5694'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 327] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aspectos sociotécnicos da computação: contextualizando ' | DOI: '10.22456/2175-2745.5695'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 328] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Um Olhar Sociotécnico sobre a Engenharia de Software' | DOI: '10.22456/2175-2745.5696'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 329] Source: articles-RITA-20260617-dointext.csv
+  Title: 'O uso de Métodos Ágeis no ensino de Métodos Ágeis' | DOI: '10.22456/2175-2745.56977'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 330] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Computer Vision and Graphics for Heritage Preservation ' | DOI: '10.22456/2175-2745.5746'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 331] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Editorial' | DOI: '10.22456/2175-2745.5759'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 332] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Mineração em Grandes Massas de Dados Utilizando Hadoop ' | DOI: '10.22456/2175-2745.58022'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 333] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Relação Entre o Gênero de Espectadores e o Conteúdo de ' | DOI: '10.22456/2175-2745.58551'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 334] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Exploring the subtopic-based relationship map strategy ' | DOI: '10.22456/2175-2745.59104'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 335] Source: articles-RITA-20260617-dointext.csv
+  Title: 'ZipfTool: Uma ferramenta bibliométrica para auxílio na ' | DOI: '10.22456/2175-2745.59336'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 336] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Revisores da RITA no JEMS' | DOI: '10.22456/2175-2745.5956'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 337] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Introduction to Light Interaction with Human Skin' | DOI: '10.22456/2175-2745.5961'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 338] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Paralelismo em Prolog: Conceitos e Sistemas' | DOI: '10.22456/2175-2745.59614'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 339] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Gentle Introduction to Predictive Filters' | DOI: '10.22456/2175-2745.5962'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 340] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Java Advanced Imaging API: A Tutorial' | DOI: '10.22456/2175-2745.5963'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Country', 'Funding']
+
+• [Row 341] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Shader Programming: An Introduction Using the Effect Fr' | DOI: '10.22456/2175-2745.5964'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 342] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Revista de Informática Teórica e Aplicada e as Tecnol' | DOI: '10.22456/2175-2745.5978'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 343] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uso de Aspectos para Verificar Regras de Instanciação d' | DOI: '10.22456/2175-2745.5979'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 344] Source: articles-RITA-20260617-dointext.csv
+  Title: 'AspectH: Uma Extensão Orientada a Aspectos de Haskel' | DOI: '10.22456/2175-2745.5980'
+  Status: Enriched 12 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Affiliations', 'Country', 'Funding']
+
+• [Row 345] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Making Medical Visual Information Available on the WEB' | DOI: '10.22456/2175-2745.5981'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 346] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Um Framework de Apoio à Colaboração no Projeto Distribu' | DOI: '10.22456/2175-2745.5982'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 347] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Teorias da Aleatoriedade' | DOI: '10.22456/2175-2745.5983'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 348] Source: articles-RITA-20260617-dointext.csv
+  Title: '3D Compression: from A to Zip a first complete example' | DOI: '10.22456/2175-2745.6011'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 349] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Introdução ao XNA' | DOI: '10.22456/2175-2745.6012'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 350] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Steganography and Steganalysis in Digital Multimedia: H' | DOI: '10.22456/2175-2745.6014'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 351] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Navigation and Interaction in Graph Visualizations' | DOI: '10.22456/2175-2745.6015'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 352] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Dimensionality Reduction, Classification and Reconstruc' | DOI: '10.22456/2175-2745.6016'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 353] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma contribuição ao auxíılio do diagnóstico do autismo ' | DOI: '10.22456/2175-2745.60234'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 354] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Editorial' | DOI: '10.22456/2175-2745.6024'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 355] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Editorial convidado' | DOI: '10.22456/2175-2745.6025'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 356] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Avaliação de Incisão Cirúrgica em Simuladores com Reali' | DOI: '10.22456/2175-2745.60989'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 357] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Método Computacional para o Diagnóstico Precoce da Gran' | DOI: '10.22456/2175-2745.61220'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 358] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Learning to Identify At-Risk Students in Distance Educa' | DOI: '10.22456/2175-2745.62211'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 359] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Autômatos celulares unidimensionais caóticos com borda ' | DOI: '10.22456/2175-2745.62657'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 360] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Detecção de leucócitos em imagens de vídeo de microscop' | DOI: '10.22456/2175-2745.63581'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 361] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Emprego de Banco de Filtros e do Teorema de Imersão de ' | DOI: '10.22456/2175-2745.64206'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 362] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparando o Desempenho de Implementações de Tabelas Ha' | DOI: '10.22456/2175-2745.64413'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 363] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Computação na Educação Básica no Brasil: o Estado da Ar' | DOI: '10.22456/2175-2745.64431'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 364] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Escola Gaúcha de Bioinformática 2015' | DOI: '10.22456/2175-2745.65061'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 365] Source: articles-RITA-20260617-dointext.csv
+  Title: 'QEDS: Um Simulador Clássico para Distinção de Elementos' | DOI: '10.22456/2175-2745.65372'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 366] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Autômatos Celulares e Sistema Multiagente para Simulaçã' | DOI: '10.22456/2175-2745.65538'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 367] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparação entre abordagens escaláveis para o processam' | DOI: '10.22456/2175-2745.65827'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 368] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Avaliação Pró-ativa da Deterioração de Sistemas de Info' | DOI: '10.22456/2175-2745.6586'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 369] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Desenvolvimento de Interface de Usuário para a Melhoria' | DOI: '10.22456/2175-2745.67253'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 370] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Editorial' | DOI: '10.22456/2175-2745.6865'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 371] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Guest Editors' | DOI: '10.22456/2175-2745.6867'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 372] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Revisão Sistemática sobre Abordagens em Organizaçõe' | DOI: '10.22456/2175-2745.69309'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 373] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Arquitetura de Software para Bibliotecas de Realida' | DOI: '10.22456/2175-2745.69479'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 374] Source: articles-RITA-20260617-dointext.csv
+  Title: 'FORUM: Modelo e Linguagem para Especificação  de Regras' | DOI: '10.22456/2175-2745.6998'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 375] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estabilidade de Classificadores de Decisão em Árvore Bi' | DOI: '10.22456/2175-2745.6999'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 376] Source: articles-RITA-20260617-dointext.csv
+  Title: 'On the Development and Evaluation of a Brazilian Portug' | DOI: '10.22456/2175-2745.7015'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 377] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estratégias para a Combinação de Classificadores Binári' | DOI: '10.22456/2175-2745.7016'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 378] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Representação e Classificação de Texturas da Íris Basea' | DOI: '10.22456/2175-2745.7023'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 379] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Novel Method for Generating Scale Space Kernels Based' | DOI: '10.22456/2175-2745.7024'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 380] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Proposta de Utilização do Diagrama de Seqüência para De' | DOI: '10.22456/2175-2745.7029'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 381] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Reestruturação de Software Dirigida por Conectividade p' | DOI: '10.22456/2175-2745.7031'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 382] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Proposta de Modelagem para a Generalização de Elos ' | DOI: '10.22456/2175-2745.7032'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 383] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Inspeção Automática de Defeitos em Madeiras de Pinus us' | DOI: '10.22456/2175-2745.7033'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 384] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Non-Cooperative Facility Location Games: a Survey' | DOI: '10.22456/2175-2745.71429'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 385] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Identificação de amostras de sementes utilizando VisãoC' | DOI: '10.22456/2175-2745.71439'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 386] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Revisores' | DOI: '10.22456/2175-2745.7146'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 387] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Modelagem de Tráfego de Redes Utilizando Cascata Multif' | DOI: '10.22456/2175-2745.7147'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 388] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Editorial' | DOI: '10.22456/2175-2745.7148'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Article References', 'Funding']
+
+• [Row 389] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Análise de desempenho de Banco de Dados Relacionais e N' | DOI: '10.22456/2175-2745.71775'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 390] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estudo e Modelagem dos Efeitos da Forma e do Cresciment' | DOI: '10.22456/2175-2745.73173'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 391] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Posicionamento de Circuitos 3D Considerando o  Planejam' | DOI: '10.22456/2175-2745.7386'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 392] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Sleep Stages Classification Using Spectral Based Statis' | DOI: '10.22456/2175-2745.74030'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 393] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Análise Autônoma de Investimento: Uma Abordagem Multiag' | DOI: '10.22456/2175-2745.74992'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 394] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Combining Artificial Intelligence, Ontology, and Freque' | DOI: '10.22456/2175-2745.75048'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 395] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Energy Systems in Material Agent Societies' | DOI: '10.22456/2175-2745.75063'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 396] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Gerenciando Alterações em Documentos XML' | DOI: '10.22456/2175-2745.7522'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 397] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Estratégias de Construções de Comitês de Classificadore' | DOI: '10.22456/2175-2745.75255'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 398] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Simulação Multiagente da Evacuação da Boate Kiss: A Imp' | DOI: '10.22456/2175-2745.75300'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 399] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Composição de Agentes EBDI: Integração WASABI-Jason' | DOI: '10.22456/2175-2745.75327'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 400] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Derivation of Mean Value Coordinates Using Interior Dis' | DOI: '10.22456/2175-2745.76189'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 401] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Diagnóstico de Glaucoma Utilizando Atributos de Textura' | DOI: '10.22456/2175-2745.76387'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 402] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Multi-objective Version of the Lin-Kernighan Heuristi' | DOI: '10.22456/2175-2745.76452'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 403] Source: articles-RITA-20260617-dointext.csv
+  Title: 'MeHarCEn: Um Método de Harmonização do Consumo de Energ' | DOI: '10.22456/2175-2745.76460'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 404] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Avaliação do Intel Software Guard Extensions via Emulaç' | DOI: '10.22456/2175-2745.77654'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 405] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Avaliação Pró-ativa da Deterioração de Sistemas de Info' | DOI: '10.22456/2175-2745.7796'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 406] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Virtual Reality as a Support Tool for the Treatment of ' | DOI: '10.22456/2175-2745.77994'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 407] Source: articles-RITA-20260617-dointext.csv
+  Title: 'IndoLoR -- Uma Plataforma Adaptável para Localização em' | DOI: '10.22456/2175-2745.78391'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 408] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Teoria espaço-escala: conceitos e abordagens' | DOI: '10.22456/2175-2745.7857'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 409] Source: articles-RITA-20260617-dointext.csv
+  Title: 'CoWPar: A D2D Communication Approach Without Pairing fo' | DOI: '10.22456/2175-2745.79152'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 410] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Modelos para avaliação de disponibilidade orientada a c' | DOI: '10.22456/2175-2745.79158'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 411] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Video Conferencing Evaluation Considering Scalable Vide' | DOI: '10.22456/2175-2745.79310'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 412] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Genetic Programming Model for Association Studies to ' | DOI: '10.22456/2175-2745.79333'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 413] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Relative Scalability of NoSQL Databases for Genotype Da' | DOI: '10.22456/2175-2745.79334'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 414] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Can the Use of nonlinear Color Metrics systematically i' | DOI: '10.22456/2175-2745.79885'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 415] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Algoritmos de Escalonamento Gangue com Estratégias de M' | DOI: '10.22456/2175-2745.79994'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 416] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Desenvolvimento de uma rede neuro-fuzzy para predição d' | DOI: '10.22456/2175-2745.8046'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 417] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Investigation of Archiving Techniques for Evolutionary ' | DOI: '10.22456/2175-2745.80478'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 418] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Algorithms for the power-p Steiner tree problem in the ' | DOI: '10.22456/2175-2745.80525'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 419] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Um modelo computacional para a simulação de sistemas de' | DOI: '10.22456/2175-2745.80557'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 420] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Use of cytomorphometry for classification of subcellula' | DOI: '10.22456/2175-2745.80598'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 421] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Extreme Learning Machine combined with a Differential E' | DOI: '10.22456/2175-2745.80702'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 422] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Exact Algorithms for the Graph Coloring Problem' | DOI: '10.22456/2175-2745.80721'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 423] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Formal Semantics for Java-like Languages and Research O' | DOI: '10.22456/2175-2745.80912'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 424] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Introdução à Programação de Propósito Geral em Hardware' | DOI: '10.22456/2175-2745.8168'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 425] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Performance Analysis of the Segment Transfer Rate of TC' | DOI: '10.22456/2175-2745.82043'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 426] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Vulnerability Identification on GNU/Linux Operating Sys' | DOI: '10.22456/2175-2745.82079'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 427] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Haskell Type System Analysis' | DOI: '10.22456/2175-2745.82395'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 428] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evolutionary Models applied to Multiprocessor TaskSched' | DOI: '10.22456/2175-2745.82412'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 429] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Journey through Virtual and Augmented Reality - Revie' | DOI: '10.22456/2175-2745.8260'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 430] Source: articles-RITA-20260617-dointext.csv
+  Title: 'The Design of a Graphics Engine for the Development of ' | DOI: '10.22456/2175-2745.8261'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 431] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Designing and implementing an Spatial Augmented Reality' | DOI: '10.22456/2175-2745.8263'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 432] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Conceptual Image-Based Data Glove for Computer-Human ' | DOI: '10.22456/2175-2745.8265'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 433] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Software Framework to Create 3D Browser-Based Speech ' | DOI: '10.22456/2175-2745.8266'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 434] Source: articles-RITA-20260617-dointext.csv
+  Title: 'V: a language with extensible record accessors and a tr' | DOI: '10.22456/2175-2745.82772'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 435] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Stochastic Models for Optimizing Availability, Cost and' | DOI: '10.22456/2175-2745.83498'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 436] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Use of text mining techniques for unsupervised organiza' | DOI: '10.22456/2175-2745.83581'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 437] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Analysis of a Real Mobility Trace Based on Standard ' | DOI: '10.22456/2175-2745.84330'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 438] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SWEETS: um Sistema de Recomendação de Especialistas apl' | DOI: '10.22456/2175-2745.8441'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 439] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A gene based bacterial whole genome comparison toolkit' | DOI: '10.22456/2175-2745.84814'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 440] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Analysis of the Performance of Genetic Algorithm Parall' | DOI: '10.22456/2175-2745.85091'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 441] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma Revisão Sobre Combinação de Agrupamentos' | DOI: '10.22456/2175-2745.8522'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 442] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Combinando Modelos de Interação para Melhorar a Coorden' | DOI: '10.22456/2175-2745.8611'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 443] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Taxonomy of container security on computational cloud' | DOI: '10.22456/2175-2745.86196'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 444] Source: articles-RITA-20260617-dointext.csv
+  Title: 'OLSR Fuzzy Cost (OLSR-FC): an extension to OLSR protoco' | DOI: '10.22456/2175-2745.86380'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 445] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Model for the Diffusive Filling-In Algorithm Operatin' | DOI: '10.22456/2175-2745.86439'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 446] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Virtual Reality-based Training for the Motor Developmen' | DOI: '10.22456/2175-2745.86478'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 447] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Elementary Economic Systems in Material Agent Societies' | DOI: '10.22456/2175-2745.86534'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 448] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Data Fusion through Fuzzy-Bayesian Networks for Belief ' | DOI: '10.22456/2175-2745.87085'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 449] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Strategy for Performance Evaluation and Modeling of C' | DOI: '10.22456/2175-2745.87511'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 450] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Evaluating the impact of maintenance policies associate' | DOI: '10.22456/2175-2745.88822'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 451] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Hybrid Neural Networks Applied to Brazilian Stock Marke' | DOI: '10.22456/2175-2745.88911'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 452] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Biclustering and coclustering: concepts, algorithms and' | DOI: '10.22456/2175-2745.89063'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 453] Source: articles-RITA-20260617-dointext.csv
+  Title: 'PHOC Descriptor Applied for Mammography Classification' | DOI: '10.22456/2175-2745.89115'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 454] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Uma abordagem estrutural para calcular similaridade ent' | DOI: '10.22456/2175-2745.9009'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 455] Source: articles-RITA-20260617-dointext.csv
+  Title: 'BeeNotified! A Notification System of Physical Quantiti' | DOI: '10.22456/2175-2745.90724'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 456] Source: articles-RITA-20260617-dointext.csv
+  Title: 'An Online Tree-Based Approach for Mining Non-Stationary' | DOI: '10.22456/2175-2745.90822'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 457] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Group Labeling Methodology Using Distance-based Data Gr' | DOI: '10.22456/2175-2745.91414'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 458] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Road Surface Classification with Images Captured From L' | DOI: '10.22456/2175-2745.91522'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 459] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Models to evaluate service Provisioning over Cloud Comp' | DOI: '10.22456/2175-2745.91814'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 460] Source: articles-RITA-20260617-dointext.csv
+  Title: 'SafeFollowing: A collaborative model for public securit' | DOI: '10.22456/2175-2745.92117'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 461] Source: articles-RITA-20260617-dointext.csv
+  Title: 'A Computational Strategy for Classification of Enem Iss' | DOI: '10.22456/2175-2745.92406'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 462] Source: articles-RITA-20260617-dointext.csv
+  Title: 'HICOLM: High-Performance Platform of Physical Simulatio' | DOI: '10.22456/2175-2745.92486'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 463] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Traveling Salesman Problem with Optional Bonus Collecti' | DOI: '10.22456/2175-2745.93733'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 464] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Performability Evaluation of Voice Services in Converge' | DOI: '10.22456/2175-2745.94016'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 465] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Prize Collecting Traveling Salesman Problem with Ridesh' | DOI: '10.22456/2175-2745.94082'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 466] Source: articles-RITA-20260617-dointext.csv
+  Title: 'WebGIS development for base flow separation and recharg' | DOI: '10.22456/2175-2745.94235'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 467] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Water Resources Analysis: An Approach based on Agent-Ba' | DOI: '10.22456/2175-2745.94319'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 468] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Effects of reward distribution strategies and persevera' | DOI: '10.22456/2175-2745.94845'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 469] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Mosaik and PADE: Multiagents and Co-simulation for smar' | DOI: '10.22456/2175-2745.95095'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 470] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Unsupervised Feature Selection Methodology for Clusteri' | DOI: '10.22456/2175-2745.96081'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 471] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Studying the Performance of Cognitive Models in Time Se' | DOI: '10.22456/2175-2745.96181'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 472] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Aplicação de redes neurais ART e análise de textura par' | DOI: '10.22456/2175-2745.9644'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 473] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Arisa Nest – A Cloud-Based Platform for Development of ' | DOI: '10.22456/2175-2745.97411'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 474] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Reactive multi-agent system applied to self-healing in ' | DOI: '10.22456/2175-2745.97479'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 475] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Comparison of Classical Computer Vision vs. Convolution' | DOI: '10.22456/2175-2745.97835'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 476] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Scrumie: Scrum Teaching Agent Oriented Game' | DOI: '10.22456/2175-2745.98203'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 477] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Int-FLBCC: Model for Load Balancing in Cloud Computing ' | DOI: '10.22456/2175-2745.98362'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 478] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Similar Yet Different: the Structure of Social Networks' | DOI: '10.22456/2175-2745.98367'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 479] Source: articles-RITA-20260617-dointext.csv
+  Title: 'DenseNet-DC: Optimizing DenseNet Parameters Through Fea' | DOI: '10.22456/2175-2745.98369'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 480] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Reasoning about Partial Correctness Assertions in Isabe' | DOI: '10.22456/2175-2745.98483'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Affiliations', 'Country', 'Funding']
+
+• [Row 481] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Experiments on Model-Based Software Energy Consumption ' | DOI: '10.22456/2175-2745.98904'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 482] Source: articles-RITA-20260617-dointext.csv
+  Title: 'Automatic identification of knowledge related to dengue' | DOI: '10.22456/2175-2745.99849'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+================================================================================
+FINAL SUMMARY: 478/483 records received enhancement data. Audit saved to disk.
+================================================================================

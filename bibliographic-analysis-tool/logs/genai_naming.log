@@ -1159,3 +1159,23 @@ Please retry in 5.489947618s. [links {
 }
 ]
 
+2026-09-01 09:57:58,373 - [INFO] - --- New Batch Request ---
+2026-09-01 09:57:58,938 - [INFO] - Provider: Gemini
+2026-09-01 09:57:58,939 - [INFO] - Topics to name: 8
+2026-09-01 09:58:12,822 - [INFO] - Batch generation success (13.88s).
+2026-09-01 10:12:11,733 - [INFO] - --- New Batch Request ---
+2026-09-01 10:12:11,759 - [INFO] - Provider: Gemini
+2026-09-01 10:12:11,759 - [INFO] - Topics to name: 4
+2026-09-01 10:12:29,828 - [INFO] - Batch generation success (18.07s).
+2026-09-01 14:23:47,712 - [INFO] - --- New Batch Request ---
+2026-09-01 14:23:47,792 - [INFO] - Provider: Gemini
+2026-09-01 14:23:47,792 - [INFO] - Topics to name: 13
+2026-09-01 14:24:05,004 - [INFO] - Batch generation success (17.21s).
+2026-09-01 15:23:15,300 - [INFO] - --- New Batch Request ---
+2026-09-01 15:23:15,354 - [INFO] - Provider: Gemini
+2026-09-01 15:23:15,354 - [INFO] - Topics to name: 11
+2026-09-01 15:25:45,872 - [INFO] - Batch generation success (150.52s).
+2026-09-01 15:40:31,295 - [INFO] - --- New Batch Request ---
+2026-09-01 15:40:31,372 - [INFO] - Provider: Gemini
+2026-09-01 15:40:31,372 - [INFO] - Topics to name: 9
+2026-09-01 15:41:08,057 - [INFO] - Batch generation success (36.68s).

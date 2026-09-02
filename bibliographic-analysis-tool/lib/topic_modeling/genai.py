@@ -119,3 +119,129 @@ def generate_topic_name(api_key, provider, words):
             error_msg += " (Make sure Ollama is actually running and the model is pulled!)"
             
         return {"name": "Error naming topic", "description": error_msg}
+
+
+def generate_batch_topic_names(api_key: str, provider: str, topics_dict: dict) -> dict:
+    """
+    Generate names and descriptions for ALL topics in a single API call to prevent rate limiting.
+    topics_dict: {0: ['word1', 'word2', ...], 1: ['word3', 'word4', ...]}
+    Returns: {0: {'name': '...', 'description': '...'}, ...}
+    """
+    logger.info("--- New Batch Request ---")
+    logger.info(f"Provider: {provider}")
+    logger.info(f"Topics to name: {len(topics_dict)}")
+
+    if not api_key and provider != "Ollama (Local)":
+        logger.warning("Request blocked: No API key provided.")
+        return {
+            t_id: {"name": f"Topic {t_id}", "description": "No API key provided."}
+            for t_id in topics_dict
+        }
+
+    # Format the prompt with all topic clusters together
+    clusters_formatted = "\n".join([
+        f"- Topic {t_id}: {', '.join(words[:10])}"
+        for t_id, words in topics_dict.items()
+    ])
+
+    prompt = f"""
+    You are an expert taxonomist. Analyze the following topic keyword clusters and generate a concise, academic title (STRICTLY MAXIMUM 3 WORDS ONLY) and a short 1-sentence description for EACH topic ID.
+
+    Topic Clusters:
+    {clusters_formatted}
+
+    Return ONLY a raw, valid JSON object mapping each topic ID (as a string) to its 'name' and 'description'.
+    Do not include markdown code block formatting (e.g. do not wrap in ```json).
+    
+    Expected JSON schema format:
+    {{
+      "0": {{"name": "Short Name", "description": "1-sentence summary."}},
+      "1": {{"name": "Short Name", "description": "1-sentence summary."}}
+    }}
+    """
+
+    start_time = time.time()
+
+    try:
+        text = ""
+        if provider == "Gemini":
+            genai.configure(api_key=api_key)
+            # gemini-1.5-flash or gemini-2.0-flash / gemini-2.5-flash have fast inference and high free RPM
+            model = genai.GenerativeModel(
+                model_name="gemini-3.6-flash",
+                generation_config={"response_mime_type": "application/json"}
+            )
+            response = model.generate_content(prompt)
+            text = response.text.strip()
+
+        elif provider == "Groq (LLaMA 3)":
+            client = OpenAI(
+                base_url="[https://api.groq.com/openai/v1](https://api.groq.com/openai/v1)",
+                api_key=api_key
+            )
+            response = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "system", "content": "You are a helpful academic taxonomist that outputs strict JSON."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            text = response.choices[0].message.content.strip()
+
+        elif provider == "OpenAI":
+            client = OpenAI(api_key=api_key)
+            response = client.chat.completions.create(
+                model="gpt-4o-mini",
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "system", "content": "You are a helpful academic taxonomist that outputs strict JSON."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            text = response.choices[0].message.content.strip()
+
+        elif provider == "Ollama (Local)":
+            client = OpenAI(
+                base_url="http://localhost:11434/v1",
+                api_key="ollama"
+            )
+            response = client.chat.completions.create(
+                model="llama3",
+                response_format={"type": "json_object"},
+                messages=[
+                    {"role": "system", "content": "You are a helpful academic taxonomist that outputs strict JSON."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            text = response.choices[0].message.content.strip()
+
+        else:
+            return {
+                t_id: {"name": f"Topic {t_id}", "description": "Unknown provider selected."}
+                for t_id in topics_dict
+            }
+
+        # Strip markdown fences if present
+        if text.startswith("```json"):
+            text = text[7:-3].strip()
+        elif text.startswith("```"):
+            text = text[3:-3].strip()
+
+        parsed = json.loads(text)
+        latency = time.time() - start_time
+        logger.info(f"Batch generation success ({latency:.2f}s).")
+        
+        # Ensure keys are converted to integer IDs matching session state
+        return {int(k): v for k, v in parsed.items()}
+
+    except Exception as e:
+        latency = time.time() - start_time
+        logger.error(f"Batch generation failed after {latency:.2f}s: {e}")
+        logger.error(traceback.format_exc())
+        
+        # Fallback to single calls if batch JSON parsing fails
+        fallback_results = {}
+        for t_id, words in topics_dict.items():
+            fallback_results[int(t_id)] = generate_topic_name(api_key, provider, words)
+        return fallback_results
