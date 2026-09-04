@@ -1,0 +1,133 @@
+@startuml arquitetura_compacta
+skinparam defaultFontName "Segoe UI", "Helvetica Neue", Arial, sans-serif
+skinparam defaultFontSize 10
+skinparam roundCorner 5
+skinparam shadowing false
+skinparam linetype ortho
+skinparam nodesep 6
+skinparam ranksep 10
+skinparam packagePadding 6
+
+' Configuração das Bordas e Caixas
+skinparam package {
+    BackgroundColor #FAFAFA
+    BorderColor #94A3B8
+    FontColor #0F172A
+    FontStyle bold
+    FontSize 11
+}
+
+skinparam rectangle {
+    BorderThickness 1
+}
+
+' Paleta de Cores Semântica (Tons Pastel)
+skinparam rectangle<<input>> {
+    BackgroundColor #E0F2FE
+    BorderColor #0284C7
+    FontColor #0369A1
+}
+skinparam rectangle<<enrich>> {
+    BackgroundColor #FEF3C7
+    BorderColor #D97706
+    FontColor #92400E
+}
+skinparam rectangle<<state>> {
+    BackgroundColor #DCFCE7
+    BorderColor #16A34A
+    FontColor #166534
+}
+skinparam rectangle<<module>> {
+    BackgroundColor #F3E8FF
+    BorderColor #9333EA
+    FontColor #4A044E
+}
+skinparam rectangle<<output>> {
+    BackgroundColor #FEE2E2
+    BorderColor #E11D48
+    FontColor #9F1239
+}
+
+top to bottom direction
+
+' ==============================================================================
+' BLOCO SUPERIOR: INGESTÃO E ENRIQUECIMENTO LADO A LADO
+' ==============================================================================
+package "1. Ingestão Agnóstica Multiformato" as PKG_IN #F0F9FF {
+    rectangle "Entrada de Arquivos\n(.csv, .xlsx, .bib, .ris, .nbib)" as IN_FILES <<input>>
+    rectangle "Saneamento e Harmonização\n• 4 encodings e sniffer delimitador\n• Colunas canônicas (TARGET_COLUMNS)\n• Deduplicação multi-chave (DOI + Título)" as CLEAN <<input>>
+}
+
+package "2. Motor de Enriquecimento (5 Tiers)" as PKG_ENRICH #FFFBEB {
+    rectangle "Cache em Disco (SQLite 7d)\ne Regime Polite Pool HTTP" as CACHE <<enrich>>
+    rectangle "Cascata em Lote (Batch = 50) e Fallbacks\n• [T1] OpenAlex Batch ➔ [T2] Crossref\n➔ [T3] PubMed ➔ [T4] Semantic Scholar\n➔ [T5] OpenAlex Fuzzy Title (Sem DOI)" as ENRICH <<enrich>>
+}
+
+PKG_IN -right-> PKG_ENRICH
+IN_FILES .down.> CLEAN
+CLEAN -[hidden]up-> CACHE
+CACHE .down.> ENRICH
+
+' ==============================================================================
+' 3. ESTADO E MEMÓRIA EM SESSÃO (BARRAMENTO CENTRAL)
+' ==============================================================================
+package "3. Gerenciamento de Estado Reativo e Memória em Sessão" as PKG_STATE #F0FDF4 {
+    rectangle "Cluster em Sessão (st.session_state)\n• master_df com Teto Operacional (MAX_ROWS = 50.000) e Backup Bruto (raw_df_backup)\n• Roteador Reativo Central: Global Focus Mode (working_df por Tópicos) | Persistência JSON" as STATE <<state>>
+}
+
+ENRICH -down-> STATE
+
+' ==============================================================================
+' 4. MÓDULOS ANALÍTICOS (GRADE 3 COLUNAS BALANCEADA)
+' ==============================================================================
+package "4. Módulos Analíticos Especializados e Suporte à Decisão" as PKG_MOD #FAF5FF {
+    
+    ' Linha 1
+    rectangle "Dashboard & Integridade\n• Índices h e g de Egghe\n• Curva Lorenz & Coef. Gini\n• Diagnóstico de Lacunas" as M1 <<module>>
+    
+    rectangle "Estratificação PLN & GenAI\n• Ensemble BERTopic + GSDMM\n• Diagrama Callon (4 Quad.)\n• Rotulagem Conceitual LLM" as M2 <<module>>
+    
+    rectangle "Topologia de Redes (Pyvis)\n• Co-citação e Acoplamento\n• Comunidades (Louvain Q)\n• 5 Centralidades (Degree/PR)" as M3 <<module>>
+
+    ' Linha 2
+    rectangle "Fluxo Temático (Sankey)\n• Fatiamento por Quantis\n• Decomposição NMF Local\n• Rastreamento via Jaccard" as M4 <<module>>
+
+    rectangle "Governança & Endogenia\n• Índice de Endogenia (E_inst)\n• Alertas de Limiar (SciELO)\n• Tabela Forense de Auditoria" as M5 <<module>>
+    
+    rectangle "Geografia & Demografia\n• OpenAlex/ROR + Regex \\b\n• Mapa Coroplético (Plotly)\n• Grafo Transnacional (√S_i)" as M6 <<module>>
+
+    ' Linha 3 (PRISMA Centralizado)
+    rectangle "Assistente PRISMA 2020 para Revisões Sistemáticas da Literatura\n• FSM de Triagem Interativa (Critérios PICOC)  • Compilação Graphviz/DOT em Tempo Real\n• Sincronização Atômica com Workspace (Workspace Commit)" as M7 <<module>>
+
+    ' Alinhamento da Grade 3 Colunas
+    M1 -[hidden]right-> M2
+    M2 -[hidden]right-> M3
+    
+    M1 -[hidden]down-> M4
+    M2 -[hidden]down-> M5
+    M3 -[hidden]down-> M6
+
+    M4 -[hidden]right-> M5
+    M5 -[hidden]right-> M6
+    
+    M5 -[hidden]down-> M7
+}
+
+' ==============================================================================
+' 5. APRESENTAÇÃO E EXPORTAÇÃO (EXPANDIDO NA BASE)
+' ==============================================================================
+package "5. Apresentação e Exportação Universal" as PKG_OUT #FEF2F2 {
+    rectangle "Interface Web Reativa (Streamlit) e Serialização Reversa\n(Exportação Multiformato: CSV, Excel via XlsxWriter, RIS, BibTeX, NBIB, HTML Interativo e código .dot)" as OUT <<output>>
+}
+
+' ==============================================================================
+' CONEXÕES DE FLUXO (CENTRALIZADAS E EQUILIBRADAS)
+' ==============================================================================
+STATE -down-> M1
+STATE -down-> M2
+STATE -down-> M3
+
+
+M7 -down-> OUT
+
+@enduml

@@ -1,0 +1,115 @@
+@startuml arquitetura_completa
+!theme plain
+skinparam componentStyle uml2
+skinparam roundCorner 8
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam packagePadding 12
+
+package "Entrada de Dados (Formatos Suportados)" #E0F2FE {
+    file "CSV / TSV" as F_CSV
+    file "Excel (.xlsx, .xls)" as F_XLS
+    file "BibTeX (.bib)" as F_BIB
+    file "RIS (.ris)" as F_RIS
+    file "PubMed (.nbib)" as F_NBIB
+}
+
+package "core/ingestion.py & core/main.py" #F8FAFC {
+    component "parse_file()\n(Sniffer, 4 Encodings)" as INGEST
+    component "parse_nbib()\n(State Machine)" as PARSE_NBIB
+    component "deduplicate_and_merge_columns()\n(bfill horizontal)" as MERGE_COLS
+    component "add_to_memory()\n(DOI + Title Deduplication)" as DEDUP
+}
+
+package "core/enrichment.py (Multi-Tier Engine)" #FEF3C7 {
+    database "requests_cache\n(SQLite 7d TTL)" as CACHE_DB
+    component "Tier 1: OpenAlex Batch (50 DOIs)" as T1
+    component "Tier 2: Crossref Fallback" as T2
+    component "Tier 3: PubMed eUtils (PMID/MeSH)" as T3
+    component "Tier 4: Semantic Scholar (TLDR)" as T4
+    component "Tier 5: Fuzzy Title Match" as T5
+    file "enrichment.log" as LOG_FILE
+}
+
+cloud "APIs Externas" #F1F5F9 {
+    [OpenAlex API] as API_OA
+    [Crossref REST] as API_CR
+    [PubMed eUtils] as API_PM
+    [Semantic Scholar] as API_S2
+    [LLMs: Gemini / Groq / Ollama] as API_LLM
+}
+
+package "Estado de Sessão (st.session_state)" #DCFCE7 {
+    database "master_df\n(17 TARGET_COLUMNS)" as MASTER_DF
+    database "raw_df_backup" as RAW_BACKUP
+    database "prisma_state\n(FSM de Triagem)" as PRISMA_STATE
+    component "Global Focus Mode\n(working_df Filter)" as FOCUS_MODE
+}
+
+package "Módulos Analíticos (dashboard/ & features/)" #F3E8FF {
+    component "Dashboard & Integridade\n(metrics_impact.py, metrics_general.py)" as MOD_DASH
+    component "Estratificação PLN & GenAI\n(thematic_stratification.py)" as MOD_NLP
+    component "Topologia de Redes (Pyvis)\n(network_topology.py)" as MOD_NET
+    component "Fluxo Temático Sankey\n(thematic_flow.py)" as MOD_SANKEY
+    component "Governança & Endogenia\n(governance.py)" as MOD_GOV
+    component "Geografia & Demografia\n(demographics.py)" as MOD_DEMO
+    component "Assistente PRISMA 2020\n(prisma_assistant.py)" as MOD_PRISMA
+}
+
+package "core/export.py & Saídas" #FEE2E2 {
+    component "Conversores Reversos\n(_get_val, df_to_bib, df_to_ris...)" as CONV
+    file "Export: CSV / XLSX / BIB / RIS / NBIB" as OUT_FILES
+    file "Grafo HTML5 (Pyvis)" as OUT_HTML
+    file "Diagrama DOT (Graphviz)" as OUT_DOT
+}
+
+F_CSV --> INGEST
+F_XLS --> INGEST
+F_BIB --> INGEST
+F_RIS --> INGEST
+F_NBIB --> PARSE_NBIB
+
+INGEST --> MERGE_COLS
+PARSE_NBIB --> MERGE_COLS
+MERGE_COLS --> DEDUP
+
+DEDUP --> CACHE_DB
+CACHE_DB --> T1
+T1 --> API_OA
+T1 --> T2 : fallback
+T2 --> API_CR
+T2 --> T3 : fallback
+T3 --> API_PM
+T3 --> T4 : fallback
+T4 --> API_S2
+T4 --> T5 : fallback (sem DOI)
+T5 --> API_OA
+T1 ..> LOG_FILE
+
+T1 --> MASTER_DF
+DEDUP --> RAW_BACKUP
+MASTER_DF --> FOCUS_MODE
+
+FOCUS_MODE --> MOD_DASH
+FOCUS_MODE --> MOD_NLP
+FOCUS_MODE --> MOD_NET
+FOCUS_MODE --> MOD_SANKEY
+FOCUS_MODE --> MOD_GOV
+FOCUS_MODE --> MOD_DEMO
+FOCUS_MODE --> MOD_PRISMA
+
+MOD_NLP --> API_LLM
+MOD_PRISMA <--> PRISMA_STATE
+MOD_PRISMA --> MASTER_DF : Commit Included
+
+MOD_DASH --> CONV
+MOD_NLP --> CONV
+MOD_NET --> OUT_HTML
+MOD_SANKEY --> CONV
+MOD_GOV --> CONV
+MOD_DEMO --> CONV
+MOD_PRISMA --> OUT_DOT
+
+CONV --> OUT_FILES
+
+@enduml
