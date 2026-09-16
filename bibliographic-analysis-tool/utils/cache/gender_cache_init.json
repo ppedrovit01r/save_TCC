@@ -1,0 +1,542 @@
+{
+  "maria": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "ana": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "thayna": {
+    "gender": "female",
+    "probability": 0.95,
+    "engine": "Initial Lexicon"
+  },
+  "thaynã": {
+    "gender": "female",
+    "probability": 0.95,
+    "engine": "Initial Lexicon"
+  },
+  "lucineia": {
+    "gender": "female",
+    "probability": 0.95,
+    "engine": "Initial Lexicon"
+  },
+  "lucinéia": {
+    "gender": "female",
+    "probability": 0.95,
+    "engine": "Initial Lexicon"
+  },
+  "rachelle": {
+    "gender": "female",
+    "probability": 0.95,
+    "engine": "Initial Lexicon"
+  },
+  "encarnacion": {
+    "gender": "female",
+    "probability": 0.98,
+    "engine": "Initial Lexicon"
+  },
+  "encarnación": {
+    "gender": "female",
+    "probability": 0.98,
+    "engine": "Initial Lexicon"
+  },
+  "juliana": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "camila": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "patricia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "patrícia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "beatriz": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "fernanda": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "mariana": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "aline": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "larissa": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "leticia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "letícia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "bruna": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "jessica": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "jéssica": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "gabriela": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "daniela": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "carolina": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "renata": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "vanessa": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "tatiana": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "monica": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "mônica": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "claudia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "cláudia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "simone": {
+    "gender": "female",
+    "probability": 0.95,
+    "engine": "Initial Lexicon"
+  },
+  "cristina": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "luciana": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "adrianne": {
+    "gender": "female",
+    "probability": 0.95,
+    "engine": "Initial Lexicon"
+  },
+  "helena": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "elena": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "sandra": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "silvia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "sílvia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "paula": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "marta": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "teresa": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "carmen": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "isabel": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "rosa": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "flavia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "flávia": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "priscila": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "roberta": {
+    "gender": "female",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "pedro": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "guilherme": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "joao": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "joão": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "lucas": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "mateus": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "matheus": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "gabriel": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "felipe": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "rodrigo": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "bruno": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "gustavo": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "rafael": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "marcos": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "leonardo": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "eduardo": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "andre": {
+    "gender": "male",
+    "probability": 0.98,
+    "engine": "Initial Lexicon"
+  },
+  "andré": {
+    "gender": "male",
+    "probability": 0.98,
+    "engine": "Initial Lexicon"
+  },
+  "thiago": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "tiago": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "vinicius": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "vinícius": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "caio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "diego": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "marcelo": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "ricardo": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "fabio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "fábio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "alexandre": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "fernando": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "carlos": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "antonio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "antônio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "francisco": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "jose": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "josé": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "paulo": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "luis": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "luís": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "luiz": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "daniel": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "vitor": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "vítor": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "leandro": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "julio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "júlio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "cesar": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "césar": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "hélio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "helio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "luciano": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "sergio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "sérgio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "renato": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "mauricio": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  },
+  "maurício": {
+    "gender": "male",
+    "probability": 0.99,
+    "engine": "Initial Lexicon"
+  }
+}

@@ -54,7 +54,17 @@ else:
     with st.sidebar:
         # --- RESEARCH GROUP LOGO ---
         st.markdown(get_sidebar_logo_html(), unsafe_allow_html=True)
-        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # --- ACTIVE PROJECT WORKSPACE BADGE ---
+        from utils.project_manager import get_active_project_name
+        current_proj = get_active_project_name()
+        st.markdown(f"""
+        <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; border-radius: 6px; padding: 8px 12px; margin-bottom: 14px;">
+            <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px;">Active Project</div>
+            <div style="font-size: 13.5px; font-weight: 700; color: #1E293B; margin-top: 1px; word-break: break-all;">📁 {current_proj}</div>
+            <div style="font-size: 10.5px; color: #94A3B8; margin-top: 1px;">Projects/{current_proj}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
         # --- PROFILE MODE BUTTONS ---
         st.markdown('<div style="font-size:12px; color:#64748B; font-weight:600; margin-bottom:6px;"><i class="bi bi-person-badge"></i> PROFILE CONTEXT</div>', unsafe_allow_html=True)
@@ -85,9 +95,6 @@ else:
 
         if profile in ["ALL", "RESEARCHER"]:
             all_allowed_pages.extend(["Co-citation Networks", "PRISMA Assistant"])
-
-        if profile in ["ALL", "EDITORIAL"]:
-            all_allowed_pages.extend(["Review Matcher"])
 
         all_allowed_pages.extend([
             "Thematic Stratification", 
@@ -190,6 +197,9 @@ else:
     elif page == "Demographics":
         from features.demographics import show as show_demographics
         show_demographics(st.session_state.master_df)
+    elif page == "Gender Mapping":
+        from features.gender import show as show_gender
+        show_gender(working_df)
     else:
         st.info(f"🏗️ The module for **{page}** is currently under construction.")
         
@@ -208,7 +218,7 @@ else:
                 *   **Moran's I** for spatial clustering: $$ I = \\frac{N}{W} \\frac{\\sum_i \\sum_j w_{ij}(x_i - \\bar{x})(x_j - \\bar{x})}{\\sum_i (x_i - \\bar{x})^2} $$
                 *   **Gender Inference Confidence Scoring**: Probabilistic name matching algorithms (e.g. naive Bayes on historical census data).
                 """)
-            elif page in ["PRISMA Assistant", "Review Matcher"]:
+            elif page == "PRISMA Assistant":
                 st.markdown("""
                 **Vector Space Matching**
                 Uses **Cosine Similarity** on TF-IDF or BM25 vector representations to match abstracts with appropriate peer reviewers or to automate PRISMA screening steps.

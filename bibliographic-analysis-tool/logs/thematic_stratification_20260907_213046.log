@@ -1,0 +1,63 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-07 21:29:17  -->  2026-09-07 21:30:46 (1 minute 28 seconds)
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Alignment Strategy: Auto-Discovery (Recommended)
+Minimum Cluster Size: 12 documents
+Synchronized Topic Count (k): 6
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 9
+• Outlier Documents (-1): 0 (0.0%)
+• Average Assignment Confidence: 0.73
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [3, 5] (Similarities: [0.01, 0.35])
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [0] (Similarities: [0.01])
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 3: BERTopic [3] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 4: BERTopic [4] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 5: BERTopic [5] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 6: BERTopic [None] ↔ GSDMM [1] (Similarities: [1.00])
+• Unified Topic 7: BERTopic [None] ↔ GSDMM [2] (Similarities: [1.00])
+• Unified Topic 8: BERTopic [None] ↔ GSDMM [4] (Similarities: [1.00])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:  296 (61.3%) | Mean Conf: 0.87 | Consensus: 168 | Conflicts:  41
+   • BERTopic Top Keywords: science, computer, data, process, software, systems
+   • GSDMM Top Keywords:    reviewers, applied, high, evaluation, informatics, articles
+Cluster 01 | Docs:  153 (31.7%) | Mean Conf: 0.51 | Consensus:   2 | Conflicts: 151
+   • BERTopic Top Keywords: images, computer, learning, image, neural, models
+   • GSDMM Top Keywords:    informatics, journal, computer, applied, theoretical, issue
+Cluster 02 | Docs:    9 ( 1.9%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   9
+   • BERTopic Top Keywords: mobility, network, wireless, architecture, devices, communication
+   • GSDMM Top Keywords:    None
+Cluster 03 | Docs:    7 ( 1.4%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   7
+   • BERTopic Top Keywords: testing, test, cases, criteria, mutation, questions
+   • GSDMM Top Keywords:    None
+Cluster 04 | Docs:    6 ( 1.2%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   6
+   • BERTopic Top Keywords: social, knowledge, networks, cultural, users, sweets
+   • GSDMM Top Keywords:    None
+Cluster 05 | Docs:    6 ( 1.2%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   6
+   • BERTopic Top Keywords: market, financial, stock, models, forecasting, network
+   • GSDMM Top Keywords:    None
+Cluster 06 | Docs:    1 ( 0.2%) | Mean Conf: 0.80 | Consensus:   0 | Conflicts:   0
+   • BERTopic Top Keywords: None
+   • GSDMM Top Keywords:    business, systems, process, system, science, software
+Cluster 07 | Docs:    4 ( 0.8%) | Mean Conf: 0.80 | Consensus:   0 | Conflicts:   0
+   • BERTopic Top Keywords: None
+   • GSDMM Top Keywords:    fuzzy, computer, science, agents, model, system
+Cluster 08 | Docs:    1 ( 0.2%) | Mean Conf: 0.80 | Consensus:   0 | Conflicts:   0
+   • BERTopic Top Keywords: None
+   • GSDMM Top Keywords:    programming, language, type, computer, science, database
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

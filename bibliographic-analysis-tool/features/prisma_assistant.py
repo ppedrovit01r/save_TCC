@@ -180,9 +180,14 @@ def show(master_df):
 
         st.graphviz_chart(dot_string)
 
+        from utils.project_manager import format_timestamped_filename, save_project_file
+        fn_dot = format_timestamped_filename("prisma_petersen_flowchart.dot")
+        try: save_project_file("exports", fn_dot, dot_string, mode="w")
+        except Exception: pass
+
         st.download_button(
             "Download DOT format (Import to WebGraphviz/Visio)",
             data=dot_string,
-            file_name="prisma_petersen_flowchart.dot",
+            file_name=fn_dot,
             mime="text/plain"
         )

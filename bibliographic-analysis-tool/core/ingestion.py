@@ -9,7 +9,7 @@ TARGET_COLUMNS = [
     'Author', 'Title', 'OpenAlex ID', 'Abstract', 'Article References',
     'Times Cited', 'Publication Year', 'DOI', 'Publisher', 'Keywords',
     'Affiliations', 'Country', 'Document Type', 'Language', 'Open Access',
-    'Funding', 'Concepts' 
+    'Funding', 'Concepts', 'Journal', 'Location', 'Address', 'Volume', 'Issue', 'Pages', 'ISSN'
 ]
 
 # ---------------------------------------------------------
@@ -116,6 +116,13 @@ def parse_nbib(text: str) -> pd.DataFrame:
         'OT': 'Keywords',
         'LA': 'Language',
         'PT': 'Document Type',
+        'AD': 'Address',
+        'PL': 'Location',
+        'VI': 'Volume',
+        'IP': 'Issue',
+        'PG': 'Pages',
+        'GR': 'Funding',
+        'PMC': 'PMCID'
     }
     
     for col in df.columns:
@@ -183,6 +190,49 @@ def deduplicate_and_merge_columns(df: pd.DataFrame) -> pd.DataFrame:
 
     return pd.DataFrame(merged_data, index=df.index)
 
+def extract_country_from_text(text: str) -> str:
+    """Extracts country name or ISO code from address, affiliation, or location text."""
+    if not text or pd.isna(text) or not isinstance(text, str):
+        return None
+    text_lower = text.lower()
+    
+    # Brazil and Brazilian states / major cities
+    br_states = [r'\bce\b', r'\brs\b', r'\bsp\b', r'\brj\b', r'\bmg\b', r'\bpr\b', r'\bsc\b', r'\bba\b', r'\bpe\b', r'\bdf\b', r'\bgo\b', r'\bpa\b', r'\brn\b', r'\bpb\b', r'\bes\b', r'\bma\b', r'\bal\b', r'\bpi\b', r'\bmt\b', r'\bms\b', r'\bse\b', r'\bro\b', r'\bto\b', r'\bac\b', r'\bap\b', r'\brr\b']
+    br_cities = ['fortaleza', 'porto alegre', 'são paulo', 'sao paulo', 'rio de janeiro', 'curitiba', 'belo horizonte', 'recife', 'salvador', 'brasília', 'brasilia', 'florianópolis', 'florianopolis', 'campinas']
+    
+    if any(k in text_lower for k in ['brasil', 'brazil']) or any(c in text_lower for c in br_cities):
+        return 'Brazil'
+    for st_pat in br_states:
+        if re.search(st_pat, text_lower):
+            return 'Brazil'
+            
+    # Major countries mapping
+    country_patterns = [
+        (r'\b(united states|usa|u\.s\.a\.|u\.s\.)\b', 'United States'),
+        (r'\b(united kingdom|uk|u\.k\.|england|scotland|wales)\b', 'United Kingdom'),
+        (r'\b(portugal|lisboa|porto|coimbra)\b', 'Portugal'),
+        (r'\b(spain|españa|espana|madrid|barcelona)\b', 'Spain'),
+        (r'\b(france|paris)\b', 'France'),
+        (r'\b(germany|deutschland|berlin|munich)\b', 'Germany'),
+        (r'\b(italy|italia|rome|milan)\b', 'Italy'),
+        (r'\b(canada|toronto|montreal|vancouver)\b', 'Canada'),
+        (r'\b(australia|sydney|melbourne)\b', 'Australia'),
+        (r'\b(china|beijing|shanghai)\b', 'China'),
+        (r'\b(india|delhi|mumbai|bangalore)\b', 'India'),
+        (r'\b(japan|tokyo)\b', 'Japan'),
+        (r'\b(netherlands|holland|amsterdam)\b', 'Netherlands'),
+        (r'\b(switzerland|zurich|geneva)\b', 'Switzerland'),
+        (r'\b(sweden|stockholm)\b', 'Sweden'),
+        (r'\b(mexico|méxico)\b', 'Mexico'),
+        (r'\b(argentina|buenos aires)\b', 'Argentina'),
+        (r'\b(chile|santiago)\b', 'Chile'),
+        (r'\b(colombia|bogota|bogotá)\b', 'Colombia'),
+    ]
+    for pat, cname in country_patterns:
+        if re.search(pat, text_lower):
+            return cname
+    return None
+
 def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = df.columns.astype(str).str.strip().str.replace(r'\s+', ' ', regex=True)
     cols_lower = df.columns.str.lower()
@@ -192,57 +242,70 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
         "doi": "DOI", "digital object identifier": "DOI", "doids": "DOI",
         "aid": "AID",
         "pmid": "PMID", "pubmed id": "PMID",
-        "pmcid": "PMCID", "pubmed central id": "PMCID",
+        "pmcid": "PMCID", "pubmed central id": "PMCID", "pmc": "PMCID",
         "eid": "Scopus ID", "scopus id": "Scopus ID",
-        "submission id": "Local ID", "id": "Local ID", "an": "Local ID", "oid": "Local ID", "lid": "Local ID",
-        "openalex id": "OpenAlex ID", "openalex_id": "OpenAlex ID",
-        "issn": "ISSN", "issns": "ISSN", "journal issn (print version)": "ISSN", "journal eissn (online version)": "ISSN", "sn": "ISSN",
-        "isbn": "ISBN", "isbns": "ISBN",
-        "url": "URL", "fulltext url": "URL", "fulltext url ": "URL", "link": "URL", "plink": "URL", "journal url": "URL", "ur": "URL",
+        "submission id": "Local ID", "id": "Local ID", "an": "Local ID", "oid": "Local ID", "lid": "Local ID", "accession number": "Local ID", "ut": "Local ID",
+        "openalex id": "OpenAlex ID", "openalex_id": "OpenAlex ID", "openalex": "OpenAlex ID",
+        "issn": "ISSN", "issns": "ISSN", "journal issn (print version)": "ISSN", "journal eissn (online version)": "ISSN", "sn": "ISSN", "eissn": "ISSN", "pissn": "ISSN",
+        "isbn": "ISBN", "isbns": "ISBN", "bn": "ISBN",
+        "url": "URL", "fulltext url": "URL", "fulltext url ": "URL", "link": "URL", "plink": "URL", "journal url": "URL", "ur": "URL", "lk": "URL",
+        "arxiv": "ArXiv ID", "arxiv id": "ArXiv ID", "eprint": "ArXiv ID", "archiveprefix": "ArXiv ID",
 
         # 2. Títulos e Conteúdo
-        "title": "Title", "article title": "Title", "document title": "Title", "título": "Title", 
+        "title": "Title", "article title": "Title", "document title": "Title", "título": "Title", "titulo": "Title", 
         "documenttitle": "Title", "journal title": "Title", "ti": "Title", "t1": "Title",
-        "primary_title": "Title", "primary title": "Title",
+        "primary_title": "Title", "primary title": "Title", "item title": "Title",
+        "short title": "Short Title", "shorttitle": "Short Title",
 
-        # 3. Metadados de Autoria e Demografia
+        # 3. Metadados de Autoria, Demografia, Endereço e Localização
         "authors": "Author", "author": "Author", "author(s)": "Author", "author full names": "Author", 
-        "creators": "Author", "autores": "Author", "contributors": "Author", "au": "Author", "first author": "First Author",
+        "creators": "Author", "autores": "Author", "contributors": "Author", "au": "Author", "fau": "Author", "first author": "First Author",
         "affiliations": "Affiliations", "author affiliations": "Affiliations", "authors with affiliations": "Affiliations", 
-        "correspondence address": "Affiliations", "institutions": "Affiliations", "addresses": "Affiliations",
-        "country": "Country", "countries": "Country", "country code": "Country", "country of publisher": "Country", "país": "Country",
+        "institutions": "Affiliations", "institution": "Affiliations", "organization": "Affiliations", "school": "Affiliations", 
+        "department": "Affiliations", "affiliation": "Affiliations",
+        "address": "Address", "addresses": "Address", "author address": "Address", "author addresses": "Address", 
+        "correspondence address": "Address", "reprint address": "Address", "c1": "Address", "rp": "Address", "ad": "Address",
+        "location": "Location", "conference location": "Location", "conference place": "Location", "conference venue": "Location", 
+        "place": "Location", "city": "Location", "place of publication": "Location", "cl": "Location", "pl": "Location", "cy": "Location", 
+        "event location": "Location", "venue": "Location", "place_published": "Location",
+        "country": "Country", "countries": "Country", "country code": "Country", "country of publisher": "Country", "país": "Country", "pais": "Country",
 
         # 4. Inteligência Semântica e Modelagem de Tópicos
-        "abstract": "Abstract", "abstract note": "Abstract", "summary": "Abstract", "resumo": "Abstract", "ab": "Abstract",
-        "keywords": "Keywords", "author keywords": "Keywords", "index keywords": "Keywords", "palavras-chave": "Keywords", 
-        "descriptors": "Keywords", "subjects": "Keywords", "ot": "Keywords",
-        "concepts": "Concepts", "mesh terms": "Concepts", "categories": "Concepts",
+        "abstract": "Abstract", "abstract note": "Abstract", "summary": "Abstract", "resumo": "Abstract", "ab": "Abstract", "n2": "Abstract", "description": "Abstract",
+        "keywords": "Keywords", "author keywords": "Keywords", "index keywords": "Keywords", "palavras-chave": "Keywords", "palavras chave": "Keywords", 
+        "descriptors": "Keywords", "subjects": "Keywords", "ot": "Keywords", "kw": "Keywords", "de": "Keywords", "tags": "Keywords", "raw_keywords": "Keywords",
+        "concepts": "Concepts", "mesh terms": "Concepts", "mesh": "Concepts", "categories": "Concepts", "subject areas": "Concepts",
 
-        # 5. Contexto de Publicação (Distinção de Journal vs Publisher)
-        "journal": "Journal", "journal name": "Journal", "source title": "Journal", "publicationname": "Journal", 
-        "journal/book": "Journal", "source": "Journal", "booktitle": "Journal", "jt": "Journal", "jf": "Journal", "so": "Journal", "abbreviated source title": "Journal",
-        "publisher": "Publisher", "editor": "Publisher", "editors": "Publisher", "pb": "Publisher",
+        # 5. Contexto de Publicação (Distinção de Journal vs Publisher vs Detalhes)
+        "journal": "Journal", "journal name": "Journal", "source title": "Journal", "publicationname": "Journal", "publication name": "Journal", 
+        "journal/book": "Journal", "source": "Journal", "booktitle": "Journal", "jt": "Journal", "jf": "Journal", "so": "Journal", 
+        "j2": "Journal", "t2": "Journal", "abbreviated source title": "Journal", "conference": "Journal", "proceedings": "Journal", "series": "Journal",
+        "publisher": "Publisher", "editor": "Publisher", "editors": "Publisher", "pb": "Publisher", "pu": "Publisher", "host organization": "Publisher", "publishing house": "Publisher",
+        "volume": "Volume", "vol": "Volume", "vl": "Volume", "vi": "Volume",
+        "issue": "Issue", "is": "Issue", "ip": "Issue", "number": "Issue", "no": "Issue",
+        "pages": "Pages", "page": "Pages", "page start": "Pages", "page end": "Pages", "sp": "Pages", "ep": "Pages", "pg": "Pages", 
+        "pages count": "Pages", "article number": "Pages", "artno": "Pages", "art. no.": "Pages",
 
         # 6. Métricas, Datas e Impacto
         "publication year": "Publication Year", "publicationyear": "Publication Year", "year": "Publication Year", 
-        "py": "Publication Year", "ano": "Publication Year", "publicationdate": "Publication Year", 
-        "coverdate": "Publication Year", "printedpublicationyear": "Publication Year", "dp": "Publication Year",
+        "py": "Publication Year", "ano": "Publication Year", "publicationdate": "Publication Year", "publication date": "Publication Year", 
+        "coverdate": "Publication Year", "printedpublicationyear": "Publication Year", "dp": "Publication Year", "date": "Publication Year",
         "times cited": "Times Cited", "citations": "Times Cited", "citation count": "Times Cited", 
-        "cited by count": "Times Cited", "cited by": "Times Cited", "citedbycount": "Times Cited",
+        "cited by count": "Times Cited", "cited by": "Times Cited", "citedbycount": "Times Cited", "tc": "Times Cited", "cites": "Times Cited",
 
         # 7. Filtros de Exclusão Metodológica (PRISMA)
         "document type": "Document Type", "documenttype": "Document Type", "type": "Document Type", 
         "item type": "Document Type", "tipo de documento": "Document Type", "doctypes": "Document Type", 
-        "pubtypes": "Document Type", "publicationtype": "Document Type", "pt": "Document Type", "ty": "Document Type", "section title": "Document Type",
-        "language": "Language", "languages": "Language", "language(s)": "Language", "language of original document": "Language", "idioma": "Language", "la": "Language",
+        "pubtypes": "Document Type", "publicationtype": "Document Type", "pt": "Document Type", "ty": "Document Type", "section title": "Document Type", "dt": "Document Type",
+        "language": "Language", "languages": "Language", "language(s)": "Language", "language of original document": "Language", "idioma": "Language", "la": "Language", "lang": "Language",
         "open access": "Open Access", "oa status": "Open Access", "is_oa": "Open Access", "isopenaccess": "Open Access",
 
-        # 8. Redes de Fomento e Citações
-        "funding": "Funding", "funding details": "Funding", "funding texts": "Funding", "sponsors": "Funding", "sponsor": "Funding", "fomento": "Funding", "gr": "Funding",
-        "references": "Article References", "article references": "Article References", "cited references": "Article References"
+        # 8. Redes de Fomento, Referências e Notas
+        "funding": "Funding", "funding details": "Funding", "funding texts": "Funding", "sponsors": "Funding", "sponsor": "Funding", "fomento": "Funding", "gr": "Funding", "fu": "Funding", "fx": "Funding", "grant": "Funding",
+        "references": "Article References", "article references": "Article References", "cited references": "Article References", "cr": "Article References",
+        "notes": "Notes", "note": "Notes", "annote": "Notes", "n1": "Notes", "comments": "Notes"
     }
 
-    
     new_cols = []
     for col in cols_lower:
         mapped_name = column_mapping.get(col)
@@ -259,7 +322,29 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     for col in TARGET_COLUMNS:
         if col not in df.columns:
             df[col] = pd.NA
-            
+
+    # Cross-field deduction: Populate Affiliations from Address if Affiliations is missing
+    if 'Affiliations' in df.columns and 'Address' in df.columns:
+        aff_missing = df['Affiliations'].isna() | (df['Affiliations'].astype(str).str.strip() == '')
+        addr_valid = df['Address'].notna() & (df['Address'].astype(str).str.strip() != '')
+        df.loc[aff_missing & addr_valid, 'Affiliations'] = df.loc[aff_missing & addr_valid, 'Address']
+
+    # Cross-field deduction: Deduce Country strictly from author-bound fields (Address or Affiliations) if Country is missing.
+    # Note: 'Location' is explicitly excluded because it typically represents the conference/event hosting venue rather than author place.
+    if 'Country' in df.columns:
+        cnt_missing = df['Country'].isna() | (df['Country'].astype(str).str.strip() == '')
+        for idx in df[cnt_missing].index:
+            deduced = None
+            for col_candidate in ['Address', 'Affiliations']:
+                if col_candidate in df.columns:
+                    val_c = df.at[idx, col_candidate]
+                    if pd.notna(val_c):
+                        deduced = extract_country_from_text(str(val_c))
+                        if deduced:
+                            break
+            if deduced:
+                df.at[idx, 'Country'] = deduced
+
     return df
 
 def parse_file(uploaded_file) -> pd.DataFrame:

@@ -15,3 +15,4 @@ rispy
 requests_cache
 matplotlib
 xlsxwriter
+deep-translator

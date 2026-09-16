@@ -11,6 +11,7 @@ import re
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import Counter
 from core.ingestion import deduplicate_and_merge_columns
+from utils.formatters import format_duration
 
 CACHE_DIR = "/tmp" if os.name == 'posix' else tempfile.gettempdir()
 requests_cache.install_cache(os.path.join(CACHE_DIR, 'openalex_cache'), expire_after=604800)
@@ -58,6 +59,23 @@ def format_affiliations_and_countries(authorships: list) -> tuple:
     cnt_str = "; ".join(sorted(set(countries))) if countries else pd.NA
     return aff_str, cnt_str
 
+def format_addresses(authorships: list) -> str:
+    if not authorships: return pd.NA
+    addresses = []
+    for auth in authorships:
+        for raw_aff in auth.get('raw_affiliation_strings', []):
+            if raw_aff and str(raw_aff).strip():
+                addresses.append(str(raw_aff).strip())
+    return "; ".join(sorted(set(addresses))) if addresses else pd.NA
+
+def format_location_from_oa(oa_data: dict) -> str:
+    primary_loc = oa_data.get('primary_location') or {}
+    source = primary_loc.get('source') or {}
+    venue_name = source.get('display_name')
+    host_org = source.get('host_organization_name')
+    loc_parts = [p for p in [venue_name, host_org] if p and str(p).strip()]
+    return " - ".join(loc_parts) if loc_parts else pd.NA
+
 def format_list_of_dicts(data: list, key: str = 'display_name') -> str:
     if not data: return pd.NA
     items = [item.get(key) for item in data if item.get(key)]
@@ -82,7 +100,9 @@ def _get_field(row: pd.Series, field_name: str):
         return str(val).strip()
     return None
 
-def needs_enrichment(row: pd.Series, fields_to_enrich: list) -> bool:
+def needs_enrichment(row: pd.Series, fields_to_enrich: list, is_ultimate: bool = False) -> bool:
+    if is_ultimate:
+        return True
     doi_val = _get_field(row, 'DOI')
     title_val = _get_field(row, 'Title')
     if not doi_val and title_val:
@@ -192,8 +212,8 @@ def fetch_openalex_data_by_title(title: str) -> dict:
 # ---------------------------------------------------------
 # Updates Applicator
 # ---------------------------------------------------------
-def apply_openalex_data(oa_data: dict, row: pd.Series, fields_to_enrich: list, updates: dict, missed: list):
-    needs_update = lambda f: f in fields_to_enrich and _get_field(row, f) is None
+def apply_openalex_data(oa_data: dict, row: pd.Series, fields_to_enrich: list, updates: dict, missed: list, is_ultimate: bool = False):
+    needs_update = lambda f: f in fields_to_enrich and (_get_field(row, f) is None or is_ultimate)
     has_doi = _get_field(row, 'DOI') is not None
     
     updates['enriched'] = True
@@ -225,6 +245,16 @@ def apply_openalex_data(oa_data: dict, row: pd.Series, fields_to_enrich: list, u
             if pd.isna(cnt_val): missed.append('Country')
             else: updates['Country'] = cnt_val
 
+    if needs_update('Address'):
+        addr_val = format_addresses(oa_data.get('authorships'))
+        if pd.notna(addr_val): updates['Address'] = addr_val
+        else: missed.append('Address')
+
+    if needs_update('Location'):
+        loc_val = format_location_from_oa(oa_data)
+        if pd.notna(loc_val): updates['Location'] = loc_val
+        else: missed.append('Location')
+
     # Fetch canonical English abstract if requested or missing
     if 'Abstract' in fields_to_enrich or needs_update('Abstract'):
         val = reconstruct_abstract(oa_data.get('abstract_inverted_index'))
@@ -253,16 +283,30 @@ def apply_openalex_data(oa_data: dict, row: pd.Series, fields_to_enrich: list, u
         if pd.isna(val): missed.append('Publication Year')
         else: updates['Publication Year'] = val
         
-    if needs_update('Times Cited'):
+    # In ultimate mode or if Times Cited requested, always refresh citation count
+    if 'Times Cited' in fields_to_enrich or needs_update('Times Cited') or is_ultimate:
         val = oa_data.get('cited_by_count')
         if pd.isna(val): missed.append('Times Cited')
         else: updates['Times Cited'] = val
 
     if needs_update('Publisher'):
-        primary_loc = oa_data.get('primary_location')
-        val = primary_loc['source'].get('host_organization_name') if primary_loc and primary_loc.get('source') else pd.NA
+        primary_loc = oa_data.get('primary_location') or {}
+        val = primary_loc.get('source', {}).get('host_organization_name') if primary_loc and primary_loc.get('source') else pd.NA
         if pd.isna(val): missed.append('Publisher')
         else: updates['Publisher'] = val
+
+    if needs_update('Journal'):
+        primary_loc = oa_data.get('primary_location') or {}
+        val = primary_loc.get('source', {}).get('display_name') if primary_loc and primary_loc.get('source') else pd.NA
+        if pd.isna(val): missed.append('Journal')
+        else: updates['Journal'] = str(val).strip()
+
+    if needs_update('ISSN'):
+        primary_loc = oa_data.get('primary_location') or {}
+        source = primary_loc.get('source') or {}
+        issn_val = source.get('issn_l') or (source.get('issn') and ", ".join(source.get('issn')))
+        if issn_val and str(issn_val).strip(): updates['ISSN'] = str(issn_val).strip()
+        else: missed.append('ISSN')
         
     if needs_update('Document Type'):
         val = oa_data.get('type')
@@ -299,6 +343,13 @@ def apply_crossref_data(cr_data: dict, row: pd.Series, fields_to_enrich: list, u
             if clean_abs:
                 updates['Abstract'] = clean_abs
 
+    if needs_update('Journal'):
+        c_title = cr_data.get('container-title')
+        if c_title and isinstance(c_title, list) and len(c_title) > 0 and str(c_title[0]).strip():
+            updates['Journal'] = str(c_title[0]).strip()
+        elif isinstance(c_title, str) and c_title.strip():
+            updates['Journal'] = c_title.strip()
+
     if needs_update('Publisher'):
         val = cr_data.get('publisher')
         if val: updates['Publisher'] = val
@@ -314,6 +365,16 @@ def apply_crossref_data(cr_data: dict, row: pd.Series, fields_to_enrich: list, u
         authors = cr_data.get('author', [])
         author_names = [f"{a.get('given', '')} {a.get('family', '')}".strip() for a in authors if a.get('family')]
         if author_names: updates['Author'] = ", ".join(author_names)
+
+    if needs_update('Volume') and cr_data.get('volume'):
+        updates['Volume'] = str(cr_data.get('volume'))
+    if needs_update('Issue') and cr_data.get('issue'):
+        updates['Issue'] = str(cr_data.get('issue'))
+    if needs_update('Pages') and cr_data.get('page'):
+        updates['Pages'] = str(cr_data.get('page'))
+    if needs_update('ISSN') and cr_data.get('ISSN'):
+        issn_list = cr_data.get('ISSN')
+        updates['ISSN'] = ", ".join(issn_list) if isinstance(issn_list, list) else str(issn_list)
 
 def apply_pubmed_data(pm_data: dict, row: pd.Series, fields_to_enrich: list, updates: dict, missed: list):
     needs_update = lambda f: f in fields_to_enrich and _get_field(row, f) is None and f not in updates
@@ -338,7 +399,7 @@ def apply_semanticscholar_data(ss_data: dict, row: pd.Series, fields_to_enrich: 
 # ---------------------------------------------------------
 # Main Enrichment Engine
 # ---------------------------------------------------------
-def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: list, file_manifest: dict = None) -> pd.DataFrame:
+def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: list, file_manifest: dict = None, is_ultimate: bool = False) -> pd.DataFrame:
     df = deduplicate_and_merge_columns(df)
     st.write("Starting Data Enrichment Pipeline...")
     start_time = time.time()
@@ -347,7 +408,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
     tasks = []
     dois_to_fetch = []
     for idx, row in df.iterrows():
-        if needs_enrichment(row, fields_to_enrich):
+        if needs_enrichment(row, fields_to_enrich, is_ultimate=is_ultimate):
             tasks.append((idx, row))
             doi_val = _get_field(row, 'DOI')
             if doi_val:
@@ -388,7 +449,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         
         m1, m2, m3, m4 = st.columns(4)
         m1.metric("Total Dataset Records", f"{len(df):,}")
-        m2.metric("Records Requiring Enrichment", f"{tasks_count:,}")
+        m2.metric("Records Evaluated", f"{tasks_count:,}")
         m3.metric("Valid DOIs (Tiers 1-4)", f"{t1_queried:,}")
         m4.metric("No DOIs (Tier 5 Title)", f"{tasks_count - t1_queried:,}")
         
@@ -410,13 +471,13 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         all_updates = {}
         missed = []
         
-        needs_update = lambda f: f in fields_to_enrich and _get_field(row, f) is None and f not in all_updates
+        needs_update = lambda f: f in fields_to_enrich and (_get_field(row, f) is None or is_ultimate) and f not in all_updates
         
         # Tier 1 Apply
         oa_data = oa_batch_results.get(clean_doi)
         if oa_data:
             up_t1 = {}
-            apply_openalex_data(oa_data, row, fields_to_enrich, up_t1, missed)
+            apply_openalex_data(oa_data, row, fields_to_enrich, up_t1, missed, is_ultimate=is_ultimate)
             if up_t1.get('enriched'):
                 t1_resolved += 1
                 for k, v in up_t1.items():
@@ -424,8 +485,8 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
                         t1_fields_cnt[k] += 1
                         all_updates[k] = v
             
-        # Tier 2: Crossref (if unresolved DOI or missing basic publisher info)
-        if has_doi and (not oa_data or needs_update('Publisher') or needs_update('Publication Year')):
+        # Tier 2: Crossref (if unresolved DOI or missing publisher / year / journal / abstract / author)
+        if has_doi and (not oa_data or needs_update('Publisher') or needs_update('Publication Year') or needs_update('Journal') or needs_update('Abstract') or needs_update('Author')):
             t2_passed += 1
             cr_data = fetch_crossref_by_doi(doi)
             if cr_data:
@@ -471,7 +532,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
             oa_title_data = fetch_openalex_data_by_title(title)
             if oa_title_data:
                 up_t5 = {}
-                apply_openalex_data(oa_title_data, row, fields_to_enrich, up_t5, missed)
+                apply_openalex_data(oa_title_data, row, fields_to_enrich, up_t5, missed, is_ultimate=is_ultimate)
                 if up_t5.get('enriched'):
                     t5_resolved += 1
                     for k, v in up_t5.items():
@@ -516,6 +577,34 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
                 f"T5 (Title Search): **{t5_resolved:,}/{t5_passed:,}**"
             )
 
+    # Post-enrichment Heuristic: Deduce Affiliations from Address if missing
+    if 'Affiliations' in df.columns and 'Address' in df.columns:
+        aff_m = df['Affiliations'].isna() | (df['Affiliations'].astype(str).str.strip() == '')
+        addr_v = df['Address'].notna() & (df['Address'].astype(str).str.strip() != '')
+        df.loc[aff_m & addr_v, 'Affiliations'] = df.loc[aff_m & addr_v, 'Address']
+
+    # Post-enrichment Heuristic: Deduce Country strictly from author Address / Affiliations (excluding conference Location)
+    if 'Country' in df.columns:
+        from core.ingestion import extract_country_from_text
+        cnt_missing = df['Country'].isna() | (df['Country'].astype(str).str.strip() == '')
+        for idx in df[cnt_missing].index:
+            for col_c in ['Address', 'Affiliations']:
+                if col_c in df.columns and pd.notna(df.at[idx, col_c]):
+                    deduced_c = extract_country_from_text(str(df.at[idx, col_c]))
+                    if deduced_c:
+                        df.at[idx, 'Country'] = deduced_c
+                        break
+
+    # Post-enrichment Heuristic: Deduce Language if still missing
+    if 'Language' in df.columns:
+        lang_missing = df['Language'].isna() | (df['Language'].astype(str).str.strip() == '')
+        for idx in df[lang_missing].index:
+            cnt_val = str(df.at[idx, 'Country']) if 'Country' in df.columns and pd.notna(df.at[idx, 'Country']) else ""
+            if any(k in cnt_val.lower() for k in ['brazil', 'brasil', 'portugal']):
+                df.at[idx, 'Language'] = 'PT'
+            elif any(k in cnt_val.lower() for k in ['united states', 'united kingdom', 'australia', 'canada']):
+                df.at[idx, 'Language'] = 'EN'
+
     start_timestamp = datetime.datetime.fromtimestamp(start_time).strftime('%Y-%m-%d %H:%M:%S')
     end_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     duration = time.time() - start_time
@@ -527,8 +616,10 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
     total_successful_runs = fully_enriched + partially_enriched
     success_rate = (total_successful_runs / tasks_count * 100) if tasks_count > 0 else 0
 
+    formatted_duration = format_duration(duration)
+
     status_text.success(
-        f"🎉 **Enrichment Pipeline Completed in {duration:.1f}s!** "
+        f"🎉 **Enrichment Pipeline Completed in {formatted_duration}!** "
         f"Enhanced data for **{total_successful_runs:,}/{tasks_count:,} records** ({success_rate:.1f}% hit rate)."
     )
 
@@ -536,7 +627,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         "=======================================================================",
         "        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG",
         "=======================================================================",
-        f"Execution Timestamp: {start_timestamp} → {end_timestamp} (Duration: {duration:.2f}s)",
+        f"Execution Timestamp: {start_timestamp} → {end_timestamp} (Duration: {formatted_duration})",
         "",
         "[OVERALL DATASET CONTEXT & METRICS]",
         f"• Total Records in Memory Dataset: {len(df):,}",
@@ -624,14 +715,9 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
 
     report_text = "\n".join(audit_lines)
 
-    log_dir = "logs"
-    os.makedirs(log_dir, exist_ok=True)
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_filename = os.path.join(log_dir, f"enrichment_{timestamp}.log")
-    
-    with open(log_filename, "w", encoding="utf-8") as f:
-        f.write(report_text + "\n")
-        f.flush()
+    from utils.project_manager import save_project_file, get_timestamp_str, get_project_dir
+    log_filename_base = f"enrichment_{get_timestamp_str()}.log"
+    log_filename = save_project_file("logs", log_filename_base, report_text)
             
     # Push rich metrics into Streamlit System Logs & trigger immediate confirmation toast
     log_list.append(report_text)

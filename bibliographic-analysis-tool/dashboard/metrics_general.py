@@ -95,19 +95,6 @@ def display_authors_with_more_citations(df_results: pd.DataFrame, df: pd.DataFra
     st.dataframe(year_df, width="stretch", height=180)
     _download_button(year_df, "Download CSV", "articles_per_year.csv")
 
-@safe_run
-def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_screen: bool = False):
-    st.subheader("Error Information (Missing Data Diagnostics)")
-    st.caption("Overview of missing information across mapped schema columns.")
-
-    total_articles = len(df)
-    if total_articles == 0:
-        st.info("No data available.")
-        return
-
-    # 1. Normalize columns first so raw synonymous fields merge
-    df_norm = normalize_columns(df.copy())
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
@@ -206,7 +193,7 @@ def display_authors_with_more_citations(df_results: pd.DataFrame, df: pd.DataFra
     _download_button(year_df, "Download CSV", "articles_per_year.csv")
 
 @safe_run
-def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_screen: bool = False):
+def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_screen: bool = False, is_sidebar: bool = False):
     st.markdown("<h3 style='font-size: 19px; font-weight: 700; color: #1E293B; margin-top: 15px;'><i class='bi bi-exclamation-triangle-fill' style='color: #697aa2;'></i> Error Information (Missing Data Diagnostics)</h3>", unsafe_allow_html=True)
     st.caption("Overview of missing information across mapped schema columns.")
 
@@ -240,9 +227,7 @@ def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_s
 
     # Render Main Mapping Columns (Core Focus)
     if not main_missing.empty:
-        col_chart, col_table = st.columns([1, 1], gap="medium")
-
-        with col_chart:
+        def render_chart():
             fig = go.Figure(go.Bar(
                 x=main_missing["Missing Percentage"],
                 y=main_missing["Column"],
@@ -265,14 +250,29 @@ def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_s
             )
             st.plotly_chart(fig, width="stretch")
 
-        with col_table:
+        def render_table():
             st.caption("Main Schema Breakdown")
             st.dataframe(
                 main_missing.style.format({"Missing Percentage": "{:.2f}%"}),
                 width="stretch",
                 hide_index=True,
-                height=250
+                height=min(280, max(140, len(main_missing) * 35 + 38))
             )
+
+        if is_sidebar:
+            # In sidebar mode: Avoid 2 squished columns; use compact tabbed view
+            t_chart, t_table = st.tabs(["📊 Missing % Chart", "📋 Data Breakdown"])
+            with t_chart:
+                render_chart()
+            with t_table:
+                render_table()
+        else:
+            # Fullscreen / main area: spacious 2-column view
+            col_chart, col_table = st.columns([1, 1], gap="medium")
+            with col_chart:
+                render_chart()
+            with col_table:
+                render_table()
 
     # Secondary Additional Columns (Only on Dashboard screen, not Core screen)
     if not is_core_screen and not additional_missing.empty:

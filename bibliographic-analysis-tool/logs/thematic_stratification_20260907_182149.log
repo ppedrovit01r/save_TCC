@@ -1,0 +1,68 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-07 18:16:45  -->  2026-09-07 18:21:49 (5 minutes 4 seconds)
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Alignment Strategy: Auto-Discovery (Recommended)
+Synchronized Topic Count (k): 9
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 12
+• Outlier Documents (-1): 0 (0.0%)
+• Average Assignment Confidence: 0.75
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [8] (Similarities: [0.43])
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 3: BERTopic [3] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 4: BERTopic [4] ↔ GSDMM [1] (Similarities: [0.20])
+• Unified Topic 5: BERTopic [5] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 6: BERTopic [6] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 7: BERTopic [7] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 8: BERTopic [8] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 9: BERTopic [None] ↔ GSDMM [2] (Similarities: [1.00])
+• Unified Topic 10: BERTopic [None] ↔ GSDMM [4] (Similarities: [1.00])
+• Unified Topic 11: BERTopic [None] ↔ GSDMM [7] (Similarities: [1.00])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:  265 (54.9%) | Mean Conf: 0.94 | Consensus: 189 | Conflicts:   2
+   • BERTopic Top Keywords: images, learning, image, computer, neural, detection
+   • GSDMM Top Keywords:    computer, data, science, learning, model, work
+Cluster 01 | Docs:   87 (18.0%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:  87
+   • BERTopic Top Keywords: process, language, data, business, software, science
+   • GSDMM Top Keywords:    None
+Cluster 02 | Docs:   73 (15.1%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:  73
+   • BERTopic Top Keywords: problem, computing, computer, cloud, system, science
+   • GSDMM Top Keywords:    None
+Cluster 03 | Docs:   10 ( 2.1%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:  10
+   • BERTopic Top Keywords: network, platform, devices, people, architecture, wireless
+   • GSDMM Top Keywords:    None
+Cluster 04 | Docs:   12 ( 2.5%) | Mean Conf: 0.72 | Consensus:   4 | Conflicts:   6
+   • BERTopic Top Keywords: journal, informatics, rita, editorial, theoretical, articles
+   • GSDMM Top Keywords:    programming, type, language, science, haskell, computer
+Cluster 05 | Docs:    9 ( 1.9%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   9
+   • BERTopic Top Keywords: reinforcement, learning, robots, control, route, drivers
+   • GSDMM Top Keywords:    None
+Cluster 06 | Docs:    8 ( 1.7%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   8
+   • BERTopic Top Keywords: security, firewall, attacks, network, encryption, systems
+   • GSDMM Top Keywords:    None
+Cluster 07 | Docs:    7 ( 1.4%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   7
+   • BERTopic Top Keywords: musical, music, digital, audio, speech, programming
+   • GSDMM Top Keywords:    None
+Cluster 08 | Docs:    6 ( 1.2%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:   6
+   • BERTopic Top Keywords: social, knowledge, cultural, networks, users, sweets
+   • GSDMM Top Keywords:    None
+Cluster 11 | Docs:    6 ( 1.2%) | Mean Conf: 0.80 | Consensus:   0 | Conflicts:   0
+   • BERTopic Top Keywords: None
+   • GSDMM Top Keywords:    systems, system, business, fuzzy, process, computer
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

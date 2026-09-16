@@ -17,7 +17,12 @@ def preprocess_for_gsdmm(texts):
         nltk.download("stopwords", quiet=True)
         
     stop_words = set(stopwords.words("english")).union(set(stopwords.words("portuguese")))
-    custom_stopwords = {"sobre", "estudo", "uso", "artigo", "paper", "study", "using", "results", "analysis"}
+    custom_stopwords = {
+        "sobre", "estudo", "uso", "artigo", "paper", "study", "using", "results", "analysis",
+        "error", "errors", "500", "server", "please", "try", "again", "later", "thats", "all",
+        "know", "there", "was", "an", "errorthere", "laterthats", "error1500thats", "unavailable",
+        "internal", "http", "status", "forbidden", "bad", "gateway", "request", "failed"
+    }
     stop_words = stop_words.union(custom_stopwords)
     tokenized_docs = []
     for text in texts:
@@ -49,15 +54,20 @@ def run_bertopic(docs, min_topic_size=15, nr_topics=None):
     stop_words = list(stopwords.words("english")) + list(stopwords.words("portuguese"))
     
     # Optional: also remove very common generic academic words if they still show up
-    custom_stopwords = ["sobre", "estudo", "uso", "artigo", "paper", "study", "using", "results", "analysis"]
+    custom_stopwords = [
+        "sobre", "estudo", "uso", "artigo", "paper", "study", "using", "results", "analysis",
+        "error", "errors", "500", "server", "please", "try", "again", "later", "thats", "all",
+        "know", "there", "was", "an", "errorthere", "laterthats", "error1500thats", "unavailable",
+        "internal", "http", "status", "forbidden", "bad", "gateway", "request", "failed"
+    ]
     stop_words.extend(custom_stopwords)
     
     vectorizer_model = CountVectorizer(stop_words=stop_words)
     
     if nr_topics is not None:
-        # Lower minimum topic size to allow enough initial fragmentation for reduce_topics to work
-        min_topic_size = 5
-        topic_model = BERTopic(min_topic_size=min_topic_size, nr_topics=nr_topics, vectorizer_model=vectorizer_model)
+        # If forcing nr_topics, ensure min_topic_size allows sufficient initial clusters to reduce from
+        actual_min_size = min(min_topic_size, 5) if min_topic_size > 5 else min_topic_size
+        topic_model = BERTopic(min_topic_size=actual_min_size, nr_topics=nr_topics, vectorizer_model=vectorizer_model)
     else:
         topic_model = BERTopic(min_topic_size=min_topic_size, vectorizer_model=vectorizer_model)
         

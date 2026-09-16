@@ -112,4 +112,4 @@ def show(df):
         display_cols = [c for c in ['Title', 'Author', 'Publication Year', 'Affiliations', 'DOI'] if c in endogenous_df.columns]
         if not display_cols:
             display_cols = endogenous_df.columns
-        st.dataframe(endogenous_df[display_cols], use_container_width=True)
+        st.dataframe(endogenous_df[display_cols], width='stretch')

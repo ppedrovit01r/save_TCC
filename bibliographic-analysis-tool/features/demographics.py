@@ -7,71 +7,266 @@ import networkx as nx
 import re
 
 # Comprehensive dictionary for country extraction
-# Mapping both full names and common abbreviations to ISO standard names.
-COUNTRY_MAPPING = {
+# Mapping full country names, variants, and common academic names to standard names.
+COUNTRY_FULL_NAMES = {
+    # Americas
     "usa": "United States", "u.s.a.": "United States", "u.s.a": "United States", 
-    "united states": "United States", "united states of america": "United States", "us": "United States",
+    "united states": "United States", "united states of america": "United States",
+    "brazil": "Brazil", "brasil": "Brazil",
+    "canada": "Canada",
+    "mexico": "Mexico", "méxico": "Mexico",
+    "argentina": "Argentina",
+    "chile": "Chile",
+    "colombia": "Colombia",
+    "peru": "Peru", "perú": "Peru",
+    "uruguay": "Uruguay",
+    "venezuela": "Venezuela",
+    "cuba": "Cuba",
+    "ecuador": "Ecuador",
+    "costa rica": "Costa Rica",
+    "panama": "Panama", "panamá": "Panama",
+    
+    # Europe
     "uk": "United Kingdom", "u.k.": "United Kingdom", "united kingdom": "United Kingdom",
     "england": "United Kingdom", "scotland": "United Kingdom", "wales": "United Kingdom", "northern ireland": "United Kingdom",
-    "brazil": "Brazil", "brasil": "Brazil",
     "germany": "Germany", "deutschland": "Germany",
     "france": "France",
     "spain": "Spain", "espana": "Spain", "españa": "Spain",
     "italy": "Italy", "italia": "Italy",
-    "china": "China", "prc": "China", "peoples republic of china": "China",
-    "india": "India",
-    "canada": "Canada",
-    "australia": "Australia",
-    "japan": "Japan", "nippon": "Japan",
-    "south korea": "South Korea", "korea": "South Korea", "republic of korea": "South Korea",
-    "russia": "Russia", "russian federation": "Russia",
+    "portugal": "Portugal",
     "netherlands": "Netherlands", "holland": "Netherlands", "the netherlands": "Netherlands",
     "sweden": "Sweden",
-    "switzerland": "Switzerland", "suisse": "Switzerland",
-    "portugal": "Portugal",
-    "mexico": "Mexico",
-    "argentina": "Argentina",
-    "chile": "Chile",
-    "colombia": "Colombia",
-    "south africa": "South Africa",
-    "new zealand": "New Zealand",
-    "ireland": "Ireland",
-    "denmark": "Denmark",
+    "switzerland": "Switzerland", "suisse": "Switzerland", "schweiz": "Switzerland",
     "norway": "Norway",
+    "denmark": "Denmark",
     "finland": "Finland",
     "belgium": "Belgium",
-    "austria": "Austria",
-    "poland": "Poland",
+    "austria": "Austria", "österreich": "Austria",
+    "poland": "Poland", "polska": "Poland",
     "greece": "Greece",
-    "turkey": "Turkey", "turkiye": "Turkey",
-    "iran": "Iran",
-    "saudi arabia": "Saudi Arabia",
-    "egypt": "Egypt",
-    "israel": "Israel",
+    "ireland": "Ireland",
+    "czech republic": "Czech Republic", "czechia": "Czech Republic",
+    "hungary": "Hungary",
+    "romania": "Romania",
+    "croatia": "Croatia",
+    "slovakia": "Slovakia",
+    "slovenia": "Slovenia",
+    "bulgaria": "Bulgaria",
+    "serbia": "Serbia",
+    "ukraine": "Ukraine",
+    "russia": "Russia", "russian federation": "Russia",
+    "turkey": "Turkey", "turkiye": "Turkey", "türkiye": "Turkey",
+    "cyprus": "Cyprus",
+    "estonia": "Estonia",
+    "latvia": "Latvia",
+    "lithuania": "Lithuania",
+    "luxembourg": "Luxembourg",
+    "iceland": "Iceland",
+
+    # Asia & Middle East
+    "china": "China", "prc": "China", "peoples republic of china": "China", "people's republic of china": "China",
+    "india": "India",
+    "japan": "Japan", "nippon": "Japan",
+    "south korea": "South Korea", "korea": "South Korea", "republic of korea": "South Korea",
+    "taiwan": "Taiwan",
     "singapore": "Singapore",
     "malaysia": "Malaysia",
     "thailand": "Thailand",
     "vietnam": "Vietnam",
     "indonesia": "Indonesia",
-    "taiwan": "Taiwan",
+    "philippines": "Philippines",
     "pakistan": "Pakistan",
-    "bangladesh": "Bangladesh"
+    "bangladesh": "Bangladesh",
+    "sri lanka": "Sri Lanka",
+    "iran": "Iran",
+    "israel": "Israel",
+    "saudi arabia": "Saudi Arabia",
+    "united arab emirates": "United Arab Emirates", "uae": "United Arab Emirates", "u.a.e.": "United Arab Emirates",
+    "qatar": "Qatar",
+    "kuwait": "Kuwait",
+    "jordan": "Jordan",
+    "lebanon": "Lebanon",
+    "kazakhstan": "Kazakhstan",
+
+    # Oceania
+    "australia": "Australia",
+    "new zealand": "New Zealand",
+
+    # Africa
+    "south africa": "South Africa",
+    "egypt": "Egypt",
+    "nigeria": "Nigeria",
+    "kenya": "Kenya",
+    "morocco": "Morocco",
+    "tunisia": "Tunisia",
+    "algeria": "Algeria",
+    "ghana": "Ghana",
+    "ethiopia": "Ethiopia"
 }
+
+# Ambiguous 2-letter ISO codes that collide with common prepositions/words (e.g. 'de', 'in', 'it', 'no', 'es', 'at', 'is', 'be', 'to')
+# are removed so prepositions in affiliations (e.g., 'Universidade de ...') are never falsely identified as countries.
+ISO2_CODES = {
+    "br": "Brazil", "bra": "Brazil",
+    "usa": "United States",
+    "gbr": "United Kingdom",
+    "prt": "Portugal",
+    "esp": "Spain",
+    "fra": "France",
+    "deu": "Germany",
+    "ita": "Italy",
+    "can": "Canada",
+    "aus": "Australia",
+    "chn": "China",
+    "ind": "India",
+    "jpn": "Japan",
+    "kor": "South Korea",
+    "nld": "Netherlands",
+    "che": "Switzerland",
+    "swe": "Sweden",
+    "nor": "Norway",
+    "dnk": "Denmark",
+    "fin": "Finland",
+    "pol": "Poland",
+    "aut": "Austria",
+    "bel": "Belgium",
+    "rus": "Russia",
+    "mex": "Mexico",
+    "arg": "Argentina",
+    "chl": "Chile",
+    "col": "Colombia"
+}
+
+# Regional cities, states, and prominent universities heuristics to detect countries when country name is omitted
+CITY_STATE_FALLBACKS = [
+    # Prominent Global Universities & Institutions
+    (r'\b(mit|harvard|stanford|ucla|uc berkeley|carnegie mellon|caltech|columbia university|yale|princeton)\b', 'United States'),
+    (r'\b(oxford|cambridge|imperial college|ucl|edinburgh)\b', 'United Kingdom'),
+    (r'\b(usp|unicamp|unesp|ufrj|ufmg|ufrgs|ufsc|ufpr|ufpe|unb|ufba|ufc|ufscar|unifesp|puc-sp|puc-rio|pucrs|puc-pr|pucpr|pontifícia universidade católica|pontificia universidade catolica|fiocruz|inpe|embrapa|universidade federal|instituto federal|universidade estadual|univ federal|unifesp|utfpr|ufop|ufpel|ufg|ufms|ufmt|ufrpe|ufpb|ufma|ufpa|ufam|ufrr|unifal|unifei|ufs|ufv|ufvjm|ufrn|uema|uece|uerj|uel|uem|uemg)\b', 'Brazil'),
+    
+    # United States States & Major Metros
+    (r'\b(california|new york|texas|massachusetts|illinois|washington|florida|pennsylvania|ohio|michigan|georgia|north carolina|virginia|colorado|maryland|arizona)\b', 'United States'),
+    (r'\b(boston|berkeley|chicago|seattle|austin|pittsburgh|baltimore|atlanta|los angeles|san francisco)\b', 'United States'),
+    # Require 5-digit US zip code when matching two-letter state abbreviations so 'ca' (Canada) is never falsely matched as California
+    (r',?\s*\b(ma|ca|ny|tx|wa|il|fl|pa|nc|va)\s+[0-9]{5}\b', 'United States'),
+    
+    # Brazil States & Major Metros
+    (r'\b(são paulo|sao paulo|rio de janeiro|belo horizonte|porto alegre|curitiba|recife|salvador|brasília|brasilia|fortaleza|campinas|florianópolis|florianopolis|vitória|vitoria|natal|joão pessoa|joao pessoa|manaus|belém|belem|ouro preto|pelotas|jataí|jatai|viçosa|vicosa|uberlândia|uberlandia|juiz de fora|maringá|maringa|londrina|campina grande|santa maria|ribeirão preto|ribeirao preto|são carlos|sao carlos)\b', 'Brazil'),
+    (r',?\s*\b(ce|rs|sp|rj|mg|pr|sc|ba|pe|df|go|pa|rn|pb|es|ma|al|pi|mt|ms|se|ro|to|ac|ap|rr)\b\s*(?:,\s*brasil|,\s*brazil|[0-9]{5}-?[0-9]{3}|$)', 'Brazil'),
+    
+    # Canada Institutions & Locations
+    (r'\b(école de technologie supérieure|ecole de technologie superieure|ets montreal|quebec|québec|montreal|montréal|toronto|vancouver|ottawa|waterloo)\b', 'Canada'),
+
+    # United Kingdom
+    (r'\b(london|edinburgh|manchester|birmingham|bristol|glasgow|leeds|sheffield)\b', 'United Kingdom'),
+    # Others
+    (r'\b(paris|lyon|marseille|toulouse)\b', 'France'),
+    (r'\b(berlin|munich|münchen|heidelberg|frankfurt|hamburg|stuttgart)\b', 'Germany'),
+    (r'\b(madrid|barcelona|valencia|seville|granada)\b', 'Spain'),
+    (r'\b(rome|milan|bologna|florence|turin|padua)\b', 'Italy'),
+    (r'\b(lisboa|lisbon|porto|coimbra|braga)\b', 'Portugal'),
+    (r'\b(sydney|melbourne|brisbane|canberra|adelaide|perth)\b', 'Australia'),
+    (r'\b(beijing|shanghai|tsinghua|peking|shenzhen|hangzhou|wuhan)\b', 'China'),
+    (r'\b(tokyo|kyoto|osaka|tohoku|nagoya)\b', 'Japan'),
+    (r'\b(seoul|kaist|yonsei|korea university)\b', 'South Korea'),
+    (r'\b(amsterdam|rotterdam|utrecht|leiden|delft|eindhoven)\b', 'Netherlands'),
+    (r'\b(zurich|zürich|geneva|lausanne|basel|eth zurich|epfl)\b', 'Switzerland')
+]
+
+# Standard ISO-2 and ISO-3 codes for explicit country code parsing (like 'ES; MX; US' or 'BR; CA')
+ALL_ISO_CODES = {
+    "br": "Brazil", "bra": "Brazil",
+    "us": "United States", "usa": "United States",
+    "ca": "Canada", "can": "Canada",
+    "es": "Spain", "esp": "Spain",
+    "mx": "Mexico", "mex": "Mexico",
+    "ec": "Ecuador", "ecu": "Ecuador",
+    "ar": "Argentina", "arg": "Argentina",
+    "cl": "Chile", "chl": "Chile",
+    "co": "Colombia", "col": "Colombia",
+    "pe": "Peru", "per": "Peru",
+    "uy": "Uruguay", "ury": "Uruguay",
+    "ve": "Venezuela", "ven": "Venezuela",
+    "gb": "United Kingdom", "gbr": "United Kingdom", "uk": "United Kingdom",
+    "pt": "Portugal", "prt": "Portugal",
+    "fr": "France", "fra": "France",
+    "de": "Germany", "deu": "Germany",
+    "it": "Italy", "ita": "Italy",
+    "au": "Australia", "aus": "Australia",
+    "cn": "China", "chn": "China",
+    "in": "India", "ind": "India",
+    "jp": "Japan", "jpn": "Japan",
+    "kr": "South Korea", "kor": "South Korea",
+    "nl": "Netherlands", "nld": "Netherlands",
+    "ch": "Switzerland", "che": "Switzerland",
+    "se": "Sweden", "swe": "Sweden",
+    "no": "Norway", "nor": "Norway",
+    "dk": "Denmark", "dnk": "Denmark",
+    "fi": "Finland", "fin": "Finland",
+    "pl": "Poland", "pol": "Poland",
+    "at": "Austria", "aut": "Austria",
+    "be": "Belgium", "bel": "Belgium",
+    "ru": "Russia", "rus": "Russia",
+    "ie": "Ireland", "irl": "Ireland",
+    "nz": "New Zealand", "nzl": "New Zealand",
+    "sg": "Singapore", "sgp": "Singapore",
+    "za": "South Africa", "zaf": "South Africa"
+}
+
+COUNTRY_MAPPING = COUNTRY_FULL_NAMES
+
+def _extract_single_country(segment_str: str) -> set:
+    """Extract countries from an individual affiliation or country token/chunk."""
+    seg = segment_str.strip().lower()
+    if not seg:
+        return set()
+        
+    found = set()
+    clean_exact = seg.strip(' ,;.-')
+    
+    # 1. Exact ISO code match for token (e.g. 'es', 'mx', 'us', 'br', 'ca')
+    if clean_exact in ALL_ISO_CODES:
+        return {ALL_ISO_CODES[clean_exact]}
+        
+    # 2. Check full country names
+    for key, standardized_name in COUNTRY_FULL_NAMES.items():
+        pattern = r'\b' + re.escape(key) + r'\b'
+        if re.search(pattern, seg):
+            found.add(standardized_name)
+            
+    # 3. Check city, state, and academic institution fallbacks
+    if not found:
+        for pat, cname in CITY_STATE_FALLBACKS:
+            if re.search(pat, seg):
+                found.add(cname)
+                break
+                
+    # 4. Strict 2/3-letter ISO match delimited at boundaries
+    if not found:
+        for iso_code, cname in ISO2_CODES.items():
+            pattern = r'(?:^|[\s,;.-])' + re.escape(iso_code) + r'(?:$|[\s,;.-])'
+            if re.search(pattern, seg):
+                found.add(cname)
+                break
+                
+    return found
 
 def extract_countries(affiliation_str):
     if pd.isna(affiliation_str) or not str(affiliation_str).strip():
         return []
     
-    aff_lower = str(affiliation_str).lower()
-    found_countries = set()
+    aff_str = str(affiliation_str).strip()
     
-    # We use regex word boundaries to avoid matching "us" inside "australia", etc.
-    for key, standardized_name in COUNTRY_MAPPING.items():
-        pattern = r'\b' + re.escape(key) + r'\b'
-        if re.search(pattern, aff_lower):
-            found_countries.add(standardized_name)
-            
-    return list(found_countries)
+    # If multiple values are delimited by semicolon, split and evaluate each segment
+    if ';' in aff_str:
+        segments = [s.strip() for s in aff_str.split(';') if s.strip()]
+        found_countries = set()
+        for seg in segments:
+            found_countries.update(_extract_single_country(seg))
+        return sorted(list(found_countries))
+    
+    # Otherwise evaluate string
+    return sorted(list(_extract_single_country(aff_str)))
 
 def show(df):
     st.markdown("<h2 style='font-size: 24px; font-weight: 700; color: #1E293B;'><i class='bi bi-globe-americas' style='color: #697aa2;'></i> Global Demographics & Governance</h2>", unsafe_allow_html=True)
@@ -80,15 +275,48 @@ def show(df):
         st.warning("No data available.")
         return
 
-    if 'Affiliations' not in df.columns:
-        st.error("The dataset does not have an 'Affiliations' column required for demographic analysis.")
+    # Check gating: User must run Gender Mapping inference first
+    if 'gender_analysis_results' not in st.session_state:
+        st.markdown("""
+        <div style="background-color: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 40px 24px; text-align: center; margin-top: 20px;">
+            <div style="font-size: 48px; margin-bottom: 12px;">🔒</div>
+            <h3 style="font-size: 20px; font-weight: 700; color: #334155; margin-bottom: 8px;">
+                Demographic & Geographic Data Locked
+            </h3>
+            <p style="font-size: 14px; color: #64748B; max-width: 620px; margin: 0 auto 20px auto; line-height: 1.6;">
+                Global spatial autocorrelation, international author dispersion, and demographic governance require prior author-level extraction and country inference. 
+                Please run the <b>Gender Mapping</b> pipeline first to unlock this comprehensive spatial intelligence suite.
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        c_gate_l, c_gate_m, c_gate_r = st.columns([1, 1.2, 1])
+        with c_gate_m:
+            if st.button("👉 Run Gender Mapping to Unlock", type="primary", width="stretch"):
+                st.session_state.current_page = "Gender Mapping"
+                st.rerun()
+        return
+
+    gender_res = st.session_state.gender_analysis_results
+    authors_df = gender_res.get('authors_df', pd.DataFrame())
+
+    if 'Affiliations' not in df.columns and ('country' not in authors_df.columns if not authors_df.empty else True):
+        st.error("The dataset does not have an 'Affiliations' column or inferred author countries required for demographic analysis.")
         return
 
     total_raw = len(df)
     
     # --- Data Cleaning and Extraction ---
-    with st.spinner("Extracting geographic metadata from affiliations..."):
-        df['Country_Extracted'] = df['Affiliations'].apply(extract_countries)
+    with st.spinner("Extracting geographic metadata from affiliations and author addresses..."):
+        def extract_all_countries(row):
+            found = set()
+            # Strictly use author-bound fields: Affiliations, Address, and Country.
+            # Conference 'Location' is excluded to avoid mistaking the event hosting venue for the author's origin.
+            for col in ['Affiliations', 'Address', 'Country']:
+                if col in row and pd.notna(row[col]):
+                    found.update(extract_countries(row[col]))
+            return list(found)
+        df['Country_Extracted'] = df.apply(extract_all_countries, axis=1)
             
     # Calculate Data Quality Metrics
     df['Has_Country'] = df['Country_Extracted'].apply(lambda x: len(x) > 0)
@@ -96,44 +324,105 @@ def show(df):
     missing_pct = (missing_count / total_raw) * 100 if total_raw > 0 else 0
 
     if missing_count > 0:
-        st.info(f"**Data Quality Notice:** **{missing_count}** out of {total_raw} articles (**{missing_pct:.1f}%**) do not have identifiable country data in their affiliations. They are excluded from spatial mapping.")
+        st.info(f"**Data Quality Notice:** **{missing_count}** out of {total_raw} articles (**{missing_pct:.1f}%**) do not have identifiable country data in their affiliations. Unlocked author-level inferences are also available below.")
     else:
         st.success(f"**Data Quality Notice:** All {total_raw} articles have identifiable country data.")
 
     df_valid = df[df['Has_Country']].copy()
     
     # Create Tabs for the unified module
-    tab_geo, tab_network, tab_endo = st.tabs(["Geographic Distribution", "Transnational Network", "Editorial Endogeneity"])
+    tab_geo, tab_network, tab_endo, tab_audit = st.tabs([
+        "Geographic Distribution & Gender", 
+        "Transnational Network", 
+        "Editorial Endogeneity",
+        "Geographic Metadata Audit"
+    ])
     
     with tab_geo:
         st.markdown("""
         **Spatial Autocorrelation & Capillarity**
-        Visualizing the global reach of the publication using choropleth heat maps. This answers whether the journal is truly international or localized.
+        Visualizing the global reach of publications and gender distribution across countries using choropleth heat maps.
         """)
         
-        if not df_valid.empty:
-            # Flatten the list of countries to count occurrences
-            all_countries = [country for sublist in df_valid['Country_Extracted'] for country in sublist]
-            country_counts = pd.Series(all_countries).value_counts().reset_index()
-            country_counts.columns = ['Country', 'Article Count']
+        # Gender & Author filter for Geographic Map
+        geo_mode = st.radio(
+            "Spatial Map View:",
+            ["All Author Affiliations", "Female Authors by Country", "Male Authors by Country", "Article Origin Countries"],
+            horizontal=True
+        )
+
+        if geo_mode in ["Female Authors by Country", "Male Authors by Country"]:
+            target_g = "female" if "Female" in geo_mode else "male"
+            color_theme = "Purples" if target_g == "female" else "Blues"
+            filtered_authors = authors_df[authors_df['gender'] == target_g]
+            c_counts = filtered_authors[filtered_authors['country'] != 'Unknown']['country'].value_counts().reset_index()
+            c_counts.columns = ['Country', f'{target_g.title()} Authors']
             
-            fig = px.choropleth(
-                country_counts, 
-                locations="Country", 
-                locationmode="country names",
-                color="Article Count", 
-                hover_name="Country",
-                color_continuous_scale=['#3a2c58', '#414184', '#395e9c', '#357ca3', '#3498a9', '#3eb4ad', '#62cfac'],
-                title="Global Distribution of Publications"
-            )
-            fig.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
-            fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
-            st.plotly_chart(fig, use_container_width=True)
-            
-            with st.expander("View Raw Data"):
-                st.dataframe(country_counts)
+            if not c_counts.empty:
+                c_g1, c_g2 = st.columns([1.5, 1], gap="medium")
+                with c_g1:
+                    fig_map = px.choropleth(
+                        c_counts,
+                        locations='Country',
+                        locationmode='country names',
+                        color=f'{target_g.title()} Authors',
+                        color_continuous_scale=color_theme,
+                        projection='equal earth',
+                        title=f"Global Distribution of {target_g.title()} Authors by Country (Equal Earth Projection)"
+                    )
+                    fig_map.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
+                    fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=420)
+                    st.plotly_chart(fig_map, width='stretch')
+                with c_g2:
+                    st.markdown(f"<div style='font-weight:700; margin-bottom:8px;'>Top Countries by {target_g.title()} Authors</div>", unsafe_allow_html=True)
+                    st.dataframe(c_counts, hide_index=True, height=380, width="stretch")
+            else:
+                st.info(f"No country metadata identified for {target_g} authors yet.")
+        elif geo_mode == "All Author Affiliations":
+            c_counts = authors_df[authors_df['country'] != 'Unknown']['country'].value_counts().reset_index()
+            c_counts.columns = ['Country', 'Total Inferred Authors']
+            if not c_counts.empty:
+                fig = px.choropleth(
+                    c_counts,
+                    locations="Country",
+                    locationmode="country names",
+                    color="Total Inferred Authors",
+                    hover_name="Country",
+                    projection='equal earth',
+                    color_continuous_scale=['#3a2c58', '#414184', '#395e9c', '#357ca3', '#3498a9', '#3eb4ad', '#62cfac'],
+                    title="Global Distribution of All Authors (Inferred - Equal Earth Projection)"
+                )
+                fig.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
+                fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+                st.plotly_chart(fig, width='stretch')
+                with st.expander("View Raw Country Data"):
+                    st.dataframe(c_counts, hide_index=True)
+            else:
+                st.info("No inferred author country data available.")
         else:
-            st.warning("No geographic data available for mapping.")
+            if not df_valid.empty:
+                all_countries = [country for sublist in df_valid['Country_Extracted'] for country in sublist]
+                country_counts = pd.Series(all_countries).value_counts().reset_index()
+                country_counts.columns = ['Country', 'Article Count']
+                
+                fig = px.choropleth(
+                    country_counts, 
+                    locations="Country", 
+                    locationmode="country names",
+                    color="Article Count", 
+                    hover_name="Country",
+                    projection='equal earth',
+                    color_continuous_scale=['#3a2c58', '#414184', '#395e9c', '#357ca3', '#3498a9', '#3eb4ad', '#62cfac'],
+                    title="Global Distribution of Publications (Article Affiliations - Equal Earth Projection)"
+                )
+                fig.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
+                fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+                st.plotly_chart(fig, width='stretch')
+                
+                with st.expander("View Raw Data"):
+                    st.dataframe(country_counts, hide_index=True)
+            else:
+                st.warning("No geographic data available for mapping.")
 
     with tab_network:
         st.markdown("""
@@ -239,7 +528,7 @@ def show(df):
                                     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
                                     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
                                     )
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig, width='stretch')
 
     with tab_endo:
         st.markdown("""
@@ -291,7 +580,30 @@ def show(df):
                 st.info("👆 Please provide the **Publisher Institution ($I_{pub}$)** above to calculate the Endogeneity Index.")
             else:
                 pub_lower = publisher_inst.lower().strip()
-                df_endo_valid['is_endogenous'] = df_endo_valid['Affiliations'].astype(str).str.lower().apply(lambda x: pub_lower in x)
+                
+                import difflib
+                unique_lower = {a.lower(): a for a in unique_affiliations}
+                matches = set(difflib.get_close_matches(pub_lower, list(unique_lower.keys()), n=10, cutoff=0.5))
+                for a in unique_affiliations:
+                    if pub_lower in a.lower() or a.lower() in pub_lower:
+                        matches.add(a.lower())
+                
+                if pub_lower in matches:
+                    matches.remove(pub_lower)
+                    
+                suggested_cognates = sorted(list(set([unique_lower[m] for m in matches if m in unique_lower])))
+                
+                selected_cognates = st.multiselect(
+                    "Select Institutional Cognates (Aliases)", 
+                    options=[a for a in unique_affiliations if a.lower() != pub_lower],
+                    default=suggested_cognates,
+                    help="Select other names that represent the same institution to include them in the endogeneity calculation."
+                )
+
+                search_terms = [pub_lower] + [c.lower().strip() for c in selected_cognates]
+                df_endo_valid['is_endogenous'] = df_endo_valid['Affiliations'].astype(str).str.lower().apply(
+                    lambda x: any(term in x for term in search_terms)
+                )
                 
                 endogenous_count = df_endo_valid['is_endogenous'].sum()
                 e_inst = (endogenous_count / total_endo_analyzed) * 100
@@ -319,4 +631,91 @@ def show(df):
                     display_cols = [c for c in ['Title', 'Author', 'Publication Year', 'Affiliations', 'DOI'] if c in endogenous_df.columns]
                     if not display_cols:
                         display_cols = endogenous_df.columns
-                    st.dataframe(endogenous_df[display_cols], use_container_width=True)
+                    st.dataframe(endogenous_df[display_cols], width='stretch')
+
+    with tab_audit:
+        st.markdown("<h3 style='font-size: 19px; font-weight: 700; color: #1E293B;'>Geographic Metadata & Country Extraction Quality Audit</h3>", unsafe_allow_html=True)
+        st.markdown("""
+        Audit the completeness, consistency, and extraction provenance across verified author-bound geographical fields in your bibliographic corpus:
+        **Affiliations**, **Address**, and **Country**.
+        
+        *(Note: The conference `Location` field is explicitly excluded from author origin deduction to maintain scientific integrity and prevent mistaking conference venues for author provenance).*
+        """)
+        
+        # Build audit dataframe
+        audit_cols = [c for c in ['Title', 'Author', 'Publication Year', 'Country_Extracted', 'Country', 'Address', 'Location', 'Affiliations'] if c in df.columns]
+        
+        # Compute quality statistics per column
+        total_records = len(df)
+        has_aff = df['Affiliations'].apply(lambda x: pd.notna(x) and str(x).strip() != '' and str(x).lower() != 'nan').sum() if 'Affiliations' in df.columns else 0
+        has_addr = df['Address'].apply(lambda x: pd.notna(x) and str(x).strip() != '' and str(x).lower() != 'nan').sum() if 'Address' in df.columns else 0
+        has_orig_country = df['Country'].apply(lambda x: pd.notna(x) and str(x).strip() != '' and str(x).lower() != 'nan').sum() if 'Country' in df.columns else 0
+        has_extracted = df['Has_Country'].sum()
+        
+        m1, m2, m3, m4, m5 = st.columns(5)
+        m1.metric("Total Records", total_records)
+        m2.metric("Affiliations Present", f"{has_aff} ({(has_aff/total_records)*100:.1f}%)" if total_records else "0")
+        m3.metric("Author Address Present", f"{has_addr} ({(has_addr/total_records)*100:.1f}%)" if total_records else "0")
+        m4.metric("Explicit Country Present", f"{has_orig_country} ({(has_orig_country/total_records)*100:.1f}%)" if total_records else "0")
+        m5.metric("Author Country Identified", f"{has_extracted} ({(has_extracted/total_records)*100:.1f}%)" if total_records else "0", delta=f"{has_extracted - has_orig_country} deduced" if has_extracted >= has_orig_country else None)
+        
+        st.divider()
+        
+        # Filter options for the audit table
+        filter_col1, filter_col2 = st.columns([1.5, 2])
+        with filter_col1:
+            audit_filter = st.radio(
+                "Filter Audit Records:",
+                ["All Records", "Successfully Extracted", "Missing Country Info"],
+                horizontal=True
+            )
+        with filter_col2:
+            search_query = st.text_input("Search in Geographic Fields or Title", placeholder="e.g. Brazil, USP, University, etc.")
+            
+        display_audit_df = df[audit_cols].copy()
+        display_audit_df['Identified_Countries'] = display_audit_df['Country_Extracted'].apply(lambda lst: ", ".join(lst) if lst else "❌ None")
+        display_audit_df['Status'] = display_audit_df['Country_Extracted'].apply(lambda lst: "✅ Identified" if lst else "⚠️ Missing")
+        
+        # Reorder columns for optimal inspection
+        preferred_order = ['Status', 'Identified_Countries', 'Title', 'Affiliations', 'Address', 'Country', 'Location', 'Author', 'Publication Year']
+        final_cols = [c for c in preferred_order if c in display_audit_df.columns]
+        display_audit_df = display_audit_df[final_cols]
+        
+        if audit_filter == "Successfully Extracted":
+            display_audit_df = display_audit_df[display_audit_df['Status'] == "✅ Identified"]
+        elif audit_filter == "Missing Country Info":
+            display_audit_df = display_audit_df[display_audit_df['Status'] == "⚠️ Missing"]
+            
+        if search_query.strip():
+            sq = search_query.strip().lower()
+            mask = display_audit_df.astype(str).apply(lambda row: row.str.lower().str.contains(sq, regex=False)).any(axis=1)
+            display_audit_df = display_audit_df[mask]
+            
+        st.dataframe(
+            display_audit_df,
+            width='stretch',
+            height=420,
+            column_config={
+                "Status": st.column_config.TextColumn("Status", width="small"),
+                "Identified_Countries": st.column_config.TextColumn("Author Country (Extracted)", width="medium"),
+                "Title": st.column_config.TextColumn("Title", width="large"),
+                "Affiliations": st.column_config.TextColumn("Author Affiliations", width="large"),
+                "Address": st.column_config.TextColumn("Author Address", width="medium"),
+                "Country": st.column_config.TextColumn("Explicit Country Column", width="small"),
+                "Location": st.column_config.TextColumn("Conference Location (Excluded from Deduction)", width="medium")
+            }
+        )
+        
+        # Download audit log as CSV
+        from utils.project_manager import format_timestamped_filename, save_project_file
+        csv_data = display_audit_df.to_csv(index=False).encode('utf-8')
+        fn_demo_log = format_timestamped_filename("geographic_metadata_audit_log.csv")
+        try: save_project_file("exports", fn_demo_log, csv_data, mode="wb")
+        except Exception: pass
+
+        st.download_button(
+            label="📥 Export Geographic Metadata Audit Log (CSV)",
+            data=csv_data,
+            file_name=fn_demo_log,
+            mime="text/csv"
+        )

@@ -1,0 +1,39 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-07 17:51:06  -->  2026-09-07 17:52:12 (1 minute 5 seconds)
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Alignment Strategy: Auto-Discovery (Recommended)
+Synchronized Topic Count (k): 3
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 4
+• Outlier Documents (-1): 0 (0.0%)
+• Average Assignment Confidence: 0.96
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [2] (Similarities: [0.95])
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [0] (Similarities: [0.81])
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 3: BERTopic [None] ↔ GSDMM [1] (Similarities: [1.00])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:  369 (76.4%) | Mean Conf: 0.98 | Consensus: 352 | Conflicts:  17
+   • BERTopic Top Keywords: computer, science, data, learning, model, models
+   • GSDMM Top Keywords:    computer, data, science, learning, model, models
+Cluster 01 | Docs:   96 (19.9%) | Mean Conf: 1.00 | Consensus:  96 | Conflicts:   0
+   • BERTopic Top Keywords: error, 500, please, error1500thats, errorthere, laterthats
+   • GSDMM Top Keywords:    error, server, errorthere, please, try, know
+Cluster 02 | Docs:   18 ( 3.7%) | Mean Conf: 0.50 | Consensus:   0 | Conflicts:  18
+   • BERTopic Top Keywords: error, 500, please, error1500thats, errorthere, laterthats
+   • GSDMM Top Keywords:    None
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

@@ -92,3 +92,82 @@ def calculate_temporal_trends(df, topic_col='unified_topic', year_col='year'):
             })
             
     return pd.DataFrame(trends)
+
+def calculate_cluster_quality_metrics(df, topic_mapping, bert_words, gsdmm_words, topic_col='unified_topic', conf_col='topic_confidence'):
+    """
+    Computes per-cluster statistical audit metrics:
+    - Document count and corpus share (%)
+    - Mean confidence, min confidence, max confidence, std confidence
+    - Full consensus rate (conf == 1.0)
+    - Conflict rate (conf == 0.5)
+    - Single model assignment rate (conf == 0.8)
+    - Alignment mapping details (BERTopic leader and GSDMM followers)
+    - Keyword coherence proxy
+    """
+    if df is None or df.empty or topic_col not in df.columns:
+        return pd.DataFrame()
+
+    total_docs = len(df)
+    clusters = sorted([t for t in df[topic_col].unique() if t != -1])
+    metrics_list = []
+
+    for u_id in clusters:
+        cluster_df = df[df[topic_col] == u_id]
+        n_docs = len(cluster_df)
+        pct_corpus = (n_docs / total_docs * 100) if total_docs > 0 else 0.0
+
+        confs = cluster_df[conf_col].dropna() if conf_col in cluster_df.columns else pd.Series([0.0])
+        mean_conf = float(confs.mean()) if not confs.empty else 0.0
+        min_conf = float(confs.min()) if not confs.empty else 0.0
+        max_conf = float(confs.max()) if not confs.empty else 0.0
+        std_conf = float(confs.std()) if len(confs) > 1 else 0.0
+
+        consensus_count = int((confs == 1.0).sum())
+        conflict_count = int((confs == 0.5).sum())
+        single_model_count = int(((confs >= 0.75) & (confs <= 0.85)).sum())
+        consensus_rate = (consensus_count / n_docs * 100) if n_docs > 0 else 0.0
+
+        mapping_info = topic_mapping.get(u_id, {}) if topic_mapping else {}
+        b_id = mapping_info.get('bertopic_id')
+        g_ids = mapping_info.get('gsdmm_ids', [])
+        if not g_ids and mapping_info.get('gsdmm_id') is not None:
+            g_ids = [mapping_info['gsdmm_id']]
+
+        b_words_list = bert_words.get(b_id, []) if b_id is not None and bert_words else []
+        g_words_list = []
+        if gsdmm_words:
+            for g_id in g_ids:
+                g_words_list.extend(gsdmm_words.get(g_id, []))
+        seen_g = set()
+        dedup_g_words = [w for w in g_words_list if not (w in seen_g or seen_g.add(w))]
+
+        # Jaccard lexical overlap between BERTopic and GSDMM keywords for this cluster
+        if b_words_list and dedup_g_words:
+            set_b, set_g = set(b_words_list), set(dedup_g_words)
+            inter = len(set_b.intersection(set_g))
+            union = len(set_b.union(set_g))
+            lexical_jaccard = inter / union if union > 0 else 0.0
+        else:
+            lexical_jaccard = 1.0 if not b_words_list and not dedup_g_words else 0.0
+
+        metrics_list.append({
+            'topic': u_id,
+            'doc_count': n_docs,
+            'corpus_share_pct': pct_corpus,
+            'mean_confidence': mean_conf,
+            'min_confidence': min_conf,
+            'max_confidence': max_conf,
+            'std_confidence': std_conf,
+            'consensus_rate_pct': consensus_rate,
+            'consensus_count': consensus_count,
+            'conflict_count': conflict_count,
+            'single_model_count': single_model_count,
+            'bertopic_id': b_id,
+            'gsdmm_ids': g_ids,
+            'keyword_overlap_jaccard': lexical_jaccard,
+            'bertopic_keywords': ", ".join(b_words_list[:7]) if b_words_list else "None",
+            'gsdmm_keywords': ", ".join(dedup_g_words[:7]) if dedup_g_words else "None"
+        })
+
+    return pd.DataFrame(metrics_list)
+

@@ -1179,3 +1179,16 @@ Please retry in 5.489947618s. [links {
 2026-09-01 15:40:31,372 - [INFO] - Provider: Gemini
 2026-09-01 15:40:31,372 - [INFO] - Topics to name: 9
 2026-09-01 15:41:08,057 - [INFO] - Batch generation success (36.68s).
+2026-09-15 20:04:09,637 - [INFO] - --- New Batch Request ---
+2026-09-15 20:04:09,637 - [INFO] - Provider: Gemini
+2026-09-15 20:04:09,638 - [INFO] - Topics to name: 34
+2026-09-15 20:04:09,638 - [WARNING] - Request blocked: No API key provided.
+2026-09-15 20:08:37,550 - [INFO] - --- New Batch Request ---
+2026-09-15 20:08:37,551 - [INFO] - Provider: Gemini
+2026-09-15 20:08:37,551 - [INFO] - Topics to name: 35
+2026-09-15 20:08:37,551 - [WARNING] - Request blocked: No API key provided.
+2026-09-15 20:26:30,610 - [INFO] - --- New Batch Request ---
+2026-09-15 20:26:30,611 - [INFO] - Provider: Gemini
+2026-09-15 20:26:30,611 - [INFO] - Topics to name: 48
+2026-09-15 20:26:46,440 - [INFO] - Batch chunk generation success (15.83 seconds).
+2026-09-15 20:27:00,883 - [INFO] - Batch chunk generation success (14.44 seconds).
