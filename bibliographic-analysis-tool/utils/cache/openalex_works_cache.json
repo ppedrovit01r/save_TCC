@@ -1,0 +1,514 @@
+{
+  "W2101234009": {
+    "title": "Scikit-learn: Machine Learning in Python",
+    "year": 2012,
+    "author": "Fabián Pedregosa"
+  },
+  "W2126105956": {
+    "title": "A fast and elitist multiobjective genetic algorithm: NSGA-II",
+    "year": 2002,
+    "author": "Kalyanmoy Deb"
+  },
+  "W4239510810": {
+    "title": "Support-vector networks",
+    "year": 1995,
+    "author": "Corinna Cortes"
+  },
+  "W2156909104": {
+    "title": "The Nature of Statistical Learning Theory",
+    "year": 1995,
+    "author": "Vladimir Vapnik"
+  },
+  "W2119821739": {
+    "title": "Support-Vector Networks",
+    "year": 1995,
+    "author": "Corinna Cortes"
+  },
+  "W2148603752": {
+    "title": "Statistical Learning Theory",
+    "year": 1999,
+    "author": "Yuhai Wu"
+  },
+  "W2127218421": {
+    "title": "Some methods for classification and analysis of multivariate observations",
+    "year": 1967,
+    "author": "James B. MacQueen"
+  },
+  "W1987971958": {
+    "title": "Silhouettes: A graphical aid to the interpretation and validation of cluster analysis",
+    "year": 1987,
+    "author": "Peter J. Rousseeuw"
+  },
+  "W2139212933": {
+    "title": "A Tutorial on Support Vector Machines for Pattern Recognition",
+    "year": 1998,
+    "author": "Christopher J. C. Burges"
+  },
+  "W1563088657": {
+    "title": "An Introduction to Support Vector Machines and Other Kernel-based Learning Methods",
+    "year": 2000,
+    "author": "Nello Cristianini"
+  },
+  "W2145790759": {
+    "title": "An Introduction to MultiAgent Systems",
+    "year": 2002,
+    "author": "Michael Wooldridge"
+  },
+  "W1528620860": {
+    "title": "An Introduction to Support Vector Machines and Other Kernel‐based Learning Methods",
+    "year": 2001,
+    "author": ""
+  },
+  "W2114067856": {
+    "title": "Advanced Compiler Design and Implementation",
+    "year": 1997,
+    "author": "Steven S. Muchnick"
+  },
+  "W4297917482": {
+    "title": "A Fast and Elitist Multiobjective Genetic Algorithm: NSGA-II",
+    "year": 2002,
+    "author": "Kalyanmoy Deb"
+  },
+  "W1986755980": {
+    "title": "Modelling with Generalized Stochastic Petri Nets",
+    "year": 1998,
+    "author": "Marco Ajmone Marsan"
+  },
+  "W1903683453": {
+    "title": "An Introduction to Multi-Agent Systems",
+    "year": 2010,
+    "author": "P. Balaji"
+  },
+  "W1497120980": {
+    "title": "Programming Multi-Agent Systems in AgentSpeak usingJason",
+    "year": 2007,
+    "author": "Rafael H. Bordini"
+  },
+  "W4301118033": {
+    "title": "Fundamentals of Business Process Management",
+    "year": 2013,
+    "author": "Marlon Dumas"
+  },
+  "W2122410182": {
+    "title": "Artificial intelligence: a modern approach",
+    "year": 1995,
+    "author": "Dr. Anil Kumar"
+  },
+  "W4206686222": {
+    "title": "The Nature of Statistical Learning Theory",
+    "year": 1996,
+    "author": "Stephan R. Sain"
+  },
+  "W1983362322": {
+    "title": "Artificial Intelligence: A Modern Approach",
+    "year": 1995,
+    "author": "Antoni Ligęza"
+  },
+  "W1995875735": {
+    "title": "A Mathematical Theory of Communication",
+    "year": 1948,
+    "author": "Claude E. Shannon"
+  },
+  "W2066636486": {
+    "title": "The anatomy of a large-scale hypertextual Web search engine",
+    "year": 1998,
+    "author": "Sergey Brin"
+  },
+  "W1996109622": {
+    "title": "Petri nets: Properties, analysis and applications",
+    "year": 1989,
+    "author": "T. Murata"
+  },
+  "W1971784203": {
+    "title": "Algorithms for Clustering Data",
+    "year": 1990,
+    "author": "Warren S. Sarle"
+  },
+  "W2319660501": {
+    "title": "Algorithms for clustering data",
+    "year": 1989,
+    "author": "Bernhard Flury"
+  },
+  "W2482589566": {
+    "title": "An Introduction to Data Mining",
+    "year": 2006,
+    "author": "Christopher R. Stephens"
+  },
+  "W1999182952": {
+    "title": "Diffuse radiation in the Galaxy",
+    "year": 1941,
+    "author": "L. C. Henyey"
+  },
+  "W3010956862": {
+    "title": "Wave Propagation and Scattering in Random Media",
+    "year": 1978,
+    "author": ""
+  },
+  "W2091921805": {
+    "title": "Exact indexing of dynamic time warping",
+    "year": 2004,
+    "author": "Eamonn Keogh"
+  },
+  "W1981202432": {
+    "title": "Authoritative sources in a hyperlinked environment",
+    "year": 1998,
+    "author": "Jon Kleinberg"
+  },
+  "W1571903778": {
+    "title": "Tissue Optics: Light Scattering Methods and Instruments for Medical Diagnosis",
+    "year": 2015,
+    "author": "Valery V. Tuchin"
+  },
+  "W2123517881": {
+    "title": "Determining the optical properties of turbid media by using the adding–doubling method",
+    "year": 1993,
+    "author": "Scott A. Prahl"
+  },
+  "W2156876717": {
+    "title": "Computational lambda-calculus and monads",
+    "year": 2003,
+    "author": "Eugenio Moggi"
+  },
+  "W2120448006": {
+    "title": "A practical model for subsurface light transport",
+    "year": 2001,
+    "author": "Henrik Wann Jensen"
+  },
+  "W2263099603": {
+    "title": "Color in Business, Science, and Industry",
+    "year": 1963,
+    "author": "Deane B. Judd"
+  },
+  "W2094108443": {
+    "title": "Mechanisms of light scattering from biological cells relevant to noninvasive optical-tissue diagnostics",
+    "year": 1998,
+    "author": "Judith R. Mourant"
+  },
+  "W3134208756": {
+    "title": "The Goal/Question/Metric Method : A Practical Guide for Quality Improvement of Software Development",
+    "year": 1998,
+    "author": "Egon Berghout"
+  },
+  "W1991609163": {
+    "title": "Multi-agent oriented programming with JaCaMo",
+    "year": 2011,
+    "author": "Olivier Boissier"
+  },
+  "W949909655": {
+    "title": "A general process mining framework for correlating, predicting and clustering dynamic behavior based on event logs",
+    "year": 2015,
+    "author": "Massimiliano de Leoni"
+  },
+  "W2072267206": {
+    "title": "Design erosion: problems and causes",
+    "year": 2002,
+    "author": "Jilles van Gurp"
+  },
+  "W2111584934": {
+    "title": "An Algorithmic Reflectance and Transmittance Model for Plant Tissue",
+    "year": 1997,
+    "author": "Gladimir V. G. Baranoski"
+  },
+  "W1964647125": {
+    "title": "The Jalapeño dynamic optimizing compiler for Java",
+    "year": 1999,
+    "author": "Michael Burke"
+  },
+  "W2014872028": {
+    "title": "A framework for realistic image synthesis",
+    "year": 1997,
+    "author": "Donald P. Greenberg"
+  },
+  "W1993922719": {
+    "title": "FORWARD SCATTERING PROPERTIES OF HUMAN EPIDERMAL LAYERS",
+    "year": 1984,
+    "author": "Wiel A. G. Bruls"
+  },
+  "W4321468255": {
+    "title": "Light transport in tissue",
+    "year": 1988,
+    "author": "A. Edward Profio"
+  },
+  "W2024060531": {
+    "title": "Optimization by Simulated Annealing",
+    "year": 1983,
+    "author": "Scott Kirkpatrick"
+  },
+  "W1667165204": {
+    "title": "Probability, Random Variables, and Stochastic Processes.",
+    "year": 1984,
+    "author": "Julia Abrahams"
+  },
+  "W1576818901": {
+    "title": "Genetic Programming: On the Programming of Computers by Means of Natural Selection",
+    "year": 1992,
+    "author": "John R. Koza"
+  },
+  "W2138621811": {
+    "title": "Authoritative sources in a hyperlinked environment",
+    "year": 1999,
+    "author": "Jon Kleinberg"
+  },
+  "W1990368529": {
+    "title": "A Fuzzy Relative of the ISODATA Process and Its Use in Detecting Compact Well-Separated Clusters",
+    "year": 1973,
+    "author": "J. C. Dunn"
+  },
+  "W2098907614": {
+    "title": "Performance assessment of multiobjective optimizers: an analysis and review",
+    "year": 2003,
+    "author": "Eckart Zitzler"
+  },
+  "W1557561422": {
+    "title": "Types and Programming Languages",
+    "year": 2002,
+    "author": "Benjamin C. Pierce"
+  },
+  "W1916709771": {
+    "title": "Modern Operating Systems",
+    "year": 1992,
+    "author": "Andrew S. Tanenbaum"
+  },
+  "W1485876394": {
+    "title": "Light scattering by small particles. Von H. C. V AN DE H ULST . New York: Dover Publications, Inc. 1981. Paperback, 470 S., 103 Abb. und 46 Tab., US $ 7.50",
+    "year": 1984,
+    "author": "Manfred Hartmann"
+  },
+  "W2091691807": {
+    "title": "The measurement of appearance",
+    "year": 1975,
+    "author": "Richard S. Hunter"
+  },
+  "W2151191515": {
+    "title": "Does code decay? Assessing the evidence from change management data",
+    "year": 2001,
+    "author": "S.G. Eick"
+  },
+  "W2116253700": {
+    "title": "A Monte Carlo model of light propagation in tissue",
+    "year": 1989,
+    "author": "Scott A. Prahl"
+  },
+  "W2159682002": {
+    "title": "Metrics and laws of software evolution-the nineties view",
+    "year": 2002,
+    "author": "M. M. Lehman"
+  },
+  "W131856359": {
+    "title": "Exact Indexing of Dynamic Time Warping",
+    "year": 2002,
+    "author": "Eamonn Keogh"
+  },
+  "W1554901925": {
+    "title": "Multiple Light Scattering: Tables, Formulas, and Applications",
+    "year": 1980,
+    "author": "H. C. van de Hulst"
+  },
+  "W1578876701": {
+    "title": "Rediscovering workflow models from event-based data using little thumb",
+    "year": 2003,
+    "author": "A.J.M.M. Weijters"
+  },
+  "W2008695134": {
+    "title": "Light transport in tissue",
+    "year": 1989,
+    "author": "A. Edward Profio"
+  },
+  "W1499824367": {
+    "title": "Environment Programming in CArtAgO",
+    "year": 2009,
+    "author": "Alessandro Ricci"
+  },
+  "W2146175859": {
+    "title": "A Biophysically‐Based Spectral Model of Light Interaction with Human Skin",
+    "year": 2004,
+    "author": "Aravind Krishnaswamy"
+  },
+  "W1513984747": {
+    "title": "Measurement and Analysis of Object Reflectance Spectra",
+    "year": 1994,
+    "author": "M. J. Vrhel"
+  },
+  "W1984449853": {
+    "title": "Decision model for legacy systems",
+    "year": 1999,
+    "author": "Keith Bennett"
+  },
+  "W1892476167": {
+    "title": "Software Modernization Decision Criteria: An Empirical Study",
+    "year": 2005,
+    "author": "J. Koskinen"
+  },
+  "W1972720640": {
+    "title": "Visual identification of software evolution patterns",
+    "year": 2007,
+    "author": "Andrejs Jermakovics"
+  },
+  "W1597356853": {
+    "title": "Design, Implementation, and Evaluation of a Dynamic Compilation Framework for the YAP System",
+    "year": 2007,
+    "author": "Anderson Faustino da Silva"
+  },
+  "W2154854629": {
+    "title": "Supporting decisions on the adoption of re-engineering technologies",
+    "year": 2004,
+    "author": "Lerina Aversano"
+  },
+  "W3109856192": {
+    "title": "Virtual spectrophotometric measurements for biologically and physically based rendering",
+    "year": 2001,
+    "author": "Jon Rokne"
+  },
+  "W4385490334": {
+    "title": "A Practical Model for Subsurface Light Transport",
+    "year": 2023,
+    "author": "Henrik Wann Jensen"
+  },
+  "W2117774526": {
+    "title": "Preventive maintenance! Do we know what it is?",
+    "year": 2000,
+    "author": "Kajko-Mattsson"
+  },
+  "W2068117451": {
+    "title": "Assessment of a renewal process experimented in the field",
+    "year": 1999,
+    "author": "Giuseppe Visaggio"
+  },
+  "W2187993330": {
+    "title": "Kernel Methods, Multiclass Classification and Applications to Computational Molecular Biology",
+    "year": 2004,
+    "author": "Xvi Ciclo"
+  },
+  "W4249859530": {
+    "title": "An Algorithmic Reflectance and Transmittance Model for Plant Tissue",
+    "year": 1997,
+    "author": "Gladimir V. G. Baranoski"
+  },
+  "W4301253858": {
+    "title": "Probability, Random Variables, and Stochastic Processes",
+    "year": 1966,
+    "author": "Irwin Miller"
+  },
+  "W1557590941": {
+    "title": "Geometrical considerations and nomenclature for reflectance",
+    "year": 1977,
+    "author": "Fred E. Nicodemus"
+  },
+  "W1788708300": {
+    "title": "A Brief Review of Nature-Inspired Algorithms for Optimization",
+    "year": 2013,
+    "author": "Iztok Fister"
+  },
+  "W2987635609": {
+    "title": "Concepts of programming languages",
+    "year": 1990,
+    "author": "Greg Michaelson"
+  },
+  "W1983177443": {
+    "title": "Color in Business, Science, and Industry",
+    "year": 1953,
+    "author": "M. G. Mellon"
+  },
+  "W6638786369": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W4285719527": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6648367431": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6681603819": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2153185479": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6675354045": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6646781758": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6677944711": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6646069973": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W4297825776": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6677168553": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6656506093": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2172000360": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6629883159": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W165807459": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6664771284": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2993383518": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  }
+}

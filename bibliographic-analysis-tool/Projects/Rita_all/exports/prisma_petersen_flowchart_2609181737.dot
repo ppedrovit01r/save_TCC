@@ -1,0 +1,28 @@
+
+        digraph PRISMA_SMS {
+            rankdir=TB;
+            node [shape=rect, style="rounded,filled", fontname="Segoe UI, Helvetica, sans-serif", fontsize=11, color="#94A3B8", fontcolor="#1E293B", margin="0.25,0.15"];
+            edge [fontname="Segoe UI, Helvetica, sans-serif", fontsize=10, color="#64748B", penwidth=1.2, arrowsize=0.8];
+            
+            # Nodes
+            ID [label="Initial Search & Identification\nDatabases & Snowballing\n(n = 483)", fillcolor="#F1F5F9"];
+            Dups [label="Excluded:\nDuplicates Removed\n(n = 0)", fillcolor="#FEE2E2", color="#FCA5A5"];
+            Screen [label="Title & Abstract Screening\n(n = 483)", fillcolor="#E0F2FE", color="#7DD3FC"];
+            Excluded [label="Excluded based on\nTitle & Abstract\n(n = 0)", fillcolor="#FEE2E2", color="#FCA5A5"];
+            FullText [label="Full-Text Eligibility &\nClassification Scheme\n(n = 483)", fillcolor="#E0F2FE", color="#7DD3FC"];
+            ExcludedReasons [label="Excluded based on Full-Text:\nNone", fillcolor="#FEE2E2", color="#FCA5A5"];
+            Included [label="Final Studies Included\nin Systematic Mapping\n(n = 483)", fillcolor="#DCFCE7", color="#86EFAC", fontcolor="#166534", style="rounded,filled,bold"];
+            
+            # Edges
+            ID -> Screen;
+            ID -> Dups [style=dashed];
+            Screen -> FullText;
+            Screen -> Excluded [style=dashed];
+            FullText -> Included;
+            FullText -> ExcludedReasons [style=dashed];
+            
+            {rank=same; ID Dups}
+            {rank=same; Screen Excluded}
+            {rank=same; FullText ExcludedReasons}
+        }
+        

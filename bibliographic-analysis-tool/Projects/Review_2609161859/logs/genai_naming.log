@@ -1,0 +1,4 @@
+2026-09-16 19:30:52,516 - [INFO] - --- New Batch Request ---
+2026-09-16 19:30:52,516 - [INFO] - Provider: Gemini
+2026-09-16 19:30:52,516 - [INFO] - Topics to name: 12
+2026-09-16 19:31:07,046 - [INFO] - Batch chunk generation success (14.53 seconds).

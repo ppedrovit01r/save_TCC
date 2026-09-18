@@ -8,7 +8,18 @@ from core.enrichment import enrich_dataset_openalex
 from core.export import df_to_csv, df_to_excel, df_to_ris, df_to_bib, df_to_nbib
 from dashboard.metrics_general import display_error_info
 from utils.formatters import format_duration
-from utils.project_manager import set_active_project, get_active_project_name, format_timestamped_filename, save_project_file, get_timestamp_str
+from utils.project_manager import (
+    set_active_project, 
+    get_active_project_name, 
+    format_timestamped_filename, 
+    save_project_file, 
+    get_timestamp_str,
+    save_master_dataset,
+    load_master_dataset,
+    list_saved_projects,
+    open_project_folder
+)
+from utils.exports import render_project_saved_notice
 
 MAX_ROWS = 50000
 
@@ -60,6 +71,9 @@ def add_to_memory(new_df, filename):
     if filename not in st.session_state.loaded_files:
         st.session_state.loaded_files.append(filename)
     
+    # Auto-save master dataset into active project
+    save_master_dataset(st.session_state.master_df)
+    
     st.session_state.execution_logs.append(f"Auto-committed '{filename}' ({len(new_df)} valid rows out of {raw_new_count} raw) to memory. Total deduplicated rows: {len(st.session_state.master_df)}")
 
 def inject_cluster_fields(fields, widget_key):
@@ -80,19 +94,38 @@ import base64
 def show(is_sidebar=False):
     if not is_sidebar:
         logo_path = os.path.join("utils", "cropped-logo-300x86.png")
+        logo2_path = os.path.join("utils", "Logo_UFRGS.png")
         if os.path.exists(logo_path):
-            with open(logo_path, "rb") as f:
-                encoded_logo = base64.b64encode(f.read()).decode("utf-8")
-            st.markdown(
-                f'''
-                <div style="text-align: center; margin-bottom: 15px; padding-top: 5px;">
-                    <a href="https://www.ufrgs.br/bpmlab/" target="_blank" rel="noopener noreferrer">
-                        <img src="data:image/png;base64,{encoded_logo}" alt="BPM Research Lab Logo" style="max-width: 270px; height: auto; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1.0)'" />
-                    </a>
-                </div>
-                ''',
-                unsafe_allow_html=True
-            )
+            logo1, logo2 = st.columns(2)
+
+            with logo1:
+                with open(logo_path, "rb") as f:
+                    encoded_logo = base64.b64encode(f.read()).decode("utf-8")
+                st.markdown(
+                    f'''
+                    <div style="display: flex; justify-content: center; align-items: center; height: 90px; margin-bottom: 15px; padding-top: 5px;">
+                        <a href="https://www.ufrgs.br/bpmlab/" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center;">
+                            <img src="data:image/png;base64,{encoded_logo}" alt="BPM Research Lab Logo" style="max-height: 50px; width: auto; object-fit: contain; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1.0)'" />
+                        </a>
+                    </div>
+                    ''',
+                    unsafe_allow_html=True
+                )
+
+            with logo2:
+                with open(logo2_path, "rb") as f:
+                    encoded_logo2 = base64.b64encode(f.read()).decode("utf-8")
+                st.markdown(
+                    f'''
+                    <div style="display: flex; justify-content: center; align-items: center; height: 90px; margin-bottom: 15px; padding-top: 5px;">
+                        <a href="https://www.ufrgs.br/site/" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center;">
+                            <img src="data:image/png;base64,{encoded_logo2}" alt="UFRGS Logo" style="max-height: 75px; width: auto; object-fit: contain; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1.0)'" />
+                        </a>
+                    </div>
+                    ''',
+                    unsafe_allow_html=True
+                )
+
             st.title("Bibliometric Decision Support System")
         st.markdown("<h2 style='font-size: 24px; font-weight: 700; color: #1E293B;'><i class='bi bi-database-gear' style='color: #697aa2;'></i> Data Preparation & Management</h2>", unsafe_allow_html=True)
     else:
@@ -103,16 +136,158 @@ def show(is_sidebar=False):
     if "master_df" not in st.session_state: st.session_state.master_df = None
     if "file_manifest" not in st.session_state: st.session_state.file_manifest = {}
 
-    num_loaded_files = len(st.session_state.loaded_files)
-    num_master_rows = len(st.session_state.master_df) if st.session_state.master_df is not None else 0
+    # --- PROJECT INTAKE DIALOGS & ACTION HANDLERS ---
+    saved_projects = [p for p in list_saved_projects() if p["has_dataset"]]
 
-    # 1. FILE UPLOADER (Auto-commits to memory & supports multi-file drag-and-drop)
-    uploaded_files = st.file_uploader(
-        "Add dataset file(s) (Excel, CSV, RIS, BibTeX, NBIB):",
-        type=["csv", "xls", "xlsx", "bib", "ris", "nbib"],
-        accept_multiple_files=True,
-        key="uploader_sidebar" if is_sidebar else "uploader_main"
-    )
+    if hasattr(st, "dialog"):
+        @st.dialog("Name Your Project Workspace")
+        def prompt_project_name_modal():
+            st.markdown("""
+            Give your project a descriptive title. A dedicated directory will be created under `Projects/<Project_Name>/` with separate subfolders for:
+            - `logs/`: Enrichment, Stratification, and Gender audit reports.
+            - `exports/`: Timestamped datasets and visual exports.
+            - `sessions/`: Serialized flow models and progress checkpoints.
+            """)
+            
+            # Initialize default project name in session_state if not present
+            if "modal_project_name_input" not in st.session_state:
+                current_active = st.session_state.get("active_project_name", "")
+                if not current_active or current_active == "Default_Project":
+                    st.session_state.modal_project_name_input = f"Review_{get_timestamp_str()}"
+                else:
+                    st.session_state.modal_project_name_input = current_active
+                
+            st.text_input("Project Workspace Name:", key="modal_project_name_input", placeholder="e.g. Healthcare_AI_Review")
+            
+            b_c1, b_c2 = st.columns(2)
+            with b_c1:
+                if st.button("Create & Enter Workspace", type="primary", width="stretch", icon=":material/rocket_launch:"):
+                    user_name = st.session_state.get("modal_project_name_input", "").strip()
+                    if not user_name:
+                        user_name = f"Review_{get_timestamp_str()}"
+                    
+                    old_project = st.session_state.get("active_project_name", "Default_Project")
+                    clean_name = set_active_project(user_name, migrate_from=old_project)
+                    save_master_dataset(st.session_state.master_df, clean_name)
+                    st.session_state.fullscreen_core = False
+                    st.session_state.last_enrich_completed = False
+                    st.rerun()
+            with b_c2:
+                if st.button("Use Default Name", width="stretch", icon=":material/check:"):
+                    def_name = f"Review_{get_timestamp_str()}"
+                    old_project = st.session_state.get("active_project_name", "Default_Project")
+                    clean_name = set_active_project(def_name, migrate_from=old_project)
+                    save_master_dataset(st.session_state.master_df, clean_name)
+                    st.session_state.fullscreen_core = False
+                    st.session_state.last_enrich_completed = False
+                    st.rerun()
+
+        @st.dialog("📂 Resume Saved Project")
+        def prompt_resume_project_modal():
+            st.markdown("""
+            Select an existing project workspace from `Projects/` to restore its enriched dataset and jump directly into the analysis workspace.
+            """)
+            if not saved_projects:
+                st.info("No saved projects found in `Projects/`.")
+                return
+
+            proj_labels = [
+                f"📁 {p['name']} ({p['row_count']:,} records · {p['file_size_mb']:.1f} MB · modified {p['modified_str']})"
+                for p in saved_projects
+            ]
+            selected_idx = st.selectbox(
+                "Select a saved project:",
+                options=range(len(saved_projects)),
+                format_func=lambda i: proj_labels[i],
+                key="resume_proj_modal_selector"
+            )
+
+            m_b1, m_b2 = st.columns(2)
+            with m_b1:
+                if st.button("Resume Project", type="primary", icon=":material/folder_open:", width="stretch", key="modal_resume_btn"):
+                    target_proj = saved_projects[selected_idx]
+                    proj_name = target_proj["name"]
+                    loaded_df = load_master_dataset(proj_name)
+                    if loaded_df is not None and not loaded_df.empty:
+                        st.session_state.master_df = loaded_df
+                        st.session_state.raw_df_backup = loaded_df.copy()
+                        set_active_project(proj_name, migrate_from=None)
+                        
+                        # Rebuild provenance if Source File present
+                        if 'Source File' in loaded_df.columns:
+                            src_counts = loaded_df['Source File'].value_counts().to_dict()
+                            st.session_state.file_manifest = src_counts
+                            st.session_state.loaded_files = list(src_counts.keys())
+                        else:
+                            st.session_state.file_manifest = {f"{proj_name}_master": len(loaded_df)}
+                            st.session_state.loaded_files = [f"{proj_name}_master"]
+                            
+                        st.session_state.fullscreen_core = False
+                        st.session_state.last_enrich_completed = False
+                        st.toast(f"Workspace '{proj_name}' resumed successfully with {len(loaded_df):,} records!", icon="🚀")
+                        st.rerun()
+                    else:
+                        st.error(f"Could not load valid dataset for '{proj_name}'.")
+            with m_b2:
+                if st.button("Cancel", width="stretch", icon=":material/close:"):
+                    st.rerun()
+    else:
+        def prompt_project_name_modal():
+            old_project = st.session_state.get("active_project_name", "Default_Project")
+            clean_name = set_active_project(old_project)
+            save_master_dataset(st.session_state.master_df, clean_name)
+            st.session_state.fullscreen_core = False
+            st.rerun()
+
+        def prompt_resume_project_modal():
+            st.info("Dialogs not supported in this Streamlit version.")
+
+    def handle_proceed_to_workspace():
+        """Proceeds directly if project is already named and configured, else asks for project name."""
+        current_active = st.session_state.get("active_project_name", "")
+        # If project is already set and not the initial un-named placeholder
+        if current_active and current_active != "Default_Project":
+            save_master_dataset(st.session_state.master_df, current_active)
+            st.session_state.fullscreen_core = False
+            st.session_state.last_enrich_completed = False
+            st.rerun()
+        else:
+            prompt_project_name_modal()
+
+    # --- TWO-COLUMN DATA INTAKE HEADER (Clean, Professional, Cohesive) ---
+    if not is_sidebar:
+        intake_col1, intake_col2 = st.columns([1.3, 0.7], gap="large")
+        with intake_col1:
+            st.markdown("<h5 style='font-size: 15px; font-weight: 700; color: #1E293B; margin-bottom: 2px;'><i class='bi bi-file-earmark-arrow-up' style='color: #697aa2;'></i> Add Dataset Files</h5>", unsafe_allow_html=True)
+            st.caption("Upload one or multiple raw database exports to build or expand your memory cluster.")
+            uploaded_files = st.file_uploader(
+                "Upload dataset file(s) (CSV, Excel, RIS, BibTeX, NBIB):",
+                type=["csv", "xls", "xlsx", "bib", "ris", "nbib"],
+                accept_multiple_files=True,
+                key="uploader_main"
+            )
+        with intake_col2:
+            st.markdown("<h5 style='font-size: 15px; font-weight: 700; color: #1E293B; margin-bottom: 2px;'><i class='bi bi-folder2-open' style='color: #697aa2;'></i> Resume Project</h5>", unsafe_allow_html=True)
+            st.caption("Re-open an existing project from `Projects/` to restore previous enrichments.")
+            
+            num_saved = len(saved_projects)
+            st.markdown(f"""
+            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; padding: 12px 14px; border-radius: 6px; margin-bottom: 12px;">
+                <div style="font-size: 13px; color: #475569;">
+                    <strong>{num_saved}</strong> saved project{'s' if num_saved != 1 else ''} available on disk.
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            if st.button("Browse & Resume Saved Project", type="secondary", icon=":material/folder_open:", width="stretch", key="btn_open_resume_modal", disabled=(num_saved == 0)):
+                prompt_resume_project_modal()
+    else:
+        uploaded_files = st.file_uploader(
+            "Add dataset file(s) (Excel, CSV, RIS, BibTeX, NBIB):",
+            type=["csv", "xls", "xlsx", "bib", "ris", "nbib"],
+            accept_multiple_files=True,
+            key="uploader_sidebar"
+        )
 
     if uploaded_files:
         for u_file in uploaded_files:
@@ -131,57 +306,30 @@ def show(is_sidebar=False):
     num_master_rows = len(master_df) if master_df is not None else 0
 
     if master_df is None or num_master_rows == 0:
-        st.info("Please upload one or more dataset files above to build your memory cluster.")
+        st.info("Please upload one or more dataset files above or resume a saved project to continue.")
         return
 
     # Prominent Proceed to Analysis Button for users who don't want to enrich
     if not is_sidebar:
-        st.markdown("""
+        current_active = st.session_state.get("active_project_name", "")
+        is_already_named = bool(current_active and current_active != "Default_Project")
+        btn_label = f"Return to Analysis Workspace ({current_active})" if is_already_named else "Proceed Directly to Analysis Workspace (Skip Enrichment)"
+        
+        st.markdown(f"""
         <div style="background-color: rgba(105, 122, 162, 0.06); border: 1px solid rgba(105, 122, 162, 0.2); border-left: 5px solid #697aa2; padding: 14px 18px; border-radius: 8px; margin-top: 10px; margin-bottom: 14px;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                 <div>
                     <strong style="color: #1E293B; font-size: 15px;"><i class="bi bi-check-circle-fill" style="color: #697aa2;"></i> Dataset Loaded & Memory Cluster Active!</strong>
-                    <div style="color: #475569; font-size: 13.5px; margin-top: 2px;">You can proceed directly into the interactive analysis workspace (Dashboards, Science Mapping, Stratification) without running enrichment.</div>
+                    <div style="color: #475569; font-size: 13.5px; margin-top: 2px;">
+                        {'Active project workspace: <b>' + current_active + '</b>. You can return directly to your interactive analysis tools.' if is_already_named else 'You can proceed directly into the interactive analysis workspace (Dashboards, Science Mapping, Stratification) without running enrichment.'}
+                    </div>
                 </div>
             </div>
         </div>
         """, unsafe_allow_html=True)
-        if hasattr(st, "dialog"):
-            @st.dialog("Name Your Project Workspace")
-            def prompt_project_name_modal():
-                st.markdown("""
-                Give your project a descriptive title. A dedicated directory will be created under `Projects/<Project_Name>/` with separate subfolders for:
-                - `logs/`: Enrichment, Stratification, and Gender audit reports.
-                - `exports/`: Timestamped datasets and visual exports.
-                - `sessions/`: Serialized flow models and progress checkpoints.
-                """)
-                default_name = st.session_state.get("active_project_name", f"Review_{get_timestamp_str()}")
-                if default_name == "Default_Project":
-                    default_name = f"Review_{get_timestamp_str()}"
-                    
-                p_name_input = st.text_input("Project Workspace Name:", value=default_name, placeholder="e.g. Healthcare_AI_Review")
-                
-                b_c1, b_c2 = st.columns(2)
-                with b_c1:
-                    if st.button("Create & Enter Workspace", type="primary", width="stretch", icon=":material/rocket_launch:"):
-                        set_active_project(p_name_input)
-                        st.session_state.fullscreen_core = False
-                        st.session_state.last_enrich_completed = False
-                        st.rerun()
-                with b_c2:
-                    if st.button("Use Default Name", width="stretch", icon=":material/check:"):
-                        set_active_project(default_name)
-                        st.session_state.fullscreen_core = False
-                        st.session_state.last_enrich_completed = False
-                        st.rerun()
-        else:
-            def prompt_project_name_modal():
-                set_active_project(st.session_state.get("active_project_name", "Default_Project"))
-                st.session_state.fullscreen_core = False
-                st.rerun()
 
-        if st.button("Proceed Directly to Analysis Workspace (Skip Enrichment)", type="primary", width="stretch", key="proceed_main_btn", icon=":material/arrow_forward:"):
-            prompt_project_name_modal()
+        if st.button(btn_label, type="primary", width="stretch", key="proceed_main_btn", icon=":material/arrow_forward:"):
+            handle_proceed_to_workspace()
         st.divider()
 
     # 2. STREAMLIT TABS LAYOUT (De-cluttered UI)
@@ -205,7 +353,7 @@ def show(is_sidebar=False):
             p_col1, p_col2 = st.columns([1, 3])
             with p_col1:
                 if st.button("Proceed to Analysis Workspace", type="primary", icon=":material/arrow_forward:", key="proceed_after_enrich"):
-                    prompt_project_name_modal()
+                    handle_proceed_to_workspace()
             with p_col2:
                 if st.button("Dismiss Banner & Stay in Data Prep", icon=":material/close:", key="dismiss_enrich_banner"):
                     st.session_state.last_enrich_completed = False
@@ -289,17 +437,20 @@ def show(is_sidebar=False):
                     cnt = field_stats[f]['count']
                     # Color coding based on severity of missingness
                     if pct >= 70:
+                        # Red: High missingness (kept original)
                         bg_col = "#FEE2E2"
                         text_col = "#991B1B"
                         border_col = "#FCA5A5"
-                    elif pct >= 30:
-                        bg_col = "#FEF3C7"
-                        text_col = "#92400E"
-                        border_col = "#FCD34D"
+                    elif pct >= 10:
+                        # Gray: Regular values (10% to 69.9%)
+                        bg_col = "#F3F4F6"
+                        text_col = "#374151"
+                        border_col = "#E5E7EB"
                     else:
-                        bg_col = "#E0F2FE"
-                        text_col = "#075985"
-                        border_col = "#BAE6FD"
+                        # Green: Excellent data density (0% to less than 10%)
+                        bg_col = "#DCFCE7"
+                        text_col = "#166534"
+                        border_col = "#BBF7D0"
 
                     badges_html.append(
                         f"<div style='display: inline-flex; align-items: center; background: {bg_col}; border: 1px solid {border_col}; "
@@ -455,6 +606,7 @@ def show(is_sidebar=False):
                     is_ultimate=is_ultimate_run
                 )
                 st.session_state.master_df = df_processed
+                save_master_dataset(st.session_state.master_df)
                 st.session_state.last_enrich_completed = True
                 st.toast("Multi-Tier Data Enrichment Complete!", icon="🎉")
                 st.rerun()
@@ -480,9 +632,11 @@ def show(is_sidebar=False):
             st.caption("Combined Dataset Preview:")
             st.dataframe(st.session_state.master_df.head(5), width="stretch", height=180)
 
-            st.markdown("<div style='font-weight:700; margin-top:10px;'><i class='bi bi-download' style='color:#697aa2;'></i> Export Combined Cluster</div>", unsafe_allow_html=True)
+            st.markdown("<div style='font-weight:700; margin-top:10px;'><i class='bi bi-download' style='color:#697aa2;'></i> Export Combined Cluster & Archive</div>", unsafe_allow_html=True)
+            render_project_saved_notice("exports", "All file formats are automatically exported and archived into your active project folder on disk.")
+            
             df_export = st.session_state.master_df
-            ec1, ec2, ec3, ec4, ec5 = st.columns(5)
+            ec1, ec2, ec3, ec4, ec5, ec6 = st.columns(6, gap="small")
             
             fn_csv = format_timestamped_filename("exported_data.csv")
             data_csv = df_to_csv(df_export)
@@ -513,6 +667,10 @@ def show(is_sidebar=False):
             try: save_project_file("exports", fn_nbib, data_nbib, mode="wb")
             except Exception: pass
             with ec5: st.download_button("NBIB", data=data_nbib, file_name=fn_nbib, icon=":material/download:", width="stretch")
+
+            with ec6:
+                if st.button("Open Folder", icon=":material/folder_open:", width="stretch", key="btn_open_core_export_folder", help="Opens active project exports folder"):
+                    open_project_folder("exports")
 
             if st.button("Wipe Memory / Clear All Files", icon=":material/delete_forever:", type="primary", width="stretch"):
                 st.session_state.master_df = None

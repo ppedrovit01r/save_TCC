@@ -1,0 +1,43 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-18 18:51:35  -->  2026-09-18 18:54:18 (2 minutes 43 seconds)
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Alignment Strategy: Auto-Discovery (Recommended)
+Minimum Cluster Size: 12 documents
+Synchronized Topic Count (k): 12
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 13
+• Outlier Documents (-1): 231 (47.8%)
+• Average Assignment Confidence: 0.46
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [11] (Similarities: [0.22])
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [10] (Similarities: [0.02])
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 3: BERTopic [3] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 4: BERTopic [4] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 5: BERTopic [5] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 6: BERTopic [6] ↔ GSDMM [0, 4] (Similarities: [0.22, 0.25])
+• Unified Topic 7: BERTopic [7] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 8: BERTopic [8] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 9: BERTopic [9] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 10: BERTopic [10] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 11: BERTopic [11] ↔ GSDMM [7] (Similarities: [0.33])
+• Unified Topic 12: BERTopic [None] ↔ GSDMM [5] (Similarities: [1.00])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:  252 (52.2%) | Mean Conf: 0.88 | Consensus: 100 | Conflicts:   0
+   • BERTopic Top Keywords: images, neural, learning, deep, convolutional, detection
+   • GSDMM Top Keywords:    computer, science, data, learning, model, system
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

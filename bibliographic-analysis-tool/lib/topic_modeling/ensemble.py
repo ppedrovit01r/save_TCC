@@ -71,8 +71,16 @@ def run_bertopic(docs, min_topic_size=15, nr_topics=None):
     else:
         topic_model = BERTopic(min_topic_size=min_topic_size, vectorizer_model=vectorizer_model)
         
-    topics, probs = topic_model.fit_transform(docs)
-    
+    try:
+        embeddings = topic_model._extract_embeddings(docs, verbose=False)
+        topics, probs = topic_model.fit_transform(docs, embeddings=embeddings)
+    except Exception:
+        topics, probs = topic_model.fit_transform(docs)
+        try:
+            embeddings = topic_model._extract_embeddings(docs, verbose=False)
+        except Exception:
+            embeddings = None
+        
     # Extract top words for each topic
     topic_info = topic_model.get_topic_info()
     topic_words = {}
@@ -81,7 +89,7 @@ def run_bertopic(docs, min_topic_size=15, nr_topics=None):
             words = [word for word, _ in topic_model.get_topic(topic_id)]
             topic_words[topic_id] = words
             
-    return topic_model, topics, probs, topic_words
+    return topic_model, topics, probs, topic_words, embeddings
 
 from .gsdmm_mgp import MovieGroupProcess
 

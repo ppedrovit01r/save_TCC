@@ -12,7 +12,8 @@ from collections import defaultdict, Counter
 import io
 import base64
 from utils.formatters import format_duration
-from utils.project_manager import get_global_cache_dir, save_project_file, format_timestamped_filename, get_active_project_name, get_timestamp_str
+from utils.project_manager import get_global_cache_dir, save_project_file, format_timestamped_filename, get_active_project_name, get_timestamp_str, open_project_folder
+from utils.exports import render_project_saved_notice
 
 # Try importing gender_guesser
 try:
@@ -1378,30 +1379,34 @@ def show(df: pd.DataFrame):
             width="stretch"
         )
 
-        st.markdown("<h5 style='font-size:15px; font-weight:700; margin-top:15px;'>Download Research Datasets & Audit Trail</h5>", unsafe_allow_html=True)
-        exp_col1, exp_col2, exp_col3, exp_col4, exp_col5 = st.columns(5)
+        st.markdown("<h5 style='font-size:15px; font-weight:700; margin-top:15px;'><i class='bi bi-download' style='color:#697aa2;'></i> Export Research Datasets & Audit Trail</h5>", unsafe_allow_html=True)
+        render_project_saved_notice("exports", "Author records, gender metrics, caches, and audit logs are automatically saved to your active project workspace.")
+        
+        exp_col1, exp_col2, exp_col3, exp_col4, exp_col5, exp_col6 = st.columns(6, gap="small")
         
         with exp_col1:
-            csv_authors = display_authors.to_csv(index=False).encode('utf-8')
+            csv_authors = display_authors.to_csv(index=False).encode('utf-8-sig')
             fn_authors = format_timestamped_filename("Authors_Assessed.csv")
             try: save_project_file("exports", fn_authors, csv_authors, mode="wb")
             except Exception: pass
-            st.download_button("Authors Directory (.csv)", data=csv_authors, file_name=fn_authors, icon=":material/download:", width="stretch")
+            st.download_button("Authors (.csv)", data=csv_authors, file_name=fn_authors, icon=":material/download:", width="stretch")
             
         with exp_col2:
-            csv_articles = articles_df.to_csv(index=False).encode('utf-8')
+            csv_articles = articles_df.to_csv(index=False).encode('utf-8-sig')
             fn_articles = format_timestamped_filename("LibAssessed_Gender.csv")
             try: save_project_file("exports", fn_articles, csv_articles, mode="wb")
             except Exception: pass
-            st.download_button("Article Metrics (.csv)", data=csv_articles, file_name=fn_articles, icon=":material/download:", width="stretch")
+            st.download_button("Articles (.csv)", data=csv_articles, file_name=fn_articles, icon=":material/download:", width="stretch")
 
         with exp_col3:
             if not valid_years_df.empty:
-                csv_yearly = yearly_stats.to_csv(index=False).encode('utf-8')
+                csv_yearly = yearly_stats.to_csv(index=False).encode('utf-8-sig')
                 fn_yearly = format_timestamped_filename("Gender_Yearly_Report.csv")
                 try: save_project_file("exports", fn_yearly, csv_yearly, mode="wb")
                 except Exception: pass
-                st.download_button("Yearly Report (.csv)", data=csv_yearly, file_name=fn_yearly, icon=":material/download:", width="stretch")
+                st.download_button("Yearly (.csv)", data=csv_yearly, file_name=fn_yearly, icon=":material/download:", width="stretch")
+            else:
+                st.button("Yearly (.csv)", disabled=True, width="stretch")
 
         with exp_col4:
             if gender_cache:
@@ -1409,12 +1414,18 @@ def show(df: pd.DataFrame):
                 fn_cache = format_timestamped_filename("gender_cache.json")
                 try: save_project_file("sessions", fn_cache, cache_json, mode="wb")
                 except Exception: pass
-                st.download_button("Persistent Cache (.json)", data=cache_json, file_name=fn_cache, icon=":material/download:", width="stretch")
+                st.download_button("Cache (.json)", data=cache_json, file_name=fn_cache, icon=":material/download:", width="stretch")
+            else:
+                st.button("Cache (.json)", disabled=True, width="stretch")
 
         with exp_col5:
             audit_text = st.session_state.get('last_gender_audit_log', '')
             if audit_text:
                 fn_log = format_timestamped_filename("gender_audit_report.log")
-                st.download_button("Audit Log (.log)", data=audit_text.encode('utf-8'), file_name=fn_log, icon=":material/description:", width="stretch")
+                st.download_button("Audit Log", data=audit_text.encode('utf-8'), file_name=fn_log, icon=":material/description:", width="stretch")
             else:
-                st.button("Audit Log (.log)", disabled=True, width="stretch", icon=":material/description:")
+                st.button("Audit Log", disabled=True, width="stretch", icon=":material/description:")
+
+        with exp_col6:
+            if st.button("Open Folder", icon=":material/folder_open:", width="stretch", key="btn_open_gender_folder", help="Opens active project folder"):
+                open_project_folder("exports")

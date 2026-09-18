@@ -12,13 +12,34 @@ apply_custom_css()
 
 def get_sidebar_logo_html():
     logo_path = os.path.join("utils", "cropped-logo-300x86.png")
+    logo2_path = os.path.join("utils", "Logo_UFRGS.png")
+    
+    encoded_bpm = ""
     if os.path.exists(logo_path):
         with open(logo_path, "rb") as f:
-            encoded = base64.b64encode(f.read()).decode("utf-8")
+            encoded_bpm = base64.b64encode(f.read()).decode("utf-8")
+            
+    encoded_ufrgs = ""
+    if os.path.exists(logo2_path):
+        with open(logo2_path, "rb") as f:
+            encoded_ufrgs = base64.b64encode(f.read()).decode("utf-8")
+            
+    if encoded_bpm and encoded_ufrgs:
+        return f'''
+        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; padding: 10px 0 16px 0;">
+            <a href="https://www.ufrgs.br/bpmlab/" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                <img src="data:image/png;base64,{encoded_bpm}" alt="BPM Research Lab Logo" style="max-height: 54px; max-width: 190px; width: auto; object-fit: contain; cursor: pointer; transition: transform 0.2s ease-in-out;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1.0)'" />
+            </a>
+            <a href="https://www.ufrgs.br/site/" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                <img src="data:image/png;base64,{encoded_ufrgs}" alt="UFRGS Logo" style="max-height: 94px; max-width: 125px; width: auto; object-fit: contain; cursor: pointer; transition: transform 0.2s ease-in-out;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1.0)'" />
+            </a>
+        </div>
+        '''
+    elif encoded_bpm:
         return f'''
         <div style="text-align: center; padding: 5px 0 12px 0;">
             <a href="https://www.ufrgs.br/bpmlab/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: inline-block;">
-                <img src="data:image/png;base64,{encoded}" alt="BPM Research Lab Logo" style="max-width: 230px; width: 85%; height: auto; cursor: pointer; transition: transform 0.2s ease-in-out;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1.0)'" />
+                <img src="data:image/png;base64,{encoded_bpm}" alt="BPM Research Lab Logo" style="max-width: 230px; width: 85%; height: auto; cursor: pointer; transition: transform 0.2s ease-in-out;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1.0)'" />
             </a>
         </div>
         '''
@@ -56,15 +77,20 @@ else:
         st.markdown(get_sidebar_logo_html(), unsafe_allow_html=True)
         
         # --- ACTIVE PROJECT WORKSPACE BADGE ---
-        from utils.project_manager import get_active_project_name
+        from utils.project_manager import get_active_project_name, open_project_folder
         current_proj = get_active_project_name()
         st.markdown(f"""
-        <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; border-radius: 6px; padding: 8px 12px; margin-bottom: 14px;">
+        <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; border-radius: 6px; padding: 8px 12px; margin-bottom: 8px;">
             <div style="font-size: 10.5px; font-weight: 700; color: #64748B; text-transform: uppercase; letter-spacing: 0.5px;">Active Project</div>
             <div style="font-size: 13.5px; font-weight: 700; color: #1E293B; margin-top: 1px; word-break: break-all;">📁 {current_proj}</div>
             <div style="font-size: 10.5px; color: #94A3B8; margin-top: 1px;">Projects/{current_proj}</div>
         </div>
         """, unsafe_allow_html=True)
+        
+        # Open Project Folder Quick Action
+        if st.button("Open Project Folder", icon=":material/folder:", width="stretch", key="sidebar_open_proj_folder_btn", help="Opens the project folder in your local file explorer"):
+            open_project_folder()
+        st.markdown("<div style='margin-bottom: 12px;'></div>", unsafe_allow_html=True)
 
         # --- PROFILE MODE BUTTONS ---
         st.markdown('<div style="font-size:12px; color:#64748B; font-weight:600; margin-bottom:6px;"><i class="bi bi-person-badge"></i> PROFILE CONTEXT</div>', unsafe_allow_html=True)

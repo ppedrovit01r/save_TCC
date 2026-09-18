@@ -275,33 +275,13 @@ def show(df):
         st.warning("No data available.")
         return
 
-    # Check gating: User must run Gender Mapping inference first
-    if 'gender_analysis_results' not in st.session_state:
-        st.markdown("""
-        <div style="background-color: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 40px 24px; text-align: center; margin-top: 20px;">
-            <div style="font-size: 48px; margin-bottom: 12px;">🔒</div>
-            <h3 style="font-size: 20px; font-weight: 700; color: #334155; margin-bottom: 8px;">
-                Demographic & Geographic Data Locked
-            </h3>
-            <p style="font-size: 14px; color: #64748B; max-width: 620px; margin: 0 auto 20px auto; line-height: 1.6;">
-                Global spatial autocorrelation, international author dispersion, and demographic governance require prior author-level extraction and country inference. 
-                Please run the <b>Gender Mapping</b> pipeline first to unlock this comprehensive spatial intelligence suite.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        c_gate_l, c_gate_m, c_gate_r = st.columns([1, 1.2, 1])
-        with c_gate_m:
-            if st.button("👉 Run Gender Mapping to Unlock", type="primary", width="stretch"):
-                st.session_state.current_page = "Gender Mapping"
-                st.rerun()
-        return
+    has_gender = 'gender_analysis_results' in st.session_state
+    gender_res = st.session_state.get('gender_analysis_results', {})
+    authors_df = gender_res.get('authors_df', pd.DataFrame()) if has_gender else pd.DataFrame()
 
-    gender_res = st.session_state.gender_analysis_results
-    authors_df = gender_res.get('authors_df', pd.DataFrame())
-
-    if 'Affiliations' not in df.columns and ('country' not in authors_df.columns if not authors_df.empty else True):
-        st.error("The dataset does not have an 'Affiliations' column or inferred author countries required for demographic analysis.")
+    geo_cols = [c for c in ['Affiliations', 'Address', 'Country'] if c in df.columns]
+    if not geo_cols and authors_df.empty:
+        st.error("The dataset does not have an 'Affiliations', 'Address', or 'Country' column required for demographic and geographic analysis.")
         return
 
     total_raw = len(df)
@@ -344,61 +324,102 @@ def show(df):
         Visualizing the global reach of publications and gender distribution across countries using choropleth heat maps.
         """)
         
+        has_gender_data = has_gender and not authors_df.empty
+        
         # Gender & Author filter for Geographic Map
         geo_mode = st.radio(
             "Spatial Map View:",
-            ["All Author Affiliations", "Female Authors by Country", "Male Authors by Country", "Article Origin Countries"],
+            ["Article Origin Countries", "All Author Affiliations", "Female Authors by Country", "Male Authors by Country"],
+            index=0,
             horizontal=True
         )
 
         if geo_mode in ["Female Authors by Country", "Male Authors by Country"]:
-            target_g = "female" if "Female" in geo_mode else "male"
-            color_theme = "Purples" if target_g == "female" else "Blues"
-            filtered_authors = authors_df[authors_df['gender'] == target_g]
-            c_counts = filtered_authors[filtered_authors['country'] != 'Unknown']['country'].value_counts().reset_index()
-            c_counts.columns = ['Country', f'{target_g.title()} Authors']
-            
-            if not c_counts.empty:
-                c_g1, c_g2 = st.columns([1.5, 1], gap="medium")
-                with c_g1:
-                    fig_map = px.choropleth(
-                        c_counts,
-                        locations='Country',
-                        locationmode='country names',
-                        color=f'{target_g.title()} Authors',
-                        color_continuous_scale=color_theme,
-                        projection='equal earth',
-                        title=f"Global Distribution of {target_g.title()} Authors by Country (Equal Earth Projection)"
-                    )
-                    fig_map.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
-                    fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=420)
-                    st.plotly_chart(fig_map, width='stretch')
-                with c_g2:
-                    st.markdown(f"<div style='font-weight:700; margin-bottom:8px;'>Top Countries by {target_g.title()} Authors</div>", unsafe_allow_html=True)
-                    st.dataframe(c_counts, hide_index=True, height=380, width="stretch")
+            if not has_gender_data:
+                st.markdown("""
+                <div style="background-color: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 32px 20px; text-align: center; margin: 16px 0;">
+                    <div style="font-size: 36px; margin-bottom: 8px;">🔒</div>
+                    <h4 style="font-size: 17px; font-weight: 700; color: #334155; margin-bottom: 6px;">
+                        Gender-Segmented Spatial View Locked
+                    </h4>
+                    <p style="font-size: 13px; color: #64748B; max-width: 560px; margin: 0 auto 16px auto; line-height: 1.5;">
+                        Visualizing female vs. male author distributions by country requires prior author name extraction and gender inference.
+                        Please run the <b>Gender Mapping</b> pipeline to unlock gender-based geographic distributions.
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
+                c_lock_l, c_lock_m, c_lock_r = st.columns([1, 1.2, 1])
+                with c_lock_m:
+                    if st.button("👉 Run Gender Mapping to Unlock", type="primary", width="stretch", key="btn_unlock_gender_geo"):
+                        st.session_state.current_page = "Gender Mapping"
+                        st.rerun()
             else:
-                st.info(f"No country metadata identified for {target_g} authors yet.")
+                target_g = "female" if "Female" in geo_mode else "male"
+                color_theme = "Purples" if target_g == "female" else "Blues"
+                filtered_authors = authors_df[authors_df['gender'] == target_g]
+                c_counts = filtered_authors[filtered_authors['country'] != 'Unknown']['country'].value_counts().reset_index()
+                c_counts.columns = ['Country', f'{target_g.title()} Authors']
+                
+                if not c_counts.empty:
+                    c_g1, c_g2 = st.columns([1.5, 1], gap="medium")
+                    with c_g1:
+                        fig_map = px.choropleth(
+                            c_counts,
+                            locations='Country',
+                            locationmode='country names',
+                            color=f'{target_g.title()} Authors',
+                            color_continuous_scale=color_theme,
+                            projection='equal earth',
+                            title=f"Global Distribution of {target_g.title()} Authors by Country (Equal Earth Projection)"
+                        )
+                        fig_map.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
+                        fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=420)
+                        st.plotly_chart(fig_map, width='stretch')
+                    with c_g2:
+                        st.markdown(f"<div style='font-weight:700; margin-bottom:8px;'>Top Countries by {target_g.title()} Authors</div>", unsafe_allow_html=True)
+                        st.dataframe(c_counts, hide_index=True, height=380, width="stretch")
+                else:
+                    st.info(f"No country metadata identified for {target_g} authors yet.")
         elif geo_mode == "All Author Affiliations":
-            c_counts = authors_df[authors_df['country'] != 'Unknown']['country'].value_counts().reset_index()
-            c_counts.columns = ['Country', 'Total Inferred Authors']
-            if not c_counts.empty:
-                fig = px.choropleth(
-                    c_counts,
-                    locations="Country",
-                    locationmode="country names",
-                    color="Total Inferred Authors",
-                    hover_name="Country",
-                    projection='equal earth',
-                    color_continuous_scale=['#3a2c58', '#414184', '#395e9c', '#357ca3', '#3498a9', '#3eb4ad', '#62cfac'],
-                    title="Global Distribution of All Authors (Inferred - Equal Earth Projection)"
-                )
-                fig.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
-                fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
-                st.plotly_chart(fig, width='stretch')
-                with st.expander("View Raw Country Data"):
-                    st.dataframe(c_counts, hide_index=True)
+            if not has_gender_data:
+                st.markdown("""
+                <div style="background-color: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 32px 20px; text-align: center; margin: 16px 0;">
+                    <div style="font-size: 36px; margin-bottom: 8px;">🔒</div>
+                    <h4 style="font-size: 17px; font-weight: 700; color: #334155; margin-bottom: 6px;">
+                        Inferred Author-Level Geographic View Locked
+                    </h4>
+                    <p style="font-size: 13px; color: #64748B; max-width: 560px; margin: 0 auto 16px auto; line-height: 1.5;">
+                        Visualizing individual author-level country affiliations requires prior author extraction.
+                        You can view article-level geographic distributions directly via <b>Article Origin Countries</b>, or run Gender Mapping to unlock author-level counts.
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
+                c_lock_l, c_lock_m, c_lock_r = st.columns([1, 1.2, 1])
+                with c_lock_m:
+                    if st.button("👉 Run Gender Mapping to Unlock", type="primary", width="stretch", key="btn_unlock_author_geo"):
+                        st.session_state.current_page = "Gender Mapping"
+                        st.rerun()
             else:
-                st.info("No inferred author country data available.")
+                c_counts = authors_df[authors_df['country'] != 'Unknown']['country'].value_counts().reset_index()
+                c_counts.columns = ['Country', 'Total Inferred Authors']
+                if not c_counts.empty:
+                    fig = px.choropleth(
+                        c_counts,
+                        locations="Country",
+                        locationmode="country names",
+                        color="Total Inferred Authors",
+                        hover_name="Country",
+                        projection='equal earth',
+                        color_continuous_scale=['#3a2c58', '#414184', '#395e9c', '#357ca3', '#3498a9', '#3eb4ad', '#62cfac'],
+                        title="Global Distribution of All Authors (Inferred - Equal Earth Projection)"
+                    )
+                    fig.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
+                    fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+                    st.plotly_chart(fig, width='stretch')
+                    with st.expander("View Raw Country Data"):
+                        st.dataframe(c_counts, hide_index=True)
+                else:
+                    st.info("No inferred author country data available.")
         else:
             if not df_valid.empty:
                 all_countries = [country for sublist in df_valid['Country_Extracted'] for country in sublist]
@@ -708,7 +729,7 @@ def show(df):
         
         # Download audit log as CSV
         from utils.project_manager import format_timestamped_filename, save_project_file
-        csv_data = display_audit_df.to_csv(index=False).encode('utf-8')
+        csv_data = display_audit_df.to_csv(index=False).encode('utf-8-sig')
         fn_demo_log = format_timestamped_filename("geographic_metadata_audit_log.csv")
         try: save_project_file("exports", fn_demo_log, csv_data, mode="wb")
         except Exception: pass

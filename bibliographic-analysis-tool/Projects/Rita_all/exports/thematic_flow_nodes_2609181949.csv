@@ -1,0 +1,13 @@
+﻿Node ID,Era,Topic Index,Display Label,GenAI Name,Document Count,Top Keywords
+E1_T1,2004-2012,1,2004-2012: T1,,63,"data, software, computer, engineering, language, business, web, process, science, programming, image, model, graphics, system, information"
+E1_T2,2004-2012,2,2004-2012: T2,,47,"sistemas, modelo, trabalho, humanities, algoritmos, abordagem, philosophy, imagens, redes, desenvolvimento, desempenho, physics, forma, resultados, análise"
+E1_T3,2004-2012,3,2004-2012: T3,,11,"revista, informática, rita, aplicada, teórica, revisores, artigos, editorial, computação, edição, editores, número, qualidade, corpo, ano"
+E2_T1,2013-2018,1,2013-2018: T1,,54,"dados, agentes, sistemas, philosophy, sistema, desenvolvimento, humanities, ambiente, apresenta, algoritmos, software, modelo, modelos, execução, aplicações"
+E2_T2,2013-2018,2,2013-2018: T2,,47,"programming, data, computer, language, problem, algorithm, science, system, graph, machine, image, algorithms, type, learning, techniques"
+E2_T3,2013-2018,3,2013-2018: T3,,31,"imagens, detecção, algoritmo, método, teste, técnica, leucócitos, sinais, técnicas, diagnóstico, características, automática, utilizando, proposto, trabalho"
+E3_T1,2019-2024,1,2019-2024: T1,,75,"algorithm, neural, data, learning, machine, artificial, convolutional, algorithms, network, language, accuracy, used, intelligence, programming, information"
+E3_T2,2019-2024,2,2019-2024: T2,,11,"process, business, management, activities, model, conceptual, framework, operational, mining, processes, knowledge, engineering, context, modeling, research"
+E3_T3,2019-2024,3,2019-2024: T3,,31,"cloud, energy, computing, availability, security, consumption, system, service, virtual, fuzzy, performance, engineering, control, center, containers"
+E4_T1,2025-2026,1,2025-2026: T1,,74,"data, computer, learning, detection, neural, models, network, image, vision, images, classification, convolutional, deep, science, feature"
+E4_T2,2025-2026,2,2025-2026: T2,,16,"cancer, skin, breast, learning, lesion, federated, classification, diagnosis, ensemble, centralized, early, images, privacy, medicine, diagnostic"
+E4_T3,2025-2026,3,2025-2026: T3,,18,"segmentation, deep, learning, semantic, iou, dice, images, unet, satellite, translation, pipeline, pruning, models, loss, dataset"

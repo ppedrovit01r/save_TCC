@@ -40,5 +40,19 @@ def apply_custom_css():
         hr {
             margin: 0.8rem 0 !important;
         }
+
+        /* Flush right-alignment for download buttons in header bars and action columns */
+        div[data-testid="stDownloadButton"],
+        div.stDownloadButton {
+            display: flex !important;
+            justify-content: flex-end !important;
+            width: 100% !important;
+        }
+        div[data-testid="stDownloadButton"] > button,
+        div.stDownloadButton > button,
+        div[data-testid="stDownloadButton"] > a,
+        div.stDownloadButton > a {
+            margin-left: auto !important;
+        }
     </style>
     """, unsafe_allow_html=True)

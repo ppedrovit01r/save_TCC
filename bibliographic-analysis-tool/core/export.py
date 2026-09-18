@@ -61,7 +61,7 @@ def _clean_df(df: pd.DataFrame) -> pd.DataFrame:
 
 def df_to_csv(df: pd.DataFrame) -> bytes:
     df_clean = _clean_df(df)
-    return df_clean.to_csv(index=False).encode("utf-8")
+    return df_clean.to_csv(index=False).encode("utf-8-sig")
 
 def df_to_excel(df: pd.DataFrame) -> bytes:
     df_clean = _clean_df(df)

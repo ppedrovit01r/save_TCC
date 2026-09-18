@@ -1,0 +1,47 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-18 19:43:45  -->  2026-09-18 19:46:09 (2 minutes 24 seconds)
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Alignment Strategy: Consensus-Driven Macro Pillars (5–8 Topics - Recommended)
+Minimum Cluster Size: 12 documents
+Synchronized Topic Count (k): 6
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 5
+• Outlier Documents (-1): 0 (0.0%)
+• Average Assignment Confidence: 0.83
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [4] (Similarities: [0.41])
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [0, 2] (Similarities: [0.25, 0.30])
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 3: BERTopic [3] ↔ GSDMM [1] (Similarities: [0.07])
+• Unified Topic 4: BERTopic [4] ↔ GSDMM [3] (Similarities: [0.07])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:  244 (50.5%) | Mean Conf: 0.94 | Consensus: 199 (82%) | Boundary/Refined:  45
+   • BERTopic Top Keywords: images, learning, computer, image, neural, models
+   • GSDMM Top Keywords:    computer, data, science, learning, model, models
+Cluster 01 | Docs:   84 (17.4%) | Mean Conf: 0.78 | Consensus:  24 (29%) | Boundary/Refined:  60
+   • BERTopic Top Keywords: process, business, software, language, programming, science
+   • GSDMM Top Keywords:    science, data, business, computer, database, system
+Cluster 02 | Docs:   71 (14.7%) | Mean Conf: 0.74 | Consensus:   0 (0%) | Boundary/Refined:  71
+   • BERTopic Top Keywords: data, information, web, science, language, social
+   • GSDMM Top Keywords:    None
+Cluster 03 | Docs:   42 ( 8.7%) | Mean Conf: 0.65 | Consensus:   2 (5%) | Boundary/Refined:  40
+   • BERTopic Top Keywords: problem, agents, science, algorithms, multiagent, algorithm
+   • GSDMM Top Keywords:    economic, material, agent, energy, elementary, systems
+Cluster 04 | Docs:   42 ( 8.7%) | Mean Conf: 0.65 | Consensus:   2 (5%) | Boundary/Refined:  40
+   • BERTopic Top Keywords: network, cloud, energy, computing, computer, consumption
+   • GSDMM Top Keywords:    traffic, multifractal, computer, probability, model, loss
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

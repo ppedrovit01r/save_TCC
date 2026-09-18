@@ -64,8 +64,8 @@ def calculate_jaccard(list1, list2):
     return intersection / union if union > 0 else 0
 
 from lib.topic_modeling.genai import generate_batch_topic_names
-from utils.exports import _download_button
-from utils.project_manager import format_timestamped_filename, save_project_file
+from utils.exports import _download_button, render_project_saved_notice
+from utils.project_manager import format_timestamped_filename, save_project_file, open_project_folder
 
 def show(df):
     st.markdown("<h2 style='font-size: 24px; font-weight: 700; color: #1E293B;'><i class='bi bi-bezier2' style='color: #697aa2;'></i> Thematic Flow (Trend Spotting)</h2>", unsafe_allow_html=True)
@@ -503,8 +503,10 @@ def show(df):
         st.plotly_chart(fig, width="stretch")
 
         # --- Export Hub ---
-        st.markdown("<h4 style='font-size: 16px; font-weight: 700; color: #1E293B; margin-top: 15px;'><i class='bi bi-download' style='color: #697aa2;'></i> Export Thematic Flow Data</h4>", unsafe_allow_html=True)
-        exp_c1, exp_c2, exp_c3, exp_c4 = st.columns(4, gap="small")
+        st.markdown("<h4 style='font-size: 16px; font-weight: 700; color: #1E293B; margin-top: 15px;'><i class='bi bi-download' style='color: #697aa2;'></i> Export & Project Archive</h4>", unsafe_allow_html=True)
+        render_project_saved_notice("exports", "Datasets, HTML chart, and flow session state are automatically archived into your active project workspace.")
+        
+        exp_c1, exp_c2, exp_c3, exp_c4, exp_c5 = st.columns([1, 1, 1, 1, 1], gap="small")
         
         nodes_export_df = pd.DataFrame(node_rows_for_export)
         links_export_df = pd.DataFrame(links_records)
@@ -556,4 +558,7 @@ def show(df):
                 key="dl_flow_project_json",
                 help="Download entire flow state so you can re-upload and continue later without re-running."
             )
+        with exp_c5:
+            if st.button("Open Project Folder", icon=":material/folder_open:", width="stretch", key="btn_open_flow_folder", help="Open project folder on disk to view all saved files"):
+                open_project_folder("exports")
         

@@ -58,33 +58,48 @@ def display_top_10_tables(df_results: pd.DataFrame):
 
 def _display_citations(col, df_results):
     with col:
-        st.markdown("**Top 10 by Total Citations**")
         top_total = df_results.nlargest(10, "Total Citations")
-        st.dataframe(top_total)
-        _download_button(top_total, "Download CSV", "top10_total_citations.csv")
+        t1, b1 = st.columns([0.7, 0.3], vertical_alignment="center")
+        with t1:
+            st.markdown("**Top 10 by Total Citations**")
+        with b1:
+            _download_button(top_total, "Download CSV", "top10_total_citations.csv")
+        st.dataframe(top_total, width="stretch")
 
-        st.markdown("**Top 10 by Average Citations**")
         top_avg = df_results.nlargest(10, "Average Citations")
-        st.dataframe(top_avg)
-        _download_button(top_avg, "Download CSV", "top10_avg_citations.csv")
+        t2, b2 = st.columns([0.7, 0.3], vertical_alignment="center")
+        with t2:
+            st.markdown("**Top 10 by Average Citations**")
+        with b2:
+            _download_button(top_avg, "Download CSV", "top10_avg_citations.csv")
+        st.dataframe(top_avg, width="stretch")
 
 def _display_number_and_index(col, df_results):
     with col:
-        st.markdown("**Top 10 by Number of Articles**")
         top_articles = df_results.nlargest(10, "Number of Articles")
-        st.dataframe(top_articles)
-        _download_button(top_articles, "Download CSV", "top10_articles.csv")
+        t1, b1 = st.columns([0.7, 0.3], vertical_alignment="center")
+        with t1:
+            st.markdown("**Top 10 by Number of Articles**")
+        with b1:
+            _download_button(top_articles, "Download CSV", "top10_articles.csv")
+        st.dataframe(top_articles, width="stretch")
 
-        st.markdown("**Top 10 by h-index**")
         top_h = df_results.nlargest(10, "h-index")
-        st.dataframe(top_h)
-        _download_button(top_h, "Download CSV", "top10_h_index.csv")
+        t2, b2 = st.columns([0.7, 0.3], vertical_alignment="center")
+        with t2:
+            st.markdown("**Top 10 by h-index**")
+        with b2:
+            _download_button(top_h, "Download CSV", "top10_h_index.csv")
+        st.dataframe(top_h, width="stretch")
 
 def _display_g_index(df_results):
-    st.markdown("**Top 10 by g-index**")
     top_g = df_results.nlargest(10, "g-index")
-    st.dataframe(top_g)
-    _download_button(top_g, "Download CSV", "top10_g_index.csv")
+    t1, b1 = st.columns([0.85, 0.15], vertical_alignment="center")
+    with t1:
+        st.markdown("**Top 10 by g-index**")
+    with b1:
+        _download_button(top_g, "Download CSV", "top10_g_index.csv")
+    st.dataframe(top_g, width="stretch")
 
 @safe_run
 def display_gini_and_lorenz(df_results: pd.DataFrame):

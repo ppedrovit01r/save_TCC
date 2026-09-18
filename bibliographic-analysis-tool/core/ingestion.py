@@ -354,7 +354,7 @@ def parse_file(uploaded_file) -> pd.DataFrame:
         df = pd.read_excel(uploaded_file)
     elif ext == 'csv':
         parsed_df = None
-        encodings = ['utf-8', 'latin1', 'cp1252', 'iso-8859-1']
+        encodings = ['utf-8-sig', 'utf-8', 'latin1', 'cp1252', 'iso-8859-1']
         
         for enc in encodings:
             uploaded_file.seek(0)

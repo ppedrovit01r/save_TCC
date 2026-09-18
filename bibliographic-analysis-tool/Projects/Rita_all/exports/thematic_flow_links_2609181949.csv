@@ -1,0 +1,10 @@
+﻿Source Era,Source Topic,Target Era,Target Topic,Jaccard Similarity,Flow Weight
+2004-2012,Topic 1,2013-2018,Topic 1,0.0345,21
+2004-2012,Topic 1,2013-2018,Topic 2,0.3043,191
+2004-2012,Topic 2,2013-2018,Topic 1,0.25,117
+2004-2012,Topic 2,2013-2018,Topic 3,0.0714,33
+2013-2018,Topic 2,2019-2024,Topic 1,0.3043,143
+2013-2018,Topic 2,2019-2024,Topic 3,0.0345,16
+2019-2024,Topic 1,2025-2026,Topic 1,0.2,150
+2019-2024,Topic 1,2025-2026,Topic 2,0.0345,25
+2019-2024,Topic 1,2025-2026,Topic 3,0.0345,25

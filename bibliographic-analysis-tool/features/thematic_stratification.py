@@ -15,7 +15,9 @@ import re
 import hashlib
 import string
 import nltk
-from utils.project_manager import get_global_cache_dir, save_project_file, format_timestamped_filename, get_timestamp_str
+from nltk.corpus import stopwords
+from utils.project_manager import get_global_cache_dir, save_project_file, format_timestamped_filename, get_timestamp_str, open_project_folder
+from utils.exports import render_project_saved_notice
 
 TRANSLATION_CACHE_FILE = os.path.join("utils", "cache", "translation_cache.json")
 
@@ -72,11 +74,14 @@ def is_likely_english(text: str, lang_meta: str = "") -> bool:
         es_stops = set(stopwords.words('spanish'))
         fr_stops = set(stopwords.words('french'))
     except Exception:
-        nltk.download('stopwords', quiet=True)
-        en_stops = set(stopwords.words('english'))
-        pt_stops = set(stopwords.words('portuguese'))
-        es_stops = set(stopwords.words('spanish'))
-        fr_stops = set(stopwords.words('french'))
+        try:
+            nltk.download('stopwords', quiet=True)
+            en_stops = set(stopwords.words('english'))
+            pt_stops = set(stopwords.words('portuguese'))
+            es_stops = set(stopwords.words('spanish'))
+            fr_stops = set(stopwords.words('french'))
+        except Exception:
+            en_stops, pt_stops, es_stops, fr_stops = set(), set(), set(), set()
 
     clean = str(text).lower()
     words = [w.strip(string.punctuation) for w in clean.split()]
@@ -175,6 +180,7 @@ def render_configuration_tab(df):
                         df['unified_topic'] = data['topic_assignments']
                         df['topic_confidence'] = data['topic_confidences']
                         df['secondary_topic'] = data['secondary_topics']
+                        df['is_consensus'] = data.get('is_consensus', [c >= 0.99 for c in data.get('topic_confidences', [])])
                         st.session_state.ts_df = df
                         
                         # Rehydrate metadata
@@ -182,8 +188,17 @@ def render_configuration_tab(df):
                         def to_int_keys(d):
                             return {int(k): v for k, v in d.items()}
                         
-                        st.session_state.topic_names = to_int_keys(data.get('topic_names', {}))
-                        st.session_state.topic_mapping = to_int_keys(data.get('topic_mapping', {}))
+                        surviving_loaded = set(t for t in data.get('topic_assignments', []) if t != -1)
+                        loaded_mapping = to_int_keys(data.get('topic_mapping', {}))
+                        loaded_names = to_int_keys(data.get('topic_names', {}))
+                        
+                        if surviving_loaded:
+                            st.session_state.topic_mapping = {k: v for k, v in loaded_mapping.items() if k in surviving_loaded}
+                            st.session_state.topic_names = {k: v for k, v in loaded_names.items() if k in surviving_loaded}
+                        else:
+                            st.session_state.topic_mapping = loaded_mapping
+                            st.session_state.topic_names = loaded_names
+
                         st.session_state.bert_words = to_int_keys(data.get('bert_words', {}))
                         st.session_state.gsdmm_words = to_int_keys(data.get('gsdmm_words', {}))
                             
@@ -230,12 +245,22 @@ def render_configuration_tab(df):
         with st.expander("⚙️ Topic Alignment Strategy", expanded=True):
             strategy = st.radio(
                 "How should the ensemble determine the number of topics?",
-                ["Auto-Discovery (Recommended)", "Force Topic Size"],
-                help="Auto-Discovery allows BERTopic to naturally find the optimal number of clusters based on density, and then forces GSDMM to match that exact number. Force Topic Size lets you manually dictate the granularity."
+                ["Consensus-Driven Macro Pillars (5–8 Topics - Recommended)", "Auto-Discovery (High Granularity)", "Custom Target Topics"],
+                help="Consensus-Driven Macro Pillars uses hierarchical semantic reduction to merge micro-clusters into substantial, high-confidence research pillars (default: 6 topics). Auto-Discovery allows HDBSCAN to discover many micro-clusters."
             )
-            target_k = 5
-            if strategy == "Force Topic Size":
-                target_k = st.slider("Target Number of Topics", 2, 50, 5)
+            target_k = 6
+            if strategy == "Consensus-Driven Macro Pillars (5–8 Topics - Recommended)":
+                target_k = st.slider(
+                    "Target Number of Consolidated Pillars", 
+                    min_value=3, 
+                    max_value=12, 
+                    value=6, 
+                    help="Consolidates the corpus into robust, cohesive macro-topics where BERTopic embeddings and GSDMM lexical keywords can be maximized for consensus."
+                )
+            elif strategy == "Custom Target Topics":
+                target_k = st.slider("Target Number of Topics", min_value=2, max_value=30, value=6)
+            else:
+                target_k = None # Auto
                 
             n_corpus = len(df)
             default_min_docs = min(12, max(2, int(0.025 * n_corpus)))
@@ -252,9 +277,9 @@ def render_configuration_tab(df):
                 "Minimum Topic Confidence",
                 min_value=0.0,
                 max_value=1.0,
-                value=0.70,
+                value=0.50,
                 step=0.05,
-                help="Documents with an alignment confidence below this threshold will be marked as outliers (-1). A higher value ensures tighter, more coherent clusters."
+                help="Documents with an alignment confidence below this threshold will be marked as outliers (-1). Consensus=1.0, Leader Solo=0.85, Boundary=0.65. Default 0.50 retains all categorized documents while filtering pure outliers."
             )
                 
         with st.expander("🌐 Text Translation Pipeline"):
@@ -413,10 +438,10 @@ def render_configuration_tab(df):
             # Tokenized docs for GSDMM
             st.session_state.ts_tokenized_docs = preprocess_for_gsdmm(st.session_state.ts_docs)
             
-        with st.spinner("Running BERTopic..."):
-            # If Auto-Discovery, nr_topics=None (or "auto") allows natural HDBSCAN discovery
-            b_target = target_k if strategy == "Force Topic Size" else "auto"
-            bert_model, bert_topics, bert_probs, bert_words = run_bertopic(
+        with st.spinner("Running BERTopic (Pass 1: Semantic Embedding Clustering)..."):
+            # If Macro Pillars or Custom, use target_k; if Auto-Discovery, nr_topics="auto"
+            b_target = target_k if target_k is not None else "auto"
+            bert_model, bert_topics, bert_probs, bert_words, bert_embeddings = run_bertopic(
                 st.session_state.ts_docs,
                 min_topic_size=int(min_cluster_docs),
                 nr_topics=b_target
@@ -424,16 +449,16 @@ def render_configuration_tab(df):
             st.session_state.bert_words = bert_words
             st.session_state.bert_topics = bert_topics
             
-            # Sync GSDMM to BERTopic's output
-            if strategy == "Auto-Discovery (Recommended)":
-                target_k = len(bert_words)
+            # Sync GSDMM to BERTopic's macro topic count
+            actual_k = len(bert_words)
+            gsdmm_k = max(2, actual_k)
             
-        with st.spinner(f"Running GSDMM (k={target_k})"):
-            gsdmm_model, gsdmm_topics, gsdmm_probs, gsdmm_words = run_gsdmm(st.session_state.ts_tokenized_docs, k=target_k)
+        with st.spinner(f"Running GSDMM (Pass 1: Lexical Co-occurrence Lens, k={gsdmm_k})..."):
+            gsdmm_model, gsdmm_topics, gsdmm_probs, gsdmm_words = run_gsdmm(st.session_state.ts_tokenized_docs, k=gsdmm_k)
             st.session_state.gsdmm_words = gsdmm_words
             st.session_state.gsdmm_topics = gsdmm_topics
             
-        with st.spinner("4. Aligning Topics..."):
+        with st.spinner("Aligning Topics & Running Pass 2 Consensus Centroid Refinement..."):
             b_to_u, g_to_u, mapping = align_topics(
                 bert_topics,
                 gsdmm_topics,
@@ -441,18 +466,39 @@ def render_configuration_tab(df):
                 gsdmm_words,
                 min_topic_size=int(min_cluster_docs)
             )
-            st.session_state.topic_mapping = mapping
             
-            u_topics, confidences, secondary = assign_unified_topics(
+            u_topics, confidences, secondary, is_consensus = assign_unified_topics(
                 bert_topics, gsdmm_topics, b_to_u, g_to_u,
+                unified_mapping=mapping,
+                doc_embeddings=bert_embeddings,
                 min_confidence=float(min_confidence),
                 min_topic_size=int(min_cluster_docs)
             )
+            
+            # --- SYNCHRONIZE TOPIC MAPPING WITH SURVIVING TOPICS ---
+            # Remove any ghost topics that ended up with 0 documents
+            surviving_u_ids = sorted(list(set(t for t in u_topics if t != -1)))
+            
+            # Create a clean contiguous remapping: old_uid -> new_uid (0, 1, 2, ...)
+            remap = {old_id: new_id for new_id, old_id in enumerate(surviving_u_ids)}
+            
+            u_topics = [remap.get(t, -1) if t != -1 else -1 for t in u_topics]
+            secondary = [remap.get(s, None) if s is not None and s in remap else None for s in secondary]
+            
+            # Rebuild clean topic mapping with ONLY surviving topics
+            clean_mapping = {}
+            for old_id in surviving_u_ids:
+                new_id = remap[old_id]
+                clean_mapping[new_id] = mapping[old_id]
+                
+            st.session_state.topic_mapping = clean_mapping
+            st.session_state.topic_names = {}  # Reset previous topic names for fresh run
             
             # Save results back to session state dataframe
             df['unified_topic'] = u_topics
             df['topic_confidence'] = confidences
             df['secondary_topic'] = secondary
+            df['is_consensus'] = is_consensus
             st.session_state.ts_df = df
             
         # Logging
@@ -473,13 +519,13 @@ def render_configuration_tab(df):
             f"Fields Analyzed: {text_cols}",
             f"Alignment Strategy: {strategy}",
             f"Minimum Cluster Size: {min_cluster_docs} documents",
-            f"Synchronized Topic Count (k): {target_k}",
+            f"Synchronized Topic Count (k): {target_k if target_k is not None else 'Auto'}",
             f"Total Documents Processed: {total_docs}",
             "",
             "--------------------------------------------------------------------------------",
             "MODEL STATISTICS",
             "--------------------------------------------------------------------------------",
-            f"• Unified Topics Generated: {len(mapping)}",
+            f"• Unified Topics Generated: {len(clean_mapping)}",
             f"• Outlier Documents (-1): {outliers} ({(outliers/total_docs*100):.1f}%)",
             f"• Average Assignment Confidence: {(sum(confidences)/len(confidences)):.2f}",
             "",
@@ -488,7 +534,7 @@ def render_configuration_tab(df):
             "--------------------------------------------------------------------------------"
         ]
         
-        for u_id, m in mapping.items():
+        for u_id, m in clean_mapping.items():
             b_id = m.get('bertopic_id')
             g_ids = m.get('gsdmm_ids', [])
             if not g_ids and m.get('gsdmm_id') is not None:
@@ -516,10 +562,11 @@ def render_configuration_tab(df):
             c_count = len(c_indices)
             c_share = (c_count / total_docs * 100) if total_docs > 0 else 0
             c_mean_conf = (sum(c_confs) / c_count) if c_count > 0 else 0
-            c_consensus = sum(1 for c in c_confs if c == 1.0)
-            c_conflict = sum(1 for c in c_confs if c == 0.5)
+            c_consensus = sum(1 for i in c_indices if is_consensus[i])
+            c_conflict = c_count - c_consensus
+            c_agree_pct = (c_consensus / c_count * 100) if c_count > 0 else 0
             
-            m_info = mapping.get(c_id, {})
+            m_info = clean_mapping.get(c_id, {})
             b_kws = ", ".join(bert_words.get(m_info.get('bertopic_id'), [])[:6]) if m_info.get('bertopic_id') is not None else "None"
             g_list = []
             for g_k in m_info.get('gsdmm_ids', []):
@@ -528,7 +575,7 @@ def render_configuration_tab(df):
             
             log_lines.append(
                 f"Cluster {c_id:02d} | Docs: {c_count:4d} ({c_share:4.1f}%) | "
-                f"Mean Conf: {c_mean_conf:.2f} | Consensus: {c_consensus:3d} | Conflicts: {c_conflict:3d}\n"
+                f"Mean Conf: {c_mean_conf:.2f} | Consensus: {c_consensus:3d} ({c_agree_pct:.0f}%) | Boundary/Refined: {c_conflict:3d}\n"
                 f"   • BERTopic Top Keywords: {b_kws}\n"
                 f"   • GSDMM Top Keywords:    {g_kws}"
             )
@@ -548,6 +595,21 @@ def render_configuration_tab(df):
             
         st.success(f"Ensemble pipeline completed in {formatted_duration}! Log saved to `{log_filename}`.")
 
+def get_topic_name(topic_id):
+    if topic_id == -1 or str(topic_id) == '-1':
+        return "Outliers (-1)"
+    try:
+        t_id = int(topic_id)
+    except (ValueError, TypeError):
+        t_id = topic_id
+    if 'topic_names' in st.session_state:
+        val = st.session_state.topic_names.get(t_id, st.session_state.topic_names.get(str(t_id)))
+        if isinstance(val, dict):
+            return val.get('name') or f"Topic {topic_id}"
+        elif isinstance(val, str) and val.strip():
+            return val.strip()
+    return f"Topic {topic_id}"
+
 def render_topic_explorer(df):
     st.subheader("Topic Explorer & GenAI Naming")
     
@@ -557,7 +619,10 @@ def render_topic_explorer(df):
         
     # General Vision Table
     st.subheader("General Vision")
-    unified_ids = list(st.session_state.topic_mapping.keys())
+    doc_topics_set = set(st.session_state.ts_df['unified_topic'].unique()) if 'ts_df' in st.session_state else set()
+    unified_ids = [u_id for u_id in st.session_state.topic_mapping.keys() if u_id in doc_topics_set and u_id != -1]
+    if not unified_ids:
+        unified_ids = [u_id for u_id in st.session_state.topic_mapping.keys() if u_id != -1]
     
     if 'topic_names' not in st.session_state:
         st.session_state.topic_names = {}
@@ -579,13 +644,35 @@ def render_topic_explorer(df):
         dedup_g_words = [w for w in g_words_list if not (w in seen or seen.add(w))]
         g_words = ", ".join(dedup_g_words) if dedup_g_words else "N/A"
         
-        ai_name = st.session_state.topic_names.get(u_id, {}).get('name', '')
+        topic_docs_all = st.session_state.ts_df[st.session_state.ts_df['unified_topic'] == u_id] if 'ts_df' in st.session_state else pd.DataFrame()
+        doc_count = len(topic_docs_all)
+        if doc_count > 0:
+            if 'is_consensus' in topic_docs_all.columns:
+                consensus_count = int(topic_docs_all['is_consensus'].fillna(False).astype(bool).sum())
+            elif 'topic_confidence' in topic_docs_all.columns:
+                consensus_count = int((topic_docs_all['topic_confidence'] >= 0.99).sum())
+            else:
+                consensus_count = 0
+            agreement_pct = round((consensus_count / doc_count) * 100)
+            agreement_detail = f"{agreement_pct}% ({consensus_count}/{doc_count} Core)"
+        else:
+            agreement_detail = "N/A"
+        
+        ai_data = st.session_state.topic_names.get(u_id, {})
+        if isinstance(ai_data, dict):
+            ai_name = ai_data.get('name', 'Pending Generation')
+        elif isinstance(ai_data, str) and ai_data.strip():
+            ai_name = ai_data.strip()
+        else:
+            ai_name = "Pending Generation"
         
         table_data.append({
-            "Unified Topic": u_id,
+            "Topic": f"Topic {u_id}",
+            "Documents": doc_count,
+            "Model Agreement": agreement_detail,
             "AI Name": ai_name,
-            "BERTopic Keywords": b_words,
-            "GSDMM Keywords": g_words
+            "BERTopic Keywords (Contextual)": b_words,
+            "GSDMM Keywords (Lexical)": g_words
         })
         
     st.dataframe(pd.DataFrame(table_data), width="stretch")
@@ -670,8 +757,20 @@ def render_topic_explorer(df):
     
     # Topic Selector
     st.subheader("Explore Topic Keywords")
-    unified_ids = list(st.session_state.topic_mapping.keys())
-    selected_topic = st.selectbox("Select Topic to Explore", unified_ids, format_func=lambda x: f"Topic {x}")
+    doc_topics_set = set(st.session_state.ts_df['unified_topic'].unique()) if 'ts_df' in st.session_state else set()
+    unified_ids = [u_id for u_id in st.session_state.topic_mapping.keys() if u_id in doc_topics_set and u_id != -1]
+    if not unified_ids:
+        unified_ids = [u_id for u_id in st.session_state.topic_mapping.keys() if u_id != -1]
+        
+    if not unified_ids:
+        st.info("No active topics with assigned documents found.")
+        return
+        
+    selected_topic = st.selectbox(
+        "Select Topic to Explore", 
+        unified_ids, 
+        format_func=lambda x: f"Topic {x} — {get_topic_name(x)}" if get_topic_name(x) != f"Topic {x}" else f"Topic {x}"
+    )
     
     mapping_info = st.session_state.topic_mapping.get(selected_topic, {})
     b_id = mapping_info.get('bertopic_id')
@@ -719,62 +818,80 @@ def render_topic_explorer(df):
         st.success(f"**Generated Name:** {ai_data.get('name')}")
         st.write(f"**Description:** {ai_data.get('description')}")
         
-    # Document Representatives & Borderline Audit
-    st.subheader("📄 Cluster Document Audit: Most vs. Least Representative")
-    st.caption("Inspect central documents (high confidence) versus boundary/borderline documents (lowest confidence) to assess cluster coherence.")
+    # Dual-Perspective Document Audit
+    st.subheader("📄 Dual-Perspective Document Audit: Consensus Core vs. Boundary Articles")
+    st.caption("Compare documents where both BERTopic & GSDMM 100% agreed (Consensus Core) against boundary articles where models offered differing perspectives.")
     
     topic_docs = st.session_state.ts_df[st.session_state.ts_df['unified_topic'] == selected_topic]
     
     if not topic_docs.empty:
-        n_total_in_topic = len(topic_docs)
-        sample_size = min(5, n_total_in_topic)
-        most_rep = topic_docs.sort_values(by='topic_confidence', ascending=False).head(sample_size)
-        least_rep = topic_docs.sort_values(by='topic_confidence', ascending=True).head(sample_size)
+        if 'is_consensus' in topic_docs.columns:
+            consensus_mask = topic_docs['is_consensus'].fillna(False).astype(bool)
+        elif 'topic_confidence' in topic_docs.columns:
+            consensus_mask = topic_docs['topic_confidence'] >= 0.99
+        else:
+            consensus_mask = pd.Series([False] * len(topic_docs), index=topic_docs.index)
+            
+        consensus_docs = topic_docs[consensus_mask]
+        boundary_docs = topic_docs[~consensus_mask]
+        
+        # Display summary pill badges
+        pct_agree = round((len(consensus_docs) / len(topic_docs)) * 100) if len(topic_docs) else 0
+        st.markdown(
+            f"**Model Agreement for Topic {selected_topic}:** `{pct_agree}%` "
+            f"• **Consensus Core:** `{len(consensus_docs)} documents` "
+            f"• **Boundary / Refined:** `{len(boundary_docs)} documents`"
+        )
         
         rep_col1, rep_col2 = st.columns(2, gap="large")
         
         with rep_col1:
-            st.markdown(f"##### 🎯 Most Representative (Core Documents - Top {sample_size})")
-            for _, r in most_rep.iterrows():
-                r_title = r.get('Title', 'Untitled Document')
-                r_conf = r.get('topic_confidence', 0.0)
-                r_year = r.get('Publication Year', r.get('Year', 'N/A'))
-                r_doi = r.get('DOI', '')
-                r_abstract = str(r.get('Abstract', 'No abstract available.'))
-                if len(r_abstract) > 280:
-                    r_abstract = r_abstract[:280] + "..."
-                
-                doi_link = f" • [DOI](https://doi.org/{r_doi})" if r_doi and str(r_doi).lower() != 'nan' else ""
-                
-                with st.container(border=True):
-                    st.markdown(f"**{r_title}** ({r_year}){doi_link}")
-                    st.caption(f"**Confidence:** `{r_conf:.2f}` | **Secondary Topic:** `{r.get('secondary_topic', 'None')}`")
-                    st.markdown(f"<span style='color: #475569; font-size: 13px;'>{r_abstract}</span>", unsafe_allow_html=True)
+            st.markdown(f"##### 🎯 Consensus Core Documents (Top 5)")
+            st.caption("Both BERTopic (contextual semantics) and GSDMM (lexical co-occurrence) placed these articles in this exact theme.")
+            if not consensus_docs.empty:
+                for _, r in consensus_docs.sort_values(by='topic_confidence', ascending=False).head(5).iterrows():
+                    r_title = r.get('Title', 'Untitled Document')
+                    r_conf = r.get('topic_confidence', 1.0)
+                    r_year = r.get('Publication Year', r.get('Year', 'N/A'))
+                    r_doi = r.get('DOI', '')
+                    r_abstract = str(r.get('Abstract', 'No abstract available.'))
+                    if len(r_abstract) > 280:
+                        r_abstract = r_abstract[:280] + "..."
                     
+                    doi_link = f" • [DOI](https://doi.org/{r_doi})" if r_doi and str(r_doi).lower() != 'nan' else ""
+                    
+                    with st.container(border=True):
+                        st.markdown(f"**{r_title}** ({r_year}){doi_link}")
+                        st.caption(f"**Confidence:** `{r_conf:.2f}` | **Consensus:** `100% (BERTopic ∩ GSDMM)`")
+                        st.markdown(f"<span style='color: #475569; font-size: 13px;'>{r_abstract}</span>", unsafe_allow_html=True)
+            else:
+                st.info("No consensus documents in this specific topic; all documents were assigned via leader semantic centroid inference.")
+                
         with rep_col2:
-            st.markdown(f"##### ⚠️ Least Representative (Boundary / Outlier Candidates - Bottom {sample_size})")
-            for _, r in least_rep.iterrows():
-                r_title = r.get('Title', 'Untitled Document')
-                r_conf = r.get('topic_confidence', 0.0)
-                r_year = r.get('Publication Year', r.get('Year', 'N/A'))
-                r_doi = r.get('DOI', '')
-                r_abstract = str(r.get('Abstract', 'No abstract available.'))
-                if len(r_abstract) > 280:
-                    r_abstract = r_abstract[:280] + "..."
-                
-                doi_link = f" • [DOI](https://doi.org/{r_doi})" if r_doi and str(r_doi).lower() != 'nan' else ""
-                
-                with st.container(border=True):
-                    st.markdown(f"**{r_title}** ({r_year}){doi_link}")
-                    st.caption(f"**Confidence:** `{r_conf:.2f}` | **Secondary Topic:** `{r.get('secondary_topic', 'None')}`")
-                    st.markdown(f"<span style='color: #475569; font-size: 13px;'>{r_abstract}</span>", unsafe_allow_html=True)
+            st.markdown(f"##### ⚖️ Boundary & Refined Articles (Top 5)")
+            st.caption("Articles resolved via Pass 2 Centroid Inference. Displays the primary leader topic alongside the alternative secondary perspective.")
+            if not boundary_docs.empty:
+                for _, r in boundary_docs.sort_values(by='topic_confidence', ascending=True).head(5).iterrows():
+                    r_title = r.get('Title', 'Untitled Document')
+                    r_conf = r.get('topic_confidence', 0.0)
+                    r_year = r.get('Publication Year', r.get('Year', 'N/A'))
+                    r_doi = r.get('DOI', '')
+                    r_abstract = str(r.get('Abstract', 'No abstract available.'))
+                    if len(r_abstract) > 280:
+                        r_abstract = r_abstract[:280] + "..."
+                    
+                    doi_link = f" • [DOI](https://doi.org/{r_doi})" if r_doi and str(r_doi).lower() != 'nan' else ""
+                    sec_t = r.get('secondary_topic', None)
+                    sec_str = f"Topic {sec_t} ({get_topic_name(sec_t)})" if sec_t is not None and str(sec_t) != 'nan' else "None"
+                    
+                    with st.container(border=True):
+                        st.markdown(f"**{r_title}** ({r_year}){doi_link}")
+                        st.caption(f"**Confidence:** `{r_conf:.2f}` | **Alternative Perspective:** `{sec_str}`")
+                        st.markdown(f"<span style='color: #475569; font-size: 13px;'>{r_abstract}</span>", unsafe_allow_html=True)
+            else:
+                st.success("🌟 All documents in this topic achieved pure consensus between both models!")
     else:
-        st.write("No documents assigned to this topic.")
-
-def get_topic_name(topic_id):
-    if 'topic_names' in st.session_state and topic_id in st.session_state.topic_names:
-        return st.session_state.topic_names[topic_id].get('name', f"Topic {topic_id}")
-    return f"Topic {topic_id}"
+        st.info("No documents are currently assigned to this topic under the active confidence and cluster size filters.")
 
 def render_strategic_map(df):
     st.subheader("Strategic Map (Callon Diagram)")
@@ -1039,29 +1156,19 @@ def render_quality(df):
             )
     else:
         st.info("Audit log will appear here once the ensemble stratification pipeline has been executed.")
-    st.write("### Data Export")
-    st.write("You can download the full enriched dataset with unified topics, secondary topics, and confidence scores attached.")
+    st.write("### Data Export & Session State")
+    render_project_saved_notice("exports", "Stratified datasets and session checkpoints are automatically saved to your active project workspace.")
     
-    csv = ts_df.to_csv(index=False).encode('utf-8')
+    csv = ts_df.to_csv(index=False).encode('utf-8-sig')
     fn_strat_csv = format_timestamped_filename('bibliometric_stratified_results.csv')
     try: save_project_file("exports", fn_strat_csv, csv, mode="wb")
     except Exception: pass
-    
-    st.download_button(
-        label="Download Final Dataset as CSV",
-        data=csv,
-        file_name=fn_strat_csv,
-        mime='text/csv',
-    )
-    
-    st.divider()
-    st.write("### Save Session")
-    st.write("Export the current stratification session to a JSON file to easily restore it later.")
     
     session_data = {
         'topic_assignments': ts_df['unified_topic'].tolist() if 'unified_topic' in ts_df.columns else [],
         'topic_confidences': ts_df['topic_confidence'].tolist() if 'topic_confidence' in ts_df.columns else [],
         'secondary_topics': ts_df['secondary_topic'].tolist() if 'secondary_topic' in ts_df.columns else [],
+        'is_consensus': ts_df['is_consensus'].tolist() if 'is_consensus' in ts_df.columns else [],
         'topic_names': st.session_state.get('topic_names', {}),
         'topic_mapping': st.session_state.get('topic_mapping', {}),
         'bert_words': st.session_state.get('bert_words', {}),
@@ -1084,10 +1191,24 @@ def render_quality(df):
     fn_strat_sess = format_timestamped_filename('stratification_session.json')
     try: save_project_file("sessions", fn_strat_sess, json_bytes, mode="wb")
     except Exception: pass
-    
-    st.download_button(
-        label="Export Session State (.json)",
-        data=json_bytes,
-        file_name=fn_strat_sess,
-        mime='application/json',
-    )
+
+    st_c1, st_c2, st_c3 = st.columns(3, gap="small")
+    with st_c1:
+        st.download_button(
+            label="Download Final Dataset (CSV)",
+            data=csv,
+            file_name=fn_strat_csv,
+            mime='text/csv',
+            width="stretch"
+        )
+    with st_c2:
+        st.download_button(
+            label="Download Session State (.json)",
+            data=json_bytes,
+            file_name=fn_strat_sess,
+            mime='application/json',
+            width="stretch"
+        )
+    with st_c3:
+        if st.button("Open Project Folder", icon=":material/folder_open:", width="stretch", key="btn_open_strat_folder"):
+            open_project_folder("exports")

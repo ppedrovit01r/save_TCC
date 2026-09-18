@@ -76,21 +76,21 @@ def show():
         st.subheader("📑 Cited Models")
         st.dataframe(cited)
         st.download_button("Download Cited Models CSV",
-                           cited.to_csv(index=False).encode("utf-8"),
+                           cited.to_csv(index=False).encode("utf-8-sig"),
                            "cited_models.csv",
                            "text/csv")
 
         st.subheader("📑 Used Models")
         st.dataframe(used)
         st.download_button("Download Used Models CSV",
-                           used.to_csv(index=False).encode("utf-8"),
+                           used.to_csv(index=False).encode("utf-8-sig"),
                            "used_models.csv",
                            "text/csv")
 
         st.subheader("📑 Articles Without Models")
         st.dataframe(articles_without_models_df)
         st.download_button("Download Articles Without Models CSV",
-                           articles_without_models_df.to_csv(index=False).encode("utf-8"),
+                           articles_without_models_df.to_csv(index=False).encode("utf-8-sig"),
                            "articles_without_models.csv",
                            "text/csv")
 
@@ -186,7 +186,7 @@ def show():
             recent_counts_df = (recent_counts.rename_axis("Model")
                                 .reset_index(name="Citations (last 5 yrs)"))
             st.download_button("Download Last-5-Years Citation CSV",
-                               recent_counts_df.to_csv(index=False).encode("utf-8"),
+                               recent_counts_df.to_csv(index=False).encode("utf-8-sig"),
                                "cited_models_last_5_years.csv",
                                "text/csv")
 
@@ -199,7 +199,7 @@ def show():
         st.subheader("📋 Summary Table: Citations and Uses")
         st.dataframe(summary)
         st.download_button("Download Summary Table CSV",
-                           summary.to_csv(index=False).encode("utf-8"),
+                           summary.to_csv(index=False).encode("utf-8-sig"),
                            "summary_table.csv",
                            "text/csv")
 
@@ -275,7 +275,7 @@ def show():
             yearly_counts_reset = (yearly_counts.reset_index()
                                    .rename(columns={"year": "Year"}))
             st.download_button("Download yearly citation counts (models >10)",
-                               yearly_counts_reset.to_csv(index=False).encode("utf-8"),
+                               yearly_counts_reset.to_csv(index=False).encode("utf-8-sig"),
                                "yearly_citation_counts_popular_models.csv",
                                "text/csv")
 
@@ -323,7 +323,7 @@ def show():
                 yearly_uses_reset = (yearly_uses.reset_index()
                                      .rename(columns={"year": "Year"}))
                 st.download_button("Download yearly use counts (models >10)",
-                                   yearly_uses_reset.to_csv(index=False).encode("utf-8"),
+                                   yearly_uses_reset.to_csv(index=False).encode("utf-8-sig"),
                                    "yearly_use_counts_popular_models.csv",
                                    "text/csv")
 
@@ -373,7 +373,7 @@ def show():
                 yearly_totals_reset = (yearly_totals_plot.reset_index()
                                        .rename(columns={"year": "Year"}))
                 st.download_button("Download yearly totals per model (CSV)",
-                                   yearly_totals_reset.to_csv(index=False).encode("utf-8"),
+                                   yearly_totals_reset.to_csv(index=False).encode("utf-8-sig"),
                                    "yearly_totals_per_model.csv",
                                    "text/csv")
 
@@ -406,7 +406,7 @@ def show():
             else:
                 st.dataframe(tbl, hide_index=True, width="stretch")
                 st.download_button(f"Download {nice_name} article list",
-                                   tbl.to_csv(index=False).encode("utf-8"),
+                                   tbl.to_csv(index=False).encode("utf-8-sig"),
                                    f"articles_{nice_name.lower()}.csv",
                                    "text/csv",
                                    key=f"dl_{nice_name}")
@@ -417,7 +417,7 @@ def show():
         if not only_used.empty:
             st.dataframe(only_used)
             st.download_button("Download Only Used Models CSV",
-                               only_used.to_csv(index=False).encode("utf-8"),
+                               only_used.to_csv(index=False).encode("utf-8-sig"),
                                "only_used_models.csv",
                                "text/csv")
         else:
@@ -428,7 +428,7 @@ def show():
         if not only_cited.empty:
             st.dataframe(only_cited)
             st.download_button("Download Only Cited Models CSV",
-                               only_cited.to_csv(index=False).encode("utf-8"),
+                               only_cited.to_csv(index=False).encode("utf-8-sig"),
                                "only_cited_models.csv",
                                "text/csv")
         else:
@@ -439,7 +439,7 @@ def show():
         if not used_more_than_cited.empty:
             st.dataframe(used_more_than_cited)
             st.download_button("Download Models Used More Than Cited CSV",
-                               used_more_than_cited.to_csv(index=False).encode("utf-8"),
+                               used_more_than_cited.to_csv(index=False).encode("utf-8-sig"),
                                "used_more_than_cited.csv",
                                "text/csv")
         else:
@@ -450,7 +450,7 @@ def show():
         if not cited_more_than_used.empty:
             st.dataframe(cited_more_than_used)
             st.download_button("Download Models Cited More Than Used CSV",
-                               cited_more_than_used.to_csv(index=False).encode("utf-8"),
+                               cited_more_than_used.to_csv(index=False).encode("utf-8-sig"),
                                "cited_more_than_used.csv",
                                "text/csv")
         else:
