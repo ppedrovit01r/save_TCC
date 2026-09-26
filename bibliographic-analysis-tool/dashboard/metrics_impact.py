@@ -27,23 +27,66 @@ def g_index(citations: List[Union[int, float, None]]) -> int:
             g = i
     return g
 
+@st.cache_data
+def _compute_metrics_per_author_vectorized(df_authors: pd.DataFrame) -> pd.DataFrame:
+    if df_authors.empty or "Author" not in df_authors.columns:
+        return pd.DataFrame(columns=["Author", "Number of Articles", "Total Citations", "Average Citations", "h-index", "g-index"])
+
+    df_clean = df_authors[["Author", "Times Cited"]].copy()
+    df_clean["Times Cited"] = pd.to_numeric(df_clean["Times Cited"], errors="coerce").fillna(0).astype(int)
+
+    # Defensive filtering against empty or invalid placeholder authors
+    df_clean = df_clean[df_clean["Author"].notna()]
+    df_clean["Author"] = df_clean["Author"].astype(str).str.strip()
+    invalid_tokens = {'', 'nan', '<na>', 'none', 'null', 'n/a', 'unknown', 'et al', 'et al.', 'anonymous'}
+    df_clean = df_clean[~df_clean["Author"].str.lower().isin(invalid_tokens)]
+    df_clean = df_clean[df_clean["Author"].str.len() >= 2]
+
+    if df_clean.empty:
+        return pd.DataFrame(columns=["Author", "Number of Articles", "Total Citations", "Average Citations", "h-index", "g-index"])
+
+    # Fast vectorized aggregation
+    agg_df = df_clean.groupby("Author")["Times Cited"].agg(
+        Number_of_Articles="count",
+        Total_Citations="sum"
+    )
+    agg_df["Average Citations"] = agg_df["Total_Citations"] / agg_df["Number_of_Articles"].replace(0, 1)
+
+    # h-index and g-index can only be > 0 for authors with Total_Citations > 0
+    active_authors = set(agg_df[agg_df["Total_Citations"] > 0].index)
+    
+    h_dict = {}
+    g_dict = {}
+    
+    if active_authors:
+        active_df = df_clean[df_clean["Author"].isin(active_authors) & (df_clean["Times Cited"] > 0)]
+        for author, group in active_df.groupby("Author"):
+            citations = sorted(group["Times Cited"].tolist(), reverse=True)
+            # h-index
+            h = sum(c >= i + 1 for i, c in enumerate(citations))
+            # g-index
+            total = 0
+            g = 0
+            for i, c in enumerate(citations, start=1):
+                total += c
+                if total >= i**2:
+                    g = i
+            h_dict[author] = h
+            g_dict[author] = g
+
+    agg_df["h-index"] = agg_df.index.map(h_dict).fillna(0).astype(int)
+    agg_df["g-index"] = agg_df.index.map(g_dict).fillna(0).astype(int)
+
+    res = agg_df.reset_index().rename(columns={
+        "Number_of_Articles": "Number of Articles",
+        "Total_Citations": "Total Citations",
+        "Average Citations": "Average Citations"
+    })
+    return res
+
 @safe_run
 def calculate_metrics_per_author(df_authors: pd.DataFrame) -> pd.DataFrame:
-    results = []
-    for author, group in df_authors.groupby("Author"):
-        citations = group["Times Cited"].fillna(0).astype(int).tolist()
-        num_articles = len(citations)
-        results.append(
-            {
-                "Author": author,
-                "Number of Articles": num_articles,
-                "Total Citations": sum(citations),
-                "Average Citations": sum(citations) / num_articles if num_articles else 0,
-                "h-index": h_index(citations),
-                "g-index": g_index(citations),
-            }
-        )
-    return pd.DataFrame(results)
+    return _compute_metrics_per_author_vectorized(df_authors)
 
 @safe_run
 def display_top_10_tables(df_results: pd.DataFrame):

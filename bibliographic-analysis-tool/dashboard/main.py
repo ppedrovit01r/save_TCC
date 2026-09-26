@@ -32,12 +32,11 @@ def show(profile="ALL"):
         return
 
     if "Publication Year" in df.columns:
-        df["Publication Year"] = df["Publication Year"].astype(str).str.extract(r'((?:18|19|20)\d{2})')[0]
+        from utils.formatters import clean_year_series
+        df["Publication Year"] = clean_year_series(df["Publication Year"])
 
-    numeric_cols = ["Times Cited", "Publication Year"]
-    for col in numeric_cols:
-        if col in df.columns:
-            df[col] = pd.to_numeric(df[col], errors="coerce")
+    if "Times Cited" in df.columns:
+        df["Times Cited"] = pd.to_numeric(df["Times Cited"], errors="coerce").fillna(0).astype(int)
 
     if df.empty:
         st.warning("The loaded dataset is empty.")
@@ -50,17 +49,23 @@ def show(profile="ALL"):
         st.warning("No author information available.")
         return
 
-    df_authors = (
-        df.assign(Author=df["Author"].astype(str).str.split(","))
-        .explode("Author")
-    )
-    df_authors["Author"] = df_authors["Author"].str.strip()
+    from features.gender import split_authors_string
+
+    # Robustly split multiple authors per article (delimited by ;, and, or ,) and deduplicate per article
+    parsed_authors = df["Author"].apply(lambda x: split_authors_string(str(x)) if pd.notna(x) else [])
+    df_authors = df.assign(Author=parsed_authors).explode("Author")
+
+    # Filter out empty, NaN, and invalid placeholder tokens (<NA>, nan, unknown, etc.)
+    df_authors = df_authors[df_authors["Author"].notna()].copy()
+    df_authors["Author"] = df_authors["Author"].astype(str).str.strip()
+    invalid_tokens = {'', 'nan', '<na>', 'none', 'null', 'n/a', 'unknown', 'et al', 'et al.', 'anonymous'}
+    df_authors = df_authors[~df_authors["Author"].str.lower().isin(invalid_tokens)]
     df_results = calculate_metrics_per_author(df_authors)
 
     # Graphs and tables
     display_top_10_tables(df_results)
-    if profile in ["ALL", "RESEARCHER"]: display_most_cited_per_year_graph(df)
+    display_most_cited_per_year_graph(df)
     display_authors_with_more_citations(df_results, df)
     display_gini_and_lorenz(df_results)
-    if profile in ["ALL", "RESEARCHER"]: display_citation_data_per_year(df)
+    display_citation_data_per_year(df)
     display_error_info(df, key_prefix="dash_main")

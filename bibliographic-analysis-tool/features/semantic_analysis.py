@@ -84,7 +84,7 @@ def display_coword_graph(focus_word, fields, df, top_n):
         G.add_node(w, size=10 + cnt)
         G.add_edge(focus_word, w, weight=cnt)
 
-    G_vis = Network(height="600px", width="100%", bgcolor=DARK_BG, font_color=DARK_FONT)
+    G_vis = Network(height="600px", width="100%", bgcolor=DARK_BG, font_color=DARK_FONT, cdn_resources="remote")
     for node in G.nodes():
         G_vis.add_node(
             node, 
@@ -96,11 +96,16 @@ def display_coword_graph(focus_word, fields, df, top_n):
         G_vis.add_edge(u, v, value=data["weight"])
 
     html_path = Path("co_word_graph.html")
-    G_vis.save_graph(str(html_path))
-    with html_path.open("r", encoding="utf-8") as f:
-        html = f.read()
+    html = G_vis.generate_html(notebook=False)
+    try:
+        html_path.write_text(html, encoding="utf-8")
+    except Exception:
+        pass
 
-    components.html(html, height=600)
+    if hasattr(st, "iframe"):
+        st.iframe(html_path, height=600)
+    else:
+        components.html(html, height=600)
     safe_download(
         st.download_button, 
         "Download Graph", 

@@ -56,12 +56,9 @@ def show(master_df):
             abstract = current_article.get('Abstract', 'No Abstract')
             authors = current_article.get('Author', 'Unknown Authors')
             
-            # Safely format year as integer
-            raw_year = current_article.get('Publication Year', 'Unknown Year')
-            try:
-                year = str(int(float(raw_year)))
-            except (ValueError, TypeError):
-                year = str(raw_year)
+            # Safely format year
+            from utils.formatters import clean_year_value
+            year = clean_year_value(current_article.get('Publication Year', '')) or 'Unknown Year'
                 
             keywords = current_article.get('Keywords', 'None')
             journal = current_article.get('Journal', current_article.get('Publisher', 'Unknown Venue'))
@@ -180,14 +177,16 @@ def show(master_df):
 
         st.graphviz_chart(dot_string)
 
-        from utils.project_manager import format_timestamped_filename, save_project_file
+        from utils.project_manager import format_timestamped_filename, get_active_project_name
+        from utils.exports import _save_export_on_click
         fn_dot = format_timestamped_filename("prisma_petersen_flowchart.dot")
-        try: save_project_file("exports", fn_dot, dot_string, mode="w")
-        except Exception: pass
 
         st.download_button(
             "Download DOT format (Import to WebGraphviz/Visio)",
             data=dot_string,
             file_name=fn_dot,
-            mime="text/plain"
+            mime="text/plain",
+            on_click=_save_export_on_click,
+            args=("exports", "prisma_petersen_flowchart.dot", dot_string, "w"),
+            help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
         )

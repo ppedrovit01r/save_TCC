@@ -1,0 +1,94 @@
+================================================================================
+                    GENDER MAPPING INFERENCE & DIVERSITY AUDIT REPORT
+================================================================================
+Generated At:             2026-09-20 14:41:58
+Active Project:           Allll
+Execution Status:         COMPLETE SUCCESS
+Total Execution Duration: 2 hours 28 minutes 52 seconds
+Inference Strategy:       Hybrid: Smart Cache + Offline (≥85%) + NamSor Fallback
+Offline Acceptance Thresh:85%
+Final Confidence Thresh:  75%
+
+--------------------------------------------------------------------------------
+1. DATASET VOLUME & EXECUTION SCOPE
+--------------------------------------------------------------------------------
+• Total Evaluated Articles:        9,979
+• Total Author Mentions Processed: 42,004
+• Reliable Gender Classifications: 24,665 (58.7%)
+
+--------------------------------------------------------------------------------
+2. INFERENCE ENGINE & QUOTA OPTIMIZATION AUDIT
+--------------------------------------------------------------------------------
+• Persistent Cache Hits (Free):    21,523 names (51.2%)
+• Offline Rule Matches (Free):     19,333 names (46.0%)
+• External NamSor API Requests:    3 calls (0.0%)
+• Quota Savings Efficiency:        97.3% free resolutions without network API consumption
+• Classification Engine Breakdown:
+    - gender-guesser: 27,137 author mentions (64.6%)
+    - gender-guesser (epicene): 7,942 author mentions (18.9%)
+    - NamSor API: 4,133 author mentions (9.8%)
+    - Local Lexicon: 1,306 author mentions (3.1%)
+    - Initial / Abbreviated: 1,145 author mentions (2.7%)
+    - Initial Lexicon: 341 author mentions (0.8%)
+
+--------------------------------------------------------------------------------
+3. GENDER DEMOGRAPHIC REPRESENTATION SUMMARY
+--------------------------------------------------------------------------------
+• Female Authors: 8,030 (19.1%)
+• Male Authors:   16,635 (39.6%)
+• Unknown/Unsure: 17,339 (41.3%)
+
+--------------------------------------------------------------------------------
+4. CAREER PROGRESSION & LEADERSHIP POSITIONING (SCISSORS EFFECT)
+--------------------------------------------------------------------------------
+• First Author (Mentee / Lead Researcher):
+    - Female: 2,000 articles (20.0%)
+    - Male:   3,934 articles (39.4%)
+• Last Author (Senior PI / Advisor):
+    - Female: 1,672 articles (16.8%)
+    - Male:   4,453 articles (44.6%)
+• Progression Scissors Gap (First% - Last%):
+    - Female Gap: +3.3 percentage points
+    - Male Gap:   -5.2 percentage points
+
+--------------------------------------------------------------------------------
+5. AUTHOR NAME STANDARDIZATION & DISAMBIGUATION (OPENALEX)
+--------------------------------------------------------------------------------
+• Authors Disambiguated from Initials to Full Names: 3,473
+• Disambiguation Engine: OpenAlex Knowledge Graph Entity Disambiguation
+• Disambiguated Author Log:
+    - 'Artificial Intelligence, Radiology, and the W...': Jalal -> Sabeena Jalal
+    - 'Artificial Intelligence, Radiology, and the W...': Nicolaou -> Savvas Nicolaou
+    - 'Artificial Intelligence: The Medium and The M...': Ghaffarizadeh -> Seyed-Aryan Ghaffarizadeh
+    - 'Artificial intelligence in cancer research: l...': Nuñez-Carpintero -> Iker Nuñez-Carpintero
+    - 'Artificial Intelligence: Practical Primer for...': Kagiyama -> Nobuyuki Kagiyama
+    - 'Artificial Intelligence: Practical Primer for...': Shrestha -> Sirish Shrestha
+    - 'Artificial Intelligence: Practical Primer for...': Sengupta -> Partho Sengupta
+    - 'Editorial: Artificial intelligence (AI) ethic...': Ruiz -> Pablo García Ruiz
+    - 'Artificial intelligence, authorship and publi...': Rees -> Margaret Rees
+    - 'Artificial Intelligence Needs Clinical Intell...': Franklin -> John George Franklin
+    - 'Applications of artificial intelligence (AI) ...': O'Connell -> Kyle O'Connell
+    - 'Applications of artificial intelligence (AI) ...': Meacham -> Philip Meacham
+    - 'Applications of artificial intelligence (AI) ...': Carlson -> Thaddeus B. Carlson
+    - 'Elements of a Good Radiology Artificial Intel...': Soyer -> Philippe Soyer
+    - 'Elements of a Good Radiology Artificial Intel...': Mcinnes -> Matthew McInnes
+    - 'Elements of a Good Radiology Artificial Intel...': Patlas -> Michael Patlas
+    - 'Artificial intelligence and the aging mind...': Barnard -> Leland Barnard
+    - 'Foundation Models in Dermatology: Advances in...': Benavides -> Eine Benavides
+    - 'Artificial Intelligence: Evaluating All Imagi...': Kawel-Boehm -> Nadine Kawel-Boehm
+    - 'Artificial Intelligence, Important Assistant ...': Karimi -> Aliasghar Karimi
+    - 'Artificial intelligence in scientific writing...': Aguilera -> Raúl Aguilera
+    - 'Artificial intelligence in scientific writing...': Baeza -> Cristian Yáñez Baeza
+    - 'A perspective on the artificial intelligence’...': Skidanov -> Roman Skidanov
+    - 'Will Artificial Intelligence Replace the Huma...': Sengupta -> Partho Sengupta
+    - 'Artificial intelligence and fetal ultrasound ...': Oster -> Julien Oster
+    - 'Artificial intelligence and fetal ultrasound ...': Dap -> Matthieu Dap
+    - 'Artificial intelligence and fetal ultrasound ...': Olivier -> morel olivier
+    - 'Artificial intelligence and fetal ultrasound ...': Hossu -> Gabriela Hossu
+    - 'Inteligencia artificial y desinformación en s...': Allande-Cussó -> Regina Allande-Cussó
+    - 'Inteligencia artificial y desinformación en s...': Caparros-Gonzalez -> Rafael A. Caparros-Gonzalez
+    - ... and 3443 more disambiguated authors
+
+================================================================================
+END OF GENDER AUDIT TRAIL
+================================================================================

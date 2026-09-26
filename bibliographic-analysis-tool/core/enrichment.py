@@ -8,13 +8,18 @@ import pandas as pd
 import requests
 import requests_cache
 import re
+import json
+import xml.etree.ElementTree as ET
+import difflib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import Counter
 from core.ingestion import deduplicate_and_merge_columns
 from utils.formatters import format_duration
+from features.gender import author_has_initials, split_authors_string, disambiguate_paper_authors, clean_author_text
 
 CACHE_DIR = "/tmp" if os.name == 'posix' else tempfile.gettempdir()
 requests_cache.install_cache(os.path.join(CACHE_DIR, 'openalex_cache'), expire_after=604800)
+SS_CACHE_FILE = os.path.join(CACHE_DIR, 'semanticscholar_cache.json')
 
 # Polite Pool Header (Replace with your actual email in production)
 HEADERS = {'User-Agent': 'mailto:pedro.alexandre@inf.ufrgs.br'}
@@ -27,7 +32,9 @@ def format_authors(authorships: list) -> str:
     author_names = []
     for auth in authorships:
         if 'author' in auth and 'display_name' in auth['author']:
-            author_names.append(auth['author']['display_name'])
+            name = clean_author_text(auth['author']['display_name'])
+            if name:
+                author_names.append(name)
     return ", ".join(author_names) if author_names else pd.NA
 
 def format_references(referenced_works: list) -> str:
@@ -107,6 +114,10 @@ def needs_enrichment(row: pd.Series, fields_to_enrich: list, is_ultimate: bool =
     title_val = _get_field(row, 'Title')
     if not doi_val and title_val:
         return True
+    # Mandatory author standardization: always enrich if authors contain initials
+    author_val = _get_field(row, 'Author')
+    if author_has_initials(author_val):
+        return True
     for field in fields_to_enrich:
         val = _get_field(row, field)
         if val is None:
@@ -130,8 +141,8 @@ def fetch_openalex_batch(dois: list) -> dict:
         filter_str = "doi:" + "|".join(batch)
         url = f"https://api.openalex.org/works?filter={filter_str}&per-page={batch_size}"
         try:
+            time.sleep(0.15)  # Respect OpenAlex polite pool (~6.6 req/sec <= 10 req/sec limit)
             response = requests.get(url, headers=HEADERS, timeout=15)
-            time.sleep(1.1)
             if response.status_code == 200:
                 data = response.json()
                 for work in data.get('results', []):
@@ -139,6 +150,41 @@ def fetch_openalex_batch(dois: list) -> dict:
                     if work_doi:
                         work_doi_clean = str(work_doi).replace("https://doi.org/", "").lower()
                         results[work_doi_clean] = work
+        except Exception:
+            pass
+    return results
+
+def fetch_openalex_batch_by_pmids(pmids: list) -> dict:
+    if not pmids:
+        return {}
+    clean_pmids = []
+    for p in pmids:
+        if pd.notna(p):
+            digits = re.sub(r'\D', '', str(p).rstrip('.0'))
+            if digits:
+                clean_pmids.append(digits)
+    if not clean_pmids:
+        return {}
+    
+    seen = set()
+    unique_pmids = [p for p in clean_pmids if not (p in seen or seen.add(p))]
+    
+    results = {}
+    batch_size = 50
+    for i in range(0, len(unique_pmids), batch_size):
+        batch = unique_pmids[i:i+batch_size]
+        filter_str = "pmid:" + "|".join(batch)
+        url = f"https://api.openalex.org/works?filter={filter_str}&per-page={batch_size}"
+        try:
+            time.sleep(0.15)
+            response = requests.get(url, headers=HEADERS, timeout=15)
+            if response.status_code == 200:
+                data = response.json()
+                for work in data.get('results', []):
+                    pmid_url = work.get('ids', {}).get('pmid', '')
+                    if pmid_url:
+                        pmid_val = str(pmid_url).rstrip('/').split('/')[-1]
+                        results[pmid_val] = work
         except Exception:
             pass
     return results
@@ -157,54 +203,183 @@ def fetch_crossref_by_doi(doi: str) -> dict:
         pass
     return None
 
-# Tier 3: PubMed
+# Tier 3: PubMed (Batched up to 100 PMIDs per call, <= 3 req/sec)
+def fetch_pubmed_batch(pmids: list) -> dict:
+    if not pmids:
+        return {}
+    clean_pmids = [str(p).strip() for p in pmids if pd.notna(p) and str(p).strip().isdigit()]
+    if not clean_pmids:
+        return {}
+
+    seen = set()
+    unique_pmids = [p for p in clean_pmids if not (p in seen or seen.add(p))]
+
+    results = {}
+    batch_size = 100
+    for i in range(0, len(unique_pmids), batch_size):
+        chunk = unique_pmids[i:i+batch_size]
+        id_str = ",".join(chunk)
+        efetch_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={id_str}&retmode=xml"
+        try:
+            time.sleep(0.35)  # Strictly <= 3 req/sec NCBI polite rate limit
+            response = requests.get(efetch_url, headers=HEADERS, timeout=20)
+            if response.status_code == 200:
+                try:
+                    root = ET.fromstring(response.content)
+                    for article in root.findall(".//PubmedArticle"):
+                        pmid_node = article.find(".//MedlineCitation/PMID")
+                        if pmid_node is None or not pmid_node.text:
+                            continue
+                        p_id = pmid_node.text.strip()
+                        mesh_matches = [
+                            desc.text.strip()
+                            for desc in article.findall(".//MeshHeading/DescriptorName")
+                            if desc.text
+                        ]
+                        abstract_parts = [
+                            ab.text.strip()
+                            for ab in article.findall(".//Abstract/AbstractText")
+                            if ab.text
+                        ]
+                        abstract = " ".join(abstract_parts) if abstract_parts else None
+                        results[p_id] = {
+                            'mesh': mesh_matches,
+                            'abstract': abstract
+                        }
+                except Exception:
+                    # Regex fallback if malformed XML chunk
+                    articles_raw = response.text.split("<PubmedArticle>")
+                    for raw in articles_raw[1:]:
+                        pmid_m = re.search(r'<PMID[^>]*>(.*?)</PMID>', raw)
+                        if not pmid_m:
+                            continue
+                        p_id = pmid_m.group(1).strip()
+                        mesh_matches = re.findall(r'<DescriptorName[^>]*>(.*?)</DescriptorName>', raw)
+                        abstract_matches = re.findall(r'<AbstractText[^>]*>(.*?)</AbstractText>', raw)
+                        results[p_id] = {
+                            'mesh': mesh_matches,
+                            'abstract': " ".join(abstract_matches) if abstract_matches else None
+                        }
+        except Exception:
+            pass
+    return results
+
 def fetch_pubmed_by_pmid(pmid: str) -> dict:
     if pd.isna(pmid) or not str(pmid).strip(): return None
-    efetch_url = f"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={pmid}&retmode=xml"
+    res = fetch_pubmed_batch([str(pmid).strip()])
+    return res.get(str(pmid).strip())
+
+# Tier 4: Semantic Scholar (Batched up to 500 DOIs per call, <= 1 req/sec)
+_SS_CACHE = None
+
+def _load_ss_cache() -> dict:
+    global _SS_CACHE
+    if _SS_CACHE is not None:
+        return _SS_CACHE
+    if os.path.exists(SS_CACHE_FILE):
+        try:
+            with open(SS_CACHE_FILE, "r", encoding="utf-8") as f:
+                _SS_CACHE = json.load(f)
+                return _SS_CACHE
+        except Exception:
+            _SS_CACHE = {}
+    else:
+        _SS_CACHE = {}
+    return _SS_CACHE
+
+def _save_ss_cache(cache: dict):
+    global _SS_CACHE
+    _SS_CACHE = cache
     try:
-        time.sleep(0.34) # Max 3 req/sec without API key
-        response = requests.get(efetch_url, headers=HEADERS, timeout=15)
-        if response.status_code == 200:
-            text = response.text
-            mesh_matches = re.findall(r'<DescriptorName[^>]*>(.*?)</DescriptorName>', text)
-            abstract_matches = re.findall(r'<AbstractText[^>]*>(.*?)</AbstractText>', text)
-            abstract = " ".join(abstract_matches) if abstract_matches else None
-            return {
-                'mesh': mesh_matches,
-                'abstract': abstract
-            }
+        with open(SS_CACHE_FILE, "w", encoding="utf-8") as f:
+            json.dump(cache, f, ensure_ascii=False, indent=2)
     except Exception:
         pass
-    return None
 
-# Tier 4: Semantic Scholar
+def fetch_semanticscholar_batch(dois: list) -> dict:
+    if not dois:
+        return {}
+    clean_dois = [
+        str(doi).strip().replace("https://doi.org/", "").replace("doi:", "").lower()
+        for doi in dois
+        if pd.notna(doi) and str(doi).strip()
+    ]
+    if not clean_dois:
+        return {}
+
+    seen = set()
+    unique_dois = [d for d in clean_dois if not (d in seen or seen.add(d))]
+
+    cache = _load_ss_cache()
+    results = {}
+    missing_dois = []
+
+    for d in unique_dois:
+        if d in cache:
+            results[d] = cache[d]
+        else:
+            missing_dois.append(d)
+
+    if not missing_dois:
+        return results
+
+    batch_size = 500
+    cache_dirty = False
+    for i in range(0, len(missing_dois), batch_size):
+        chunk = missing_dois[i:i+batch_size]
+        ids_payload = [f"DOI:{c}" for c in chunk]
+        url = "https://api.semanticscholar.org/graph/v1/paper/batch?fields=title,abstract,tldr,authors,authors.name,authors.authorId"
+        try:
+            time.sleep(1.0)  # Strictly <= 1 req/sec Semantic Scholar rate limit
+            resp = requests.post(url, json={"ids": ids_payload}, headers=HEADERS, timeout=30)
+            if resp.status_code == 200:
+                data = resp.json()
+                if isinstance(data, list):
+                    for doi_key, paper in zip(chunk, data):
+                        if paper and isinstance(paper, dict) and not paper.get('error'):
+                            results[doi_key] = paper
+                            cache[doi_key] = paper
+                            cache_dirty = True
+        except Exception:
+            pass
+
+    if cache_dirty:
+        _save_ss_cache(cache)
+
+    return results
+
 def fetch_semanticscholar_by_doi(doi: str) -> dict:
     if pd.isna(doi) or not str(doi).strip(): return None
-    clean_doi = str(doi).strip().replace("https://doi.org/", "").replace("doi:", "")
-    # To add an API key, users can add 'x-api-key': 'YOUR_KEY' to HEADERS and remove sleep
-    url = f"https://api.semanticscholar.org/graph/v1/paper/DOI:{clean_doi}?fields=abstract,tldr"
-    try:
-        time.sleep(3.1) # 100 req per 5 min without key
-        response = requests.get(url, headers=HEADERS, timeout=10)
-        if response.status_code == 200:
-            return response.json()
-    except Exception:
-        pass
-    return None
+    clean_doi = str(doi).strip().replace("https://doi.org/", "").replace("doi:", "").lower()
+    batch_res = fetch_semanticscholar_batch([clean_doi])
+    return batch_res.get(clean_doi)
 
 # Tier 5: OpenAlex Fuzzy Title Search
 def fetch_openalex_data_by_title(title: str) -> dict:
     if pd.isna(title) or not str(title).strip(): return None
     clean_title = str(title).strip()
-    encoded_title = urllib.parse.quote(clean_title)
-    url = f"https://api.openalex.org/works?filter=title.search:{encoded_title}&per-page=1"
+    clean_query = re.sub(r'^[\[\(]\s*|\s*[\]\)]$', '', clean_title).strip()
+    encoded_title = urllib.parse.quote(clean_query)
+    url = f"https://api.openalex.org/works?filter=title.search:{encoded_title}&per-page=3"
     try:
         response = requests.get(url, headers=HEADERS, timeout=15)
         time.sleep(1.1)
         if response.status_code == 200:
             data = response.json()
-            if data.get('results') and len(data['results']) > 0:
-                return data['results'][0]
+            for cand in data.get('results', []):
+                cand_title = cand.get('title', '')
+                if not cand_title:
+                    continue
+                q_norm = re.sub(r'[^\w\s]', '', clean_query).lower().strip()
+                c_norm = re.sub(r'[^\w\s]', '', cand_title).lower().strip()
+                if not q_norm or not c_norm:
+                    continue
+                if q_norm == c_norm:
+                    return cand
+                ratio = difflib.SequenceMatcher(None, q_norm, c_norm).ratio()
+                # Strict threshold: require at least 82% similarity to prevent generic phrases from hijacking unrelated works
+                if ratio >= 0.82:
+                    return cand
     except Exception:
         pass
     return None
@@ -231,10 +406,31 @@ def apply_openalex_data(oa_data: dict, row: pd.Series, fields_to_enrich: list, u
         if oa_title and str(oa_title).strip():
             updates['Title'] = str(oa_title).strip()
 
-    if needs_update('Author'):
-        val = format_authors(oa_data.get('authorships'))
-        if pd.isna(val): missed.append('Author')
-        else: updates['Author'] = val
+    author_curr = _get_field(row, 'Author')
+    if 'Author' in fields_to_enrich or needs_update('Author') or (author_curr and author_has_initials(str(author_curr))):
+        oa_authorships = oa_data.get('authorships', [])
+        if oa_authorships:
+            if author_curr and pd.notna(author_curr) and str(author_curr).strip():
+                raw_list = split_authors_string(str(author_curr))
+                resolved, was_enr = disambiguate_paper_authors(raw_list, oa_authorships=oa_authorships)
+                if was_enr:
+                    updates['Author'] = "; ".join(a['full_name'] for a in resolved)
+                else:
+                    new_auth_str = "; ".join(a['full_name'] for a in resolved)
+                    if new_auth_str and new_auth_str != str(author_curr).strip():
+                        updates['Author'] = new_auth_str
+                    else:
+                        val = format_authors(oa_authorships)
+                        if pd.notna(val) and str(val).strip():
+                            from features.gender import standardize_author_string
+                            updates['Author'] = standardize_author_string(str(val))
+            else:
+                val = format_authors(oa_authorships)
+                if pd.notna(val) and str(val).strip():
+                    from features.gender import standardize_author_string
+                    updates['Author'] = standardize_author_string(str(val))
+        elif pd.isna(author_curr):
+            missed.append('Author')
 
     if needs_update('Affiliations') or needs_update('Country'):
         aff_val, cnt_val = format_affiliations_and_countries(oa_data.get('authorships'))
@@ -280,8 +476,10 @@ def apply_openalex_data(oa_data: dict, row: pd.Series, fields_to_enrich: list, u
          
     if needs_update('Publication Year'):
         val = oa_data.get('publication_year')
-        if pd.isna(val): missed.append('Publication Year')
-        else: updates['Publication Year'] = val
+        from utils.formatters import clean_year_value
+        val_clean = clean_year_value(val)
+        if not val_clean: missed.append('Publication Year')
+        else: updates['Publication Year'] = val_clean
         
     # In ultimate mode or if Times Cited requested, always refresh citation count
     if 'Times Cited' in fields_to_enrich or needs_update('Times Cited') or is_ultimate:
@@ -357,14 +555,31 @@ def apply_crossref_data(cr_data: dict, row: pd.Series, fields_to_enrich: list, u
     if needs_update('Publication Year'):
         try:
             val = cr_data['published-print']['date-parts'][0][0]
-            updates['Publication Year'] = val
+            from utils.formatters import clean_year_value
+            val_clean = clean_year_value(val)
+            if val_clean:
+                updates['Publication Year'] = val_clean
         except:
             pass
             
-    if needs_update('Author'):
+    author_curr = updates.get('Author') or _get_field(row, 'Author')
+    if 'Author' in fields_to_enrich or needs_update('Author') or (author_curr and author_has_initials(str(author_curr))):
         authors = cr_data.get('author', [])
-        author_names = [f"{a.get('given', '')} {a.get('family', '')}".strip() for a in authors if a.get('family')]
-        if author_names: updates['Author'] = ", ".join(author_names)
+        if authors:
+            if author_curr and pd.notna(author_curr) and str(author_curr).strip():
+                raw_list = split_authors_string(str(author_curr))
+                resolved, was_enr = disambiguate_paper_authors(raw_list, cr_authors=authors)
+                if was_enr:
+                    updates['Author'] = "; ".join(a['full_name'] for a in resolved)
+                else:
+                    new_auth_str = "; ".join(a['full_name'] for a in resolved)
+                    if new_auth_str and new_auth_str != str(author_curr).strip():
+                        updates['Author'] = new_auth_str
+            elif 'Author' not in updates:
+                from features.gender import standardize_author_name
+                author_names = [standardize_author_name(f"{a.get('given', '')} {a.get('family', '')}".strip()) for a in authors if a.get('family')]
+                author_names = [a for a in author_names if a]
+                if author_names: updates['Author'] = "; ".join(author_names)
 
     if needs_update('Volume') and cr_data.get('volume'):
         updates['Volume'] = str(cr_data.get('volume'))
@@ -396,11 +611,43 @@ def apply_semanticscholar_data(ss_data: dict, row: pd.Series, fields_to_enrich: 
         if val and str(val).strip():
             updates['Abstract'] = str(val).strip()
 
+    # Author Disambiguation via Semantic Scholar AER
+    author_curr = updates.get('Author') or _get_field(row, 'Author')
+    if author_curr and pd.notna(author_curr) and str(author_curr).strip() and author_has_initials(str(author_curr)):
+        ss_authors = ss_data.get('authors', [])
+        if ss_authors:
+            raw_list = split_authors_string(str(author_curr))
+            resolved, was_enr = disambiguate_paper_authors(raw_list, ss_authors=ss_authors)
+            if was_enr:
+                updates['Author'] = "; ".join(a['full_name'] for a in resolved)
+            else:
+                new_auth_str = "; ".join(a['full_name'] for a in resolved)
+                if new_auth_str and new_auth_str != str(author_curr).strip():
+                    updates['Author'] = new_auth_str
+
 # ---------------------------------------------------------
 # Main Enrichment Engine
 # ---------------------------------------------------------
 def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: list, file_manifest: dict = None, is_ultimate: bool = False) -> pd.DataFrame:
     df = deduplicate_and_merge_columns(df)
+    # Ensure author standardization is mandatory across all enrichment runs
+    if 'Author' not in fields_to_enrich:
+        fields_to_enrich = list(fields_to_enrich) + ['Author']
+
+    # Ensure text/metadata columns are object dtype to prevent float64 dtype FutureWarnings
+    text_cols = [
+        'Title', 'Author', 'DOI', 'OpenAlex ID', 'Abstract', 'Journal', 
+        'Publisher', 'Country', 'Affiliations', 'Address', 'Location', 
+        'Keywords', 'Concepts', 'Article References', 'Document Type', 
+        'Language', 'ISSN', 'Volume', 'Issue', 'Pages', 'Funding', 'Open Access'
+    ]
+    for col in text_cols:
+        if col in df.columns:
+            if df[col].dtype != 'object':
+                df[col] = df[col].astype(object)
+        else:
+            df[col] = pd.Series(pd.NA, index=df.index, dtype=object)
+
     st.write("Starting Data Enrichment Pipeline...")
     start_time = time.time()
     
@@ -460,11 +707,27 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
     status_text.markdown(f"**Tier 1:** Querying OpenAlex Batch API for **{t1_queried:,} DOIs** in batches of 50...")
     oa_batch_results = fetch_openalex_batch(dois_to_fetch)
     status_text.markdown(f"**Tier 1 Complete:** Fetched metadata for **{len(oa_batch_results):,} / {t1_queried:,} DOIs**. Now processing fallbacks (Tiers 2-5)...")
+
+    # Pre-fetch candidate PMIDs for Tier 3 in fast polite batches
+    pmids_to_fetch = [
+        _get_field(r, 'PMID') for _, r in tasks
+        if _get_field(r, 'PMID') and (_get_field(r, 'Abstract') is None or _get_field(r, 'Concepts') is None or is_ultimate)
+    ]
+    pm_batch_results = fetch_pubmed_batch(pmids_to_fetch) if pmids_to_fetch else {}
+
+    # Pre-fetch candidate PMIDs for OpenAlex lookup when DOI is missing (Identifier-first resolution)
+    pmids_for_oa = [
+        _get_field(r, 'PMID') for _, r in tasks
+        if not _get_field(r, 'DOI') and _get_field(r, 'PMID')
+    ]
+    oa_pmid_batch_results = fetch_openalex_batch_by_pmids(pmids_for_oa) if pmids_for_oa else {}
     
     completed = 0
     for idx, row in tasks:
         doi = _get_field(row, 'DOI')
         title = _get_field(row, 'Title')
+        pmid = _get_field(row, 'PMID')
+        clean_pm = re.sub(r'\D', '', str(pmid).rstrip('.0')) if pmid else ""
         has_doi = doi is not None
         clean_doi = str(doi).replace("https://doi.org/", "").lower().strip() if has_doi else ""
         
@@ -473,7 +736,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         
         needs_update = lambda f: f in fields_to_enrich and (_get_field(row, f) is None or is_ultimate) and f not in all_updates
         
-        # Tier 1 Apply
+        # Tier 1 Apply (by DOI)
         oa_data = oa_batch_results.get(clean_doi)
         if oa_data:
             up_t1 = {}
@@ -484,11 +747,27 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
                     if k != 'enriched':
                         t1_fields_cnt[k] += 1
                         all_updates[k] = v
+
+        # Tier 1.5: If record has NO DOI, but HAS a valid PMID: query OpenAlex by PMID directly!
+        if not has_doi and clean_pm:
+            oa_pm_data = oa_pmid_batch_results.get(clean_pm)
+            if oa_pm_data:
+                up_pm = {}
+                apply_openalex_data(oa_pm_data, row, fields_to_enrich, up_pm, missed, is_ultimate=is_ultimate)
+                if up_pm.get('enriched'):
+                    t1_resolved += 1
+                    for k, v in up_pm.items():
+                        if k != 'enriched':
+                            t1_fields_cnt[k] += 1
+                            all_updates[k] = v
+                    if 'DOI' in up_pm:
+                        clean_doi = str(up_pm['DOI']).replace("https://doi.org/", "").lower().strip()
+                        has_doi = True
             
         # Tier 2: Crossref (if unresolved DOI or missing publisher / year / journal / abstract / author)
         if has_doi and (not oa_data or needs_update('Publisher') or needs_update('Publication Year') or needs_update('Journal') or needs_update('Abstract') or needs_update('Author')):
             t2_passed += 1
-            cr_data = fetch_crossref_by_doi(doi)
+            cr_data = fetch_crossref_by_doi(doi or clean_doi)
             if cr_data:
                 up_t2 = {}
                 apply_crossref_data(cr_data, row, fields_to_enrich, up_t2, missed)
@@ -499,11 +778,10 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
                         all_updates[k] = v
                 
         # Tier 3: PubMed (Only if PMID exists)
-        pmid = _get_field(row, 'PMID')
-        if pmid:
+        if clean_pm:
             if needs_update('Abstract') or needs_update('Concepts'):
                 t3_passed += 1
-                pm_data = fetch_pubmed_by_pmid(pmid)
+                pm_data = pm_batch_results.get(clean_pm) or fetch_pubmed_by_pmid(clean_pm)
                 if pm_data:
                     up_t3 = {}
                     apply_pubmed_data(pm_data, row, fields_to_enrich, up_t3, missed)
@@ -513,10 +791,12 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
                             t3_fields_cnt[k] += 1
                             all_updates[k] = v
                     
-        # Tier 4: Semantic Scholar (if still missing Abstract)
-        if has_doi and needs_update('Abstract'):
+        # Tier 4: Semantic Scholar (if still missing Abstract OR if author still has initials)
+        curr_auth = all_updates.get('Author') or _get_field(row, 'Author')
+        needs_author_aer = bool(curr_auth and pd.notna(curr_auth) and author_has_initials(str(curr_auth)))
+        if has_doi and (needs_update('Abstract') or needs_author_aer):
             t4_passed += 1
-            ss_data = fetch_semanticscholar_by_doi(doi)
+            ss_data = fetch_semanticscholar_by_doi(doi or clean_doi)
             if ss_data:
                 up_t4 = {}
                 apply_semanticscholar_data(ss_data, row, fields_to_enrich, up_t4, missed)
@@ -526,8 +806,9 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
                         t4_fields_cnt[k] += 1
                         all_updates[k] = v
                 
-        # Tier 5: OpenAlex Fuzzy Title (if no identifier / local)
-        if not has_doi and title:
+        # Tier 5: OpenAlex Fuzzy Title (ONLY if no DOI AND no OpenAlex PMID match found)
+        has_matched_pmid = bool(clean_pm and clean_pm in oa_pmid_batch_results)
+        if not has_doi and not has_matched_pmid and title:
             t5_passed += 1
             oa_title_data = fetch_openalex_data_by_title(title)
             if oa_title_data:
@@ -544,6 +825,10 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         if all_updates:
             for col, val in all_updates.items():
                 if col != 'enriched':
+                    if col not in df.columns:
+                        df[col] = pd.Series(pd.NA, index=df.index, dtype=object)
+                    elif df[col].dtype != 'object' and not isinstance(val, (int, float, np.number)):
+                        df[col] = df[col].astype(object)
                     df.at[idx, col] = val
                     
         # Column-level failure audit for this record
@@ -579,12 +864,18 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
 
     # Post-enrichment Heuristic: Deduce Affiliations from Address if missing
     if 'Affiliations' in df.columns and 'Address' in df.columns:
+        if df['Affiliations'].dtype != 'object':
+            df['Affiliations'] = df['Affiliations'].astype(object)
         aff_m = df['Affiliations'].isna() | (df['Affiliations'].astype(str).str.strip() == '')
         addr_v = df['Address'].notna() & (df['Address'].astype(str).str.strip() != '')
-        df.loc[aff_m & addr_v, 'Affiliations'] = df.loc[aff_m & addr_v, 'Address']
+        mask_aff = aff_m & addr_v
+        if mask_aff.any():
+            df.loc[mask_aff, 'Affiliations'] = df.loc[mask_aff, 'Address']
 
     # Post-enrichment Heuristic: Deduce Country strictly from author Address / Affiliations (excluding conference Location)
     if 'Country' in df.columns:
+        if df['Country'].dtype != 'object':
+            df['Country'] = df['Country'].astype(object)
         from core.ingestion import extract_country_from_text
         cnt_missing = df['Country'].isna() | (df['Country'].astype(str).str.strip() == '')
         for idx in df[cnt_missing].index:
@@ -597,6 +888,8 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
 
     # Post-enrichment Heuristic: Deduce Language if still missing
     if 'Language' in df.columns:
+        if df['Language'].dtype != 'object':
+            df['Language'] = df['Language'].astype(object)
         lang_missing = df['Language'].isna() | (df['Language'].astype(str).str.strip() == '')
         for idx in df[lang_missing].index:
             cnt_val = str(df.at[idx, 'Country']) if 'Country' in df.columns and pd.notna(df.at[idx, 'Country']) else ""
@@ -604,6 +897,20 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
                 df.at[idx, 'Language'] = 'PT'
             elif any(k in cnt_val.lower() for k in ['united states', 'united kingdom', 'australia', 'canada']):
                 df.at[idx, 'Language'] = 'EN'
+
+    # Final normalization: Standardize Author names into Western format (First Name First) and strip academic degrees
+    if 'Author' in df.columns:
+        from features.gender import standardize_author_string
+        def _std_author(val):
+            if pd.notna(val) and str(val).strip() and str(val).strip().lower() not in ('nan', '<na>', 'none'):
+                std = standardize_author_string(str(val))
+                return std if std else val
+            return val
+        df['Author'] = df['Author'].apply(_std_author)
+
+    # Automatic Post-Enrichment Deduplication: Consolidate any records that now share identical DOIs or OpenAlex IDs
+    from core.deduplication import deduplicate_dataset
+    df, post_enrich_dups = deduplicate_dataset(df)
 
     start_timestamp = datetime.datetime.fromtimestamp(start_time).strftime('%Y-%m-%d %H:%M:%S')
     end_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -618,9 +925,10 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
 
     formatted_duration = format_duration(duration)
 
+    post_dedup_msg = f" · Consolidated {post_enrich_dups} duplicate records." if post_enrich_dups > 0 else ""
     status_text.success(
         f"🎉 **Enrichment Pipeline Completed in {formatted_duration}!** "
-        f"Enhanced data for **{total_successful_runs:,}/{tasks_count:,} records** ({success_rate:.1f}% hit rate)."
+        f"Enhanced data for **{total_successful_runs:,}/{tasks_count:,} records** ({success_rate:.1f}% hit rate).{post_dedup_msg}"
     )
 
     audit_lines = [
@@ -632,6 +940,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         "[OVERALL DATASET CONTEXT & METRICS]",
         f"• Total Records in Memory Dataset: {len(df):,}",
         f"• Total Records Evaluated for Enrichment: {tasks_count:,}",
+        f"• Post-Enrichment Duplicates Consolidated: {post_enrich_dups:,}",
         f"• Records with Valid DOIs (Tier 1-4 Candidates): {t1_queried:,}",
         f"• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): {tasks_count - t1_queried:,}",
         f"• Fully Enriched Records (Found 100% of requested fields): {fully_enriched:,} ({(fully_enriched/tasks_count*100 if tasks_count else 0):.1f}%)",

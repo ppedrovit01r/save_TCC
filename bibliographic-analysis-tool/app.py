@@ -1,7 +1,27 @@
+import os
+# Suppress noisy ML backend warnings (oneDNN floating-point notices, TF C++ logs, HF Hub warnings)
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
+os.environ["HF_HUB_DISABLE_IMPLICIT_TOKEN"] = "1"
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "1"
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", message=".*unauthenticated requests to the HF Hub.*")
+warnings.filterwarnings("ignore", message=".*tf.reset_default_graph.*")
+warnings.filterwarnings("ignore", message=".*oneDNN.*")
+
+import logging
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
+logging.getLogger("transformers").setLevel(logging.ERROR)
+logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+
 import streamlit as st
 import pandas as pd
 import base64
-import os
 
 from core.main import show as show_data_prep
 from dashboard.main import show as show_dashboard
@@ -87,9 +107,19 @@ else:
         </div>
         """, unsafe_allow_html=True)
         
-        # Open Project Folder Quick Action
-        if st.button("Open Project Folder", icon=":material/folder:", width="stretch", key="sidebar_open_proj_folder_btn", help="Opens the project folder in your local file explorer"):
-            open_project_folder()
+        # Active Project Quick Actions
+        p_act1, p_act2 = st.columns(2, gap="small")
+        with p_act1:
+            if st.button("Open Folder", icon=":material/folder:", width="stretch", key="sidebar_open_proj_folder_btn", help="Opens the project folder in your local file explorer"):
+                open_project_folder()
+        with p_act2:
+            if st.button("Close Project", icon=":material/logout:", width="stretch", key="sidebar_close_proj_btn", help="Closes current project and returns to Data Prep to start or resume another"):
+                st.session_state.clear()
+                st.session_state.master_df = None
+                st.session_state.fullscreen_core = True
+                st.session_state.active_project_name = "Default_Project"
+                st.toast("Project closed. Returned to Data Prep workspace.", icon="🚪")
+                st.rerun()
         st.markdown("<div style='margin-bottom: 12px;'></div>", unsafe_allow_html=True)
 
         # --- PROFILE MODE BUTTONS ---
@@ -114,10 +144,10 @@ else:
         # --- 2-COLUMN NAVIGATION GRID ---
         st.markdown('<div style="font-size:12px; color:#64748B; font-weight:600; margin-bottom:6px;"><i class="bi bi-compass"></i> NAVIGATION MENU</div>', unsafe_allow_html=True)
         if "current_page" not in st.session_state: 
-            st.session_state.current_page = "Main Dashboard"
+            st.session_state.current_page = "Articles Explorer"
 
         # Collect all valid pages based on user profile permissions
-        all_allowed_pages = ["Main Dashboard"]
+        all_allowed_pages = ["Articles Explorer", "Main Dashboard"]
 
         if profile in ["ALL", "RESEARCHER"]:
             all_allowed_pages.extend(["Co-citation Networks", "PRISMA Assistant"])
@@ -165,12 +195,18 @@ else:
 
         # --- CORE DATA PREP & CLUSTER HUB ---
         with st.expander("Core Data Prep & Cluster Memory", expanded=False, icon=":material/database:"):
-            show_data_prep(is_sidebar=True)
+            if st.checkbox("Activate Sidebar Data Prep", value=False, key="load_sidebar_prep", help="Load file intake & cluster memory tools in the sidebar"):
+                show_data_prep(is_sidebar=True)
+            else:
+                st.caption("Data Prep tools are paused to maximize analysis performance.")
+                if st.button("Open Fullscreen Data Prep", icon=":material/fullscreen:", width="stretch", key="btn_open_fs_prep"):
+                    st.session_state.fullscreen_core = True
+                    st.rerun()
 
         st.divider()
 
         # --- FULLSCREEN BUTTON AT THE VERY END ---
-        if st.button("Expand Data Prep Fullscreen", icon=":material/fullscreen:", width="stretch"):
+        if st.button("Expand Data Prep Fullscreen", icon=":material/fullscreen:", width="stretch", key="btn_expand_dp_fullscreen"):
             st.session_state.fullscreen_core = True
             st.rerun()
 
@@ -203,8 +239,63 @@ else:
                 st.session_state.focus_topics = []
                 st.rerun()
 
+    # --- UNSTANDARDIZED AUTHORS SIDEBAR ADVISORY ---
+    if 'Author' in working_df.columns:
+        from features.gender import author_has_initials
+        import utils.project_manager as pm
+        if not hasattr(pm, 'is_author_standardization_dismissed'):
+            import importlib
+            importlib.reload(pm)
+        is_author_standardization_dismissed = pm.is_author_standardization_dismissed
+        set_author_standardization_dismissed = pm.set_author_standardization_dismissed
+        
+        dismissed = is_author_standardization_dismissed()
+        if not dismissed:
+            # Fast cached check in session state so we don't re-iterate on every rerun
+            if 'has_unstandardized_authors' not in st.session_state or st.session_state.get('last_master_df_len') != len(working_df):
+                sample_series = working_df['Author'].dropna()
+                has_inits = any(author_has_initials(str(a)) for a in sample_series.head(40))
+                st.session_state.has_unstandardized_authors = has_inits
+                st.session_state.last_master_df_len = len(working_df)
+            
+            if st.session_state.get('has_unstandardized_authors', False):
+                with st.sidebar:
+                    st.markdown("""
+                    <div style="background-color: #FEF3C7; border: 1px solid #FDE68A; border-left: 4px solid #D97706; padding: 10px 12px; border-radius: 6px; margin-top: 10px; margin-bottom: 8px; font-size: 12px; color: #92400E;">
+                        <b>⚠️ Author Initials / Non-Latin Scripts:</b><br>
+                        Authors formatted with initials or non-Latin scripts can be standardized to Western full names via OpenAlex.
+                    </div>
+                    """, unsafe_allow_html=True)
+                    col_sb_std, col_sb_dis = st.columns([3, 2])
+                    with col_sb_std:
+                        if st.button("Standardize", icon=":material/person_search:", width="stretch", key="sb_btn_standardize_authors", help="Expands author initials into full names across the dataset via OpenAlex."):
+                            from core.enrichment import enrich_dataset_openalex
+                            from utils.project_manager import save_master_dataset
+                            with st.spinner("Standardizing author names with OpenAlex..."):
+                                proc_df = enrich_dataset_openalex(
+                                    st.session_state.master_df.copy(),
+                                    ['Author'],
+                                    st.session_state.get('execution_logs', []),
+                                    file_manifest=st.session_state.get('file_manifest', {}),
+                                    is_ultimate=False
+                                )
+                                st.session_state.master_df = proc_df
+                                save_master_dataset(st.session_state.master_df)
+                                st.session_state.has_unstandardized_authors = False
+                                set_author_standardization_dismissed(True)
+                                st.toast("Author names standardized to full names!", icon="🎉")
+                                st.rerun()
+                    with col_sb_dis:
+                        if st.button("Dismiss", icon=":material/close:", width="stretch", key="sb_btn_dismiss_authors", help="Dismiss this warning for this project."):
+                            set_author_standardization_dismissed(True)
+                            st.session_state.has_unstandardized_authors = False
+                            st.rerun()
+
     # --- MAIN WORKSPACE CONTENT ROUTING ---
-    if page == "Main Dashboard":
+    if page == "Articles Explorer":
+        from dashboard.articles_explorer import show as show_articles_explorer
+        show_articles_explorer(working_df)
+    elif page == "Main Dashboard":
         show_dashboard(profile)
     elif page == "Co-citation Networks":
         from features.network_topology import show as show_net

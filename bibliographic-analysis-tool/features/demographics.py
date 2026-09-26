@@ -5,6 +5,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 import networkx as nx
 import re
+import functools
+from utils.exports import _download_button
 
 # Comprehensive dictionary for country extraction
 # Mapping full country names, variants, and common academic names to standard names.
@@ -215,58 +217,70 @@ ALL_ISO_CODES = {
 
 COUNTRY_MAPPING = COUNTRY_FULL_NAMES
 
-def _extract_single_country(segment_str: str) -> set:
+# Pre-compile country matching regex patterns once
+_SORTED_COUNTRY_KEYS = sorted(COUNTRY_FULL_NAMES.keys(), key=len, reverse=True)
+COUNTRY_PATTERN = re.compile(r'\b(' + '|'.join(re.escape(k) for k in _SORTED_COUNTRY_KEYS) + r')\b')
+CITY_STATE_FALLBACKS_COMPILED = [(re.compile(pat, re.IGNORECASE), cname) for pat, cname in CITY_STATE_FALLBACKS]
+ISO2_COMPILED = [(re.compile(r'(?:^|[\s,;.-])' + re.escape(code) + r'(?:$|[\s,;.-])'), cname) for code, cname in ISO2_CODES.items()]
+
+@functools.lru_cache(maxsize=16384)
+def _extract_single_country(segment_str: str) -> frozenset:
     """Extract countries from an individual affiliation or country token/chunk."""
     seg = segment_str.strip().lower()
     if not seg:
-        return set()
+        return frozenset()
         
     found = set()
     clean_exact = seg.strip(' ,;.-')
     
     # 1. Exact ISO code match for token (e.g. 'es', 'mx', 'us', 'br', 'ca')
     if clean_exact in ALL_ISO_CODES:
-        return {ALL_ISO_CODES[clean_exact]}
+        return frozenset({ALL_ISO_CODES[clean_exact]})
         
-    # 2. Check full country names
-    for key, standardized_name in COUNTRY_FULL_NAMES.items():
-        pattern = r'\b' + re.escape(key) + r'\b'
-        if re.search(pattern, seg):
-            found.add(standardized_name)
+    # 2. Check full country names via pre-compiled regex
+    for match in COUNTRY_PATTERN.finditer(seg):
+        matched_key = match.group(0)
+        if matched_key in COUNTRY_FULL_NAMES:
+            found.add(COUNTRY_FULL_NAMES[matched_key])
             
     # 3. Check city, state, and academic institution fallbacks
     if not found:
-        for pat, cname in CITY_STATE_FALLBACKS:
-            if re.search(pat, seg):
+        for pat, cname in CITY_STATE_FALLBACKS_COMPILED:
+            if pat.search(seg):
                 found.add(cname)
                 break
                 
     # 4. Strict 2/3-letter ISO match delimited at boundaries
     if not found:
-        for iso_code, cname in ISO2_CODES.items():
-            pattern = r'(?:^|[\s,;.-])' + re.escape(iso_code) + r'(?:$|[\s,;.-])'
-            if re.search(pattern, seg):
+        for pat, cname in ISO2_COMPILED:
+            if pat.search(seg):
                 found.add(cname)
                 break
                 
-    return found
+    return frozenset(found)
 
-def extract_countries(affiliation_str):
-    if pd.isna(affiliation_str) or not str(affiliation_str).strip():
-        return []
-    
+@functools.lru_cache(maxsize=16384)
+def _extract_countries_cached(affiliation_str: str) -> tuple:
+    if not affiliation_str or pd.isna(affiliation_str):
+        return ()
     aff_str = str(affiliation_str).strip()
-    
+    if not aff_str:
+        return ()
+
     # If multiple values are delimited by semicolon, split and evaluate each segment
     if ';' in aff_str:
         segments = [s.strip() for s in aff_str.split(';') if s.strip()]
         found_countries = set()
         for seg in segments:
             found_countries.update(_extract_single_country(seg))
-        return sorted(list(found_countries))
-    
-    # Otherwise evaluate string
-    return sorted(list(_extract_single_country(aff_str)))
+        return tuple(sorted(found_countries))
+
+    return tuple(sorted(_extract_single_country(aff_str)))
+
+def extract_countries(affiliation_str) -> list:
+    if pd.isna(affiliation_str) or not str(affiliation_str).strip():
+        return []
+    return list(_extract_countries_cached(str(affiliation_str).strip()))
 
 def show(df):
     st.markdown("<h2 style='font-size: 24px; font-weight: 700; color: #1E293B;'><i class='bi bi-globe-americas' style='color: #697aa2;'></i> Global Demographics & Governance</h2>", unsafe_allow_html=True)
@@ -355,29 +369,32 @@ def show(df):
                         st.rerun()
             else:
                 target_g = "female" if "Female" in geo_mode else "male"
-                color_theme = "Purples" if target_g == "female" else "Blues"
+                color_theme = "Sunsetdark" if target_g == "female" else "Bluyl"
                 filtered_authors = authors_df[authors_df['gender'] == target_g]
                 c_counts = filtered_authors[filtered_authors['country'] != 'Unknown']['country'].value_counts().reset_index()
                 c_counts.columns = ['Country', f'{target_g.title()} Authors']
                 
                 if not c_counts.empty:
-                    c_g1, c_g2 = st.columns([1.5, 1], gap="medium")
-                    with c_g1:
-                        fig_map = px.choropleth(
-                            c_counts,
-                            locations='Country',
-                            locationmode='country names',
-                            color=f'{target_g.title()} Authors',
-                            color_continuous_scale=color_theme,
-                            projection='equal earth',
-                            title=f"Global Distribution of {target_g.title()} Authors by Country (Equal Earth Projection)"
-                        )
-                        fig_map.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
-                        fig_map.update_layout(margin=dict(l=0, r=0, t=40, b=0), height=420)
-                        st.plotly_chart(fig_map, width='stretch')
-                    with c_g2:
-                        st.markdown(f"<div style='font-weight:700; margin-bottom:8px;'>Top Countries by {target_g.title()} Authors</div>", unsafe_allow_html=True)
-                        st.dataframe(c_counts, hide_index=True, height=380, width="stretch")
+                    c_hdr, c_dl = st.columns([0.7, 0.3], vertical_alignment="center")
+                    with c_hdr:
+                        st.markdown(f"<div style='font-size:16px; font-weight:700; color:#1E293B;'>Global Distribution of {target_g.title()} Authors by Country</div>", unsafe_allow_html=True)
+                    with c_dl:
+                        _download_button(c_counts, "Download CSV", f"{target_g}_authors_by_country.csv", key=f"dl_demog_{target_g}_countries")
+
+                    fig_map = px.choropleth(
+                        c_counts,
+                        locations='Country',
+                        locationmode='country names',
+                        color=f'{target_g.title()} Authors',
+                        color_continuous_scale=color_theme,
+                        projection='equal earth'
+                    )
+                    fig_map.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
+                    fig_map.update_layout(margin=dict(l=0, r=0, t=20, b=0), height=480)
+                    st.plotly_chart(fig_map, width='stretch')
+
+                    with st.expander(f"View Raw Country Data ({target_g.title()} Authors)", expanded=False):
+                        st.dataframe(c_counts, hide_index=True, width="stretch")
                 else:
                     st.info(f"No country metadata identified for {target_g} authors yet.")
         elif geo_mode == "All Author Affiliations":
@@ -403,6 +420,12 @@ def show(df):
                 c_counts = authors_df[authors_df['country'] != 'Unknown']['country'].value_counts().reset_index()
                 c_counts.columns = ['Country', 'Total Inferred Authors']
                 if not c_counts.empty:
+                    c_hdr, c_dl = st.columns([0.7, 0.3], vertical_alignment="center")
+                    with c_hdr:
+                        st.markdown("<div style='font-size:16px; font-weight:700; color:#1E293B;'>Global Distribution of All Authors (Inferred)</div>", unsafe_allow_html=True)
+                    with c_dl:
+                        _download_button(c_counts, "Download CSV", "all_author_affiliations_countries.csv", key="dl_demog_author_countries")
+
                     fig = px.choropleth(
                         c_counts,
                         locations="Country",
@@ -410,14 +433,13 @@ def show(df):
                         color="Total Inferred Authors",
                         hover_name="Country",
                         projection='equal earth',
-                        color_continuous_scale=['#3a2c58', '#414184', '#395e9c', '#357ca3', '#3498a9', '#3eb4ad', '#62cfac'],
-                        title="Global Distribution of All Authors (Inferred - Equal Earth Projection)"
+                        color_continuous_scale='turbid'
                     )
                     fig.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
-                    fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+                    fig.update_layout(margin={"r":0,"t":20,"l":0,"b":0}, height=480)
                     st.plotly_chart(fig, width='stretch')
-                    with st.expander("View Raw Country Data"):
-                        st.dataframe(c_counts, hide_index=True)
+                    with st.expander("View Raw Country Data", expanded=False):
+                        st.dataframe(c_counts, hide_index=True, width="stretch")
                 else:
                     st.info("No inferred author country data available.")
         else:
@@ -426,6 +448,12 @@ def show(df):
                 country_counts = pd.Series(all_countries).value_counts().reset_index()
                 country_counts.columns = ['Country', 'Article Count']
                 
+                c_hdr, c_dl = st.columns([0.7, 0.3], vertical_alignment="center")
+                with c_hdr:
+                    st.markdown("<div style='font-size:16px; font-weight:700; color:#1E293B;'>Global Distribution of Publications (Article Affiliations)</div>", unsafe_allow_html=True)
+                with c_dl:
+                    _download_button(country_counts, "Download CSV", "article_origin_countries.csv", key="dl_demog_article_countries")
+
                 fig = px.choropleth(
                     country_counts, 
                     locations="Country", 
@@ -433,15 +461,14 @@ def show(df):
                     color="Article Count", 
                     hover_name="Country",
                     projection='equal earth',
-                    color_continuous_scale=['#3a2c58', '#414184', '#395e9c', '#357ca3', '#3498a9', '#3eb4ad', '#62cfac'],
-                    title="Global Distribution of Publications (Article Affiliations - Equal Earth Projection)"
+                    color_continuous_scale='turbid'
                 )
                 fig.update_geos(showland=True, landcolor="#e2e8f0", showcountries=True, countrycolor="white")
-                fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+                fig.update_layout(margin={"r":0,"t":20,"l":0,"b":0}, height=480)
                 st.plotly_chart(fig, width='stretch')
                 
-                with st.expander("View Raw Data"):
-                    st.dataframe(country_counts, hide_index=True)
+                with st.expander("View Raw Data", expanded=False):
+                    st.dataframe(country_counts, hide_index=True, width="stretch")
             else:
                 st.warning("No geographic data available for mapping.")
 
@@ -472,7 +499,15 @@ def show(df):
                 # Options for filtering
                 st.markdown("<h4 style='font-size: 15px;'>Graph Filters</h4>", unsafe_allow_html=True)
                 
-                filter_option = st.radio("Display Mode:", ["Show Top N Nodes", "Show All Nodes"], horizontal=True)
+                net_ctrl1, net_ctrl2 = st.columns([0.7, 0.3], vertical_alignment="bottom")
+                with net_ctrl1:
+                    filter_option = st.radio("Display Mode:", ["Show Top N Nodes", "Show All Nodes"], horizontal=True)
+                with net_ctrl2:
+                    edges_df = pd.DataFrame([
+                        {"Country A": pair[0], "Country B": pair[1], "Co-authorships": weight}
+                        for pair, weight in edges.items()
+                    ]).sort_values("Co-authorships", ascending=False)
+                    _download_button(edges_df, "Download Network CSV", "transnational_coauthorships.csv", key="dl_demog_network_edges")
                 
                 nodes_to_keep = set(node_weights.keys())
                 
@@ -647,11 +682,15 @@ def show(df):
                 st.progress(min(e_inst / 100.0, 1.0))
                 
                 if endogenous_count > 0:
-                    st.markdown("<h4 style='font-size: 16px; font-weight: 700; color: #1E293B; margin-top: 20px;'>Identified Endogenous Articles</h4>", unsafe_allow_html=True)
                     endogenous_df = df_endo_valid[df_endo_valid['is_endogenous']].drop(columns=['is_endogenous'])
                     display_cols = [c for c in ['Title', 'Author', 'Publication Year', 'Affiliations', 'DOI'] if c in endogenous_df.columns]
                     if not display_cols:
                         display_cols = endogenous_df.columns
+                    endo_h1, endo_h2 = st.columns([0.7, 0.3], vertical_alignment="center")
+                    with endo_h1:
+                        st.markdown("<h4 style='font-size: 16px; font-weight: 700; color: #1E293B; margin-top: 20px;'>Identified Endogenous Articles</h4>", unsafe_allow_html=True)
+                    with endo_h2:
+                        _download_button(endogenous_df[display_cols], "Download CSV", "endogenous_articles.csv", key="dl_endogenous_articles")
                     st.dataframe(endogenous_df[display_cols], width='stretch')
 
     with tab_audit:
@@ -683,7 +722,7 @@ def show(df):
         st.divider()
         
         # Filter options for the audit table
-        filter_col1, filter_col2 = st.columns([1.5, 2])
+        filter_col1, filter_col2, filter_col3 = st.columns([1.5, 2, 1], vertical_alignment="bottom")
         with filter_col1:
             audit_filter = st.radio(
                 "Filter Audit Records:",
@@ -711,6 +750,9 @@ def show(df):
             sq = search_query.strip().lower()
             mask = display_audit_df.astype(str).apply(lambda row: row.str.lower().str.contains(sq, regex=False)).any(axis=1)
             display_audit_df = display_audit_df[mask]
+
+        with filter_col3:
+            _download_button(display_audit_df, "Download CSV", "geographic_metadata_audit_log.csv", key="dl_demog_audit")
             
         st.dataframe(
             display_audit_df,
@@ -728,15 +770,17 @@ def show(df):
         )
         
         # Download audit log as CSV
-        from utils.project_manager import format_timestamped_filename, save_project_file
+        from utils.project_manager import format_timestamped_filename, get_active_project_name
+        from utils.exports import _save_export_on_click
         csv_data = display_audit_df.to_csv(index=False).encode('utf-8-sig')
         fn_demo_log = format_timestamped_filename("geographic_metadata_audit_log.csv")
-        try: save_project_file("exports", fn_demo_log, csv_data, mode="wb")
-        except Exception: pass
 
         st.download_button(
             label="📥 Export Geographic Metadata Audit Log (CSV)",
             data=csv_data,
             file_name=fn_demo_log,
-            mime="text/csv"
+            mime="text/csv",
+            on_click=_save_export_on_click,
+            args=("exports", "geographic_metadata_audit_log.csv", csv_data, "wb"),
+            help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
         )

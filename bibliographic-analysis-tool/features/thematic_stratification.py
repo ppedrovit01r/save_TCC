@@ -1,7 +1,26 @@
+import os
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
+os.environ["HF_HUB_DISABLE_IMPLICIT_TOKEN"] = "1"
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "1"
+
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", message=".*unauthenticated requests to the HF Hub.*")
+warnings.filterwarnings("ignore", message=".*tf.reset_default_graph.*")
+warnings.filterwarnings("ignore", message=".*oneDNN.*")
+
+import logging
+logging.getLogger("tensorflow").setLevel(logging.ERROR)
+logging.getLogger("transformers").setLevel(logging.ERROR)
+logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
+
 import streamlit as st
 import pandas as pd
 import json
-import os
 import time
 import datetime
 from utils.formatters import format_duration
@@ -16,8 +35,8 @@ import hashlib
 import string
 import nltk
 from nltk.corpus import stopwords
-from utils.project_manager import get_global_cache_dir, save_project_file, format_timestamped_filename, get_timestamp_str, open_project_folder
-from utils.exports import render_project_saved_notice
+from utils.project_manager import get_global_cache_dir, save_project_file, format_timestamped_filename, get_timestamp_str, open_project_folder, get_active_project_name
+from utils.exports import render_project_saved_notice, _save_export_on_click
 
 TRANSLATION_CACHE_FILE = os.path.join("utils", "cache", "translation_cache.json")
 
@@ -58,6 +77,31 @@ def is_error_boilerplate(text: str) -> bool:
     ]
     return any(p in lower for p in patterns)
 
+_EN_STOPS = None
+_FOREIGN_STOPS = None
+
+def _get_stopword_sets():
+    global _EN_STOPS, _FOREIGN_STOPS
+    if _EN_STOPS is not None:
+        return _EN_STOPS, _FOREIGN_STOPS
+    try:
+        en = set(stopwords.words('english'))
+        pt = set(stopwords.words('portuguese'))
+        es = set(stopwords.words('spanish'))
+        fr = set(stopwords.words('french'))
+    except Exception:
+        try:
+            nltk.download('stopwords', quiet=True)
+            en = set(stopwords.words('english'))
+            pt = set(stopwords.words('portuguese'))
+            es = set(stopwords.words('spanish'))
+            fr = set(stopwords.words('french'))
+        except Exception:
+            en, pt, es, fr = set(), set(), set(), set()
+    _EN_STOPS = en
+    _FOREIGN_STOPS = (pt | es | fr) - en
+    return _EN_STOPS, _FOREIGN_STOPS
+
 def is_likely_english(text: str, lang_meta: str = "") -> bool:
     """
     Determines if text is already English using metadata and offline NLTK stopword analysis.
@@ -68,20 +112,7 @@ def is_likely_english(text: str, lang_meta: str = "") -> bool:
     if not text or len(str(text).strip()) < 15:
         return True
         
-    try:
-        en_stops = set(stopwords.words('english'))
-        pt_stops = set(stopwords.words('portuguese'))
-        es_stops = set(stopwords.words('spanish'))
-        fr_stops = set(stopwords.words('french'))
-    except Exception:
-        try:
-            nltk.download('stopwords', quiet=True)
-            en_stops = set(stopwords.words('english'))
-            pt_stops = set(stopwords.words('portuguese'))
-            es_stops = set(stopwords.words('spanish'))
-            fr_stops = set(stopwords.words('french'))
-        except Exception:
-            en_stops, pt_stops, es_stops, fr_stops = set(), set(), set(), set()
+    en_stops, foreign_stops = _get_stopword_sets()
 
     clean = str(text).lower()
     words = [w.strip(string.punctuation) for w in clean.split()]
@@ -90,7 +121,6 @@ def is_likely_english(text: str, lang_meta: str = "") -> bool:
         return True
 
     en_count = sum(1 for w in words if w in en_stops)
-    foreign_stops = pt_stops.union(es_stops).union(fr_stops) - en_stops
     foreign_count = sum(1 for w in words if w in foreign_stops)
 
     # Distinct Romance language functional n-grams / markers
@@ -303,6 +333,14 @@ def render_configuration_tab(df):
         
         start_time = time.time()
         start_timestamp = datetime.datetime.fromtimestamp(start_time).strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Timing & Metrics Tracking
+        t_trans_start = time.time()
+        translated_count = 0
+        english_skipped = 0
+        cached_count = 0
+        trans_duration = 0.0
+        formatted_trans_duration = "0s (Disabled)"
             
         with st.spinner("Preprocessing texts..."):
             # Concatenate selected columns
@@ -414,6 +452,13 @@ def render_configuration_tab(df):
                     st.toast(f"Translation complete: {translated_count} translated, {cached_count} from cache, {english_skipped} skipped as English.", icon="🌐")
 
                 docs = pd.Series(translated_docs)
+                t_trans_end = time.time()
+                trans_duration = t_trans_end - t_trans_start
+                formatted_trans_duration = format_duration(trans_duration)
+            else:
+                t_trans_end = time.time()
+                trans_duration = t_trans_end - t_trans_start
+                formatted_trans_duration = "0s (Disabled)"
                 
             # Final Sanitize: scrub any existing web error boilerplate from text before sending to BERTopic/GSDMM
             def clean_document_text(text: str) -> str:
@@ -438,7 +483,10 @@ def render_configuration_tab(df):
             # Tokenized docs for GSDMM
             st.session_state.ts_tokenized_docs = preprocess_for_gsdmm(st.session_state.ts_docs)
             
-        with st.spinner("Running BERTopic (Pass 1: Semantic Embedding Clustering)..."):
+        # --- PHASE 2: BERTopic + GSDMM TOPIC MODELING & PASS 2 REFINEMENT ---
+        t_ml_start = time.time()
+
+        with st.spinner(f"Running BERTopic (Semantic Embedding Clustering - Translation took {formatted_trans_duration})..."):
             # If Macro Pillars or Custom, use target_k; if Auto-Discovery, nr_topics="auto"
             b_target = target_k if target_k is not None else "auto"
             bert_model, bert_topics, bert_probs, bert_words, bert_embeddings = run_bertopic(
@@ -453,12 +501,12 @@ def render_configuration_tab(df):
             actual_k = len(bert_words)
             gsdmm_k = max(2, actual_k)
             
-        with st.spinner(f"Running GSDMM (Pass 1: Lexical Co-occurrence Lens, k={gsdmm_k})..."):
+        with st.spinner(f"Running GSDMM (Lexical Co-occurrence Lens, k={gsdmm_k})..."):
             gsdmm_model, gsdmm_topics, gsdmm_probs, gsdmm_words = run_gsdmm(st.session_state.ts_tokenized_docs, k=gsdmm_k)
             st.session_state.gsdmm_words = gsdmm_words
             st.session_state.gsdmm_topics = gsdmm_topics
             
-        with st.spinner("Aligning Topics & Running Pass 2 Consensus Centroid Refinement..."):
+        with st.spinner("Aligning Topics & Consensus Centroid Refinement..."):
             b_to_u, g_to_u, mapping = align_topics(
                 bert_topics,
                 gsdmm_topics,
@@ -501,21 +549,33 @@ def render_configuration_tab(df):
             df['is_consensus'] = is_consensus
             st.session_state.ts_df = df
             
-        # Logging
+        # Timing Calculations
+        t_ml_end = time.time()
+        ml_duration = t_ml_end - t_ml_start
+        formatted_ml_duration = format_duration(ml_duration)
+
         end_time = time.time()
         end_timestamp = datetime.datetime.fromtimestamp(end_time).strftime('%Y-%m-%d %H:%M:%S')
-        duration = end_time - start_time
+        total_duration = end_time - start_time
+        formatted_total_duration = format_duration(total_duration)
         
         outliers = u_topics.count(-1)
         total_docs = len(u_topics)
-        
-        formatted_duration = format_duration(duration)
         
         log_lines = [
             "=" * 80,
             "             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT",
             "=" * 80,
-            f"Execution Timeframe: {start_timestamp}  -->  {end_timestamp} ({formatted_duration})",
+            f"Execution Timeframe: {start_timestamp}  -->  {end_timestamp}",
+            f"Total Duration:      {formatted_total_duration}",
+            f"  • Phase 1 (Language Detection & Translation): {formatted_trans_duration}",
+            f"      - Mode: {'Forced All Translations' if force_all_translation else 'Smart Multilingual Detection' if enable_translation else 'Disabled'}",
+            f"      - Documents: {translated_count} translated, {cached_count} from cache, {english_skipped} skipped as English",
+            f"  • Phase 2 (BERTopic + GSDMM Modeling & Consensus Refinement): {formatted_ml_duration}",
+            f"      - BERTopic: Pass 1 Semantic Embeddings (target: {target_k if target_k is not None else 'Auto'})",
+            f"      - GSDMM: Pass 1 Lexical Co-occurrence Lens (k={gsdmm_k})",
+            f"      - Ensemble: Pass 2 Consensus Centroid Refinement & Boundary Resolution",
+            "",
             f"Fields Analyzed: {text_cols}",
             f"Alignment Strategy: {strategy}",
             f"Minimum Cluster Size: {min_cluster_docs} documents",
@@ -593,7 +653,11 @@ def render_configuration_tab(df):
         st.session_state.ts_last_log = report_text
         st.session_state.ts_last_log_file = log_filename
             
-        st.success(f"Ensemble pipeline completed in {formatted_duration}! Log saved to `{log_filename}`.")
+        st.success(
+            f"✨ **Ensemble Pipeline Completed in {formatted_total_duration}!** "
+            f"(🌐 **Translation:** `{formatted_trans_duration}` | 🤖 **BERTopic + GSDMM:** `{formatted_ml_duration}`). "
+            f"Audit log saved to `{log_filename}`."
+        )
 
 def get_topic_name(topic_id):
     if topic_id == -1 or str(topic_id) == '-1':
@@ -807,7 +871,8 @@ def render_topic_explorer(df):
                     words_to_send.extend(st.session_state.gsdmm_words.get(g_id, []))
                 
                 with st.spinner("Generating..."):
-                    result = generate_topic_name(api_key, provider, list(set(words_to_send)))
+                    num_t = len(st.session_state.topic_names) if 'topic_names' in st.session_state else 1
+                    result = generate_topic_name(api_key, provider, list(set(words_to_send)), total_topics=num_t)
                     st.session_state.topic_names[selected_topic] = result
                 st.rerun()
             else:
@@ -852,7 +917,8 @@ def render_topic_explorer(df):
                 for _, r in consensus_docs.sort_values(by='topic_confidence', ascending=False).head(5).iterrows():
                     r_title = r.get('Title', 'Untitled Document')
                     r_conf = r.get('topic_confidence', 1.0)
-                    r_year = r.get('Publication Year', r.get('Year', 'N/A'))
+                    from utils.formatters import clean_year_value
+                    r_year = clean_year_value(r.get('Publication Year', r.get('Year', ''))) or 'N/A'
                     r_doi = r.get('DOI', '')
                     r_abstract = str(r.get('Abstract', 'No abstract available.'))
                     if len(r_abstract) > 280:
@@ -874,7 +940,8 @@ def render_topic_explorer(df):
                 for _, r in boundary_docs.sort_values(by='topic_confidence', ascending=True).head(5).iterrows():
                     r_title = r.get('Title', 'Untitled Document')
                     r_conf = r.get('topic_confidence', 0.0)
-                    r_year = r.get('Publication Year', r.get('Year', 'N/A'))
+                    from utils.formatters import clean_year_value
+                    r_year = clean_year_value(r.get('Publication Year', r.get('Year', ''))) or 'N/A'
                     r_doi = r.get('DOI', '')
                     r_abstract = str(r.get('Abstract', 'No abstract available.'))
                     if len(r_abstract) > 280:
@@ -1161,8 +1228,6 @@ def render_quality(df):
     
     csv = ts_df.to_csv(index=False).encode('utf-8-sig')
     fn_strat_csv = format_timestamped_filename('bibliometric_stratified_results.csv')
-    try: save_project_file("exports", fn_strat_csv, csv, mode="wb")
-    except Exception: pass
     
     session_data = {
         'topic_assignments': ts_df['unified_topic'].tolist() if 'unified_topic' in ts_df.columns else [],
@@ -1189,8 +1254,6 @@ def render_quality(df):
         
     json_bytes = json.dumps(clean_floats(session_data)).encode('utf-8')
     fn_strat_sess = format_timestamped_filename('stratification_session.json')
-    try: save_project_file("sessions", fn_strat_sess, json_bytes, mode="wb")
-    except Exception: pass
 
     st_c1, st_c2, st_c3 = st.columns(3, gap="small")
     with st_c1:
@@ -1199,7 +1262,10 @@ def render_quality(df):
             data=csv,
             file_name=fn_strat_csv,
             mime='text/csv',
-            width="stretch"
+            width="stretch",
+            on_click=_save_export_on_click,
+            args=("exports", "bibliometric_stratified_results.csv", csv, "wb"),
+            help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
         )
     with st_c2:
         st.download_button(
@@ -1207,7 +1273,10 @@ def render_quality(df):
             data=json_bytes,
             file_name=fn_strat_sess,
             mime='application/json',
-            width="stretch"
+            width="stretch",
+            on_click=_save_export_on_click,
+            args=("sessions", "stratification_session.json", json_bytes, "wb"),
+            help=f"Saves directly to Projects/{get_active_project_name()}/sessions/ and downloads"
         )
     with st_c3:
         if st.button("Open Project Folder", icon=":material/folder_open:", width="stretch", key="btn_open_strat_folder"):

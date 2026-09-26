@@ -1,0 +1,24 @@
+2026-09-20 22:28:36,851 - [INFO] - --- New Request ---
+2026-09-20 22:28:36,851 - [INFO] - Provider: Gemini
+2026-09-20 22:28:36,851 - [INFO] - Input Words: ['deep', 'learning']
+2026-09-20 22:28:36,852 - [WARNING] - Request blocked: No API key provided for a provider that requires one.
+2026-09-20 22:28:36,852 - [INFO] - --- New Request ---
+2026-09-20 22:28:36,852 - [INFO] - Provider: Gemini
+2026-09-20 22:28:36,852 - [INFO] - Input Words: ['deep', 'learning']
+2026-09-20 22:28:36,852 - [WARNING] - Request blocked: No API key provided for a provider that requires one.
+2026-09-20 22:28:36,852 - [INFO] - --- New Batch Request ---
+2026-09-20 22:28:36,853 - [INFO] - Provider: Gemini
+2026-09-20 22:28:36,853 - [INFO] - Topics to name: 2
+2026-09-20 22:28:36,853 - [WARNING] - Request blocked: No API key provided.
+2026-09-20 22:30:15,635 - [INFO] - --- New Request ---
+2026-09-20 22:30:15,635 - [INFO] - Provider: Gemini
+2026-09-20 22:30:15,635 - [INFO] - Input Words: ['deep', 'learning']
+2026-09-20 22:30:15,636 - [WARNING] - Request blocked: No API key provided for a provider that requires one.
+2026-09-20 22:30:15,636 - [INFO] - --- New Request ---
+2026-09-20 22:30:15,636 - [INFO] - Provider: Gemini
+2026-09-20 22:30:15,636 - [INFO] - Input Words: ['deep', 'learning']
+2026-09-20 22:30:15,636 - [WARNING] - Request blocked: No API key provided for a provider that requires one.
+2026-09-20 22:30:15,636 - [INFO] - --- New Batch Request ---
+2026-09-20 22:30:15,636 - [INFO] - Provider: Gemini
+2026-09-20 22:30:15,636 - [INFO] - Topics to name: 2
+2026-09-20 22:30:15,636 - [WARNING] - Request blocked: No API key provided.

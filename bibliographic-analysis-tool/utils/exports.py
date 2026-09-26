@@ -4,21 +4,34 @@ from typing import Callable, Any
 
 from utils.project_manager import format_timestamped_filename, save_project_file, open_project_folder, get_active_project_name
 
+@st.cache_data
+def _df_to_csv_bytes(df: pd.DataFrame) -> bytes:
+    if df is None or df.empty:
+        return b""
+    return df.to_csv(index=False).encode("utf-8-sig")
+
+def _save_export_on_click(subfolder: str, file_name: str, data: bytes, mode: str = "wb"):
+    stamped_name = format_timestamped_filename(file_name)
+    try:
+        saved_path = save_project_file(subfolder, stamped_name, data, mode=mode)
+        st.toast(f"Saved to Project workspace: {stamped_name}", icon="📁")
+        return saved_path
+    except Exception as e:
+        print(f"Error auto-saving export: {e}")
+        return ""
+
 def _download_button(df: pd.DataFrame, label: str, file_name: str, key: str = None, enable_browser_download: bool = True, disabled: bool = False):
     """
     Global component for saving DataFrames into the active Project workspace.
-    Saves automatically to Projects/<active_project>/exports/ and optionally offers browser download.
+    Saves automatically to Projects/<active_project>/exports/ on click and optionally offers browser download.
     """
+    btn_key = key or f"dl_btn_{file_name}_{abs(hash(label))}"
+    if df is None or df.empty or disabled:
+        st.download_button(label=label, data=b"", file_name=file_name, key=btn_key, disabled=True)
+        return
+
+    csv_bytes = _df_to_csv_bytes(df)
     stamped_name = format_timestamped_filename(file_name)
-    csv_bytes = df.to_csv(index=False).encode("utf-8-sig")
-    
-    # Auto-archive copy to active project's exports folder (if not empty)
-    saved_path = ""
-    if not df.empty and not disabled:
-        try:
-            saved_path = save_project_file("exports", stamped_name, csv_bytes, mode="wb")
-        except Exception:
-            pass
 
     if enable_browser_download:
         st.download_button(
@@ -26,14 +39,16 @@ def _download_button(df: pd.DataFrame, label: str, file_name: str, key: str = No
             data=csv_bytes,
             file_name=stamped_name,
             mime="text/csv",
-            key=key,
+            key=btn_key,
             disabled=disabled,
-            help=f"Saved to project: {saved_path}" if saved_path else None
+            on_click=_save_export_on_click,
+            args=("exports", file_name, csv_bytes, "wb"),
+            help=f"Saves to Projects/{get_active_project_name()}/exports/ and downloads file"
         )
     else:
         # Direct save notification mode
-        if st.button(label, icon=":material/save:", key=key, disabled=disabled):
-            st.toast(f"Saved to Project workspace: {stamped_name}", icon="📁")
+        if st.button(label, icon=":material/save:", key=btn_key, disabled=disabled):
+            _save_export_on_click("exports", file_name, csv_bytes, "wb")
 
 def render_project_saved_notice(subfolder: str = "exports", context_text: str = ""):
     """

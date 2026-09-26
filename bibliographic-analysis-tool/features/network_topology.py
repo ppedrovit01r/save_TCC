@@ -1,8 +1,9 @@
 import itertools
 import json
+import time
 import requests
 from typing import Any, Union, List, Optional, Dict
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 import networkx as nx
 import nltk
@@ -13,6 +14,19 @@ from networkx.algorithms import community
 from pyvis.network import Network
 from networkx.exception import PowerIterationFailedConvergence
 from utils.exports import safe_download
+
+def render_html_graph(html: str, height: int = 600, html_path: Optional[Path] = None):
+    """
+    Renders interactive HTML graphs using st.iframe (preferred in modern Streamlit)
+    with seamless fallback to st.components.v1.html.
+    """
+    if hasattr(st, "iframe"):
+        if html_path and isinstance(html_path, Path) and html_path.exists():
+            st.iframe(html_path, height=height)
+        else:
+            st.iframe(html, height=height)
+    else:
+        components.html(html, height=height)
 
 OA_CACHE_FILE = Path("utils/cache/openalex_works_cache.json")
 
@@ -42,6 +56,13 @@ def extract_surname(name: str) -> str:
     name = str(name).strip()
     if not name:
         return ""
+    try:
+        from features.gender import extract_name_parts
+        _, last_name, _ = extract_name_parts(name)
+        if last_name:
+            return last_name
+    except Exception:
+        pass
     if "," in name:
         return name.split(",")[0].strip()
     parts = name.split()
@@ -52,9 +73,10 @@ def format_citation_label(authors: Any, year: Any, title: str) -> str:
     Bibliographic rule:
     - 1 author: Last Name (year) - Title
     - 2 authors: Last Name 1 & Last Name 2 (year) - Title
-    - >2 authors: Last Name 1, et al., (year) - Title
+    - >2 authors: Last Name 1 et al. (year) - Title
     """
-    year_str = str(year).strip() if (year and pd.notna(year) and str(year).strip().lower() not in ["nan", "none", ""]) else ""
+    from utils.formatters import clean_year_value
+    year_str = clean_year_value(year)
     title_str = str(title).strip() if (title and pd.notna(title) and str(title).strip().lower() not in ["nan", "none", ""]) else "Untitled"
     if len(title_str) > 52:
         title_str = f"{title_str[:49]}..."
@@ -80,7 +102,7 @@ def format_citation_label(authors: Any, year: Any, title: str) -> str:
     elif len(surnames) == 2:
         author_prefix = f"{surnames[0]} & {surnames[1]} "
     else:
-        author_prefix = f"{surnames[0]}, et al., "
+        author_prefix = f"{surnames[0]} et al. "
 
     if author_prefix and year_str:
         return f"{author_prefix}({year_str}) - {title_str}"
@@ -114,6 +136,7 @@ def batch_resolve_openalex_ids(ids: list) -> dict:
             filter_str = "|".join(chunk)
             url = f"https://api.openalex.org/works?filter=openalex:{filter_str}&per-page=50&select=id,title,publication_year,authorships"
             try:
+                time.sleep(0.15)  # Polite OpenAlex rate limit (~6.6 req/sec <= 10 req/sec)
                 resp = requests.get(url, headers=headers, timeout=5.0)
                 if resp.status_code == 200:
                     results = resp.json().get("results", [])
@@ -145,34 +168,32 @@ def batch_resolve_openalex_ids(ids: list) -> dict:
             _save_oa_works_cache(cache)
     return cache
 
-def format_ref_label(ref_raw: str, df: pd.DataFrame = None, cache: dict = None) -> str:
+def format_ref_label(ref_raw: str, df: pd.DataFrame = None, cache: dict = None, lookup_maps: tuple = None) -> str:
     """Converts cryptic reference strings (DOIs, OpenAlex IDs like 'W...') or long raw strings into human-readable citation labels."""
     if not ref_raw or pd.isna(ref_raw):
         return "Unknown Reference"
     ref_clean = str(ref_raw).strip()
     
-    # 1. Look up in master dataset if DOI or OpenAlex ID matches a known record in memory
-    if df is not None and not df.empty:
-        # Check DOI match
-        if 'DOI' in df.columns:
-            clean_doi = ref_clean.replace("https://doi.org/", "").replace("doi:", "").lower()
-            if clean_doi:
-                doi_match = df[df['DOI'].astype(str).str.lower().str.contains(clean_doi, na=False, regex=False)]
-                if not doi_match.empty:
-                    row = doi_match.iloc[0]
-                    return format_citation_label(row.get('Author', ''), row.get('Publication Year', ''), row.get('Title', ''))
-                
-        # Check OpenAlex ID match
-        if 'OpenAlex ID' in df.columns:
-            clean_oa = ref_clean.replace("https://openalex.org/", "").upper()
-            if clean_oa:
-                oa_match = df[df['OpenAlex ID'].astype(str).str.upper() == clean_oa]
-                if not oa_match.empty:
-                    row = oa_match.iloc[0]
-                    return format_citation_label(row.get('Author', ''), row.get('Publication Year', ''), row.get('Title', ''))
+    # 1. Fast dictionary lookup in master dataset if DOI or OpenAlex ID matches a known record in memory
+    if lookup_maps:
+        doi_map, oa_map = lookup_maps
+    elif df is not None and not df.empty:
+        doi_map = {str(d).lower().strip(): r for _, r in df[['DOI', 'Author', 'Publication Year', 'Title']].dropna(subset=['DOI']).iterrows()}
+        oa_map = {str(oa).upper().strip(): r for _, r in df[['OpenAlex ID', 'Author', 'Publication Year', 'Title']].dropna(subset=['OpenAlex ID']).iterrows()}
+    else:
+        doi_map, oa_map = {}, {}
 
-    # 2. Check OpenAlex ID resolution via cache or query
+    clean_doi = ref_clean.replace("https://doi.org/", "").replace("doi:", "").lower()
+    if clean_doi in doi_map:
+        row = doi_map[clean_doi]
+        return format_citation_label(row.get('Author', ''), row.get('Publication Year', ''), row.get('Title', ''))
+
     clean_oa = ref_clean.replace("https://openalex.org/", "").upper()
+    if clean_oa in oa_map:
+        row = oa_map[clean_oa]
+        return format_citation_label(row.get('Author', ''), row.get('Publication Year', ''), row.get('Title', ''))
+
+    # 2. Check OpenAlex ID resolution via cache (instant memory/disk lookup; no blocking serial network requests)
     if clean_oa.startswith("W") and clean_oa[1:].isdigit():
         if cache is None:
             cache = _load_oa_works_cache()
@@ -182,23 +203,6 @@ def format_ref_label(ref_raw: str, df: pd.DataFrame = None, cache: dict = None) 
             year = meta.get("year", "")
             title = meta.get("title", "")
             return format_citation_label(authors, year, title)
-            
-        # Fallback single fetch if missed by batch query
-        try:
-            headers = {"User-Agent": "mailto:pedro.alexandre@inf.ufrgs.br"}
-            single_url = f"https://api.openalex.org/works/{clean_oa}?select=id,title,publication_year,authorships"
-            resp = requests.get(single_url, headers=headers, timeout=3.0)
-            if resp.status_code == 200:
-                item = resp.json()
-                title = item.get("title") or ""
-                year = item.get("publication_year") or ""
-                authors = [a.get("author", {}).get("display_name", "").strip() for a in item.get("authorships", []) if a.get("author", {}).get("display_name")]
-                cache[clean_oa] = {"title": title, "year": year, "authors": authors, "author": authors[0] if authors else ""}
-                _save_oa_works_cache(cache)
-                return format_citation_label(authors, year, title)
-        except Exception:
-            pass
-
         return f"OpenAlex Work ({clean_oa})"
         
     # 3. Handle DOIs
@@ -245,22 +249,36 @@ def show(df: pd.DataFrame = None):
             """
         )
 
-    # Sub-tabs for Network Features
-    net_tab1, net_tab2, net_tab3 = st.tabs([
-        "Co-Citation Networks", 
-        "Bibliographic Coupling", 
-        "Co-Word Analysis"
-    ])
+    # Sub-tabs for Network Features with true Lazy Loading
+    tab_options = ["Co-Citation Networks", "Bibliographic Coupling", "Co-Word Analysis"]
+    if hasattr(st, "segmented_control"):
+        active_tab = st.segmented_control(
+            "Network Analysis View",
+            tab_options,
+            default="Co-Citation Networks",
+            selection_mode="single",
+            label_visibility="collapsed",
+            key="network_view_selector"
+        ) or "Co-Citation Networks"
+    else:
+        active_tab = st.radio(
+            "Network Analysis View",
+            tab_options,
+            index=0,
+            horizontal=True,
+            label_visibility="collapsed",
+            key="network_view_selector"
+        )
 
-    with net_tab1:
+    st.write("") # Visual spacing
+
+    if active_tab == "Co-Citation Networks":
         display_reference_summary(df)
         st.divider()
         display_cocitation_analysis(df)
-
-    with net_tab2:
+    elif active_tab == "Bibliographic Coupling":
         display_bibliographic_coupling_analysis(df)
-
-    with net_tab3:
+    elif active_tab == "Co-Word Analysis":
         display_coword_analysis(df)
 
 CLUSTER_PALETTE = [
@@ -311,10 +329,15 @@ def display_reference_summary(df):
         st.warning("Column 'Article References' is missing – skipping summary.")
         return
     st.subheader("Reference Summary")
-    total_refs = sum(len(clean_refs(r)) for r in df["Article References"].dropna())
-    articles_with_refs = df["Article References"].notna().sum()
-    articles_missing_refs = df["Article References"].isna().sum()
-    total_articles = len(df)
+    cache_key = f"_ref_summary_{len(df)}_{id(df)}"
+    if cache_key in st.session_state:
+        total_refs, articles_with_refs, articles_missing_refs, total_articles = st.session_state[cache_key]
+    else:
+        total_refs = sum(len(clean_refs(r)) for r in df["Article References"].dropna())
+        articles_with_refs = int(df["Article References"].notna().sum())
+        articles_missing_refs = int(df["Article References"].isna().sum())
+        total_articles = len(df)
+        st.session_state[cache_key] = (total_refs, articles_with_refs, articles_missing_refs, total_articles)
 
     cols = st.columns(4)
     cols[0].metric("Total References", total_refs)
@@ -322,12 +345,33 @@ def display_reference_summary(df):
     cols[2].metric("Articles without References", articles_missing_refs)
     cols[3].metric("% Articles without References", f"{articles_missing_refs/total_articles*100:.2f}%" if total_articles else "0%")
 
+def get_cached_cocitation_counts(df: pd.DataFrame) -> pd.DataFrame:
+    cache_key = f"_cocitation_counts_{len(df)}_{id(df)}"
+    if cache_key in st.session_state:
+        return st.session_state[cache_key]
+
+    counter = Counter()
+    for refs in df["Article References"].dropna():
+        rlist = sorted(list(set(clean_refs(refs))))
+        if len(rlist) > 100:
+            rlist = rlist[:100]
+        for combo in itertools.combinations(rlist, 2):
+            counter[combo] += 1
+
+    if not counter:
+        counts_df = pd.DataFrame(columns=["Ref1", "Ref2", "Count"])
+    else:
+        top_pairs = counter.most_common(2000)
+        counts_df = pd.DataFrame([{"Ref1": p[0], "Ref2": p[1], "Count": c} for p, c in top_pairs])
+
+    st.session_state[cache_key] = counts_df
+    return counts_df
+
 def display_cocitation_analysis(df):
     if df["Article References"].dropna().empty:
         st.info("No reference data – co-citation analysis skipped.")
         return
-    pairs_df = co_citation_pairs_df(df)
-    co_citation_counts = pairs_df.value_counts().reset_index(name="Count")
+    co_citation_counts = get_cached_cocitation_counts(df)
     if co_citation_counts.empty:
         st.info("Insufficient data to build co-citation pairs.")
         return
@@ -353,12 +397,7 @@ def display_cocitation_analysis(df):
         safe_download(st.download_button, "Download Co-citation Graph (HTML)", html_graph, "co_citation_graph.html", "text/html", key="cocitation_download", icon=":material/download:")
 
 def co_citation_pairs_df(df):
-    all_pairs = []
-    for refs in df["Article References"].dropna():
-        rlist = list(set(clean_refs(refs)))
-        for combo in itertools.combinations(sorted(rlist), 2):
-            all_pairs.append(combo)
-    return pd.DataFrame(all_pairs, columns=["Ref1", "Ref2"])
+    return get_cached_cocitation_counts(df)
 
 def co_citation_graph(co_citation_counts):
     top_pairs = co_citation_counts.sort_values("Count", ascending=False).head(100)
@@ -374,8 +413,14 @@ def display_top_20_cocitation_pairs_table(co_citation_counts, df=None):
     all_refs = list(top20["Ref1"].unique()) + list(top20["Ref2"].unique())
     oa_cache = batch_resolve_openalex_ids(all_refs)
 
-    top20["Reference 1"] = top20["Ref1"].apply(lambda r: format_ref_label(r, df, oa_cache))
-    top20["Reference 2"] = top20["Ref2"].apply(lambda r: format_ref_label(r, df, oa_cache))
+    lookup_maps = None
+    if df is not None and not df.empty:
+        doi_map = {str(d).lower().strip(): r for _, r in df[['DOI', 'Author', 'Publication Year', 'Title']].dropna(subset=['DOI']).iterrows()}
+        oa_map = {str(oa).upper().strip(): r for _, r in df[['OpenAlex ID', 'Author', 'Publication Year', 'Title']].dropna(subset=['OpenAlex ID']).iterrows()}
+        lookup_maps = (doi_map, oa_map)
+
+    top20["Reference 1"] = top20["Ref1"].apply(lambda r: format_ref_label(r, df, oa_cache, lookup_maps))
+    top20["Reference 2"] = top20["Ref2"].apply(lambda r: format_ref_label(r, df, oa_cache, lookup_maps))
     top20["Co-Citation Frequency"] = top20["Count"]
     
     display_df = top20[["Reference 1", "Reference 2", "Co-Citation Frequency"]]
@@ -388,11 +433,58 @@ def display_top_20_cocitation_pairs_table(co_citation_counts, df=None):
 
     st.dataframe(display_df, width="stretch", height=240, hide_index=True)
 
+def get_cached_bc_pairs(df: pd.DataFrame) -> pd.DataFrame:
+    cache_key = f"_bc_pairs_{len(df)}_{id(df)}"
+    if cache_key in st.session_state:
+        return st.session_state[cache_key]
+
+    refs_series = df["Article References"].dropna()
+    if refs_series.empty:
+        empty_df = pd.DataFrame(columns=["Article1", "Article2", "Shared_Refs"])
+        st.session_state[cache_key] = empty_df
+        return empty_df
+
+    titles_series = df.loc[refs_series.index, "Title"].fillna("Untitled")
+    titles = titles_series.tolist()
+    cleaned = [set(clean_refs(r)) for r in refs_series]
+
+    # Inverted index: reference -> list of article indices
+    ref_to_articles = defaultdict(list)
+    for art_idx, rset in enumerate(cleaned):
+        for r in rset:
+            ref_to_articles[r].append(art_idx)
+
+    pair_counts = defaultdict(int)
+    for r, art_indices in ref_to_articles.items():
+        if len(art_indices) < 2 or len(art_indices) > 500:
+            continue
+        for i in range(len(art_indices)):
+            a1 = art_indices[i]
+            for j in range(i + 1, len(art_indices)):
+                a2 = art_indices[j]
+                pair = (a1, a2) if a1 < a2 else (a2, a1)
+                pair_counts[pair] += 1
+
+    if not pair_counts:
+        bc_df = pd.DataFrame(columns=["Article1", "Article2", "Shared_Refs"])
+    else:
+        top_bc = sorted(pair_counts.items(), key=lambda x: x[1], reverse=True)[:1000]
+        bc_df = pd.DataFrame([
+            {"Article1": titles[p[0]], "Article2": titles[p[1]], "Shared_Refs": c}
+            for p, c in top_bc
+        ])
+
+    st.session_state[cache_key] = bc_df
+    return bc_df
+
+def bibliographic_coupling_pairs(df):
+    return get_cached_bc_pairs(df)
+
 def display_bibliographic_coupling_analysis(df):
     if df["Article References"].dropna().empty:
         st.info("No reference data – bibliographic coupling skipped.")
         return
-    bc_pairs_df = bibliographic_coupling_pairs(df)
+    bc_pairs_df = get_cached_bc_pairs(df)
     if bc_pairs_df.empty:
         st.info("Insufficient overlap to build coupling networks.")
         return
@@ -416,22 +508,6 @@ def display_bibliographic_coupling_analysis(df):
     )
     if html_graph:
         safe_download(st.download_button, "Download Coupling Graph (HTML)", html_graph, "bibliographic_coupling_graph.html", "text/html", key="bc_download", icon=":material/download:")
-
-def bibliographic_coupling_pairs(df):
-    pairs_bc = []
-    refs_list = df["Article References"].dropna().tolist()
-    titles_list = df["Title"].fillna("Untitled").tolist()
-    for idx1, refs1 in enumerate(refs_list):
-        refs1_set = set(clean_refs(refs1))
-        for idx2 in range(idx1 + 1, len(refs_list)):
-            shared_refs = refs1_set & set(clean_refs(refs_list[idx2]))
-            if shared_refs:
-                pairs_bc.append({"Article1": titles_list[idx1], "Article2": titles_list[idx2], "Shared_Refs": len(shared_refs)})
-                
-    if not pairs_bc:
-        return pd.DataFrame(columns=["Article1", "Article2", "Shared_Refs"])
-        
-    return pd.DataFrame(pairs_bc).sort_values("Shared_Refs", ascending=False)
 
 def bc_graph(bc_df):
     top_bc = bc_df.head(100)
@@ -539,7 +615,7 @@ def display_coword_graph(focus_word, fields, df, top_n):
     stroke_color = "#F3F4F6" if theme_choice == "Light Mode" else "#181E29"
     edge_color = "rgba(71, 85, 105, 0.45)" if theme_choice == "Light Mode" else "rgba(203, 213, 225, 0.45)"
 
-    G_vis = Network(height="600px", width="100%", bgcolor=bg_color, font_color=font_color)
+    G_vis = Network(height="600px", width="100%", bgcolor=bg_color, font_color=font_color, cdn_resources="remote")
     for node in G.nodes():
         node_bg = "#1D4ED8" if node == focus_word else "#0284C7"
         node_border = "#0F172A" if theme_choice == "Light Mode" else "#FFFFFF"
@@ -561,11 +637,13 @@ def display_coword_graph(focus_word, fields, df, top_n):
         G_vis.add_edge(u, v, value=data["weight"], color=edge_color)
 
     html_path = Path("co_word_graph.html")
-    G_vis.save_graph(str(html_path))
-    with html_path.open("r", encoding="utf-8") as f:
-        html = f.read()
+    html = G_vis.generate_html(notebook=False)
+    try:
+        html_path.write_text(html, encoding="utf-8")
+    except Exception:
+        pass
 
-    components.html(html, height=600)
+    render_html_graph(html, height=600, html_path=html_path)
     safe_download(st.download_button, "Download Co-word Graph (HTML)", html, "co_word_graph.html", "text/html", key="coword_download", icon=":material/download:")
 
 def cluster_and_metric_selection(G, key_prefix=""):
@@ -631,7 +709,7 @@ def display_selected_cluster(selected_cluster, cluster_dict, G, metric_choice="D
     stroke_color = "#F3F4F6" if theme_choice == "Light Mode" else "#181E29"
     edge_color = "rgba(71, 85, 105, 0.45)" if theme_choice == "Light Mode" else "rgba(203, 213, 225, 0.45)"
 
-    G_vis = Network(height="600px", width="100%", notebook=False, bgcolor=bg_color, font_color=font_color)
+    G_vis = Network(height="600px", width="100%", notebook=False, bgcolor=bg_color, font_color=font_color, cdn_resources="remote")
     nodes_to_show = G.nodes() if selected_cluster == "All" else cluster_dict[int(selected_cluster.split()[1])]
     
     # Pre-resolve OpenAlex IDs for all displayed nodes
@@ -639,6 +717,12 @@ def display_selected_cluster(selected_cluster, cluster_dict, G, metric_choice="D
     
     max_value = max((values.get(n, 0) for n in nodes_to_show), default=1)
     legend_data = []
+
+    lookup_maps = None
+    if df is not None and not df.empty:
+        doi_map = {str(d).lower().strip(): r for _, r in df[['DOI', 'Author', 'Publication Year', 'Title']].dropna(subset=['DOI']).iterrows()}
+        oa_map = {str(oa).upper().strip(): r for _, r in df[['OpenAlex ID', 'Author', 'Publication Year', 'Title']].dropna(subset=['OpenAlex ID']).iterrows()}
+        lookup_maps = (doi_map, oa_map)
 
     for cluster_id, cluster_nodes in cluster_dict.items():
         if selected_cluster != "All" and cluster_id != int(selected_cluster.split()[1]):
@@ -652,7 +736,7 @@ def display_selected_cluster(selected_cluster, cluster_dict, G, metric_choice="D
         }
         for idx, node in enumerate(sorted(cluster_nodes, key=lambda n: values.get(n, 0), reverse=True), 1):
             node_number = f"{cluster_id}-{idx}"
-            readable_ref = format_ref_label(node, df, oa_cache)
+            readable_ref = format_ref_label(node, df, oa_cache, lookup_maps)
             legend_data.append({"Node": node_number, "Reference / Paper": readable_ref, "Cluster": cluster_id, f"{metric_choice}": round(values.get(node, 0), 4)})
             val = values.get(node, 0)
             G_vis.add_node(
@@ -673,11 +757,13 @@ def display_selected_cluster(selected_cluster, cluster_dict, G, metric_choice="D
 
     html_file = f"{key_prefix}_cluster_graph.html" if key_prefix else "cluster_graph.html"
     html_path = Path(html_file)
-    G_vis.save_graph(str(html_path))
-    with html_path.open("r", encoding="utf-8") as f:
-        html = f.read()
+    html = G_vis.generate_html(notebook=False)
+    try:
+        html_path.write_text(html, encoding="utf-8")
+    except Exception:
+        pass
 
-    components.html(html, height=600)
+    render_html_graph(html, height=600, html_path=html_path)
     display_cluster_table(legend_data, key_prefix=key_prefix)
     return html
 

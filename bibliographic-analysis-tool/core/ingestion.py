@@ -321,13 +321,23 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     
     for col in TARGET_COLUMNS:
         if col not in df.columns:
-            df[col] = pd.NA
+            df[col] = pd.Series(pd.NA, index=df.index, dtype=object)
+        elif col != 'Times Cited' and df[col].dtype != 'object':
+            df[col] = df[col].astype(object)
+
+    if 'Publication Year' in df.columns:
+        from utils.formatters import clean_year_series
+        df['Publication Year'] = clean_year_series(df['Publication Year'])
 
     # Cross-field deduction: Populate Affiliations from Address if Affiliations is missing
     if 'Affiliations' in df.columns and 'Address' in df.columns:
+        if df['Affiliations'].dtype != 'object':
+            df['Affiliations'] = df['Affiliations'].astype(object)
         aff_missing = df['Affiliations'].isna() | (df['Affiliations'].astype(str).str.strip() == '')
         addr_valid = df['Address'].notna() & (df['Address'].astype(str).str.strip() != '')
-        df.loc[aff_missing & addr_valid, 'Affiliations'] = df.loc[aff_missing & addr_valid, 'Address']
+        mask = aff_missing & addr_valid
+        if mask.any():
+            df.loc[mask, 'Affiliations'] = df.loc[mask, 'Address']
 
     # Cross-field deduction: Deduce Country strictly from author-bound fields (Address or Affiliations) if Country is missing.
     # Note: 'Location' is explicitly excluded because it typically represents the conference/event hosting venue rather than author place.
@@ -344,6 +354,16 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
                             break
             if deduced:
                 df.at[idx, 'Country'] = deduced
+
+    # Author Standardization: Ensure all author names are in Western format (First Name First) and academic degrees are stripped
+    if 'Author' in df.columns:
+        from features.gender import standardize_author_string
+        def _std_author(val):
+            if pd.notna(val) and str(val).strip() and str(val).strip().lower() not in ('nan', '<na>', 'none'):
+                std = standardize_author_string(str(val))
+                return std if std else val
+            return val
+        df['Author'] = df['Author'].apply(_std_author)
 
     return df
 

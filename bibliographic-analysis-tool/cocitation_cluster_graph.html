@@ -1,0 +1,349 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #F3F4F6;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2581082771", "label": "1-1", "shape": "dot", "size": 39.63636363636364, "title": "Esteva et al. (2017) - Dermatologist-level classification of skin cancer...\nDegree: 13.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2908201961", "label": "1-2", "shape": "dot", "size": 36.0, "title": "Topol (2018) - High-performance medicine: the convergence of hum...\nDegree: 11.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2772723798", "label": "1-3", "shape": "dot", "size": 25.09090909090909, "title": "Bejnordi et al. (2017) - Diagnostic Assessment of Deep Learning Algorithms...\nDegree: 5.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2981869278", "label": "1-4", "shape": "dot", "size": 23.272727272727273, "title": "Obermeyer et al. (2019) - Dissecting racial bias in an algorithm used to ma...\nDegree: 4.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2905810301", "label": "1-5", "shape": "dot", "size": 21.454545454545453, "title": "Esteva et al. (2018) - A guide to deep learning in healthcare\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2664267452", "label": "1-6", "shape": "dot", "size": 19.636363636363637, "title": "Jiang et al. (2017) - Artificial intelligence in healthcare: past, pres...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2592929672", "label": "1-7", "shape": "dot", "size": 19.636363636363637, "title": "Litjens et al. (2017) - A survey on deep learning in medical image analysis\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2760946358", "label": "1-8", "shape": "dot", "size": 19.636363636363637, "title": "Coudray et al. (2018) - Classification and mutation prediction from non\u2013s...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2934399013", "label": "1-9", "shape": "dot", "size": 19.636363636363637, "title": "Rajkomar et al. (2019) - Machine Learning in Medicine\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2897434820", "label": "1-10", "shape": "dot", "size": 17.81818181818182, "title": "Steiner et al. (2018) - Impact of Deep Learning Assistance on the Histopa...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2886281300", "label": "1-11", "shape": "dot", "size": 17.81818181818182, "title": "Fauw et al. (2018) - Clinically applicable deep learning for diagnosis...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2982580298", "label": "1-12", "shape": "dot", "size": 17.81818181818182, "title": "Kelly et al. (2019) - Key challenges for delivering clinical impact wit...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2608231518", "label": "1-13", "shape": "dot", "size": 17.81818181818182, "title": "Lakhani \u0026 Sundaram (2017) - Deep Learning at Chest Radiography: Automated Cla...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2806853752", "label": "1-14", "shape": "dot", "size": 17.81818181818182, "title": "Haenssle et al. (2018) - Man against machine: diagnostic performance of a ...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2902802452", "label": "1-15", "shape": "dot", "size": 17.81818181818182, "title": "Rajkomar et al. (2018) - Ensuring Fairness in Machine Learning to Advance ...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2906295032", "label": "1-16", "shape": "dot", "size": 17.81818181818182, "title": "He et al. (2018) - The practical implementation of artificial intell...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2998175747", "label": "1-17", "shape": "dot", "size": 17.81818181818182, "title": "Mckinney et al. (2020) - International evaluation of an AI system for brea...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2789970635", "label": "1-18", "shape": "dot", "size": 17.81818181818182, "title": "Char et al. (2018) - Implementing Machine Learning in Health Care \u2014 Ad...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W4205164650", "label": "1-19", "shape": "dot", "size": 17.81818181818182, "title": "Rajpurkar et al. (2022) - AI in health and medicine\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2953532875", "label": "1-20", "shape": "dot", "size": 17.81818181818182, "title": "Davenport \u0026 Kalakota (2019) - The potential for artificial intelligence in heal...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W3035885149", "label": "1-21", "shape": "dot", "size": 17.81818181818182, "title": "Vyas et al. (2020) - Hidden in Plain Sight \u2014 Reconsidering the Use of ...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2919115771", "label": "2-1", "shape": "dot", "size": 56.0, "title": "Lecun et al. (2015) - Deep learning\nDegree: 22.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2194775991", "label": "2-2", "shape": "dot", "size": 19.636363636363637, "title": "He et al. (2016) - Deep Residual Learning for Image Recognition\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2163605009", "label": "2-3", "shape": "dot", "size": 19.636363636363637, "title": "Krizhevsky et al. (2017) - ImageNet classification with deep convolutional n...\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W1901129140", "label": "2-4", "shape": "dot", "size": 19.636363636363637, "title": "Ronneberger et al. (2015) - U-Net: Convolutional Networks for Biomedical Imag...\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W1995341919", "label": "2-5", "shape": "dot", "size": 19.636363636363637, "title": "Mcculloch \u0026 Pitts (1943) - A logical calculus of the ideas immanent in nervo...\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2001771035", "label": "2-6", "shape": "dot", "size": 19.636363636363637, "title": "Turing (1950) - I.\u2014COMPUTING MACHINERY AND INTELLIGENCE\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2076063813", "label": "2-7", "shape": "dot", "size": 17.81818181818182, "title": "Schmidhuber (2015) - Deep learning in neural networks: An overview\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2803760365", "label": "2-8", "shape": "dot", "size": 17.81818181818182, "title": "Hosny et al. (2018) - Artificial intelligence in radiology\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W6684191040", "label": "2-9", "shape": "dot", "size": 17.81818181818182, "title": "OpenAlex Work (W6684191040)\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2257979135", "label": "2-10", "shape": "dot", "size": 17.81818181818182, "title": "Silver et al. (2016) - Mastering the game of Go with deep neural network...\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2533800772", "label": "2-11", "shape": "dot", "size": 17.81818181818182, "title": "Shen et al. (2017) - Deep Learning in Medical Image Analysis\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2145482038", "label": "2-12", "shape": "dot", "size": 17.81818181818182, "title": "Turing (2004) - Computing Machinery and Intelligence (1950)\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2040870580", "label": "2-13", "shape": "dot", "size": 17.81818181818182, "title": "Rosenblatt (1958) - The perceptron: A probabilistic model for informa...\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2064675550", "label": "2-14", "shape": "dot", "size": 17.81818181818182, "title": "Hochreiter \u0026 Schmidhuber (1997) - Long Short-Term Memory\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2911964244", "label": "2-15", "shape": "dot", "size": 17.81818181818182, "title": "Breiman (2001) - Random Forests\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2177870565", "label": "2-16", "shape": "dot", "size": 17.81818181818182, "title": "Deo (2015) - Machine Learning in Medicine\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2618530766", "label": "2-17", "shape": "dot", "size": 17.81818181818182, "title": "OpenAlex Work (W2618530766)\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2576404523", "label": "2-18", "shape": "dot", "size": 17.81818181818182, "title": "Hamet \u0026 Tremblay (2017) - Artificial intelligence in medicine\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2916105049", "label": "3-1", "shape": "dot", "size": 36.0, "title": "Wang et al. (2019) - Real-time automatic detection system increases co...\nDegree: 11.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2765527079", "label": "3-2", "shape": "dot", "size": 25.09090909090909, "title": "Byrne et al. (2017) - Real-time differentiation of adenomatous and hype...\nDegree: 5.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W3002021892", "label": "3-3", "shape": "dot", "size": 23.272727272727273, "title": "Gong et al. (2020) - Detection of colorectal adenomas with a real-time...\nDegree: 4.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2783201053", "label": "3-4", "shape": "dot", "size": 23.272727272727273, "title": "Hirasawa et al. (2018) - Application of artificial intelligence using a co...\nDegree: 4.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2809596283", "label": "3-5", "shape": "dot", "size": 23.272727272727273, "title": "Urban et al. (2018) - Deep Learning Localizes and Identifies Polyps in ...\nDegree: 4.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2969271740", "label": "3-6", "shape": "dot", "size": 21.454545454545453, "title": "Su et al. (2019) - Impact of a real-time automatic quality control s...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W3001365238", "label": "3-7", "shape": "dot", "size": 21.454545454545453, "title": "Wang et al. (2020) - Effect of a deep-learning computer-aided detectio...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2797069348", "label": "3-8", "shape": "dot", "size": 21.454545454545453, "title": "Misawa et al. (2018) - Artificial Intelligence-Assisted Polyp Detection ...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W3021812344", "label": "3-9", "shape": "dot", "size": 19.636363636363637, "title": "Repici et al. (2020) - Efficacy of Real-Time Computer-Aided Detection of...\nDegree: 2.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2886205008", "label": "3-10", "shape": "dot", "size": 19.636363636363637, "title": "Horie et al. (2018) - Diagnostic outcomes of esophageal cancer by artif...\nDegree: 2.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2762406675", "label": "3-11", "shape": "dot", "size": 19.636363636363637, "title": "Chen et al. (2017) - Accurate Classification of Diminutive Colorectal ...\nDegree: 2.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2887719255", "label": "3-12", "shape": "dot", "size": 19.636363636363637, "title": "Mori et al. (2018) - Real-Time Use of Artificial Intelligence in Ident...\nDegree: 2.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2111147183", "label": "3-13", "shape": "dot", "size": 17.81818181818182, "title": "Corley et al. (2014) - Adenoma Detection Rate and Risk of Colorectal Can...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2922329578", "label": "3-14", "shape": "dot", "size": 17.81818181818182, "title": "Wu et al. (2019) - Randomised controlled trial of WISENSE, a real-ti...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2900992792", "label": "3-15", "shape": "dot", "size": 17.81818181818182, "title": "Zhu et al. (2018) - Application of convolutional neural network in th...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2557738935", "label": "4-1", "shape": "dot", "size": 32.36363636363636, "title": "Gulshan et al. (2016) - Development and Validation of a Deep Learning Alg...\nDegree: 9.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2772246530", "label": "4-2", "shape": "dot", "size": 25.09090909090909, "title": "Ting et al. (2017) - Development and Validation of a Deep Learning Sys...\nDegree: 5.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2529153069", "label": "4-3", "shape": "dot", "size": 19.636363636363637, "title": "Abr\u00e0moff et al. (2016) - Improved Automated Detection of Diabetic Retinopa...\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2888424632", "label": "4-4", "shape": "dot", "size": 19.636363636363637, "title": "Abr\u00e0moff et al. (2018) - Pivotal trial of an autonomous AI-based diagnosti...\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2758333670", "label": "4-5", "shape": "dot", "size": 19.636363636363637, "title": "Burlina et al. (2017) - Automated Grading of Age-Related Macular Degenera...\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2752747624", "label": "4-6", "shape": "dot", "size": 17.81818181818182, "title": "Poplin et al. (2018) - Prediction of cardiovascular risk factors from re...\nDegree: 1.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2598442119", "label": "4-7", "shape": "dot", "size": 17.81818181818182, "title": "Gargeya \u0026 Leng (2017) - Automated Identification of Diabetic Retinopathy ...\nDegree: 1.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "W3177828909", "label": "5-1", "shape": "dot", "size": 21.454545454545453, "title": "Jumper et al. (2021) - Highly accurate protein structure prediction with...\nDegree: 3.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "W4327550249", "label": "5-2", "shape": "dot", "size": 17.81818181818182, "title": "Lin et al. (2023) - Evolutionary-scale prediction of atomic-level pro...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "W3186179742", "label": "5-3", "shape": "dot", "size": 17.81818181818182, "title": "Baek et al. (2021) - Accurate prediction of protein structures and int...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "W4396721167", "label": "5-4", "shape": "dot", "size": 17.81818181818182, "title": "Abramson et al. (2024) - Accurate structure prediction of biomolecular int...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "W2965520043", "label": "6-1", "shape": "dot", "size": 19.636363636363637, "title": "Attia et al. (2019) - An artificial intelligence-enabled ECG algorithm ...\nDegree: 2.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "W2901226889", "label": "6-2", "shape": "dot", "size": 17.81818181818182, "title": "Attia et al. (2018) - Screening for cardiac contractile dysfunction usi...\nDegree: 1.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "W2902644322", "label": "6-3", "shape": "dot", "size": 17.81818181818182, "title": "Hannun et al. (2018) - Cardiologist-level arrhythmia detection and class...\nDegree: 1.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "W2784499877", "label": "7-1", "shape": "dot", "size": 17.81818181818182, "title": "Rajkomar et al. (2018) - Scalable and accurate deep learning with electron...\nDegree: 1.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "W3098949126", "label": "7-2", "shape": "dot", "size": 17.81818181818182, "title": "Rajkomar et al. (2018) - Scalable and accurate deep learning with electron...\nDegree: 1.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "W4292779060", "label": "8-1", "shape": "dot", "size": 17.81818181818182, "title": "Kaugeranna et al. (2023) - Aion Framework: Dimensional Emergence of AI Consc...\nDegree: 1.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "W6778883912", "label": "8-2", "shape": "dot", "size": 17.81818181818182, "title": "OpenAlex Work (W6778883912)\nDegree: 1.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "W6739901393", "label": "9-1", "shape": "dot", "size": 17.81818181818182, "title": "OpenAlex Work (W6739901393)\nDegree: 1.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "W4385245566", "label": "9-2", "shape": "dot", "size": 17.81818181818182, "title": "Jakub\u016fv et al. (2023) - Exploiting Generative AI to Scale up Intelligent ...\nDegree: 1.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "W3136933888", "label": "10-1", "shape": "dot", "size": 17.81818181818182, "title": "Roberts et al. (2020) - Common pitfalls and recommendations for using mac...\nDegree: 1.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "W3119527628", "label": "10-2", "shape": "dot", "size": 17.81818181818182, "title": "Roberts et al. (2021) - Common pitfalls and recommendations for using mac...\nDegree: 1.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "W3086590218", "label": "11-1", "shape": "dot", "size": 17.81818181818182, "title": "OpenAlex Work (W3086590218)\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "W3012501605", "label": "11-2", "shape": "dot", "size": 17.81818181818182, "title": "Rieke et al. (2020) - The future of digital health with federated learning\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "W2963428668", "label": "12-1", "shape": "dot", "size": 17.81818181818182, "title": "Madani et al. (2018) - Fast and accurate view classification of echocard...\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "W2896287590", "label": "12-2", "shape": "dot", "size": 17.81818181818182, "title": "Zhang et al. (2018) - Fully Automated Echocardiogram Interpretation in ...\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "W4386958277", "label": "13-1", "shape": "dot", "size": 17.81818181818182, "title": "Alowais et al. (2023) - Revolutionizing healthcare: the role of artificia...\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "W3186209406", "label": "13-2", "shape": "dot", "size": 17.81818181818182, "title": "Bajwa et al. (2021) - Artificial intelligence in healthcare: transformi...\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "W2962862931", "label": "14-1", "shape": "dot", "size": 17.81818181818182, "title": "Gauriat et al. (2024) - On a Method to Measure Supervised Multiclass Mode...\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "W6737947904", "label": "14-2", "shape": "dot", "size": 17.81818181818182, "title": "OpenAlex Work (W6737947904)\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "W2999377002", "label": "15-1", "shape": "dot", "size": 17.81818181818182, "title": "Hashimoto et al. (2020) - Artificial intelligence using convolutional neura...\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "W2989631244", "label": "15-2", "shape": "dot", "size": 17.81818181818182, "title": "Groof et al. (2019) - Deep-Learning System Detects Neoplasia in Patient...\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "W2807593075", "label": "16-1", "shape": "dot", "size": 17.81818181818182, "title": "Johnson et al. (2018) - Artificial Intelligence in Cardiology\nDegree: 1.0000\nCluster: 16"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "W2617110182", "label": "16-2", "shape": "dot", "size": 17.81818181818182, "title": "Krittanawong et al. (2017) - Artificial Intelligence in Precision Cardiovascul...\nDegree: 1.0000\nCluster: 16"}]);
+                  edges = new vis.DataSet([{"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2581082771", "value": 92}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2919115771", "value": 52}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2772246530", "value": 49}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2888424632", "value": 36}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2772723798", "value": 31}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2752747624", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2529153069", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2758333670", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2557738935", "to": "W2598442119", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2919115771", "value": 64}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2772723798", "value": 45}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2908201961", "value": 45}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2806853752", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2592929672", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2998175747", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2981869278", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2886281300", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2760946358", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2664267452", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2905810301", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2581082771", "to": "W2608231518", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2908201961", "value": 52}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2592929672", "value": 38}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2257979135", "value": 34}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2076063813", "value": 34}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2194775991", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2772723798", "value": 31}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2803760365", "value": 31}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2001771035", "value": 31}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2905810301", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2163605009", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2618530766", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2576404523", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2911964244", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2772246530", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2177870565", "value": 24}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W1901129140", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2533800772", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2064675550", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W1995341919", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2919115771", "to": "W2934399013", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2905810301", "value": 45}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2981869278", "value": 42}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2934399013", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2982580298", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2906295032", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2953532875", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2789970635", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W4205164650", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2908201961", "to": "W2664267452", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2772246530", "to": "W2529153069", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2772246530", "to": "W2758333670", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2772246530", "to": "W2888424632", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2784499877", "to": "W3098949126", "value": 48}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2772723798", "to": "W2760946358", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2772723798", "to": "W2897434820", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2981869278", "to": "W3035885149", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2981869278", "to": "W2902802452", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2765527079", "to": "W2916105049", "value": 35}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2765527079", "to": "W2809596283", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2765527079", "to": "W2887719255", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2765527079", "to": "W2762406675", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2765527079", "to": "W2797069348", "value": 24}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W2969271740", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W3001365238", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W3002021892", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W3021812344", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W2809596283", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W2111147183", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W2887719255", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W2797069348", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W2886205008", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2916105049", "to": "W2783201053", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2001771035", "to": "W2145482038", "value": 35}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4292779060", "to": "W6778883912", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4385245566", "to": "W6739901393", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3119527628", "to": "W3136933888", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2809596283", "to": "W2797069348", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2809596283", "to": "W2762406675", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2194775991", "to": "W1901129140", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2969271740", "to": "W3002021892", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2969271740", "to": "W3001365238", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2163605009", "to": "W6684191040", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2901226889", "to": "W2965520043", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2965520043", "to": "W2902644322", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3001365238", "to": "W3002021892", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3177828909", "to": "W3186179742", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3177828909", "to": "W4396721167", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3177828909", "to": "W4327550249", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3002021892", "to": "W3021812344", "value": 24}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3012501605", "to": "W3086590218", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2783201053", "to": "W2900992792", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2783201053", "to": "W2886205008", "value": 24}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2783201053", "to": "W2922329578", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1995341919", "to": "W2040870580", "value": 24}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2896287590", "to": "W2963428668", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3186209406", "to": "W4386958277", "value": 23}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2962862931", "to": "W6737947904", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2989631244", "to": "W2999377002", "value": 22}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2617110182", "to": "W2807593075", "value": 22}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -20,10 +20,11 @@ if not logger.handlers:
     fh.setFormatter(logging.Formatter('%(asctime)s - [%(levelname)s] - %(message)s'))
     logger.addHandler(fh)
 
-def generate_topic_name(api_key, provider, words):
+def generate_topic_name(api_key, provider, words, total_topics: int = None):
     """
     Generate a topic name and description using the specified LLM provider.
     Returns a dict with 'name' and 'description'.
+    Prefers 2-word names when total topics <= 20; allows 3-word names when total topics > 20.
     """
     logger.info(f"--- New Request ---")
     logger.info(f"Provider: {provider}")
@@ -33,12 +34,19 @@ def generate_topic_name(api_key, provider, words):
         logger.warning("Request blocked: No API key provided for a provider that requires one.")
         return {"name": "Unnamed Topic", "description": "No API key provided."}
         
+    if total_topics is None or total_topics <= 20:
+        word_limit_rule = "PREFER EXACTLY 2 WORDS (STRICTLY MAXIMUM 2 WORDS ONLY, e.g. 'Neural Networks', 'Gene Expression')"
+        max_words_desc = "max 2 words"
+    else:
+        word_limit_rule = "PREFER 2 WORDS, but UP TO 3 WORDS are permitted when strictly necessary for taxonomic precision (STRICTLY MAXIMUM 3 WORDS ONLY, e.g. 'Deep Neural Networks')"
+        max_words_desc = "max 3 words"
+
     prompt = f"""
     Given the following top words from a topic modeling algorithm: {', '.join(words)}.
-    Please provide a concise, generic title that captures the central theme (STRICTLY MAXIMUM 3 WORDS ONLY), 
+    Please provide a concise, generic title that captures the central theme ({word_limit_rule}), 
     and a short 1-sentence description of the topic.
     
-    Return ONLY a raw JSON object with the keys 'name' (string, max 3 words) and 'description' (string). Do not use markdown blocks.
+    Return ONLY a raw JSON object with the keys 'name' (string, {max_words_desc}) and 'description' (string). Do not use markdown blocks.
     """
     
     start_time = time.time()
@@ -144,10 +152,11 @@ def generate_topic_name(api_key, provider, words):
         return {"name": "Error naming topic", "description": error_msg}
 
 
-def generate_batch_topic_names(api_key: str, provider: str, topics_dict: dict, chunk_size: int = 25) -> dict:
+def generate_batch_topic_names(api_key: str, provider: str, topics_dict: dict, chunk_size: int = 25, total_topics: int = None) -> dict:
     """
     Generate names and descriptions for topics in batched API calls to prevent rate limiting and prompt truncation.
     Splits into chunks of at most `chunk_size` topics per call to ensure reliable responses without exceeding prompt limits.
+    Prefers 2-word names when total topics <= 20; allows 3-word names when total topics > 20.
     topics_dict: {key: ['word1', 'word2', ...]}
     Returns: {key: {'name': '...', 'description': '...'}, ...}
     """
@@ -161,6 +170,22 @@ def generate_batch_topic_names(api_key: str, provider: str, topics_dict: dict, c
             t_id: {"name": f"Topic {t_id}", "description": "No API key provided."}
             for t_id in topics_dict
         }
+
+    num_topics = total_topics if total_topics is not None else len(topics_dict)
+    if num_topics <= 20:
+        word_instruction = (
+            "For EACH topic ID, generate a concise, academic title: "
+            "PREFER EXACTLY 2 WORDS (STRICTLY MAXIMUM 2 WORDS ONLY, e.g., 'Cancer Therapy', 'Quantum Computing'). "
+            "Do not exceed 2 words under any circumstance."
+        )
+        name_schema = "Short Name (max 2 words)"
+    else:
+        word_instruction = (
+            "For EACH topic ID, generate a concise, academic title: "
+            "PREFER 2 WORDS, but UP TO 3 WORDS are permitted when strictly necessary for taxonomic precision "
+            "(STRICTLY MAXIMUM 3 WORDS ONLY, e.g., 'Deep Neural Networks'). Do not exceed 3 words."
+        )
+        name_schema = "Short Name (max 3 words)"
 
     # Split into chunks of chunk_size to never exceed model context or output limits
     items = list(topics_dict.items())
@@ -177,7 +202,9 @@ def generate_batch_topic_names(api_key: str, provider: str, topics_dict: dict, c
         ])
 
         prompt = f"""
-        You are an expert taxonomist. Analyze the following topic keyword clusters and generate a concise, academic title (STRICTLY MAXIMUM 3 WORDS ONLY) and a short 1-sentence description for EACH topic ID.
+        You are an expert taxonomist. Analyze the following topic keyword clusters.
+        {word_instruction}
+        Also provide a short 1-sentence description for EACH topic ID.
 
         Topic Clusters:
         {clusters_formatted}
@@ -187,8 +214,8 @@ def generate_batch_topic_names(api_key: str, provider: str, topics_dict: dict, c
         
         Expected JSON schema format:
         {{
-          "0": {{"name": "Short Name", "description": "1-sentence summary."}},
-          "1": {{"name": "Short Name", "description": "1-sentence summary."}}
+          "0": {{"name": "{name_schema}", "description": "1-sentence summary."}},
+          "1": {{"name": "{name_schema}", "description": "1-sentence summary."}}
         }}
         """
 
@@ -303,7 +330,7 @@ def generate_batch_topic_names(api_key: str, provider: str, topics_dict: dict, c
             
             # Fallback to single calls if batch JSON parsing fails
             for t_id, words in sub_dict.items():
-                chunk_res[t_id] = generate_topic_name(api_key, provider, words)
+                chunk_res[t_id] = generate_topic_name(api_key, provider, words, total_topics=num_topics)
 
         all_results.update(chunk_res)
 

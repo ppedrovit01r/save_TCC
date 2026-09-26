@@ -6,6 +6,7 @@ import pandas as pd
 from core.ingestion import parse_file, TARGET_COLUMNS, deduplicate_and_merge_columns, remove_blank_rows
 from core.enrichment import enrich_dataset_openalex
 from core.export import df_to_csv, df_to_excel, df_to_ris, df_to_bib, df_to_nbib
+from features.gender import author_has_initials
 from dashboard.metrics_general import display_error_info
 from utils.formatters import format_duration
 from utils.project_manager import (
@@ -19,7 +20,7 @@ from utils.project_manager import (
     list_saved_projects,
     open_project_folder
 )
-from utils.exports import render_project_saved_notice
+from utils.exports import render_project_saved_notice, _save_export_on_click
 
 MAX_ROWS = 50000
 
@@ -44,22 +45,9 @@ def add_to_memory(new_df, filename):
         st.session_state.master_df = pd.concat([st.session_state.master_df, new_df], ignore_index=True)
         st.session_state.master_df = remove_blank_rows(deduplicate_and_merge_columns(st.session_state.master_df))
         
-    # Deduplicate rows based on DOI or Title
-    dedup_subset = []
-    if 'DOI' in st.session_state.master_df.columns:
-        # Fill missing DOIs temporarily to avoid dropping all rows without DOI
-        st.session_state.master_df['DOI_temp'] = st.session_state.master_df['DOI'].fillna(st.session_state.master_df.index.to_series().astype(str))
-        dedup_subset.append('DOI_temp')
-    if 'Title' in st.session_state.master_df.columns:
-        st.session_state.master_df['Title_temp'] = st.session_state.master_df['Title'].str.lower().str.strip()
-        dedup_subset.append('Title_temp')
-        
-    if dedup_subset:
-        st.session_state.master_df = st.session_state.master_df.drop_duplicates(subset=dedup_subset, keep='first').reset_index(drop=True)
-        # Drop temporary columns
-        cols_to_drop = [c for c in ['DOI_temp', 'Title_temp'] if c in st.session_state.master_df.columns]
-        if cols_to_drop:
-            st.session_state.master_df = st.session_state.master_df.drop(columns=cols_to_drop)
+    # Robust hierarchical deduplication across DOI, OpenAlex ID, PMID, and normalized Title
+    from core.deduplication import deduplicate_dataset
+    st.session_state.master_df, dups_removed = deduplicate_dataset(st.session_state.master_df)
             
     # Save a backup of the full deduplicated dataset before any PRISMA exclusions
     st.session_state.raw_df_backup = st.session_state.master_df.copy()
@@ -74,7 +62,8 @@ def add_to_memory(new_df, filename):
     # Auto-save master dataset into active project
     save_master_dataset(st.session_state.master_df)
     
-    st.session_state.execution_logs.append(f"Auto-committed '{filename}' ({len(new_df)} valid rows out of {raw_new_count} raw) to memory. Total deduplicated rows: {len(st.session_state.master_df)}")
+    dedup_msg = f" (removed {dups_removed} duplicates)" if dups_removed > 0 else ""
+    st.session_state.execution_logs.append(f"Auto-committed '{filename}' ({len(new_df)} valid rows out of {raw_new_count} raw){dedup_msg}. Total records in memory: {len(st.session_state.master_df)}")
 
 def inject_cluster_fields(fields, widget_key):
     """Callback: Forces the cluster fields into the multiselect's session state."""
@@ -137,7 +126,7 @@ def show(is_sidebar=False):
     if "file_manifest" not in st.session_state: st.session_state.file_manifest = {}
 
     # --- PROJECT INTAKE DIALOGS & ACTION HANDLERS ---
-    saved_projects = [p for p in list_saved_projects() if p["has_dataset"]]
+    saved_projects = [p for p in list_saved_projects() if p["has_dataset"]] if not is_sidebar else []
 
     if hasattr(st, "dialog"):
         @st.dialog("Name Your Project Workspace")
@@ -386,8 +375,9 @@ def show(is_sidebar=False):
             *Note: All API queries are cached locally for 7 days, so re-running enrichment on the same dataset is instantaneous.*
             """)
 
-        # Categorized Core Diagnostics (Only shows main mapping columns on core screen)
-        display_error_info(master_df, key_prefix=f"prep_diag_{'side' if is_sidebar else 'main'}", is_core_screen=True, is_sidebar=is_sidebar)
+        # Categorized Core Diagnostics (Only shows on fullscreen core screen, skipped in compact sidebar)
+        if not is_sidebar:
+            display_error_info(master_df, key_prefix="prep_diag_main", is_core_screen=True, is_sidebar=False)
         
         st.divider()
 
@@ -405,7 +395,11 @@ def show(is_sidebar=False):
             if field in master_df.columns:
                 is_nan = master_df[field].isna()
                 is_empty = master_df[field].apply(lambda x: isinstance(x, str) and x.strip() == '') if master_df[field].dtype == object else False
-                missing_count = int((is_nan | is_empty).sum())
+                if field == 'Author':
+                    has_inits = master_df[field].apply(lambda x: author_has_initials(x) if (pd.notna(x) and str(x).strip()) else False)
+                    missing_count = int((is_nan | is_empty | has_inits).sum())
+                else:
+                    missing_count = int((is_nan | is_empty).sum())
             else:
                 missing_count = num_master_rows
             if missing_count > 0:
@@ -473,7 +467,7 @@ def show(is_sidebar=False):
         enrich_target_fields = None
         is_ultimate_run = False
         
-        # Primary Action Buttons: Stacked in sidebar, 4 columns in fullscreen
+        # Primary Action Buttons: Stacked in sidebar, 5 columns in fullscreen
         if is_sidebar:
             b_c1, b_c2 = st.columns(2, gap="small")
             with b_c1:
@@ -483,6 +477,9 @@ def show(is_sidebar=False):
                 if st.button("Smart + Basic", icon=":material/auto_awesome:", width="stretch", key="btn_side_smart_basic", help="Missing fields + Basic 6."):
                     enrich_target_fields = list(set(missing_fields + basic_fields))
                     is_ultimate_run = False
+                if st.button("Authors Only", icon=":material/person_search:", width="stretch", key="btn_side_authors_only", help="Disambiguates and expands author initials (e.g. 'Kihlberg J' -> 'Jan Kihlberg') into full names via OpenAlex."):
+                    enrich_target_fields = ['Author']
+                    is_ultimate_run = False
             with b_c2:
                 if st.button("Basic (Core 6)", icon=":material/bolt:", width="stretch", key="btn_side_basic", help="Author, Year, Citations, Publisher, Journal, References."):
                     enrich_target_fields = basic_fields.copy()
@@ -491,7 +488,7 @@ def show(is_sidebar=False):
                     enrich_target_fields = all_possible_enrich_fields.copy()
                     is_ultimate_run = True
         else:
-            c1, c2, c3, c4 = st.columns(4, gap="small")
+            c1, c2, c3, c4, c5 = st.columns(5, gap="small")
             with c1:
                 if st.button(f"Smart Enrich ({len(missing_fields)} Missing)", icon=":material/auto_fix_high:", width="stretch", type="primary", disabled=len(missing_fields) == 0, key="btn_main_smart", help="Targets only the fields detected as missing in the pre-flight plan above."):
                     enrich_target_fields = missing_fields.copy()
@@ -509,6 +506,11 @@ def show(is_sidebar=False):
                     is_ultimate_run = False
 
             with c4:
+                if st.button("Authors Only (Full Names)", icon=":material/person_search:", width="stretch", key="btn_main_authors_only", help="Disambiguates and expands author initials (e.g. 'Kihlberg J' -> 'Jan Kihlberg') into full names via OpenAlex without modifying other metadata."):
+                    enrich_target_fields = ['Author']
+                    is_ultimate_run = False
+
+            with c5:
                 if st.button("Smart + All (Ultimate)", icon=":material/done_all:", width="stretch", key="btn_main_ultimate", help="The ultimate button: targets all 21 fields across all 5 tiers, refreshes live citation counts, and resolves missing DOIs."):
                     enrich_target_fields = all_possible_enrich_fields.copy()
                     is_ultimate_run = True
@@ -516,6 +518,7 @@ def show(is_sidebar=False):
         # Feature Clusters & Custom Selection
         st.markdown("<h4 style='font-size: 16px; font-weight: 700; color: #1E293B; margin-top: 20px;'><i class='bi bi-grid-3x3-gap-fill' style='color: #697aa2;'></i> Feature Clusters & Custom Field Selection</h4>", unsafe_allow_html=True)
         clusters = {
+            "Author Disambiguation": ['Author'],
             "Basic Metadata": basic_fields,
             "English Normalization": ['Title', 'Abstract', 'Keywords', 'Concepts'],
             "Author Demographics": ['Affiliations', 'Country', 'Address'],
@@ -536,6 +539,9 @@ def show(is_sidebar=False):
             with sb_r1_c1:
                 if st.button("Select All", icon=":material/done_all:", width="stretch", key="sq_all"):
                     st.session_state[multi_key] = all_possible_enrich_fields.copy()
+                    st.rerun()
+                if st.button("Authors (Full)", icon=":material/person_search:", width="stretch", key="sq_auth"):
+                    st.session_state[multi_key] = list(set(st.session_state[multi_key] + ['Author']))
                     st.rerun()
                 if st.button("Basic Metadata", icon=":material/add_circle:", width="stretch", key="sq_bas"):
                     st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["Basic Metadata"]))
@@ -561,29 +567,32 @@ def show(is_sidebar=False):
                     st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["Funding Context"]))
                     st.rerun()
         else:
-            cl_cols = st.columns(8, gap="small")
+            cl_cols = st.columns(9, gap="small")
             if cl_cols[0].button("+ All", icon=":material/done_all:", width="stretch", key="mq_all"):
                 st.session_state[multi_key] = all_possible_enrich_fields.copy()
                 st.rerun()
-            if cl_cols[1].button("+ English", icon=":material/translate:", width="stretch", key="mq_eng"):
+            if cl_cols[1].button("+ Authors", icon=":material/person_search:", width="stretch", key="mq_auth"):
+                st.session_state[multi_key] = list(set(st.session_state[multi_key] + ['Author']))
+                st.rerun()
+            if cl_cols[2].button("+ English", icon=":material/translate:", width="stretch", key="mq_eng"):
                 st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["English Normalization"]))
                 st.rerun()
-            if cl_cols[2].button("+ Basic", icon=":material/add:", width="stretch", key="mq_bas"):
+            if cl_cols[3].button("+ Basic", icon=":material/add:", width="stretch", key="mq_bas"):
                 st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["Basic Metadata"]))
                 st.rerun()
-            if cl_cols[3].button("+ Demographics", icon=":material/person_pin_circle:", width="stretch", key="mq_demo", help="Author Demographics (Affiliations, Country, Address)"):
+            if cl_cols[4].button("+ Demographics", icon=":material/person_pin_circle:", width="stretch", key="mq_demo", help="Author Demographics (Affiliations, Country, Address)"):
                 st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["Author Demographics"]))
                 st.rerun()
-            if cl_cols[4].button("+ Venue", icon=":material/place:", width="stretch", key="mq_venue", help="Conference & Venue Location"):
+            if cl_cols[5].button("+ Venue", icon=":material/place:", width="stretch", key="mq_venue", help="Conference & Venue Location"):
                 st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["Conference & Venue"]))
                 st.rerun()
-            if cl_cols[5].button("+ Semantic", icon=":material/psychology:", width="stretch", key="mq_sem"):
+            if cl_cols[6].button("+ Semantic", icon=":material/psychology:", width="stretch", key="mq_sem"):
                 st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["Semantic Data"]))
                 st.rerun()
-            if cl_cols[6].button("+ Funding", icon=":material/payments:", width="stretch", key="mq_fund"):
+            if cl_cols[7].button("+ Funding", icon=":material/payments:", width="stretch", key="mq_fund"):
                 st.session_state[multi_key] = list(set(st.session_state[multi_key] + clusters["Funding Context"]))
                 st.rerun()
-            if cl_cols[7].button("Clear", icon=":material/delete_sweep:", width="stretch", key="mq_clr"):
+            if cl_cols[8].button("Clear", icon=":material/delete_sweep:", width="stretch", key="mq_clr"):
                 st.session_state[multi_key] = []
                 st.rerun()
 
@@ -632,6 +641,24 @@ def show(is_sidebar=False):
             st.caption("Combined Dataset Preview:")
             st.dataframe(st.session_state.master_df.head(5), width="stretch", height=180)
 
+            # Dataset Integrity & Deduplication Action
+            d_col1, d_col2 = st.columns([0.7, 0.3], vertical_alignment="center")
+            with d_col1:
+                st.markdown("<div style='font-weight:700; margin-top:10px;'><i class='bi bi-funnel-fill' style='color:#697aa2;'></i> Dataset Deduplication & Integrity</div>", unsafe_allow_html=True)
+                st.caption("Scan memory dataset for duplicate entries across DOIs, OpenAlex IDs, PMIDs, and normalized titles.")
+            with d_col2:
+                if st.button("Deduplicate Dataset", icon=":material/cleaning_services:", width="stretch", key="btn_manual_dedup"):
+                    from core.deduplication import deduplicate_dataset
+                    st.session_state.master_df, n_dups = deduplicate_dataset(st.session_state.master_df)
+                    save_master_dataset(st.session_state.master_df)
+                    if n_dups > 0:
+                        st.success(f"Successfully consolidated and removed {n_dups} duplicate records!")
+                    else:
+                        st.info("No duplicate records found in the current dataset.")
+                    st.rerun()
+
+            st.divider()
+
             st.markdown("<div style='font-weight:700; margin-top:10px;'><i class='bi bi-download' style='color:#697aa2;'></i> Export Combined Cluster & Archive</div>", unsafe_allow_html=True)
             render_project_saved_notice("exports", "All file formats are automatically exported and archived into your active project folder on disk.")
             
@@ -640,43 +667,86 @@ def show(is_sidebar=False):
             
             fn_csv = format_timestamped_filename("exported_data.csv")
             data_csv = df_to_csv(df_export)
-            try: save_project_file("exports", fn_csv, data_csv, mode="wb")
-            except Exception: pass
-            with ec1: st.download_button("CSV", data=data_csv, file_name=fn_csv, icon=":material/download:", width="stretch")
+            with ec1:
+                st.download_button(
+                    "CSV", 
+                    data=data_csv, 
+                    file_name=fn_csv, 
+                    icon=":material/download:", 
+                    width="stretch",
+                    on_click=_save_export_on_click,
+                    args=("exports", "exported_data.csv", data_csv, "wb"),
+                    help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
+                )
             
             fn_xlsx = format_timestamped_filename("exported_data.xlsx")
             data_xlsx = df_to_excel(df_export)
-            try: save_project_file("exports", fn_xlsx, data_xlsx, mode="wb")
-            except Exception: pass
-            with ec2: st.download_button("Excel", data=data_xlsx, file_name=fn_xlsx, icon=":material/download:", width="stretch")
+            with ec2:
+                st.download_button(
+                    "Excel", 
+                    data=data_xlsx, 
+                    file_name=fn_xlsx, 
+                    icon=":material/download:", 
+                    width="stretch",
+                    on_click=_save_export_on_click,
+                    args=("exports", "exported_data.xlsx", data_xlsx, "wb"),
+                    help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
+                )
             
             fn_ris = format_timestamped_filename("exported_data.ris")
             data_ris = df_to_ris(df_export)
-            try: save_project_file("exports", fn_ris, data_ris, mode="wb")
-            except Exception: pass
-            with ec3: st.download_button("RIS", data=data_ris, file_name=fn_ris, icon=":material/download:", width="stretch")
+            with ec3:
+                st.download_button(
+                    "RIS", 
+                    data=data_ris, 
+                    file_name=fn_ris, 
+                    icon=":material/download:", 
+                    width="stretch",
+                    on_click=_save_export_on_click,
+                    args=("exports", "exported_data.ris", data_ris, "wb"),
+                    help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
+                )
             
             fn_bib = format_timestamped_filename("exported_data.bib")
             data_bib = df_to_bib(df_export)
-            try: save_project_file("exports", fn_bib, data_bib, mode="wb")
-            except Exception: pass
-            with ec4: st.download_button("BibTeX", data=data_bib, file_name=fn_bib, icon=":material/download:", width="stretch")
+            with ec4:
+                st.download_button(
+                    "BibTeX", 
+                    data=data_bib, 
+                    file_name=fn_bib, 
+                    icon=":material/download:", 
+                    width="stretch",
+                    on_click=_save_export_on_click,
+                    args=("exports", "exported_data.bib", data_bib, "wb"),
+                    help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
+                )
             
             fn_nbib = format_timestamped_filename("exported_data.nbib")
             data_nbib = df_to_nbib(df_export)
-            try: save_project_file("exports", fn_nbib, data_nbib, mode="wb")
-            except Exception: pass
-            with ec5: st.download_button("NBIB", data=data_nbib, file_name=fn_nbib, icon=":material/download:", width="stretch")
+            with ec5:
+                st.download_button(
+                    "NBIB", 
+                    data=data_nbib, 
+                    file_name=fn_nbib, 
+                    icon=":material/download:", 
+                    width="stretch",
+                    on_click=_save_export_on_click,
+                    args=("exports", "exported_data.nbib", data_nbib, "wb"),
+                    help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
+                )
 
             with ec6:
                 if st.button("Open Folder", icon=":material/folder_open:", width="stretch", key="btn_open_core_export_folder", help="Opens active project exports folder"):
                     open_project_folder("exports")
 
             if st.button("Wipe Memory / Clear All Files", icon=":material/delete_forever:", type="primary", width="stretch"):
+                st.session_state.clear()
                 st.session_state.master_df = None
+                st.session_state.fullscreen_core = True
+                st.session_state.active_project_name = "Default_Project"
                 st.session_state.loaded_files = []
                 st.session_state.file_manifest = {}
-                st.session_state.fullscreen_core = True
+                st.toast("Memory wiped & project workspace closed. Session restarted cleanly.", icon="🧹")
                 st.rerun()
 
         st.divider()

@@ -1,0 +1,444 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #F3F4F6;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial Intelligence in Endoscopy", "label": "1-1", "shape": "dot", "size": 56.0, "title": "Artificial Intelligence in Endoscopy\nDegree: 25.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial Intelligence in Upper Gastrointestinal Endoscopy", "label": "1-2", "shape": "dot", "size": 22.4, "title": "Artificial Intelligence in Upper Gastrointestinal En...\nDegree: 4.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Role of Artificial Intelligence in the Detection and Management of Premalignant and Malignant Lesions of the Esophagus and Stomach", "label": "1-3", "shape": "dot", "size": 22.4, "title": "Role of Artificial Intelligence in the Detection and...\nDegree: 4.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence and its impact on quality improvement in upper and lower gastrointestinal endoscopy", "label": "1-4", "shape": "dot", "size": 22.4, "title": "Artificial intelligence and its impact on quality im...\nDegree: 4.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence in colonoscopy", "label": "1-5", "shape": "dot", "size": 20.8, "title": "Artificial intelligence in colonoscopy\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence in intestinal polyp and colorectal cancer prediction", "label": "1-6", "shape": "dot", "size": 20.8, "title": "Artificial intelligence in intestinal polyp and colo...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial Intelligence and Deep Learning for Upper Gastrointestinal Neoplasia", "label": "1-7", "shape": "dot", "size": 20.8, "title": "Artificial Intelligence and Deep Learning for Upper ...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Striving for quality improvement: can artificial intelligence help?", "label": "1-8", "shape": "dot", "size": 19.2, "title": "Striving for quality improvement: can artificial int...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence for cancer detection of the upper gastrointestinal tract", "label": "1-9", "shape": "dot", "size": 19.2, "title": "Artificial intelligence for cancer detection of the ...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Potential applications of artificial intelligence in colorectal polyps and cancer: Recent advances and prospects", "label": "1-10", "shape": "dot", "size": 19.2, "title": "Potential applications of artificial intelligence in...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "The application of artificial intelligence in improving colonoscopic adenoma detection rate: Where are we and where are we going", "label": "1-11", "shape": "dot", "size": 17.6, "title": "The application of artificial intelligence in improv...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial Intelligence in Gastrointestinal Endoscopy", "label": "1-12", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence in Gastrointestinal Endoscopy\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "State of the Art: The Impact of Artificial Intelligence in Endoscopy 2020", "label": "1-13", "shape": "dot", "size": 17.6, "title": "State of the Art: The Impact of Artificial Intellige...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "A primer on artificial intelligence and its application to endoscopy", "label": "1-14", "shape": "dot", "size": 17.6, "title": "A primer on artificial intelligence and its applicat...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence: Thinking outside the box", "label": "1-15", "shape": "dot", "size": 17.6, "title": "Artificial intelligence: Thinking outside the box\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence in endoscopy: Overview, applications, and future directions", "label": "1-16", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in endoscopy: Overview, appl...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence in endoscopic diagnosis of esophageal squamous cell carcinoma and precancerous lesions", "label": "1-17", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in endoscopic diagnosis of e...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Evolving role of artificial intelligence in gastrointestinal endoscopy", "label": "1-18", "shape": "dot", "size": 17.6, "title": "Evolving role of artificial intelligence in gastroin...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial intelligence-assisted endoscopic detection of esophageal neoplasia in early stage: The next step?", "label": "1-19", "shape": "dot", "size": 17.6, "title": "Artificial intelligence-assisted endoscopic detectio...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Application of artificial intelligence in gastrointestinal endoscopy", "label": "1-20", "shape": "dot", "size": 17.6, "title": "Application of artificial intelligence in gastrointe...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Artificial Intelligence in Pediatric Endoscopy", "label": "1-21", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence in Pediatric Endoscopy\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "The Impact of Artificial Intelligence in the Endoscopic Assessment of Premalignant and Malignant Esophageal Lesions: Present and Future", "label": "1-22", "shape": "dot", "size": 17.6, "title": "The Impact of Artificial Intelligence in the Endosco...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Application of Artificial Intelligence in the Detection and Characterization of Colorectal Neoplasm", "label": "1-23", "shape": "dot", "size": 17.6, "title": "Application of Artificial Intelligence in the Detect...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Scoping out the future: The application of artificial intelligence to gastrointestinal endoscopy", "label": "1-24", "shape": "dot", "size": 17.6, "title": "Scoping out the future: The application of artificia...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Application and prospect of artificial intelligence in digestive endoscopy", "label": "1-25", "shape": "dot", "size": 17.6, "title": "Application and prospect of artificial intelligence ...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Artificial intelligence in drug discovery: applications and techniques", "label": "2-1", "shape": "dot", "size": 24.0, "title": "Artificial intelligence in drug discovery: applicati...\nDegree: 5.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Artificial Intelligence in Drug Discovery: A Comprehensive Review of Data-driven and Machine Learning Approaches", "label": "2-2", "shape": "dot", "size": 24.0, "title": "Artificial Intelligence in Drug Discovery: A Compreh...\nDegree: 5.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Applications of Artificial Intelligence in Drug Design: Opportunities and Challenges", "label": "2-3", "shape": "dot", "size": 22.4, "title": "Applications of Artificial Intelligence in Drug Desi...\nDegree: 4.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Artificial Intelligence in Compound Design", "label": "2-4", "shape": "dot", "size": 22.4, "title": "Artificial Intelligence in Compound Design\nDegree: 4.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Critical assessment of AI in drug discovery", "label": "2-5", "shape": "dot", "size": 19.2, "title": "Critical assessment of AI in drug discovery\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Artificial Intelligence, Machine Learning, and Deep Learning in Real-Life Drug Design Cases", "label": "2-6", "shape": "dot", "size": 19.2, "title": "Artificial Intelligence, Machine Learning, and Deep ...\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Unleashing the power of generative AI in drug discovery", "label": "2-7", "shape": "dot", "size": 19.2, "title": "Unleashing the power of generative AI in drug discovery\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "The promise and limitations of artificial intelligence in musculoskeletal imaging", "label": "3-1", "shape": "dot", "size": 20.8, "title": "The promise and limitations of artificial intelligen...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Artificial Intelligence in Musculoskeletal Imaging: Current Status and Future Directions", "label": "3-2", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence in Musculoskeletal Imaging: ...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Artificial intelligence, machine learning and deep learning in musculoskeletal imaging: Current applications", "label": "3-3", "shape": "dot", "size": 17.6, "title": "Artificial intelligence, machine learning and deep l...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Applications of Artificial Intelligence in Musculoskeletal Imaging: From the Request to the Report", "label": "3-4", "shape": "dot", "size": 17.6, "title": "Applications of Artificial Intelligence in Musculosk...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "Artificial intelligence for solid tumour diagnosis in digital pathology", "label": "4-1", "shape": "dot", "size": 19.2, "title": "Artificial intelligence for solid tumour diagnosis i...\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "Closing the translation gap: AI applications in digital pathology", "label": "4-2", "shape": "dot", "size": 19.2, "title": "Closing the translation gap: AI applications in digi...\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "Artificial Intelligence \u0026 Tissue Biomarkers: Advantages, Risks and Perspectives for Pathology", "label": "4-3", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence \u0026 Tissue Biomarkers: Advanta...\nDegree: 1.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "Emerging role of deep learning\u2010based artificial intelligence in tumor pathology", "label": "4-4", "shape": "dot", "size": 17.6, "title": "Emerging role of deep learning\u2010based artificial inte...\nDegree: 1.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Artificial intelligence in drug discovery and development", "label": "5-1", "shape": "dot", "size": 20.8, "title": "Artificial intelligence in drug discovery and develo...\nDegree: 3.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Artificial intelligence and machine learning assisted drug delivery for effective treatment of infectious diseases", "label": "5-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence and machine learning assiste...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Trends of Artificial Intelligence (AI) Use in Drug Targets, Discovery and Development: Current Status and Future Perspectives", "label": "5-3", "shape": "dot", "size": 17.6, "title": "Trends of Artificial Intelligence (AI) Use in Drug T...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Artificial Intelligence in Drug Formulation and Development: Applications and Future Prospects", "label": "5-4", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence in Drug Formulation and Deve...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "Artificial Intelligence in Nuclear Cardiology", "label": "6-1", "shape": "dot", "size": 20.8, "title": "Artificial Intelligence in Nuclear Cardiology\nDegree: 3.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "Current status and future directions in artificial intelligence for nuclear cardiology", "label": "6-2", "shape": "dot", "size": 19.2, "title": "Current status and future directions in artificial i...\nDegree: 2.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "Artificial intelligence in nuclear cardiology: Enhancing diagnostic accuracy and efficiency", "label": "6-3", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in nuclear cardiology: Enhan...\nDegree: 1.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "Artificial intelligence and neoantigens: paving the path for precision cancer immunotherapy", "label": "7-1", "shape": "dot", "size": 19.2, "title": "Artificial intelligence and neoantigens: paving the ...\nDegree: 2.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "Artificial intelligence in cancer immunotherapy: Applications in neoantigen recognition, antibody design and immunotherapy response prediction", "label": "7-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in cancer immunotherapy: App...\nDegree: 1.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "Technical review of artificial intelligence in TCR-T therapy", "label": "7-3", "shape": "dot", "size": 17.6, "title": "Technical review of artificial intelligence in TCR-T...\nDegree: 1.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "Challenges and opportunities in the application of artificial intelligence in gastroenterology and hepatology", "label": "8-1", "shape": "dot", "size": 20.8, "title": "Challenges and opportunities in the application of a...\nDegree: 3.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "Artificial intelligence in gastroenterology and hepatology: Status and challenges", "label": "8-2", "shape": "dot", "size": 19.2, "title": "Artificial intelligence in gastroenterology and hepa...\nDegree: 2.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "Challenges involved in the application of artificial intelligence in gastroenterology: The race is on!", "label": "8-3", "shape": "dot", "size": 17.6, "title": "Challenges involved in the application of artificial...\nDegree: 1.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "The Virtues of Interpretable Medical Artificial Intelligence", "label": "9-1", "shape": "dot", "size": 17.6, "title": "The Virtues of Interpretable Medical Artificial Inte...\nDegree: 1.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "The Virtues of Interpretable Medical AI", "label": "9-2", "shape": "dot", "size": 17.6, "title": "The Virtues of Interpretable Medical AI\nDegree: 1.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "Artificial Intelligence\u2014The Rising Star in the Field of Gastroenterology and Hepatology", "label": "10-1", "shape": "dot", "size": 19.2, "title": "Artificial Intelligence\u2014The Rising Star in the Field...\nDegree: 2.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "Emerging role of artificial intelligence in gastroenterology and hepatology", "label": "10-2", "shape": "dot", "size": 17.6, "title": "Emerging role of artificial intelligence in gastroen...\nDegree: 1.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "Artificial intelligence in neurocritical care", "label": "11-1", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in neurocritical care\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "Machine Learning and Artificial Intelligence in Neurocritical Care: a Specialty-Wide Disruptive Transformation or a Strategy for Success", "label": "11-2", "shape": "dot", "size": 17.6, "title": "Machine Learning and Artificial Intelligence in Neur...\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "The use and performance of artificial intelligence applications in dental and maxillofacial radiology: A systematic review", "label": "12-1", "shape": "dot", "size": 17.6, "title": "The use and performance of artificial intelligence a...\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "Current applications and development of artificial intelligence for digital dental radiography", "label": "12-2", "shape": "dot", "size": 17.6, "title": "Current applications and development of artificial i...\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "Erkl\u00e4rbare K\u00fcnstliche Intelligenz in der Pathologie", "label": "13-1", "shape": "dot", "size": 17.6, "title": "Erkl\u00e4rbare K\u00fcnstliche Intelligenz in der Pathologie\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "Toward Explainable Artificial Intelligence for Precision Pathology", "label": "13-2", "shape": "dot", "size": 17.6, "title": "Toward Explainable Artificial Intelligence for Preci...\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "Artificial intelligence-enhanced patient evaluation: bridging art and science", "label": "14-1", "shape": "dot", "size": 17.6, "title": "Artificial intelligence-enhanced patient evaluation:...\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "Designing medical artificial intelligence systems for global use: focus on interoperability, scalability, and accessibility", "label": "14-2", "shape": "dot", "size": 17.6, "title": "Designing medical artificial intelligence systems fo...\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "Applications of artificial intelligence and deep learning in molecular imaging and radiotherapy", "label": "15-1", "shape": "dot", "size": 17.6, "title": "Applications of artificial intelligence and deep lea...\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "The promise of artificial intelligence and deep learning in PET and SPECT imaging", "label": "15-2", "shape": "dot", "size": 17.6, "title": "The promise of artificial intelligence and deep lear...\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "Latest developments in meibography: A review", "label": "16-1", "shape": "dot", "size": 17.6, "title": "Latest developments in meibography: A review\nDegree: 1.0000\nCluster: 16"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "Advancements in artificial intelligence for meibography: clinical utility and contributions to meibomian gland dysfunction management", "label": "16-2", "shape": "dot", "size": 17.6, "title": "Advancements in artificial intelligence for meibogra...\nDegree: 1.0000\nCluster: 16"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 17, "id": "Artificial Intelligence for Cancer Detection\u2014A Bibliometric Analysis and Avenues for Future Research", "label": "17-1", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence for Cancer Detection\u2014A Bibli...\nDegree: 1.0000\nCluster: 17"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 17, "id": "Using Artificial Intelligence for Drug Discovery: A Bibliometric Study and Future Research Agenda", "label": "17-2", "shape": "dot", "size": 17.6, "title": "Using Artificial Intelligence for Drug Discovery: A ...\nDegree: 1.0000\nCluster: 17"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 18, "id": "Artificial intelligence: improving the efficiency of cardiovascular imaging", "label": "18-1", "shape": "dot", "size": 17.6, "title": "Artificial intelligence: improving the efficiency of...\nDegree: 1.0000\nCluster: 18"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 18, "id": "Artificial intelligence in cardiovascular imaging: enhancing image analysis and risk stratification", "label": "18-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in cardiovascular imaging: e...\nDegree: 1.0000\nCluster: 18"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 19, "id": "Artificial Intelligence in Pituitary Disease", "label": "19-1", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence in Pituitary Disease\nDegree: 1.0000\nCluster: 19"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 19, "id": "Artificial intelligence-driven approaches in pituitary neuroendocrine tumors: integrating endocrine-metabolic profiling for enhanced diagnostics and therapeutics", "label": "19-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence-driven approaches in pituita...\nDegree: 1.0000\nCluster: 19"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 20, "id": "The role of artificial intelligence in orthopedic surgery: Current applications and future perspectives\u2014A systematic review of the literature", "label": "20-1", "shape": "dot", "size": 17.6, "title": "The role of artificial intelligence in orthopedic su...\nDegree: 1.0000\nCluster: 20"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 20, "id": "The role of artificial intelligence in orthopedic surgery: Current applications and future perspectives-A systematic review of the literature.", "label": "20-2", "shape": "dot", "size": 17.6, "title": "The role of artificial intelligence in orthopedic su...\nDegree: 1.0000\nCluster: 20"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 21, "id": "Artificial intelligence in inflammatory bowel disease: Current applications and future directions", "label": "21-1", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in inflammatory bowel diseas...\nDegree: 1.0000\nCluster: 21"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 21, "id": "How Artificial Intelligence Will Transform Clinical Care, Research, and Trials for Inflammatory Bowel Disease", "label": "21-2", "shape": "dot", "size": 17.6, "title": "How Artificial Intelligence Will Transform Clinical ...\nDegree: 1.0000\nCluster: 21"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 22, "id": "Leveraging Artificial Intelligence in Marketing for Social Good\u2014An Ethical Perspective", "label": "22-1", "shape": "dot", "size": 17.6, "title": "Leveraging Artificial Intelligence in Marketing for ...\nDegree: 1.0000\nCluster: 22"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 22, "id": "Ethical Artificial Intelligence in Chemical Research and Development: A Dual Advantage for Sustainability", "label": "22-2", "shape": "dot", "size": 17.6, "title": "Ethical Artificial Intelligence in Chemical Research...\nDegree: 1.0000\nCluster: 22"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 23, "id": "An overview of artificial intelligence in medical physics and radiation oncology", "label": "23-1", "shape": "dot", "size": 17.6, "title": "An overview of artificial intelligence in medical ph...\nDegree: 1.0000\nCluster: 23"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 23, "id": "Artificial intelligence in image-guided radiotherapy: a review of treatment target localization", "label": "23-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in image-guided radiotherapy...\nDegree: 1.0000\nCluster: 23"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 24, "id": "The role of artificial intelligence in predicting readmission risk in emergency patients: An umbrella review", "label": "24-1", "shape": "dot", "size": 17.6, "title": "The role of artificial intelligence in predicting re...\nDegree: 1.0000\nCluster: 24"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 24, "id": "The applicability of artificial intelligence in managing emergency patients: An umbrella review", "label": "24-2", "shape": "dot", "size": 17.6, "title": "The applicability of artificial intelligence in mana...\nDegree: 1.0000\nCluster: 24"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 25, "id": "Artificial Intelligence and Machine Learning for Stone Management", "label": "25-1", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence and Machine Learning for Sto...\nDegree: 1.0000\nCluster: 25"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 25, "id": "Surgical Artificial Intelligence", "label": "25-2", "shape": "dot", "size": 17.6, "title": "Surgical Artificial Intelligence\nDegree: 1.0000\nCluster: 25"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 26, "id": "Artificial Intelligence and Imaging Processing in Optical Coherence Tomography and Digital Images in Uveitis", "label": "26-1", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence and Imaging Processing in Op...\nDegree: 1.0000\nCluster: 26"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 26, "id": "Artificial intelligence in uveitis: A comprehensive review", "label": "26-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in uveitis: A comprehensive ...\nDegree: 1.0000\nCluster: 26"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 27, "id": "Illuminating the universe of enzyme catalysis in the era of artificial intelligence", "label": "27-1", "shape": "dot", "size": 17.6, "title": "Illuminating the universe of enzyme catalysis in the...\nDegree: 1.0000\nCluster: 27"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 27, "id": "How artificial intelligence is reengineering protein engineering", "label": "27-2", "shape": "dot", "size": 17.6, "title": "How artificial intelligence is reengineering protein...\nDegree: 1.0000\nCluster: 27"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 28, "id": "Effect of artificial intelligence in extracorporeal membrane oxygenation: a systematic review and meta-analysis", "label": "28-1", "shape": "dot", "size": 17.6, "title": "Effect of artificial intelligence in extracorporeal ...\nDegree: 1.0000\nCluster: 28"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 28, "id": "Artificial intelligence in extracorporeal technology: Current applications and future directions\u2014A narrative review", "label": "28-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in extracorporeal technology...\nDegree: 1.0000\nCluster: 28"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 29, "id": "Application of artificial intelligence in ophthalmology", "label": "29-1", "shape": "dot", "size": 17.6, "title": "Application of artificial intelligence in ophthalmology\nDegree: 1.0000\nCluster: 29"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 29, "id": "Artificial intelligence in diabetic retinopathy: A natural step to the future", "label": "29-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in diabetic retinopathy: A n...\nDegree: 1.0000\nCluster: 29"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 30, "id": "Role of Artificial Intelligence in Improving Quality of Colonoscopy", "label": "30-1", "shape": "dot", "size": 17.6, "title": "Role of Artificial Intelligence in Improving Quality...\nDegree: 1.0000\nCluster: 30"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 30, "id": "Artificial intelligence and the push for small adenomas: all we need?", "label": "30-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence and the push for small adeno...\nDegree: 1.0000\nCluster: 30"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 31, "id": "Application and future perspectives of gastric cancer technology based on artificial intelligence", "label": "31-1", "shape": "dot", "size": 17.6, "title": "Application and future perspectives of gastric cance...\nDegree: 1.0000\nCluster: 31"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 31, "id": "Artificial intelligence in gastric cancer: Application and future perspectives", "label": "31-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in gastric cancer: Applicati...\nDegree: 1.0000\nCluster: 31"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 32, "id": "Where developmental toxicity meets explainable artificial intelligence: state-of-the-art and perspectives", "label": "32-1", "shape": "dot", "size": 17.6, "title": "Where developmental toxicity meets explainable artif...\nDegree: 1.0000\nCluster: 32"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 32, "id": "TIRESIA and TISBE: Explainable Artificial Intelligence Based Web Platforms for the Transparent Assessment of the Developmental Toxicity of Chemicals and Drugs", "label": "32-2", "shape": "dot", "size": 17.6, "title": "TIRESIA and TISBE: Explainable Artificial Intelligen...\nDegree: 1.0000\nCluster: 32"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 33, "id": "Role of Artificial Intelligence in Theranostics", "label": "33-1", "shape": "dot", "size": 17.6, "title": "Role of Artificial Intelligence in Theranostics\nDegree: 1.0000\nCluster: 33"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 33, "id": "On the Use of Artificial Intelligence for Dosimetry of Radiopharmaceutical Therapies", "label": "33-2", "shape": "dot", "size": 17.6, "title": "On the Use of Artificial Intelligence for Dosimetry ...\nDegree: 1.0000\nCluster: 33"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 34, "id": "Recent trends in stem cell-based therapies and applications of artificial intelligence in regenerative medicine", "label": "34-1", "shape": "dot", "size": 17.6, "title": "Recent trends in stem cell-based therapies and appli...\nDegree: 1.0000\nCluster: 34"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 34, "id": "Developments in Stem Cell Therapy by Utilizing Artificial Intelligence", "label": "34-2", "shape": "dot", "size": 17.6, "title": "Developments in Stem Cell Therapy by Utilizing Artif...\nDegree: 1.0000\nCluster: 34"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 35, "id": "Revolutionizing Nutrition: Artificial Intelligence\u2013Driven Health Solutions and Personalized Diets", "label": "35-1", "shape": "dot", "size": 17.6, "title": "Revolutionizing Nutrition: Artificial Intelligence\u2013D...\nDegree: 1.0000\nCluster: 35"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 35, "id": "The Role of Artificial Intelligence in Nutrition Research: A Scoping Review", "label": "35-2", "shape": "dot", "size": 17.6, "title": "The Role of Artificial Intelligence in Nutrition Res...\nDegree: 1.0000\nCluster: 35"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 36, "id": "Diagnostic evaluation of blunt chest trauma by imaging-based application of artificial intelligence", "label": "36-1", "shape": "dot", "size": 17.6, "title": "Diagnostic evaluation of blunt chest trauma by imagi...\nDegree: 1.0000\nCluster: 36"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 36, "id": "Applications of Artificial Intelligence in Acute Thoracic Imaging", "label": "36-2", "shape": "dot", "size": 17.6, "title": "Applications of Artificial Intelligence in Acute Tho...\nDegree: 1.0000\nCluster: 36"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 37, "id": "Application of artificial intelligence in gametes and embryos selection", "label": "37-1", "shape": "dot", "size": 17.6, "title": "Application of artificial intelligence in gametes an...\nDegree: 1.0000\nCluster: 37"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 37, "id": "Artificial intelligence in the fertility clinic: status, pitfalls and possibilities", "label": "37-2", "shape": "dot", "size": 17.6, "title": "Artificial intelligence in the fertility clinic: sta...\nDegree: 1.0000\nCluster: 37"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 38, "id": "Artificial Intelligence and Digital Microscopy Applications in Diagnostic Hematopathology", "label": "38-1", "shape": "dot", "size": 17.6, "title": "Artificial Intelligence and Digital Microscopy Appli...\nDegree: 1.0000\nCluster: 38"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 38, "id": "Machine learning and augmented human intelligence use in histomorphology for haematolymphoid disorders", "label": "38-2", "shape": "dot", "size": 17.6, "title": "Machine learning and augmented human intelligence us...\nDegree: 1.0000\nCluster: 38"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 39, "id": "Artificial intelligence and machine learning for medical imaging: A technology review", "label": "39-1", "shape": "dot", "size": 17.6, "title": "Artificial intelligence and machine learning for med...\nDegree: 1.0000\nCluster: 39"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 39, "id": "Overview of artificial intelligence-based applications in radiotherapy: Recommendations for implementation and quality assurance", "label": "39-2", "shape": "dot", "size": 17.6, "title": "Overview of artificial intelligence-based applicatio...\nDegree: 1.0000\nCluster: 39"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 40, "id": "Intelligence artificielle et glaucome\u00a0: une revue de la litt\u00e9rature", "label": "40-1", "shape": "dot", "size": 17.6, "title": "Intelligence artificielle et glaucome\u00a0: une revue de...\nDegree: 1.0000\nCluster: 40"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 40, "id": "The potential application of artificial intelligence for diagnosis and management of glaucoma in adults", "label": "40-2", "shape": "dot", "size": 17.6, "title": "The potential application of artificial intelligence...\nDegree: 1.0000\nCluster: 40"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 41, "id": "Artificial intelligence models for the diagnosis and management of liver diseases", "label": "41-1", "shape": "dot", "size": 17.6, "title": "Artificial intelligence models for the diagnosis and...\nDegree: 1.0000\nCluster: 41"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 41, "id": "The application of artificial intelligence in hepatology: A systematic review", "label": "41-2", "shape": "dot", "size": 17.6, "title": "The application of artificial intelligence in hepato...\nDegree: 1.0000\nCluster: 41"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 42, "id": "Using Artificial Intelligence to Better Predict and Develop Biomarkers", "label": "42-1", "shape": "dot", "size": 19.2, "title": "Using Artificial Intelligence to Better Predict and ...\nDegree: 2.0000\nCluster: 42"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 43, "id": "Practical Applications of Artificial Intelligence in Spine Imaging", "label": "43-1", "shape": "dot", "size": 19.2, "title": "Practical Applications of Artificial Intelligence in...\nDegree: 2.0000\nCluster: 43"}]);
+                  edges = new vis.DataSet([{"color": "rgba(71, 85, 105, 0.45)", "from": "Using Artificial Intelligence to Better Predict and Develop Biomarkers", "to": "Using Artificial Intelligence to Better Predict and Develop Biomarkers", "value": 77}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Practical Applications of Artificial Intelligence in Spine Imaging", "to": "Practical Applications of Artificial Intelligence in Spine Imaging", "value": 70}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Nuclear Cardiology", "to": "Artificial Intelligence in Nuclear Cardiology", "value": 65}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Nuclear Cardiology", "to": "Current status and future directions in artificial intelligence for nuclear cardiology", "value": 37}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence and its impact on quality improvement in upper and lower gastrointestinal endoscopy", "value": 55}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Striving for quality improvement: can artificial intelligence help?", "value": 54}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence in gastroenterology and hepatology: Status and challenges", "value": 37}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Application and prospect of artificial intelligence in digestive endoscopy", "value": 36}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence in endoscopy: Overview, applications, and future directions", "value": 35}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial Intelligence in Gastrointestinal Endoscopy", "value": 35}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Challenges and opportunities in the application of artificial intelligence in gastroenterology and hepatology", "value": 35}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Role of Artificial Intelligence in the Detection and Management of Premalignant and Malignant Lesions of the Esophagus and Stomach", "value": 34}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence in intestinal polyp and colorectal cancer prediction", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial Intelligence in Upper Gastrointestinal Endoscopy", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Scoping out the future: The application of artificial intelligence to gastrointestinal endoscopy", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Application of artificial intelligence in gastrointestinal endoscopy", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "State of the Art: The Impact of Artificial Intelligence in Endoscopy 2020", "value": 31}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial Intelligence and Deep Learning for Upper Gastrointestinal Neoplasia", "value": 31}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "The application of artificial intelligence in improving colonoscopic adenoma detection rate: Where are we and where are we going", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence in colonoscopy", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence for cancer detection of the upper gastrointestinal tract", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Evolving role of artificial intelligence in gastrointestinal endoscopy", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "The Impact of Artificial Intelligence in the Endoscopic Assessment of Premalignant and Malignant Esophageal Lesions: Present and Future", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Potential applications of artificial intelligence in colorectal polyps and cancer: Recent advances and prospects", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "A primer on artificial intelligence and its application to endoscopy", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence-assisted endoscopic detection of esophageal neoplasia in early stage: The next step?", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial intelligence: Thinking outside the box", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial Intelligence\u2014The Rising Star in the Field of Gastroenterology and Hepatology", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Endoscopy", "to": "Artificial Intelligence in Pediatric Endoscopy", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence and its impact on quality improvement in upper and lower gastrointestinal endoscopy", "to": "Striving for quality improvement: can artificial intelligence help?", "value": 52}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence and its impact on quality improvement in upper and lower gastrointestinal endoscopy", "to": "Artificial intelligence for cancer detection of the upper gastrointestinal tract", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence and its impact on quality improvement in upper and lower gastrointestinal endoscopy", "to": "Artificial Intelligence in Upper Gastrointestinal Endoscopy", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The Virtues of Interpretable Medical AI", "to": "The Virtues of Interpretable Medical Artificial Intelligence", "value": 52}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence\u2014The Rising Star in the Field of Gastroenterology and Hepatology", "to": "Emerging role of artificial intelligence in gastroenterology and hepatology", "value": 50}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Machine Learning and Artificial Intelligence in Neurocritical Care: a Specialty-Wide Disruptive Transformation or a Strategy for Success", "to": "Artificial intelligence in neurocritical care", "value": 48}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The use and performance of artificial intelligence applications in dental and maxillofacial radiology: A systematic review", "to": "Current applications and development of artificial intelligence for digital dental radiography", "value": 48}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Toward Explainable Artificial Intelligence for Precision Pathology", "to": "Erkl\u00e4rbare K\u00fcnstliche Intelligenz in der Pathologie", "value": 46}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Applications of Artificial Intelligence in Musculoskeletal Imaging: From the Request to the Report", "to": "The promise and limitations of artificial intelligence in musculoskeletal imaging", "value": 45}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The promise and limitations of artificial intelligence in musculoskeletal imaging", "to": "Artificial intelligence, machine learning and deep learning in musculoskeletal imaging: Current applications", "value": 39}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The promise and limitations of artificial intelligence in musculoskeletal imaging", "to": "Artificial Intelligence in Musculoskeletal Imaging: Current Status and Future Directions", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence-enhanced patient evaluation: bridging art and science", "to": "Designing medical artificial intelligence systems for global use: focus on interoperability, scalability, and accessibility", "value": 44}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence and Deep Learning for Upper Gastrointestinal Neoplasia", "to": "Role of Artificial Intelligence in the Detection and Management of Premalignant and Malignant Lesions of the Esophagus and Stomach", "value": 44}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence and Deep Learning for Upper Gastrointestinal Neoplasia", "to": "Artificial Intelligence in Upper Gastrointestinal Endoscopy", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Role of Artificial Intelligence in the Detection and Management of Premalignant and Malignant Lesions of the Esophagus and Stomach", "to": "Artificial intelligence in endoscopic diagnosis of esophageal squamous cell carcinoma and precancerous lesions", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Role of Artificial Intelligence in the Detection and Management of Premalignant and Malignant Lesions of the Esophagus and Stomach", "to": "Artificial Intelligence in Upper Gastrointestinal Endoscopy", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The promise of artificial intelligence and deep learning in PET and SPECT imaging", "to": "Applications of artificial intelligence and deep learning in molecular imaging and radiotherapy", "value": 42}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Latest developments in meibography: A review", "to": "Advancements in artificial intelligence for meibography: clinical utility and contributions to meibomian gland dysfunction management", "value": 41}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence for Cancer Detection\u2014A Bibliometric Analysis and Avenues for Future Research", "to": "Using Artificial Intelligence for Drug Discovery: A Bibliometric Study and Future Research Agenda", "value": 40}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence: improving the efficiency of cardiovascular imaging", "to": "Artificial intelligence in cardiovascular imaging: enhancing image analysis and risk stratification", "value": 39}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Pituitary Disease", "to": "Artificial intelligence-driven approaches in pituitary neuroendocrine tumors: integrating endocrine-metabolic profiling for enhanced diagnostics and therapeutics", "value": 38}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in cancer immunotherapy: Applications in neoantigen recognition, antibody design and immunotherapy response prediction", "to": "Artificial intelligence and neoantigens: paving the path for precision cancer immunotherapy", "value": 38}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence and neoantigens: paving the path for precision cancer immunotherapy", "to": "Technical review of artificial intelligence in TCR-T therapy", "value": 35}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Current status and future directions in artificial intelligence for nuclear cardiology", "to": "Artificial intelligence in nuclear cardiology: Enhancing diagnostic accuracy and efficiency", "value": 37}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in gastroenterology and hepatology: Status and challenges", "to": "Challenges and opportunities in the application of artificial intelligence in gastroenterology and hepatology", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery: applications and techniques", "to": "Artificial Intelligence in Drug Discovery: A Comprehensive Review of Data-driven and Machine Learning Approaches", "value": 36}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery: applications and techniques", "to": "Applications of Artificial Intelligence in Drug Design: Opportunities and Challenges", "value": 36}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery: applications and techniques", "to": "Unleashing the power of generative AI in drug discovery", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery: applications and techniques", "to": "Artificial Intelligence in Compound Design", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery: applications and techniques", "to": "Critical assessment of AI in drug discovery", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Drug Discovery: A Comprehensive Review of Data-driven and Machine Learning Approaches", "to": "Artificial Intelligence, Machine Learning, and Deep Learning in Real-Life Drug Design Cases", "value": 36}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Drug Discovery: A Comprehensive Review of Data-driven and Machine Learning Approaches", "to": "Applications of Artificial Intelligence in Drug Design: Opportunities and Challenges", "value": 34}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Drug Discovery: A Comprehensive Review of Data-driven and Machine Learning Approaches", "to": "Artificial Intelligence in Compound Design", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Drug Discovery: A Comprehensive Review of Data-driven and Machine Learning Approaches", "to": "Unleashing the power of generative AI in drug discovery", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Applications of Artificial Intelligence in Drug Design: Opportunities and Challenges", "to": "Artificial Intelligence, Machine Learning, and Deep Learning in Real-Life Drug Design Cases", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Applications of Artificial Intelligence in Drug Design: Opportunities and Challenges", "to": "Artificial Intelligence in Compound Design", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The role of artificial intelligence in orthopedic surgery: Current applications and future perspectives\u2014A systematic review of the literature", "to": "The role of artificial intelligence in orthopedic surgery: Current applications and future perspectives-A systematic review of the literature.", "value": 36}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Challenges and opportunities in the application of artificial intelligence in gastroenterology and hepatology", "to": "Challenges involved in the application of artificial intelligence in gastroenterology: The race is on!", "value": 32}, {"color": "rgba(71, 85, 105, 0.45)", "from": "How Artificial Intelligence Will Transform Clinical Care, Research, and Trials for Inflammatory Bowel Disease", "to": "Artificial intelligence in inflammatory bowel disease: Current applications and future directions", "value": 34}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Leveraging Artificial Intelligence in Marketing for Social Good\u2014An Ethical Perspective", "to": "Ethical Artificial Intelligence in Chemical Research and Development: A Dual Advantage for Sustainability", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in intestinal polyp and colorectal cancer prediction", "to": "Potential applications of artificial intelligence in colorectal polyps and cancer: Recent advances and prospects", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in intestinal polyp and colorectal cancer prediction", "to": "Artificial intelligence in colonoscopy", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery and development", "to": "Artificial Intelligence in Drug Formulation and Development: Applications and Future Prospects", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery and development", "to": "Artificial intelligence and machine learning assisted drug delivery for effective treatment of infectious diseases", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in drug discovery and development", "to": "Trends of Artificial Intelligence (AI) Use in Drug Targets, Discovery and Development: Current Status and Future Perspectives", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in image-guided radiotherapy: a review of treatment target localization", "to": "An overview of artificial intelligence in medical physics and radiation oncology", "value": 33}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence in Compound Design", "to": "Critical assessment of AI in drug discovery", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The applicability of artificial intelligence in managing emergency patients: An umbrella review", "to": "The role of artificial intelligence in predicting readmission risk in emergency patients: An umbrella review", "value": 31}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Surgical Artificial Intelligence", "to": "Artificial Intelligence and Machine Learning for Stone Management", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in uveitis: A comprehensive review", "to": "Artificial Intelligence and Imaging Processing in Optical Coherence Tomography and Digital Images in Uveitis", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "How artificial intelligence is reengineering protein engineering", "to": "Illuminating the universe of enzyme catalysis in the era of artificial intelligence", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Emerging role of deep learning\u2010based artificial intelligence in tumor pathology", "to": "Artificial intelligence for solid tumour diagnosis in digital pathology", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence for solid tumour diagnosis in digital pathology", "to": "Closing the translation gap: AI applications in digital pathology", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in colonoscopy", "to": "Application of Artificial Intelligence in the Detection and Characterization of Colorectal Neoplasm", "value": 28}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Effect of artificial intelligence in extracorporeal membrane oxygenation: a systematic review and meta-analysis", "to": "Artificial intelligence in extracorporeal technology: Current applications and future directions\u2014A narrative review", "value": 30}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in diabetic retinopathy: A natural step to the future", "to": "Application of artificial intelligence in ophthalmology", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence and the push for small adenomas: all we need?", "to": "Role of Artificial Intelligence in Improving Quality of Colonoscopy", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in gastric cancer: Application and future perspectives", "to": "Application and future perspectives of gastric cancer technology based on artificial intelligence", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Where developmental toxicity meets explainable artificial intelligence: state-of-the-art and perspectives", "to": "TIRESIA and TISBE: Explainable Artificial Intelligence Based Web Platforms for the Transparent Assessment of the Developmental Toxicity of Chemicals and Drugs", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Role of Artificial Intelligence in Theranostics", "to": "On the Use of Artificial Intelligence for Dosimetry of Radiopharmaceutical Therapies", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Closing the translation gap: AI applications in digital pathology", "to": "Artificial Intelligence \u0026 Tissue Biomarkers: Advantages, Risks and Perspectives for Pathology", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Recent trends in stem cell-based therapies and applications of artificial intelligence in regenerative medicine", "to": "Developments in Stem Cell Therapy by Utilizing Artificial Intelligence", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The Role of Artificial Intelligence in Nutrition Research: A Scoping Review", "to": "Revolutionizing Nutrition: Artificial Intelligence\u2013Driven Health Solutions and Personalized Diets", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Diagnostic evaluation of blunt chest trauma by imaging-based application of artificial intelligence", "to": "Applications of Artificial Intelligence in Acute Thoracic Imaging", "value": 27}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence in the fertility clinic: status, pitfalls and possibilities", "to": "Application of artificial intelligence in gametes and embryos selection", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial Intelligence and Digital Microscopy Applications in Diagnostic Hematopathology", "to": "Machine learning and augmented human intelligence use in histomorphology for haematolymphoid disorders", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Artificial intelligence and machine learning for medical imaging: A technology review", "to": "Overview of artificial intelligence-based applications in radiotherapy: Recommendations for implementation and quality assurance", "value": 26}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The potential application of artificial intelligence for diagnosis and management of glaucoma in adults", "to": "Intelligence artificielle et glaucome\u00a0: une revue de la litt\u00e9rature", "value": 25}, {"color": "rgba(71, 85, 105, 0.45)", "from": "The application of artificial intelligence in hepatology: A systematic review", "to": "Artificial intelligence models for the diagnosis and management of liver diseases", "value": 25}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

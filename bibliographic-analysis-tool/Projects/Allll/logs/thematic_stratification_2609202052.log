@@ -1,0 +1,56 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-20 19:59:30  -->  2026-09-20 20:52:02
+Total Duration:      52 minutes 33 seconds
+  • Phase 1 (Language Detection & Translation): 1 minute 35 seconds
+      - Mode: Smart Multilingual Detection
+      - Documents: 28 translated, 0 from cache, 9967 skipped as English
+  • Phase 2 (BERTopic + GSDMM Modeling & Consensus Refinement): 50 minutes 55 seconds
+      - BERTopic: Pass 1 Semantic Embeddings (target: 6)
+      - GSDMM: Pass 1 Lexical Co-occurrence Lens (k=5)
+      - Ensemble: Pass 2 Consensus Centroid Refinement & Boundary Resolution
+
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Alignment Strategy: Consensus-Driven Macro Pillars (5–8 Topics - Recommended)
+Minimum Cluster Size: 12 documents
+Synchronized Topic Count (k): 6
+Total Documents Processed: 9995
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 5
+• Outlier Documents (-1): 0 (0.0%)
+• Average Assignment Confidence: 0.91
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [0, 1, 4] (Similarities: [0.14, 0.30, 0.64])
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [2] (Similarities: [0.05])
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 3: BERTopic [3] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 4: BERTopic [4] ↔ GSDMM [None] (Similarities: [0.00])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs: 9167 (91.7%) | Mean Conf: 0.93 | Consensus: 5954 (65%) | Boundary/Refined: 3213
+   • BERTopic Top Keywords: ai, artificial, intelligence, medicine, data, clinical
+   • GSDMM Top Keywords:    medicine, artificial, intelligence, science, computer, front
+Cluster 01 | Docs:  787 ( 7.9%) | Mean Conf: 0.76 | Consensus:   1 (0%) | Boundary/Refined: 786
+   • BERTopic Top Keywords: ai, artificial, intelligence, science, learning, data
+   • GSDMM Top Keywords:    use, copyright, terms, distribution, reproduction, original
+Cluster 02 | Docs:   17 ( 0.2%) | Mean Conf: 0.81 | Consensus:   0 (0%) | Boundary/Refined:  17
+   • BERTopic Top Keywords: und, der, die, von, zu, ki
+   • GSDMM Top Keywords:    None
+Cluster 03 | Docs:   12 ( 0.1%) | Mean Conf: 0.85 | Consensus:   0 (0%) | Boundary/Refined:  12
+   • BERTopic Top Keywords: music, teaching, education, recognition, algorithm, artificial
+   • GSDMM Top Keywords:    None
+Cluster 04 | Docs:   12 ( 0.1%) | Mean Conf: 0.78 | Consensus:   0 (0%) | Boundary/Refined:  12
+   • BERTopic Top Keywords: text, templates, original, statement, incorrect, correction
+   • GSDMM Top Keywords:    None
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

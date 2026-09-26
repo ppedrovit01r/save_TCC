@@ -1,0 +1,43 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-19 12:53:36  -->  2026-09-19 13:03:39 (10 minutes 2 seconds)
+Fields Analyzed: ['Title', 'Keywords']
+Alignment Strategy: Consensus-Driven Macro Pillars (5–8 Topics - Recommended)
+Minimum Cluster Size: 12 documents
+Synchronized Topic Count (k): 6
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 4
+• Outlier Documents (-1): 7 (1.4%)
+• Average Assignment Confidence: 0.83
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [1, 4] (Similarities: [0.54, 0.25])
+• Unified Topic 1: BERTopic [1] ↔ GSDMM [2, 3] (Similarities: [0.48, 0.30])
+• Unified Topic 2: BERTopic [2] ↔ GSDMM [0] (Similarities: [0.31])
+• Unified Topic 3: BERTopic [3] ↔ GSDMM [None] (Similarities: [0.00])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:  173 (35.8%) | Mean Conf: 0.86 | Consensus:  89 (51%) | Boundary/Refined:  84
+   • BERTopic Top Keywords: learning, artificial, machine, recognition, deep, neural
+   • GSDMM Top Keywords:    learning, computer, artificial, neural, science, recognition
+Cluster 01 | Docs:  154 (31.9%) | Mean Conf: 0.86 | Consensus:  82 (53%) | Boundary/Refined:  72
+   • BERTopic Top Keywords: business, engineering, process, science, computer, software
+   • GSDMM Top Keywords:    computer, science, engineering, process, business, computing
+Cluster 02 | Docs:  116 (24.0%) | Mean Conf: 0.81 | Consensus:  45 (39%) | Boundary/Refined:  71
+   • BERTopic Top Keywords: humanities, philosophy, computer, science, physics, graphics
+   • GSDMM Top Keywords:    science, humanities, computer, physics, philosophy, engineering
+Cluster 03 | Docs:   33 ( 6.8%) | Mean Conf: 0.75 | Consensus:   0 (0%) | Boundary/Refined:  33
+   • BERTopic Top Keywords: problem, multiagent, mathematics, traveling, salesman, science
+   • GSDMM Top Keywords:    None
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

@@ -1,0 +1,40 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-09-20 21:07:38  -->  2026-09-21 00:02:53
+Total Duration:      2 hours 55 minutes 15 seconds
+  • Phase 1 (Language Detection & Translation): 4.46 seconds
+      - Mode: Smart Multilingual Detection
+      - Documents: 0 translated, 28 from cache, 9967 skipped as English
+  • Phase 2 (BERTopic + GSDMM Modeling & Consensus Refinement): 2 hours 55 minutes 8 seconds
+      - BERTopic: Pass 1 Semantic Embeddings (target: Auto)
+      - GSDMM: Pass 1 Lexical Co-occurrence Lens (k=51)
+      - Ensemble: Pass 2 Consensus Centroid Refinement & Boundary Resolution
+
+Fields Analyzed: ['Title', 'Abstract', 'Keywords']
+Alignment Strategy: Auto-Discovery (High Granularity)
+Minimum Cluster Size: 120 documents
+Synchronized Topic Count (k): Auto
+Total Documents Processed: 9995
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 1
+• Outlier Documents (-1): 812 (8.1%)
+• Average Assignment Confidence: 0.85
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [0] ↔ GSDMM [6, 12, 50] (Similarities: [0.10, 0.27, 0.67])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs: 9183 (91.9%) | Mean Conf: 0.93 | Consensus: 5988 (65%) | Boundary/Refined: 3195
+   • BERTopic Top Keywords: ai, artificial, intelligence, medicine, clinical, data
+   • GSDMM Top Keywords:    artificial, intelligence, use, original, distribution, reproduction
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

@@ -64,8 +64,8 @@ def calculate_jaccard(list1, list2):
     return intersection / union if union > 0 else 0
 
 from lib.topic_modeling.genai import generate_batch_topic_names
-from utils.exports import _download_button, render_project_saved_notice
-from utils.project_manager import format_timestamped_filename, save_project_file, open_project_folder
+from utils.exports import _download_button, render_project_saved_notice, _save_export_on_click
+from utils.project_manager import format_timestamped_filename, save_project_file, open_project_folder, get_active_project_name
 
 def show(df):
     st.markdown("<h2 style='font-size: 24px; font-weight: 700; color: #1E293B;'><i class='bi bi-bezier2' style='color: #697aa2;'></i> Thematic Flow (Trend Spotting)</h2>", unsafe_allow_html=True)
@@ -526,29 +526,32 @@ def show(df):
                 key="dl_flow_links"
             )
         with exp_c3:
-            # Inject style block inside exported standalone HTML to ensure shadow is removed there as well
-            raw_html = fig.to_html(include_plotlyjs="cdn")
-            clean_html = raw_html.replace(
-                "</head>",
-                "<style>.sankey-node text, text.node-label { text-shadow: none !important; fill: #111827 !important; font-weight: 500 !important; }</style></head>"
-            )
+            # Generate standalone HTML bytes on demand or cache in session_state
+            if "last_flow_html_bytes" not in st.session_state or st.session_state.get("flow_fig_id") != id(fig):
+                raw_html = fig.to_html(include_plotlyjs="cdn")
+                clean_html = raw_html.replace(
+                    "</head>",
+                    "<style>.sankey-node text, text.node-label { text-shadow: none !important; fill: #111827 !important; font-weight: 500 !important; }</style></head>"
+                )
+                st.session_state.last_flow_html_bytes = clean_html.encode("utf-8")
+                st.session_state.flow_fig_id = id(fig)
+            
+            html_encoded = st.session_state.last_flow_html_bytes
             fn_flow_html = format_timestamped_filename("thematic_flow_sankey.html")
-            html_encoded = clean_html.encode("utf-8")
-            try: save_project_file("exports", fn_flow_html, html_encoded, mode="wb")
-            except Exception: pass
             
             st.download_button(
                 label="Download HTML Chart",
                 data=html_encoded,
                 file_name=fn_flow_html,
                 mime="text/html",
-                key="dl_flow_html"
+                key="dl_flow_html",
+                on_click=_save_export_on_click,
+                args=("exports", "thematic_flow_sankey.html", html_encoded, "wb"),
+                help=f"Saves directly to Projects/{get_active_project_name()}/exports/ and downloads"
             )
         with exp_c4:
             flow_export_json = json.dumps(st.session_state.thematic_flow_data, indent=2).encode("utf-8")
             fn_flow_proj = format_timestamped_filename("thematic_flow_project.json")
-            try: save_project_file("sessions", fn_flow_proj, flow_export_json, mode="wb")
-            except Exception: pass
 
             st.download_button(
                 label="Save Flow Project (.json)",
@@ -556,7 +559,9 @@ def show(df):
                 file_name=fn_flow_proj,
                 mime="application/json",
                 key="dl_flow_project_json",
-                help="Download entire flow state so you can re-upload and continue later without re-running."
+                on_click=_save_export_on_click,
+                args=("sessions", "thematic_flow_project.json", flow_export_json, "wb"),
+                help=f"Saves directly to Projects/{get_active_project_name()}/sessions/ and downloads state"
             )
         with exp_c5:
             if st.button("Open Project Folder", icon=":material/folder_open:", width="stretch", key="btn_open_flow_folder", help="Open project folder on disk to view all saved files"):

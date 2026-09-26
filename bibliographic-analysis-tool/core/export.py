@@ -42,7 +42,8 @@ def _get_val(row, key):
     return None
 
 def _clean_df(df: pd.DataFrame) -> pd.DataFrame:
-    """Ensures unique columns before exporting."""
+    """Ensures unique columns and clean data formatting before exporting."""
+    res = df
     if not df.columns.is_unique:
         unique_cols = list(dict.fromkeys(df.columns))
         merged_data = {}
@@ -56,13 +57,21 @@ def _clean_df(df: pd.DataFrame) -> pd.DataFrame:
                 ))
                 combined = sub_cleaned.bfill(axis=1).iloc[:, 0]
                 merged_data[col] = combined
-        return pd.DataFrame(merged_data, index=df.index)
-    return df
+        res = pd.DataFrame(merged_data, index=df.index)
+    if "Publication Year" in res.columns:
+        from utils.formatters import clean_year_series
+        res = res.copy()
+        res["Publication Year"] = clean_year_series(res["Publication Year"])
+    return res
 
+import streamlit as st
+
+@st.cache_data
 def df_to_csv(df: pd.DataFrame) -> bytes:
     df_clean = _clean_df(df)
     return df_clean.to_csv(index=False).encode("utf-8-sig")
 
+@st.cache_data
 def df_to_excel(df: pd.DataFrame) -> bytes:
     df_clean = _clean_df(df)
     output = io.BytesIO()
@@ -70,6 +79,7 @@ def df_to_excel(df: pd.DataFrame) -> bytes:
         df_clean.to_excel(writer, index=False, sheet_name='Data')
     return output.getvalue()
 
+@st.cache_data
 def df_to_ris(df: pd.DataFrame) -> bytes:
     """Basic RIS generator from DataFrame with robust type handling."""
     df_clean = _clean_df(df)
@@ -89,11 +99,10 @@ def df_to_ris(df: pd.DataFrame) -> bytes:
                     
         py_str = _get_val(row, 'Publication Year')
         if py_str:
-            try:
-                py_clean = str(int(float(py_str)))
+            from utils.formatters import clean_year_value
+            py_clean = clean_year_value(py_str)
+            if py_clean:
                 ris_content.append(f"PY  - {py_clean}")
-            except (ValueError, TypeError):
-                ris_content.append(f"PY  - {py_str}")
                 
         doi = _get_val(row, 'DOI')
         if doi:
@@ -107,6 +116,7 @@ def df_to_ris(df: pd.DataFrame) -> bytes:
         
     return "\n".join(ris_content).encode("utf-8")
 
+@st.cache_data
 def df_to_bib(df: pd.DataFrame) -> bytes:
     """Basic BibTeX generator from DataFrame with robust type handling."""
     df_clean = _clean_df(df)
@@ -118,13 +128,8 @@ def df_to_bib(df: pd.DataFrame) -> bytes:
         title = _get_val(row, 'Title') or 'Unknown'
         
         py_str = _get_val(row, 'Publication Year')
-        if py_str:
-            try:
-                year = str(int(float(py_str)))
-            except (ValueError, TypeError):
-                year = py_str
-        else:
-            year = 'Unknown'
+        from utils.formatters import clean_year_value
+        year = clean_year_value(py_str) or 'Unknown'
         
         entry = f"@article{{ref{i},\n"
         entry += f"  title={{ {title} }},\n"
@@ -144,6 +149,7 @@ def df_to_bib(df: pd.DataFrame) -> bytes:
         
     return "\n".join(bib_content).encode("utf-8")
 
+@st.cache_data
 def df_to_nbib(df: pd.DataFrame) -> bytes:
     """Basic NBIB generator from DataFrame with robust type handling."""
     df_clean = _clean_df(df)
@@ -165,11 +171,10 @@ def df_to_nbib(df: pd.DataFrame) -> bytes:
                     
         py_str = _get_val(row, 'Publication Year')
         if py_str:
-            try:
-                py_clean = str(int(float(py_str)))
+            from utils.formatters import clean_year_value
+            py_clean = clean_year_value(py_str)
+            if py_clean:
                 nbib_content.append(f"DP  - {py_clean}")
-            except (ValueError, TypeError):
-                nbib_content.append(f"DP  - {py_str}")
                 
         doi = _get_val(row, 'DOI')
         if doi:

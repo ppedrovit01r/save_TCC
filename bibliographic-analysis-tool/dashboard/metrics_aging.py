@@ -10,8 +10,11 @@ def display_citation_data_per_year(df: pd.DataFrame):
     if "Publication Year" not in df.columns:
         st.warning("'Publication Year' column not found.")
         return
-    df_year = df.dropna(subset=["Publication Year"]).copy()
-    df_year["Publication Year"] = df_year["Publication Year"].astype(int)
+        
+    from utils.formatters import clean_year_series
+    df_year = df.copy()
+    df_year["Publication Year"] = clean_year_series(df_year["Publication Year"])
+    df_year = df_year[df_year["Publication Year"] != ""].copy()
     if df_year.empty:
         st.info("No valid year data.")
         return
@@ -20,7 +23,7 @@ def display_citation_data_per_year(df: pd.DataFrame):
     citations_per_year = df_year.groupby("Publication Year")["Times Cited"].sum()
     
     pub_cit_df = pd.DataFrame({
-        "Publication Year": pubs_per_year.index,
+        "Publication Year": pubs_per_year.index.astype(str),
         "Publications": pubs_per_year.values,
         "Total Citations": citations_per_year.values
     })
@@ -33,12 +36,12 @@ def display_citation_data_per_year(df: pd.DataFrame):
 
     import plotly.graph_objects as go
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=pubs_per_year.index, y=pubs_per_year.values, mode='lines+markers', name="Publications", line=dict(color="#C69C55")))
-    fig.add_trace(go.Scatter(x=citations_per_year.index, y=citations_per_year.values, mode='lines+markers', name="Citations", line=dict(color="#64B5F6")))
+    fig.add_trace(go.Scatter(x=pubs_per_year.index.astype(str), y=pubs_per_year.values, mode='lines+markers', name="Publications", line=dict(color="#C69C55")))
+    fig.add_trace(go.Scatter(x=citations_per_year.index.astype(str), y=citations_per_year.values, mode='lines+markers', name="Citations", line=dict(color="#64B5F6")))
     
     fig.update_layout(
         title="Publications and Citations by Year",
-        xaxis=dict(title="Year"),
+        xaxis=dict(title="Year", type='category'),
         yaxis=dict(title="Count"),
         margin=dict(l=20, r=20, t=40, b=40),
         paper_bgcolor="rgba(0,0,0,0)",
@@ -55,6 +58,7 @@ def _display_average_citation_year(citations_per_year, pubs_per_year):
         
     avg_table = avg_citations_per_year.reset_index()
     avg_table.columns = ["Publication Year", "Average Citations per Paper"]
+    avg_table["Publication Year"] = avg_table["Publication Year"].astype(str)
     
     col_t, col_b = st.columns([0.7, 0.3], vertical_alignment="center")
     with col_t:
@@ -64,10 +68,10 @@ def _display_average_citation_year(citations_per_year, pubs_per_year):
 
     import plotly.graph_objects as go
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=avg_citations_per_year.index, y=avg_citations_per_year.values, mode='lines+markers', name="Avg Citations", line=dict(color="purple")))
+    fig.add_trace(go.Scatter(x=avg_citations_per_year.index.astype(str), y=avg_citations_per_year.values, mode='lines+markers', name="Avg Citations", line=dict(color="purple")))
     fig.update_layout(
         title="Average Citations per Article by Year",
-        xaxis=dict(title="Publication Year"),
+        xaxis=dict(title="Publication Year", type='category'),
         yaxis=dict(title="Average Citations"),
         margin=dict(l=20, r=20, t=40, b=40),
         paper_bgcolor="rgba(0,0,0,0)",

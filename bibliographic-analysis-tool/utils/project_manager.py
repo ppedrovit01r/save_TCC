@@ -2,6 +2,7 @@ import os
 import re
 import datetime
 import shutil
+import json
 import pandas as pd
 import streamlit as st
 
@@ -40,13 +41,19 @@ def set_active_project(name: str, migrate_from: str = "Default_Project") -> str:
         path = get_project_dir(sub)
         os.makedirs(path, exist_ok=True)
         
+    clear_project_list_cache()
     return clean_name
+
+def reset_active_project() -> None:
+    """Closes the connection to the active project folder and resets to unattached state."""
+    st.session_state.active_project_name = "Default_Project"
 
 def get_project_root(project_name: str = None) -> str:
     """Returns the root directory path of the active or specified project."""
     proj_name = project_name or get_active_project_name()
     path = os.path.join(PROJECTS_ROOT, proj_name)
-    os.makedirs(path, exist_ok=True)
+    if not os.path.exists(path):
+        os.makedirs(path, exist_ok=True)
     return path
 
 def get_project_dir(subfolder: str = "logs", project_name: str = None) -> str:
@@ -133,7 +140,12 @@ def save_master_dataset(df: pd.DataFrame, project_name: str = None) -> str:
     root = get_project_root(project_name)
     out_path = os.path.join(root, "master_dataset.csv")
     try:
-        df.to_csv(out_path, index=False, encoding="utf-8-sig")
+        save_df = df.copy()
+        if "Publication Year" in save_df.columns:
+            from utils.formatters import clean_year_series
+            save_df["Publication Year"] = clean_year_series(save_df["Publication Year"])
+        save_df.to_csv(out_path, index=False, encoding="utf-8-sig")
+        clear_project_list_cache()
         return out_path
     except Exception as e:
         print(f"Error saving master dataset: {e}")
@@ -156,7 +168,11 @@ def load_master_dataset(project_name: str) -> pd.DataFrame:
 
     if os.path.exists(target_csv):
         try:
-            return pd.read_csv(target_csv, low_memory=False)
+            loaded_df = pd.read_csv(target_csv, low_memory=False)
+            if loaded_df is not None and "Publication Year" in loaded_df.columns:
+                from utils.formatters import clean_year_series
+                loaded_df["Publication Year"] = clean_year_series(loaded_df["Publication Year"])
+            return loaded_df
         except Exception as e:
             st.error(f"Error reading dataset from project '{project_name}': {e}")
             return None
@@ -196,9 +212,32 @@ def migrate_project_data(from_proj: str, to_proj: str):
     except Exception as e:
         print(f"Project migration notice: {e}")
 
+def _count_csv_rows_fast(filepath: str) -> int:
+    """Fast line counter using 1MB binary chunk buffer instead of line iteration."""
+    try:
+        with open(filepath, 'rb') as f:
+            count = 0
+            buf_size = 1024 * 1024
+            buf = f.read(buf_size)
+            while buf:
+                count += buf.count(b'\n')
+                buf = f.read(buf_size)
+            return max(0, count - 1)
+    except Exception:
+        return 0
+
+def clear_project_list_cache():
+    """Invalidates the cached list of saved projects."""
+    try:
+        list_saved_projects.clear()
+    except Exception:
+        pass
+
+@st.cache_data(ttl=60, show_spinner=False)
 def list_saved_projects() -> list[dict]:
     """
     Scans PROJECTS_ROOT and returns a list of dictionaries with project metadata.
+    Cached for 60 seconds or invalidated when projects are modified.
     """
     if not os.path.exists(PROJECTS_ROOT):
         return []
@@ -218,9 +257,7 @@ def list_saved_projects() -> list[dict]:
         if has_dataset:
             try:
                 file_size_mb = os.path.getsize(master_csv) / (1024 * 1024)
-                with open(master_csv, 'rb') as f:
-                    row_count = sum(1 for _ in f) - 1
-                if row_count < 0: row_count = 0
+                row_count = _count_csv_rows_fast(master_csv)
             except Exception:
                 pass
         else:
@@ -234,9 +271,7 @@ def list_saved_projects() -> list[dict]:
                     target_file = os.path.join(exp_dir, best_csv)
                     try:
                         file_size_mb = os.path.getsize(target_file) / (1024 * 1024)
-                        with open(target_file, 'rb') as f:
-                            row_count = sum(1 for _ in f) - 1
-                        if row_count < 0: row_count = 0
+                        row_count = _count_csv_rows_fast(target_file)
                     except Exception:
                         pass
                         
@@ -260,3 +295,98 @@ def list_saved_projects() -> list[dict]:
         
     projects.sort(key=lambda x: x["modified_dt"], reverse=True)
     return projects
+
+def get_project_metadata(project_name: str = None) -> dict:
+    """Loads project_metadata.json from the project root."""
+    root = get_project_root(project_name)
+    meta_path = os.path.join(root, "project_metadata.json")
+    if os.path.exists(meta_path):
+        try:
+            with open(meta_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+def save_project_metadata(key: str, value, project_name: str = None) -> dict:
+    """Updates a key in project_metadata.json and returns the updated metadata."""
+    root = get_project_root(project_name)
+    meta_path = os.path.join(root, "project_metadata.json")
+    meta = get_project_metadata(project_name)
+    meta[key] = value
+    try:
+        with open(meta_path, "w", encoding="utf-8") as f:
+            json.dump(meta, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f"Error saving project metadata: {e}")
+    return meta
+
+def is_author_standardization_dismissed(project_name: str = None) -> bool:
+    """Checks if the author standardization advisory banner has been dismissed for this project."""
+    if st.session_state.get("author_standardization_dismissed") is True:
+        return True
+    meta = get_project_metadata(project_name)
+    dismissed = bool(meta.get("author_standardization_dismissed", False))
+    if dismissed:
+        st.session_state["author_standardization_dismissed"] = True
+    return dismissed
+
+def set_author_standardization_dismissed(dismissed: bool = True, project_name: str = None) -> None:
+    """Sets the author standardization dismissal state both in session state and project_metadata.json."""
+    st.session_state["author_standardization_dismissed"] = dismissed
+    save_project_metadata("author_standardization_dismissed", dismissed, project_name)
+
+_OVERRIDES_CACHE = {}
+_OVERRIDES_MTIME = {}
+
+def get_manual_author_overrides(project_name: str = None) -> dict:
+    """Loads author_overrides.json containing manual author name replacements {original: new} with fast memory caching."""
+    root = get_project_root(project_name)
+    overrides_path = os.path.join(root, "author_overrides.json")
+    if not os.path.exists(overrides_path):
+        return {}
+    try:
+        mtime = os.path.getmtime(overrides_path)
+        if overrides_path in _OVERRIDES_CACHE and _OVERRIDES_MTIME.get(overrides_path) == mtime:
+            return _OVERRIDES_CACHE[overrides_path]
+        with open(overrides_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            _OVERRIDES_CACHE[overrides_path] = data
+            _OVERRIDES_MTIME[overrides_path] = mtime
+            return data
+    except Exception:
+        return {}
+
+def save_manual_author_override(orig_name: str, new_name: str, project_name: str = None) -> dict:
+    """Saves a manual author replacement mapping to author_overrides.json."""
+    if not orig_name or not new_name:
+        return {}
+    root = get_project_root(project_name)
+    overrides_path = os.path.join(root, "author_overrides.json")
+    overrides = get_manual_author_overrides(project_name)
+    overrides[orig_name.strip()] = new_name.strip()
+    try:
+        with open(overrides_path, "w", encoding="utf-8") as f:
+            json.dump(overrides, f, ensure_ascii=False, indent=2)
+        _OVERRIDES_CACHE[overrides_path] = overrides
+        _OVERRIDES_MTIME[overrides_path] = os.path.getmtime(overrides_path)
+    except Exception as e:
+        print(f"Error saving manual author override: {e}")
+    return overrides
+
+def delete_manual_author_override(orig_name: str, project_name: str = None) -> dict:
+    """Deletes a manual author replacement mapping from author_overrides.json."""
+    root = get_project_root(project_name)
+    overrides_path = os.path.join(root, "author_overrides.json")
+    overrides = get_manual_author_overrides(project_name)
+    if orig_name in overrides:
+        del overrides[orig_name]
+        try:
+            with open(overrides_path, "w", encoding="utf-8") as f:
+                json.dump(overrides, f, ensure_ascii=False, indent=2)
+            _OVERRIDES_CACHE[overrides_path] = overrides
+            _OVERRIDES_MTIME[overrides_path] = os.path.getmtime(overrides_path)
+        except Exception as e:
+            print(f"Error deleting manual author override: {e}")
+    return overrides
+

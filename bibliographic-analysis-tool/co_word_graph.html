@@ -2,10 +2,204 @@
     <head>
         <meta charset="utf-8">
         
-            <script src="lib/bindings/utils.js"></script>
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
             <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             
+            
+            
+            
+            
+            
+
         
 <center>
 <h1></h1>
@@ -88,8 +282,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#1D4ED8", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "journal", "label": "journal", "shape": "dot", "size": 30, "title": "journal"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "instituto", "label": "instituto", "shape": "dot", "size": 11, "title": "instituto (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "novas", "label": "novas", "shape": "dot", "size": 11, "title": "novas (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "rela\u00e7\u00e3o", "label": "rela\u00e7\u00e3o", "shape": "dot", "size": 11, "title": "rela\u00e7\u00e3o (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "das", "label": "das", "shape": "dot", "size": 11, "title": "das (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "linhas", "label": "linhas", "shape": "dot", "size": 11, "title": "linhas (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "te\u00f3rica", "label": "te\u00f3rica", "shape": "dot", "size": 11, "title": "te\u00f3rica (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "alto", "label": "alto", "shape": "dot", "size": 11, "title": "alto (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "publicados", "label": "publicados", "shape": "dot", "size": 11, "title": "publicados (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "concluir", "label": "concluir", "shape": "dot", "size": 11, "title": "concluir (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "pesquisadores", "label": "pesquisadores", "shape": "dot", "size": 11, "title": "pesquisadores (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "nesta", "label": "nesta", "shape": "dot", "size": 11, "title": "nesta (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "estamos", "label": "estamos", "shape": "dot", "size": 11, "title": "estamos (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "publicada", "label": "publicada", "shape": "dot", "size": 11, "title": "publicada (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "peri\u00f3dicos", "label": "peri\u00f3dicos", "shape": "dot", "size": 11, "title": "peri\u00f3dicos (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "indexados", "label": "indexados", "shape": "dot", "size": 11, "title": "indexados (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "bibliotecas", "label": "bibliotecas", "shape": "dot", "size": 11, "title": "bibliotecas (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "universidades", "label": "universidades", "shape": "dot", "size": 11, "title": "universidades (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "pelo", "label": "pelo", "shape": "dot", "size": 11, "title": "pelo (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "p\u00e1gina", "label": "p\u00e1gina", "shape": "dot", "size": 11, "title": "p\u00e1gina (1\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "e", "label": "e", "shape": "dot", "size": 11, "title": "e (1\u00d7)"}]);
-                  edges = new vis.DataSet([{"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "instituto", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "novas", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "rela\u00e7\u00e3o", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "das", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "linhas", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "te\u00f3rica", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "alto", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "publicados", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "concluir", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "pesquisadores", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "nesta", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "estamos", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "publicada", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "peri\u00f3dicos", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "indexados", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "bibliotecas", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "universidades", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "pelo", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "p\u00e1gina", "value": 1}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "e", "value": 1}]);
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#1D4ED8", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "journal", "label": "journal", "shape": "dot", "size": 30, "title": "journal"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "artificial", "label": "artificial", "shape": "dot", "size": 361, "title": "artificial (351\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "intelligence", "label": "intelligence", "shape": "dot", "size": 344, "title": "intelligence (334\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "ai", "label": "ai", "shape": "dot", "size": 248, "title": "ai (238\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "research", "label": "research", "shape": "dot", "size": 197, "title": "research (187\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "use", "label": "use", "shape": "dot", "size": 190, "title": "use (180\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "data", "label": "data", "shape": "dot", "size": 167, "title": "data (157\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "medical", "label": "medical", "shape": "dot", "size": 158, "title": "medical (148\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "clinical", "label": "clinical", "shape": "dot", "size": 148, "title": "clinical (138\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "potential", "label": "potential", "shape": "dot", "size": 147, "title": "potential (137\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "using", "label": "using", "shape": "dot", "size": 143, "title": "using (133\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "also", "label": "also", "shape": "dot", "size": 138, "title": "also (128\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "study", "label": "study", "shape": "dot", "size": 133, "title": "study (123\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "used", "label": "used", "shape": "dot", "size": 131, "title": "used (121\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "published", "label": "published", "shape": "dot", "size": 126, "title": "published (116\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "new", "label": "new", "shape": "dot", "size": 122, "title": "new (112\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "human", "label": "human", "shape": "dot", "size": 122, "title": "human (112\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "may", "label": "may", "shape": "dot", "size": 121, "title": "may (111\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "analysis", "label": "analysis", "shape": "dot", "size": 117, "title": "analysis (107\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "learning", "label": "learning", "shape": "dot", "size": 114, "title": "learning (104\u00d7)"}, {"borderWidth": 2, "borderWidthSelected": 3, "color": {"background": "#0284C7", "border": "#0F172A", "highlight": {"background": "#F59E0B", "border": "#D97706"}}, "font": {"color": "#0F172A"}, "id": "including", "label": "including", "shape": "dot", "size": 112, "title": "including (102\u00d7)"}]);
+                  edges = new vis.DataSet([{"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "artificial", "value": 351}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "intelligence", "value": 334}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "ai", "value": 238}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "research", "value": 187}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "use", "value": 180}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "data", "value": 157}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "medical", "value": 148}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "clinical", "value": 138}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "potential", "value": 137}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "using", "value": 133}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "also", "value": 128}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "study", "value": 123}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "used", "value": 121}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "published", "value": 116}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "new", "value": 112}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "human", "value": 112}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "may", "value": 111}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "analysis", "value": 107}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "learning", "value": 104}, {"color": "rgba(71, 85, 105, 0.45)", "from": "journal", "to": "including", "value": 102}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });

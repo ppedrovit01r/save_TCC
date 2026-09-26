@@ -5,11 +5,15 @@ import plotly.express as px
 from typing import Callable, Any, Optional, List, Union
 from utils.exports import _download_button, safe_run
 from core.ingestion import normalize_columns, TARGET_COLUMNS
+from features.gender import split_authors_string
 
 @safe_run
 def display_header_data(df: pd.DataFrame):
-    all_authors = df["Author"].astype(str).str.split(",").explode().str.strip().unique()
-    num_authors = len(all_authors)
+    parsed = df["Author"].apply(lambda x: split_authors_string(str(x)) if pd.notna(x) else [])
+    exploded = parsed.explode().dropna().astype(str).str.strip()
+    invalid_tokens = {'', 'nan', '<na>', 'none', 'null', 'n/a', 'unknown', 'et al', 'et al.', 'anonymous'}
+    valid_authors = exploded[~exploded.str.lower().isin(invalid_tokens) & (exploded.str.len() >= 2)].unique()
+    num_authors = len(valid_authors)
     total_citations = df["Times Cited"].sum(skipna=True)
     avg_citations = df["Times Cited"].mean(skipna=True)
 
@@ -75,6 +79,8 @@ def display_most_cited_per_year_graph(df: pd.DataFrame, min_cit: Optional[int] =
     if high_cited.empty:
         st.info(f"No articles with more than {min_cit} citations were found.")
     else:
+        from utils.formatters import clean_year_series, clean_year_value
+        high_cited["Publication Year"] = clean_year_series(high_cited["Publication Year"])
         high_cited = high_cited.sort_values(["Publication Year", "Times Cited"], ascending=[True, False]).reset_index(drop=True)
         high_cited["Article ID"] = [f"A{i+1}" for i in range(len(high_cited))]
         
@@ -106,8 +112,16 @@ def display_most_cited_per_year_graph(df: pd.DataFrame, min_cit: Optional[int] =
             if len(lines) > 4:
                 wrapped_title += "..."
                 
-            author_info = f"<br><b>Authors:</b> {str(r['Author']).split(',')[0]} et al." if ("Author" in r and pd.notna(r["Author"])) else ""
-            hover_notes.append(f"<b>{r['Article ID']}</b>: {wrapped_title}<br><b>Year:</b> {r['Publication Year']}<br><b>Citations:</b> {r['Times Cited']}{author_info}")
+            if "Author" in r and pd.notna(r["Author"]):
+                parsed_a = split_authors_string(str(r["Author"]))
+                if parsed_a:
+                    author_info = f"<br><b>Authors:</b> {parsed_a[0]} et al." if len(parsed_a) > 1 else f"<br><b>Authors:</b> {parsed_a[0]}"
+                else:
+                    author_info = ""
+            else:
+                author_info = ""
+            clean_yr = clean_year_value(r.get("Publication Year", ""))
+            hover_notes.append(f"<b>{r['Article ID']}</b>: {wrapped_title}<br><b>Year:</b> {clean_yr}<br><b>Citations:</b> {r['Times Cited']}{author_info}")
 
         chart_df["hover_text"] = hover_notes
 
@@ -192,13 +206,18 @@ def display_authors_with_more_citations(df_results: pd.DataFrame, df: pd.DataFra
         st.warning("No 'Publication Year' column in the dataset.")
         return
         
-    articles_per_year = df["Publication Year"].dropna().astype(int).value_counts().sort_index()
-    if articles_per_year.empty:
+    from utils.formatters import clean_year_series
+    cleaned_years = clean_year_series(df["Publication Year"])
+    cleaned_years = cleaned_years[cleaned_years != ""]
+    if cleaned_years.empty:
         st.info("No year information available.")
         return
+        
+    articles_per_year = cleaned_years.value_counts().sort_index()
 
     year_df = articles_per_year.reset_index()
     year_df.columns = ["Publication Year", "Number of Articles"]
+    year_df["Publication Year"] = year_df["Publication Year"].astype(str)
     
     # Header Line with Download Button for the table
     y_col1, y_col2 = st.columns([0.7, 0.3], vertical_alignment="center")
@@ -216,6 +235,7 @@ def display_authors_with_more_citations(df_results: pd.DataFrame, df: pd.DataFra
         color_discrete_sequence=["#C69C55"]
     )
     fig.update_layout(
+        xaxis=dict(type='category', title="Publication Year"),
         margin=dict(l=20, r=20, t=40, b=40),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)"
