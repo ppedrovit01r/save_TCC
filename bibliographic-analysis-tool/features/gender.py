@@ -1538,14 +1538,38 @@ def show(df: pd.DataFrame):
     # Check for recent NamSor error
     if 'gender_error' in st.session_state:
         g_err = st.session_state.gender_error
-        st.error(
-            f"🛑 **{g_err.get('title', 'NamSor Quota / API Limit Reached')}**\n\n"
-            f"**Details:** {g_err.get('message', 'Quota limit reached.')}\n\n"
-            f"💾 **Work Preserved:** Analyzed **{g_err.get('processed_articles', 0)} of {g_err.get('total_articles', 0)} articles** "
-            f"({g_err.get('processed_authors', 0)} author records). "
-            f"All classifications are safely cached in `logs/gender_cache.json`!\n\n"
-            f"👉 **Next Step:** You can enter a **new NamSor API key** below, or switch to **Pure Offline mode** to complete the remaining records instantly."
-        )
+        
+        res_payload = st.session_state.get('gender_analysis_results')
+        if res_payload and 'unique_authors' in res_payload:
+            u_list = res_payload.get('unique_authors', [])
+            total_u = len(u_list)
+            pending_u = sum(1 for a in u_list if a.get('gender') == 'unclassified')
+            classified_u = total_u - pending_u
+        else:
+            total_u = g_err.get('total_unique_names', len(df))
+            classified_u = g_err.get('cached_resolved', 0) + g_err.get('api_resolved', g_err.get('processed_authors', 0))
+            pending_u = g_err.get('pending_names', max(0, total_u - classified_u))
+
+        err_msg = g_err.get('message', 'NamSor monthly quota reached or API key invalid.')
+        err_title = g_err.get('title', 'NamSor API Quota / Authentication Error')
+
+        c_err_box, c_err_btn = st.columns([0.88, 0.12])
+        with c_err_box:
+            st.error(
+                f"🛑 **{err_title}**\n\n"
+                f"**Details:** `{err_msg}`\n\n"
+                f"💾 **Work Preserved & Cached:**\n"
+                f"- **{classified_u:,} unique author names** successfully classified and safely cached in `utils/cache/gender_cache.json`.\n"
+                f"- **{pending_u:,} unique author names** are currently **Pending API / Unclassified** (quota stopped before these could be queried).\n"
+                f"- **Full Dataset Processed:** All {len(df):,} articles have been mapped with available classifications in the dashboard below.\n\n"
+                f"👉 **Next Step to Complete:** Enter a new **NamSor API Key** below and click **Run Gender Inference Pipeline**. The pipeline will automatically skip all cached names and **only consume quota for the remaining {pending_u:,} pending names**.\n\n"
+                f"*(Alternatively, you can switch to **Local Cache Only (Offline)** mode to analyze the corpus using only verified local classifications).*"
+            )
+        with c_err_btn:
+            st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+            if st.button("✕ Dismiss", key="btn_dismiss_gender_err", help="Dismiss this warning banner"):
+                del st.session_state['gender_error']
+                st.rerun()
 
     with st.expander("⚠️ Methodological Note: Gender Inference & Inclusivity", expanded=False):
         st.markdown(
@@ -1656,6 +1680,11 @@ def show(df: pd.DataFrame):
             disambiguated_count = 0
             disambiguation_log = []
             
+            # Phase 1: Pre-process and collect all unique names to prevent rework
+            progress_bar.progress(0.05, text="Parsing authors and deduplicating names...")
+            all_articles_data = []
+            unique_names_map = {} # (first_n, last_n, country_iso2) -> a_info dict
+            
             for idx, row in df.reset_index().iterrows():
                 orig_idx = row.get('index', idx)
                 title = str(row.get('Title', 'Untitled Record'))
@@ -1688,6 +1717,100 @@ def show(df: pd.DataFrame):
                             disambiguated_count += 1
                             disambiguation_log.append(f"'{title[:45]}...': {ra['last_name']} -> {ra['full_name']}")
 
+                all_articles_data.append({
+                    'idx': idx, 'orig_idx': orig_idx, 'title': title, 'year': year, 
+                    'country_iso2': country_iso2, 'display_country': display_country, 
+                    'resolved_authors_list': resolved_authors_list, 'raw_author_list': raw_author_list
+                })
+                
+                for a_info in resolved_authors_list:
+                    if not a_info['is_initial'] and a_info['first_name']:
+                        key = (a_info['first_name'], a_info['last_name'], country_iso2)
+                        if key not in unique_names_map:
+                            unique_names_map[key] = {
+                                'first_name': a_info['first_name'],
+                                'last_name': a_info['last_name'],
+                                'country_iso2': country_iso2
+                            }
+                            
+                if idx % 15 == 0:
+                    pct = 0.05 + 0.15 * (idx / total_rows)
+                    progress_bar.progress(pct, text=f"Parsing article {idx+1}/{total_rows}...")
+                    
+            # Phase 2: Resolve names from Cache vs API
+            active_key = namsor_api_key_input if "NamSor API" in mode_choice else ""
+            name_resolutions = {} # key -> (res, source_type)
+            
+            # First, check cache instantly for all unique names
+            uncached_names = []
+            progress_bar.progress(0.25, text=f"Checking local cache for {len(unique_names_map)} unique names...")
+            for key, info in unique_names_map.items():
+                res, source_type = classify_author_gender(
+                    first_name=info['first_name'],
+                    last_name=info['last_name'],
+                    country_iso2=info['country_iso2'],
+                    gender_cache=gender_cache,
+                    namsor_api_key="", # Check cache only!
+                    threshold=final_threshold
+                )
+                if source_type == 'cache':
+                    name_resolutions[key] = (res, source_type)
+                else:
+                    uncached_names.append(info)
+                    name_resolutions[key] = (res, source_type) # store temporary miss
+                    
+            # Then query API concurrently for uncached names (optimizing network sleep time)
+            if active_key and uncached_names:
+                progress_bar.progress(0.3, text=f"Querying NamSor API for {len(uncached_names)} uncached names...")
+                
+                def fetch_api(info):
+                    return info, classify_author_gender(
+                        first_name=info['first_name'],
+                        last_name=info['last_name'],
+                        country_iso2=info['country_iso2'],
+                        gender_cache=gender_cache,
+                        namsor_api_key=active_key,
+                        threshold=final_threshold
+                    )
+                
+                import concurrent.futures
+                has_api_error = False
+                api_error_info = None
+                with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+                    futures = {executor.submit(fetch_api, info): info for info in uncached_names}
+                    completed = 0
+                    for future in concurrent.futures.as_completed(futures):
+                        info, (res, source_type) = future.result()
+                        key = (info['first_name'], info['last_name'], info['country_iso2'])
+                        name_resolutions[key] = (res, source_type)
+                        
+                        if source_type == 'namsor_error':
+                            has_api_error = True
+                            api_error_info = res
+                            executor.shutdown(wait=False, cancel_futures=True)
+                            break
+                            
+                        completed += 1
+                        if completed % 10 == 0 or completed == len(uncached_names):
+                            progress_bar.progress(0.3 + 0.6 * (completed / len(uncached_names)), 
+                                                  text=f"Querying NamSor API... ({completed}/{len(uncached_names)})")
+                
+                if has_api_error:
+                    # Critical API error (Quota exceeded or invalid key)
+                    # We will continue to Phase 3 to preserve partial work properly!
+                    save_gender_cache(gender_cache)
+
+            # Phase 3: Construct output
+            progress_bar.progress(0.9, text="Finalizing composition analysis...")
+            for data in all_articles_data:
+                idx = data['idx']
+                title = data['title']
+                year = data['year']
+                country_iso2 = data['country_iso2']
+                display_country = data['display_country']
+                resolved_authors_list = data['resolved_authors_list']
+                raw_author_list = data['raw_author_list']
+                
                 article_authors = []
                 for a_pos, a_info in enumerate(resolved_authors_list):
                     first_n = a_info['first_name']
@@ -1703,54 +1826,20 @@ def show(df: pd.DataFrame):
                             'engine': 'Initial / Abbreviated'
                         }
                     else:
-                        active_key = namsor_api_key_input if "NamSor API" in mode_choice else ""
-                        res, source_type = classify_author_gender(
-                            first_name=first_n,
-                            last_name=last_n,
-                            country_iso2=country_iso2,
-                            gender_cache=gender_cache,
-                            namsor_api_key=active_key,
-                            threshold=final_threshold
-                        )
+                        key = (first_n, last_n, country_iso2)
+                        res, source_type = name_resolutions[key]
                         
+                        if source_type in ['cache_miss', 'cache_subthreshold'] and 'has_api_error' in locals() and has_api_error:
+                            res = res.copy()
+                            res['gender'] = 'unclassified'
+                            res['engine'] = 'Pending API / Quota Error'
+                            
                         if source_type == 'cache':
                             cache_hits_count += 1
                         elif source_type in ['cache_miss', 'cache_subthreshold']:
                             cache_misses_count += 1
                         elif source_type == 'namsor':
                             namsor_calls_count += 1
-                        elif source_type == 'namsor_error':
-                            # Critical API error (Quota exceeded or invalid key)
-                            # 1. Save cache so all successful queries are not lost
-                            save_gender_cache(gender_cache)
-                            progress_bar.empty()
-                            
-                            # 2. Store error diagnostic in session_state
-                            st.session_state.gender_error = {
-                                'title': 'NamSor API Quota / Authentication Error',
-                                'message': res.get('error_msg', 'Quota exhausted or invalid API key.'),
-                                'processed_articles': idx,
-                                'total_articles': total_rows,
-                                'processed_authors': len(parsed_authors)
-                            }
-                            
-                            # 3. Store partial results so user does not lose work
-                            if parsed_authors:
-                                st.session_state.gender_analysis_results = {
-                                    'authors_df': pd.DataFrame(parsed_authors),
-                                    'articles_df': pd.DataFrame(article_assessments),
-                                    'unique_authors': list(unique_authors_seen.values()),
-                                    'duration': time.time() - start_t,
-                                    'cache_hits': cache_hits_count,
-                                    'cache_misses': cache_misses_count,
-                                    'offline_hits': 0,
-                                    'namsor_calls': namsor_calls_count,
-                                    'quota_saved_pct': (cache_hits_count / len(parsed_authors) * 100) if parsed_authors else 100.0,
-                                    'threshold': final_threshold,
-                                    'mode_choice': mode_choice,
-                                    'is_partial': True
-                                }
-                            st.rerun()
 
                     a_record = {
                         'article_index': idx,
@@ -1776,7 +1865,8 @@ def show(df: pd.DataFrame):
                 # Analyze article composition
                 m_count = sum(1 for a in article_authors if a['gender'] == 'male' and a['reliable'])
                 f_count = sum(1 for a in article_authors if a['gender'] == 'female' and a['reliable'])
-                u_count = sum(1 for a in article_authors if a['gender'] == 'unknown' or not a['reliable'])
+                unc_count = sum(1 for a in article_authors if a['gender'] == 'unclassified')
+                u_count = sum(1 for a in article_authors if a['gender'] == 'unknown' or (not a['reliable'] and a['gender'] != 'unclassified'))
                 tot_a = len(article_authors)
                 
                 first_g = article_authors[0]['gender'] if article_authors and article_authors[0]['reliable'] else 'unknown'
@@ -1817,6 +1907,7 @@ def show(df: pd.DataFrame):
                     'male_count': m_count,
                     'female_count': f_count,
                     'unknown_count': u_count,
+                    'unclassified_count': unc_count,
                     'has_female': f_count > 0,
                     'has_male': m_count > 0,
                     'composition': comp,
@@ -1844,9 +1935,26 @@ def show(df: pd.DataFrame):
                 except Exception:
                     pass
 
-            # Clear error state on successful complete run
-            if 'gender_error' in st.session_state:
-                del st.session_state['gender_error']
+            # Handle API error state reporting
+            if 'active_key' in locals() and active_key and 'has_api_error' in locals() and has_api_error:
+                cached_resolved = len(unique_names_map) - len(uncached_names)
+                api_resolved = completed
+                pending_names = max(0, len(uncached_names) - completed)
+                total_unique_names = len(unique_names_map)
+                
+                st.session_state.gender_error = {
+                    'title': 'NamSor API Quota / Authentication Error',
+                    'message': api_error_info.get('error_msg', 'Quota exhausted or invalid API key (HTTP 403).'),
+                    'total_unique_names': total_unique_names,
+                    'cached_resolved': cached_resolved,
+                    'api_resolved': api_resolved,
+                    'pending_names': pending_names,
+                    'total_articles': total_rows
+                }
+            else:
+                # Clear error state on successful complete run
+                if 'gender_error' in st.session_state:
+                    del st.session_state['gender_error']
             
             duration = time.time() - start_t
             total_eval = len(parsed_authors)
@@ -1867,9 +1975,12 @@ def show(df: pd.DataFrame):
                 'mode_choice': mode_choice,
                 'disambiguated_count': disambiguated_count,
                 'disambiguation_log': disambiguation_log,
-                'is_partial': False
+                'is_partial': ('has_api_error' in locals() and has_api_error)
             }
             st.session_state.gender_analysis_results = results_payload
+            
+            if 'has_api_error' in locals() and has_api_error:
+                st.rerun()
 
             # Generate and save detailed audit log into active project's logs folder
             audit_log_text = generate_gender_audit_log(
@@ -1905,7 +2016,7 @@ def show(df: pd.DataFrame):
     # Ensure backwards compatibility for previously run sessions
     if 'total_authors' not in articles_df.columns:
         articles_df['total_authors'] = articles_df.apply(
-            lambda r: int(r.get('male_count', 0) + r.get('female_count', 0) + r.get('unknown_count', 0)), axis=1
+            lambda r: int(r.get('male_count', 0) + r.get('female_count', 0) + r.get('unknown_count', 0) + r.get('unclassified_count', 0)), axis=1
         )
     if 'is_multi_author' not in articles_df.columns:
         articles_df['is_multi_author'] = articles_df['total_authors'] >= 2
@@ -1958,10 +2069,12 @@ def show(df: pd.DataFrame):
     male_unique = (u_authors_df['gender'] == 'male').sum()
     female_unique = (u_authors_df['gender'] == 'female').sum()
     unknown_unique = (u_authors_df['gender'] == 'unknown').sum()
+    unclassified_unique = (u_authors_df['gender'] == 'unclassified').sum()
     
     male_pct = (male_unique / total_unique_authors * 100) if total_unique_authors else 0
     female_pct = (female_unique / total_unique_authors * 100) if total_unique_authors else 0
     unknown_pct = (unknown_unique / total_unique_authors * 100) if total_unique_authors else 0
+    unclassified_pct = (unclassified_unique / total_unique_authors * 100) if total_unique_authors else 0
     
     total_articles_eval = len(articles_df)
     articles_with_female = articles_df['has_female'].sum()
@@ -2061,7 +2174,7 @@ def show(df: pd.DataFrame):
         m1.metric("Classified Authors", f"{active_total_authors:,}", f"{corpus_rep_pct:.1f}% of total corpus", delta_color="normal")
         m2.metric("Female Authors", f"{active_female:,}", f"{active_female_pct:.1f}% of classified", delta_color="normal")
         m3.metric("Male Authors", f"{active_male:,}", f"{active_male_pct:.1f}% of classified", delta_color="normal")
-        m4.metric("Excluded Unknown", f"{unknown_unique:,}", f"{unknown_pct:.1f}% of corpus", delta_color="off")
+        m4.metric("Excluded Unknown", f"{unknown_unique + unclassified_unique:,}", f"{unknown_pct + unclassified_pct:.1f}% of corpus", delta_color="off")
         m5.metric("Articles with ≥1 Woman", f"{articles_with_female:,}", f"{female_art_pct:.1f}% of papers", delta_color="normal")
     else:
         st.markdown(f"""
@@ -2082,7 +2195,7 @@ def show(df: pd.DataFrame):
         m1.metric("Unique Authors", f"{total_unique_authors:,}")
         m2.metric("Female Authors", f"{female_unique:,}", f"{female_pct:.1f}% of authors", delta_color="normal")
         m3.metric("Male Authors", f"{male_unique:,}", f"{male_pct:.1f}% of authors", delta_color="normal")
-        m4.metric("Unclassified / Initials", f"{unknown_unique:,}", f"{unknown_pct:.1f}% unclassified", delta_color="off")
+        m4.metric("Unknown / Pending API", f"{unknown_unique + unclassified_unique:,}", f"{unknown_pct + unclassified_pct:.1f}% total", delta_color="off")
         m5.metric("Articles with ≥1 Woman", f"{articles_with_female:,}", f"{female_art_pct:.1f}% of papers", delta_color="normal")
 
     st.divider()
@@ -2240,6 +2353,7 @@ def show(df: pd.DataFrame):
                 Male=('male_count', 'sum'),
                 Female=('female_count', 'sum'),
                 Unknown=('unknown_count', 'sum'),
+                Pending=('unclassified_count', 'sum'),
                 Articles=('title', 'count')
             ).reset_index()
 
@@ -2249,10 +2363,11 @@ def show(df: pd.DataFrame):
                 yearly_stats['Male_Pct'] = (yearly_stats['Male'] / yearly_stats['Total_Known'] * 100).fillna(0)
                 yearly_stats['Unknown_Pct'] = 0.0
             else:
-                yearly_stats['Total_Authors'] = yearly_stats['Male'] + yearly_stats['Female'] + yearly_stats['Unknown']
+                yearly_stats['Total_Authors'] = yearly_stats['Male'] + yearly_stats['Female'] + yearly_stats['Unknown'] + yearly_stats['Pending']
                 yearly_stats['Female_Pct'] = (yearly_stats['Female'] / yearly_stats['Total_Authors'] * 100).fillna(0)
                 yearly_stats['Male_Pct'] = (yearly_stats['Male'] / yearly_stats['Total_Authors'] * 100).fillna(0)
                 yearly_stats['Unknown_Pct'] = (yearly_stats['Unknown'] / yearly_stats['Total_Authors'] * 100).fillna(0)
+                yearly_stats['Pending_Pct'] = (yearly_stats['Pending'] / yearly_stats['Total_Authors'] * 100).fillna(0)
 
             t_hdr1, t_hdr2 = st.columns([0.7, 0.3], vertical_alignment="center")
             with t_hdr1:
@@ -2266,6 +2381,7 @@ def show(df: pd.DataFrame):
                 fig_time.add_trace(go.Bar(x=yearly_stats['year_clean'], y=yearly_stats['Male_Pct'], name='Male Authors (%)', marker_color='#2563EB'))
                 if not filter_known_only:
                     fig_time.add_trace(go.Bar(x=yearly_stats['year_clean'], y=yearly_stats['Unknown_Pct'], name='Unknown (%)', marker_color='#CBD5E1'))
+                    fig_time.add_trace(go.Bar(x=yearly_stats['year_clean'], y=yearly_stats['Pending_Pct'], name='Pending API (%)', marker_color='#F59E0B'))
                 fig_time.update_layout(
                     barmode='stack',
                     yaxis=dict(title="Percentage (%)", range=[0, 100]),
@@ -2280,6 +2396,7 @@ def show(df: pd.DataFrame):
                 fig_time.add_trace(go.Bar(x=yearly_stats['year_clean'], y=yearly_stats['Female'], name='Female Authors', marker_color='#EC4899'))
                 if not filter_known_only:
                     fig_time.add_trace(go.Bar(x=yearly_stats['year_clean'], y=yearly_stats['Unknown'], name='Unknown Authors', marker_color='#CBD5E1'))
+                    fig_time.add_trace(go.Bar(x=yearly_stats['year_clean'], y=yearly_stats['Pending'], name='Pending API', marker_color='#F59E0B'))
                 fig_time.update_layout(
                     barmode='group',
                     yaxis=dict(title="Total Author Appearances"),

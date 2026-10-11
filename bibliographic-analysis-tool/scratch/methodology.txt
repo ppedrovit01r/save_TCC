@@ -1,0 +1,538 @@
+﻿\section{Methodology}
+\label{sec:methodology}
+% ==============================================================================
+%introduÃ§Ã£o sobre as ferramentas? 
+\subsection{Core Pipeline: Ingestion, Deduplication, and Enrichment}
+\label{subsec:core_engine}
+
+The core processing pipeline (\texttt{core/}) establishes an automated, fault-tolerant workflow that transforms unstructured, differently formatted bibliographic corpora into a dense, verified dataset ready for scientometric modeling and network extraction\cite{donthu2021how, moral2020software}.
+
+\subsubsection{Data Ingestion and Schema Normalization (\texttt{ingestion.py})}
+The ingestion engine acts as the front-line abstraction layer against structural and syntactic variance across academic repositories such as Web of Science, Scopus, and PubMed \cite{pranckute2021web, waltman2016review}. Rather than executing rigid tabular ingestion, the module executes an \textit{Intelligent Sniffing State Machine} \cite{asano2026simplifying, mckinney2010pandas}. When evaluating tabular inputs (\texttt{.csv} or \texttt{.xlsx}), the parser sequentially validates candidate character encodings (\texttt{utf-8-sig}, \texttt{latin1}, \texttt{cp1252}) against common delimiters (\texttt{','} and \texttt{';'}) to instantiate an uncorrupted \texttt{pandas.DataFrame} without terminating the runtime upon malformed byte sequences \cite{mckinney2010pandas}. For structured citation streams, the system interfaces with \texttt{rispy} (for \texttt{.ris} files) and \texttt{bibtexparser} (for \texttt{.bib} files). Unstructured PubMed exports (\texttt{.nbib}) are processed through a custom finite state machine (\texttt{parse\_nbib}) that iteratively tracks proprietary National Library of Medicine (NLM) field tags, stitches multi-line text continuations, and extracts metadata attributes via compiled regular expressions.
+
+Following raw loading, the parsed schema is normalized against a canonical 24-column taxonomy via a static dictionary that harmonizes heterogeneous column conventions across platforms (e.g., \textit{pmid}, \textit{pubmed id}, and \textit{pmc}) \cite{asano2026simplifying}. To counteract sparse metadata prior to network operations, the module executes \textit{Cross-Field Deduction Heuristics}: when geographic metadata such as author \texttt{Country} is null, compiled regular expressions scan unstructured \texttt{Address} or \texttt{Affiliations} attributes for localized administrative sub-divisions (e.g., Brazilian state abbreviations such as ``RS'' or ``SP'') and international municipal entities, programmatically inferring demographic attributes prior to downstream analysis.
+
+\subsubsection{Hierarchical Record Consolidation (\texttt{deduplication.py})}
+To consolidate duplicate records across multi-database queries while handling minor lexicographical deviations, the platform abandons naive deduplication in favor of a multi-stage deterministic pipeline rooted in entity resolution principles \cite{christen2012data, navarro2001guided, levenshtein1966binary}. The algorithm first applies aggressive canonical normalization to persistent identifiers: Digital Object Identifiers (DOIs) are stripped of URI schemes (e.g., \texttt{https://doi.org/}) and lowercased; OpenAlex identifiers \cite{priem2022openalex} are isolated and converted to uppercase; and PubMed IDs (PMIDs) are validated against numeric regular expressions. Identity matching executes sequentially across priority tiers: exact DOI match, followed by OpenAlex ID, and PMID. As an empirical fallback for unindexed entries, the algorithm performs normalized title matching: titles are stripped of bracketed translation notations (e.g., \texttt{[Title...]}), punctuation marks are excised, and strings are verified under an exact-match constraint with a length boundary ($L > 10$ characters) to eliminate false positives on generic single-word headers \cite{navarro2001guided}.
+
+To preserve maximum information density during record merging, consolidation follows an objective completeness heuristic[cite: 3]. For each candidate row $i$, a richness score is calculated:
+\begin{equation}
+\label{eq:richness_heuristic}
+\text{Richness}_i = \left( N_{\text{non-null}, i} \times 10^6 \right) + C_i
+\end{equation}
+where $N_{\text{non-null}, i}$ represents the count of non-null attributes in row $i$ and $C_i$ denotes its reported citation count (\texttt{TimesCited})[cite: 3]. When duplicates are grouped, records are sorted by $\text{Richness}_i$ in descending order; the row maximizing Eq.~\eqref{eq:richness_heuristic} is selected as the primary surviving instance. Any sparse, unpopulated fields in the survivor row are then horizontally backward-filled (\texttt{bfill(axis=1)}) using valid values present across the discarded duplicate rows, guaranteeing a lossless, maximally complete output record.
+
+\subsubsection{Multi-Tier API Enrichment Engine (\texttt{enrichment.py})}
+The enrichment engine resolves metadata incompleteness (specifically retrieving missing abstracts, publication years, and Open Access statuses) without triggering HTTP 429 (\textit{Too Many Requests}) rate-limit terminations. As illustrated in the deterministic fallback cascade, network requests traverse five sequential tiers:
+\begin{itemize}
+    \item \textbf{Tier 1 (OpenAlex Batch):} Batches un-enriched DOIs in chunks of 50 records and queries the OpenAlex REST API under a strict rate limiter ($\approx 6.6$ requests/second) in compliance with the service's Polite Pool policies.
+    \item \textbf{Tier 2 (Crossref REST):} Dispatches targeted REST calls to Crossref for records unresolved by OpenAlex.
+    \item \textbf{Tier 3 (NCBI eUtils):} Queries the NCBI \texttt{eFetch} endpoint for un-enriched PMIDs, strictly enforcing a 0.35-second inter-request delay to honor NCBI's threshold of 3 requests/second, parsing nested XML nodes via \texttt{xml.etree.ElementTree}.
+    \item \textbf{Tier 4 (Semantic Scholar Graph API):} Queries academic graph endpoints using batched POST payloads.
+    \item \textbf{Tier 5 (Fuzzy Title Disambiguation):} Issues final title searches on OpenAlex via \texttt{difflib.SequenceMatcher} \cite{navarro2001guided}, enforcing an exact similarity cutoff ($\ge 82\%$) to prevent false positive entity hijacking.
+\end{itemize}
+
+Network resilience is guaranteed by intercepting all outgoing calls through \texttt{requests\_cache}, persisting HTTP transaction payloads into an isolated, local SQLite database with a 7-day time-to-live (TTL) cache. OpenAlex and Semantic Scholar responses are additionally persisted using on-disk JSON registries. This architecture provides persistent idempotency: in the event of an unexpected thread failure or process termination, execution resumes instantly from the exact row where it was interrupted without re-issuing completed network calls.
+
+\subsubsection{Universal Reverse Serialization (\texttt{export.py})}
+To avoid trapping enriched outputs inside the platform runtime, \texttt{core/export.py} translates enriched in-memory \texttt{DataFrames} back into standard bibliometric interchange syntaxes via dedicated generators (\texttt{df\_to\_ris}, \texttt{df\_to\_bib}, \texttt{df\_to\_nbib}, and \texttt{df\_to\_csv}). Before byte serialization, the module runs a cleansing routine (\texttt{\_clean\_df()}) that iterates through DataFrame columns, recursively detects nested objects or arrays produced by downstream NLP and entity-tagging modules, and serializes them into delimited scalar strings. Accidental duplicate column headers are consolidated via horizontal backward filling. The resulting string payload is encoded to byte-level streams using the \texttt{utf-8-sig} encoding schemeâ€”ensuring character and diacritic preservation across spreadsheet environments such as Microsoft Excelâ€”and registered in transient cache memory blocks (\texttt{st.cache\_data}) for direct client-side download.
+
+\subsection{Data Presentation \& Analytics (\texttt{dashboard/})}
+
+Guided by Dijkstra's separation of concerns \cite{dijkstra1982selected}, this subsystem isolates analytical and mathematical pipelines from visual rendering components to circumvent memory overhead and browser-freezing bottlenecks common in reactive scientometric interfaces \cite{asano2026simplifying, moral2020software}.
+
+\subsubsection{Bibliometric Indices and Inequality Mathematics (\texttt{dashboard/metrics\_impact.py})}
+
+Author-level impact evaluation requires non-trivial aggregations across multi-author publications. Rather than relying on iterative row scans such as Pandas \texttt{iterrows()}, which suffer from substantial interpreter overhead and scale poorly on medium-to-large corpora \cite{asano2026simplifying, mckinney2010pandas}, the \texttt{metrics\_impact.py} module implements a fully vectorized aggregation pipeline via \texttt{\_compute\_metrics\_per\_author\_vectorized}. Sanitization executes an aggressive filtering stage that purges ambiguous and invalid tokens (\texttt{'et al'}, \texttt{'nan'}, \texttt{'anonymous'}) from author lists. Subsequently, columnar grouping operations (\texttt{groupby("Author").agg()}) powered by optimized NumPy arrays \cite{harris2020numpy} compute total and mean citation counts instantaneously across the active publication dataset.
+
+To compute non-linear bibliometric indicators without recurring algorithmic bottlenecks, the module isolates the citation arrays of authors with non-zero citations, sorts them in strictly descending order ($C_1 \ge C_2 \ge \dots \ge C_n$), and applies optimized generator comprehensions. For the classical Hirsch index ($h$-index) \cite{hirsch2005index}, the algorithm determines the maximum integer $h$ by evaluating:
+\begin{equation}
+h = \sum_{i=0}^{n-1} \mathbb{I}(C_{i+1} \ge i + 1)
+\end{equation}
+where $\mathbb{I}$ represents the indicator function, mapped in the implementation via \texttt{sum(c >= i + 1)}.
+
+For the $g$-index \cite{egghe2006}, introduced to compensate for the insensitivity of the $h$-index to highly cited outlier publications (``blockbusters'') \cite{waltman2016review}, the algorithm requires identifying the highest rank $g$ such that the cumulative sum of citations of the top $g$ articles satisfies:
+\begin{equation}
+\sum_{i=1}^{g} C_i \ge g^2
+\end{equation}
+The engine tracks this prefix sum iteratively within the generator, breaking once the cumulative condition $\sum C_i \ge i^2$ is violated.
+
+Beyond point indices, the module quantifies the systemic distribution of scientific impact across the collection \cite{albarran2011skewness} by modeling citation inequality. In classical scientometrics, the Gini coefficient ($G$) is formulated through double pairwise relative differences \cite{gini1912, lorenz1905}:
+\begin{equation}
+G = \frac{\sum_{i=1}^{n}\sum_{j=1}^{n}|x_i - x_j|}{2n^2\overline{x}}
+\end{equation}
+Because computing this theoretical formulation directly incurs an $\mathcal{O}(n^2)$ time complexity that degrades performance on large datasets, \texttt{metrics\_impact.py} implements an equivalent discrete, linear-time cumulative formulation operating over the sorted citation vector ($C_{(1)} \le C_{(2)} \le \dots \le C_{(n)}$):
+\begin{equation}
+G = \frac{n + 1 - 2 \left( \frac{\sum_{i=1}^{n} S_i}{S_n} \right)}{n}
+\end{equation}
+where $S_i = \sum_{k=1}^i C_{(k)}$ is the running prefix sum (\texttt{cumsum}) up to the $i$-th publication, and $S_n = \text{total\_citations}$ represents the aggregate volume of citations. Concurrently, the module dynamically renders the associated Lorenz curve, plotting the cumulative proportion of publications against the cumulative proportion of citations to give researchers an immediate graphical and mathematical diagnostic of citation concentration \cite{albarran2011skewness}.
+
+Annual obsolescence and temporal decay are derived from moving averages:
+\begin{equation}
+\label{eq:avg_citations}
+\bar{C}_Y =
+\begin{cases}
+\frac{C_Y}{P_Y}, & \text{if } P_Y > 0 \
+\text{NaN}, & \text{if } P_Y = 0
+\end{cases}
+\end{equation}
+protected via numeric exception trapping to maintain continuous temporal curves \cite{moed2010measuring}.
+
+\subsubsection{Dynamic Workspace Routing and Focused Exploration (\texttt{dashboard/main.py} \& \texttt{articles\_explorer.py})}
+
+The modular architecture coordinates navigation through \texttt{dashboard/main.py}, which functions as the unified state router across Phase 2 of the platform. Under Streamlit's reactive execution cycle, user interactions trigger full script reruns. To prevent re-reading storage or repeatedly re-instantiating heavy Pandas \texttt{DataFrame} objects in system RAM \cite{asano2026, mckinney2010}, \texttt{dashboard/main.py} reads the central dataset from \texttt{st.session\_state.master\_df} and binds it into a persistent sidebar navigation harness.
+
+The \texttt{articles\_explorer.py} module consumes this shared global state to deliver an interactive querying engine. Operating on the active matrix, it constructs multi-dimensional boolean bitmasks in Pandas across temporal intervals ($[Y_{\min}, Y_{\max}]$), substring author matches, and publication venues.
+
+Crucially, \texttt{articles\_explorer.py} serves as the gateway to the platform's ``Global Focus Mode''. When an investigator isolates a specific bibliometric cohort, the module overwrites \texttt{st.session\_state.working\_df} with the filtered subset. This truncated data structure is automatically propagated across all downstream computational modulesâ€”including thematic stratification, topological network extraction (\texttt{network\_topology.py}) based on Louvain community clustering \cite{blondel2008}, and latent semantic processing (\texttt{thematic\_stratification.py}) via BERTopic and GSDMM \cite{grootendorst2022, yin2014, piceni2025}. Consequently, downstream tools compute exclusively on the dynamically bounded sub-graph without requiring manual dataset reloads or data duplication.
+
+
+
+
+
+
+
+
+\subsection{Thematic Stratification (\texttt{features/thematic\_stratification.py})}
+To address the severe lexical sparsity and high semantic density characteristic of short scientific abstracts \cite{qiang2019short, albalawi2020using, amorim2022topic}, this module implements a dual-algorithm Natural Language Processing (NLP) ensemble. Conventional clustering algorithms often degrade when applied to short texts due to limited term co-occurrence. The module mitigates this by coupling a dense semantic pipeline with a probabilistic bag-of-words framework.
+
+The semantic pipeline executes a BERTopic architecture \cite{grootendorst2022bertopic}: input documents are mapped into a high-dimensional vector space using pre-trained Transformer embeddings, capturing latent contextual semantics. To alleviate the curse of dimensionality, Uniform Manifold Approximation and Projection (UMAP) \cite{mcinnes2018umap} performs non-linear dimensionality reduction while preserving both local and global topological structure. Hierarchical Density-Based Spatial Clustering of Applications with Noise (HDBSCAN) \cite{mcinnes2017hdbscan} then identifies dense clusters across arbitrary geometric shapes. Cluster-level keyword representations are subsequently extracted via class-based TF-IDF (c-TF-IDF).
+
+\begin{equation}
+\label{eq:c_tf_idf}
+W_{t, c} = \text{TF}{t, c} \times \log\left(1 + \frac{A}{f_t}\right)
+\end{equation}
+where $\text{TF}{t, c}$ represents the frequency of term $t$ in cluster $c$, $f_t$ denotes the aggregate frequency of term $t$ across all clusters, and $A$ denotes the average number of words per cluster.
+
+In parallel, the module deploys Gibbs Sampling Dirichlet Multinomial Mixture (GSDMM) \cite{yin2014dirichlet}, a probabilistic topic model optimized for short texts. Unlike Latent Dirichlet Allocation (LDA) \cite{blei2003latent, blei2012probabilistic}, which assumes each document is an arbitrary mixture of multiple topics, GSDMM operates under the one-topic-per-document assumption. Cluster selection is modeled via a Dirichlet prior and word emission via multinomial sampling according to:
+\begin{equation}
+\label{eq:gsdmm_formula}
+P(z_d=k \mid \vec{d}, \vec{z}{\neg d}) \propto \frac{m{k, \neg d} + \alpha}{D - 1 + K\alpha} \times \frac{\prod_{w \in d} (n_{k,w, \neg d} + \beta)}{\prod_{i=1}^{|d|} (N_{k, \neg d} + V\beta + i - 1)}
+\end{equation}
+where $m_{k, \neg d}$ is the count of documents assigned to topic $k$ excluding document $d$; $D$ is the total document volume; $K$ is the designated maximum topic count; $n_{k,w, \neg d}$ is the occurrence count of word $w$ in cluster $k$ excluding occurrences in $d$; $N_{k, \neg d}$ is the total word count in cluster $k$ excluding $d$; $V$ is vocabulary size; and $\alpha, \beta$ are Dirichlet symmetric smoothing priors governing cluster dispersion and word affinity, respectively \cite{yin2014dirichlet}.
+
+To evaluate topic coherence and cluster agreement, the pipeline calculates Normalized Pointwise Mutual Information (NPMI) \cite{roeder2015exploring} across top lexical terms:\begin{equation}\label{eq:npmi}\text{NPMI}(w_i, w_j) = \frac{\log \frac{P(w_i, w_j)}{P(w_i)P(w_j)}}{-\log P(w_i, w_j)},\end{equation}while Rank-Biased Overlap (RBO) \cite{webber2010similarity} evaluates ranking similarity between topic vocabularies:\begin{equation}\label{eq:rbo}\text{RBO} = (1 - p) \sum_{d=1}^{d_{\text{max}}} p^{d-1} A_d\end{equation}where $p$ is a persistence parameter ($p=0.9$) and $A_d$ is the agreement proportion at depth $d$.To reconcile geometric density assignments from HDBSCAN with probabilistic clusters from GSDMM, an ensemble consensus engine evaluates mutual assignment confidence; instances failing to satisfy the agreement threshold are degraded to noise (topic $-1$) \cite{piceni2025musica}. Centroid terms are formatted into structured JSON payloads and dispatched to a Large Language Model endpoint (Groq/LLaMA~3, Gemini, or local Ollama) to synthesize human-interpretable thematic descriptors \cite{khandelwal2025using}.Finally, themes are mapped onto a strategic Callon Diagram \cite{callon1983word, cobo2011approach, cobo2012scimat}, positioning clusters along density and centrality coordinates derived from the co-word equivalence index $e_{ij}$:\begin{equation}\label{eq:callon_metrics}e_{ij} = \frac{(c_{ij})^2}{c_i \times c_j}, \quad C_k = 10 \sum_{i \in k, j \notin k} e_{ij}, \quad D_k = \frac{100}{N_k} \sum_{i,j \in k} e_{ij}\end{equation}stratifying topics into motor themes (high centrality, high density), highly developed/isolated themes, emerging/declining themes, and basic/transversal themes \cite{cobo2011approach}.
+
+\subsection{Thematic Flow Mapping (\texttt{features/thematic\_flow.py})}
+The longitudinal evolution of scientific disciplines is tracked through temporal topic modeling across user-parameterized chronological windows (eras) \cite{cobo2011approach, lemos2024}. Abstracts are partitioned according to publication year, establishing discrete temporal sub-corpora. Within each temporal window, the sub-corpus is vectorized into a term-frequency--inverse document frequency (TF-IDF) matrix and decomposed using Non-Negative Matrix Factorization (NMF) \cite{lee1999learning}. NMF decomposes the document-term matrix $V$ into non-negative low-rank factor matrices $W$ and $H$:
+
+\begin{equation}
+\label{eq:nmf}
+\min_{W \ge 0, H \ge 0} \frac{1}{2} |V - W H|F^2, \quad K = \max\left(3, ; \min\left(12, ; \lfloor N{\text{era}} / 35 \rfloor\right)\right),
+\end{equation}
+yielding additive, parts-based semantic representations with substantially lower computational overhead than transformer vectorization over small temporal slices.To model conceptual continuity, merging, and divergence across successive eras, the module constructs a directed acyclic graph (DAG) \cite{cobo2011approach}. Topical continuity between topic $A$ in era $T$ and topic $B$ in era $T+1$ is established by computing the Jaccard similarity coefficient \cite{jaccard1901etude} between their top $k$ representative lexical features:
+
+\begin{equation}
+\label{eq:jaccard_sankey}
+J(A, B) = \frac{|A \cap B|}{|A \cup B|}, \quad \text{Flow} = \max\left(1, ; \lfloor J(A, B) \times N_{\text{docs}}(T_{t, i}) \times 10 \rfloor\right).
+\end{equation}
+
+When $J(A, B)$ satisfies or exceeds an empirical threshold, a directed edge is assigned between the nodes, weighted by the flow magnitude. These nodes and edges are mapped into tabular arrays and rendered as an interactive Sankey diagram using Plotly \cite{plotly2015}, visually documenting paradigm shifts, conceptual splits, and intellectual consolidation across decades.
+
+\subsection{Network Topology and Centrality (\texttt{features/network\_topology.py})}
+This module translates tabular bibliographic registries into adjacency matrices for structural and topological graph analysis using NetworkX \cite{hagberg2008exploring}. It constructs two foundational scientometric graph typologies:
+
+\begin{enumerate}
+\item \textbf{Co-citation Networks:} In which an undirected edge between two cited references represents the frequency with which both appear together in the bibliography of citing documents \cite{small1973co_citation}.
+\item \textbf{Bibliographic Coupling Networks:} In which an undirected edge between two published papers indicates the number of shared bibliographic references cited by both works \cite{kessler1963bibliographic}.
+\end{enumerate}
+
+To identify latent scientific communities and disciplinary clusters, the module applies community detection through the Louvain algorithm \cite{blondel2008fast}, maximizing Newman-Girvan modularity ($Q$):
+\begin{equation}
+\label{eq:louvain}
+Q = \frac{1}{2m} \sum_{i,j} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j)
+\end{equation}
+where $A_{ij}$ is edge weight between nodes $i$ and $j$, $k_i = \sum_j A_{ij}$ is the sum of weights attached to node $i$, $m = \frac{1}{2}\sum_{ij} A_{ij}$, and $\delta(c_i, c_j)$ is 1 if nodes $i$ and $j$ belong to the same community, and 0 otherwise.
+
+Concurrently, the module computes a vector of centrality metrics to determine nodal prestige and structural brokerage:
+
+\begin{itemize}
+\item \textbf{Degree Centrality:} Quantifies direct connectivity and local visibility \cite{freeman1978centrality}.
+\item \textbf{Betweenness Centrality:} Measures the ratio of shortest paths traversing a given node via Brandes' algorithm \cite{brandes2001faster}, identifying gatekeepers and interdisciplinary bridges.
+\item \textbf{Closeness Centrality:} Assesses the mean geodesic distance from a node to all other reachable nodes \cite{freeman1978centrality}.
+\item \textbf{PageRank and Eigenvector Centrality:} Quantifies prestige by weighting connections according to the centrality of adjacent neighbors \cite{page1999pagerank}. Numerical instability in disconnected subgraphs is mitigated via explicit error handling for power-iteration non-convergence.
+\end{itemize}
+
+Graph layouts are generated through force-directed algorithms \cite{fruchterman1991graph}, serialized into PyVis objects, and embedded within Streamlit via sandboxed HTML iframes.
+
+\subsection{Demographic Disambiguation and Equity Auditing (\texttt{features/gender.py})}
+Designed for scientometric equity auditing, this module evaluates demographic representation and institutional hierarchy within authorship lists, focusing on the empirical quantification of the ``Scissors Effect'': the progressive attrition of female researchers from lead-author (mentee) positions to senior or last-author (principal investigator) roles \cite{holman2018gender, minuzzo2026women, campbell2013gender, yang2022gender}.
+
+The module executes a deterministic string-parsing pipeline capable of standardizing disparate citation syntaxes, such as Anglo-Saxon inverted formats (\texttt{Surname, Forename}) and medical index abbreviations (\texttt{Surname Initial}). To support non-Latin character sets, strings undergo Unicode normalization and phonetic transliteration via \texttt{unidecode}.
+
+To address name-to-gender classification constraints and prevent API rate-limiting, the system implements a multi-tiered disambiguation architecture:
+\begin{enumerate}
+\item \textbf{Author Entity Resolution:} Unexpanded initials are resolved against the OpenAlex Knowledge Graph API \cite{priem2022openalex} using co-authorship and affiliation metadata to recover canonical full names.
+\item \textbf{Persistent Local Storage:} Disambiguated names are queried against an indexed on-disk JSON dictionary (\texttt{gender_cache.json}).
+\item \textbf{Batched Remote Ingestion:} Unresolved records are batched and transmitted to external classification services (e.g., NamSor \cite{santamaria2018comparison}), with predictions asynchronously appended to the local disk cache.
+\end{enumerate}
+
+\subsection{Systematic Review State Machine (\texttt{features/prisma\_assistant.py})}
+To support the methodological execution of SLRs under the PRISMA 2020 statement \cite{page2021prisma} and Kitchenham's guidelines for Software Engineering \cite{kitchenham2007guidelines, petersen2008systematic, petersen2015guidelines}, this module instantiates an explicit state machine inside \texttt{st.session_state} \cite{costa2023integrating}.
+
+The state engine formalizes screening into four deterministic phases: Identification, Screening, Eligibility, and Inclusion. The data structure tracks arrays of retained unique identifiers, duplicate records, and parameterized exclusion rationales. Sample flow conservation is strictly enforced:
+\begin{equation}
+\label{eq:prisma_balance}
+N_{\text{screened}} = |D_{\text{raw}}|, \quad N_{\text{included}} = N_{\text{screened}} - |\text{exclusions}|.
+\end{equation}
+The computational core dynamically synthesizes a Graphviz DOT script mapping the review flow, computing exact differences between imported records, deduplicated sets, full-text screening assessments, and categorized exclusions. The flow renders as an interactive SVG diagram and exports reproducible \texttt{.dot} and vector source files for publication.
+
+\subsection{Institutional Endogeneity and Governance (\texttt{features/governance.py})}
+This module serves as an automated editorial compliance audit by computing the Institutional Endogeneity Index ($E_{\text{inst}}$) \cite{marziale2014editorial, Nazarovets2025, pinto2024endogamia, stumpf1996periodicos}. In scientometrics, institutional endogeneity measures the proportion of published articles authored by individuals affiliated with the journal's publishing institution. High endogeneity undermines editorial impartiality and serves as an explicit disqualification criterion for indexing databases such as SciELO \cite{scielo2020criterios}, Scopus \cite{pranckute2021web}, and the Brazilian Qualis/CAPES framework.The algorithm normalizes affiliation strings across the dataset and performs a vectorized boolean scan against the host institutional identifier ($I_{\text{pub}}$):
+\begin{equation}
+\label{eq:endogenia}
+E_{\text{inst}} = \left( \frac{\sum_{a=1}^{A} \mathbb{I}(I_a \cap I_{\text{pub}} \neq \emptyset)}{A} \right) \times 100
+\end{equation}
+where $A$ denotes the total number of articles evaluated, and $\mathbb{I}$ represents the indicator function returning $1$ if an intersection exists, and $0$ otherwise.The safety distance to regulatory thresholds (typically $\text{Threshold}_{\text{reg}} = 20\%$ in SciELO guidelines \cite{scielo2020criterios}) is monitored via:
+\begin{equation}
+\label{eq:margem_reg}
+\Delta_{\text{reg}} = \text{Threshold}{\text{reg}} - E{\text{inst}}.
+\end{equation}
+If $E_{\text{inst}}$ exceeds safety bounds ($\Delta_{\text{reg}} < 0$), the module dispatches automated diagnostic warnings within the user interface, highlighting specific volume outliers and editorial compliance risks \cite{marziale2014editorial, Nazarovets2025}.
+
+\subsection{Cache Strategy and Data Compliance Architecture}
+\label{subsec:cache_compliance}
+
+From a data privacy, General Data Protection Regulation (GDPR), and regulatory compliance perspective, the persistent artifacts stored within \texttt{utils/cache/} (e.g., \texttt{gender_cache.json}, \texttt{openalex_authors_cache.json}, and \texttt{translation_cache.json}) represent entirely non-sensitive, benign data structures. They do not retain proprietary user information, confidential institutional analytics, or unprocessed primary datasets.
+
+Functionally, these components operate as \textit{Deterministic API Quota Preservers}. Because scientometric evaluations involve high-frequency requests to external services governed by rate limits and financial quotas (such as NamSor, OpenAlex, and Google Translate) \cite{priem2022openalex, santamaria2018comparison}, the architecture employs flat key-value JSON stores to suppress redundant network calls:
+\begin{itemize}
+\item \textbf{Gender Metadata Caches (\texttt{gender_cache.json}):} Map normalized author given names to inferential gender probabilities. Recurring names execute only a single billable network transaction against external endpoints. The packaged baseline lexicon (\texttt{gender_cache_init.json}) acts as a cold-start initialization cache.
+\item \textbf{Academic Graph Caches (\texttt{openalex_*_cache.json}):} Map public entity identifiers (OpenAlex entity IDs, author strings) to resolved academic graph metadata, including standardized institutional affiliations and ORCID identifiers \cite{priem2022openalex}. Stored records consist strictly of public-domain bibliometric metadata.
+\item \textbf{Translation Cache (\texttt{translation_cache.json}):} Maps an MD5 cryptographic digest of a non-English abstract directly to its translated English string, mitigating redundant translation calls across disjoint execution sessions.
+\end{itemize}
+
+Because these cache registries are confined to public-domain scientific metadata and cryptographic lookup keys, they are structurally safe for distributed version control, persistence, and open sharing. In the event of cache eviction or deletion, the system degrades gracefully by dynamically reconstructing records on-demand via fallback API requests.
+
+\subsection{Computational Core and Algorithmic Bindings (\texttt{lib/})}
+\label{subsec:lib_core}
+
+The \texttt{lib/} directory encapsulates external JavaScript/HTML client bindings and the core mathematical engines that drive computation independently of the Streamlit presentation layer.
+
+\subsubsection{Client-Side Interface Bindings}
+\begin{itemize}
+    \item \textbf{Graph Topology Rendering (}\texttt{vis-9.1.2/}\textbf{):} Houses a localized build of the Vis.js library utilized by the network topology modules. It transforms NetworkX adjacency matrices into physics-driven, force-directed interactive HTML canvases, operating entirely offline without external Content Delivery Network (CDN) dependencies.
+    \item \textbf{Advanced Selection (}\texttt{tom-select/}\textbf{):} A lightweight JavaScript control framework that powers responsive multi-select input dropdowns across the application's parameter configuration panels.
+\end{itemize}
+
+\subsubsection{Topic Modeling Engine (\texttt{lib/topic\_modeling/})}
+The computational core of thematic stratification is partitioned from UI execution logic across modular, algorithmic components.
+
+\paragraph{Pipeline Orchestration (\texttt{ensemble.py})}
+Acts as the central coordination layer for the dual-model NLP architecture. Prior to loading dense neural representations, the orchestrator suppresses low-level C++ TensorFlow logging and HuggingFace Hub telemetry. 
+
+The module coordinates specialized preprocessing via \texttt{preprocess\_for\_gsdmm} and \texttt{run\_bertopic}. It implements a domain-specific stopword filter designed for bibliometrics: beyond conventional natural language stopwords (e.g., NLTK dictionaries), it strips academic boilerplate tokens (e.g., \textit{``paper''}, \textit{``results''}, \textit{``analysis''}) and traps common HTTP web-scraping artifacts that degrade bibliographic corpora (e.g., \textit{``error1500thats''}, \textit{``forbidden''}, \textit{``bad gateway''}). The refined token matrix is subsequently vectorized via \texttt{CountVectorizer} and dispatched to the BERTopic and GSDMM execution pipelines.
+
+\paragraph{Probabilistic Short-Text Modeling (\texttt{gsdmm\_mgp.py})}
+Because geometric density estimators like HDBSCAN (utilized within standard BERTopic architectures) frequently degrade on sparse, short-text feature spaces, this module implements a standalone Gibbs Sampling Dirichlet Multinomial Mixture (GSDMM) algorithm based on the Movie Group Process (MGP) formalized by Yin and Wang (2014).
+
+Rather than evaluating spatial geometric distances in latent space, GSDMM calculates cluster allocation probabilistically under the metaphor of a clustering process:
+\begin{enumerate}
+    \item A corpus of documents (students) is arbitrarily assigned across $K$ initial clusters (tables).
+    \item Over $N$ Markov chain iterations, a document $d$ is removed from its current cluster and reassigned based on a conditional probability score.
+    \item Cluster selection is governed by two hyperparameters:
+    \begin{itemize}
+        \item $\alpha$: Controls the probability of an unassigned document occupying an empty cluster, tuning overall cluster dispersion and fragmentation.
+        \item $\beta$: Dictates the affinity of a document toward clusters demonstrating high lexical co-occurrence with its own token set.
+    \end{itemize}
+\end{enumerate}
+
+To maintain numerical stability when multiplying small probabilities across extensive vocabularies, the module computes a log-likelihood scoring function:
+\begin{equation}
+    p(z_d = k \mid \vec{z}_{-d}, \vec{d}) = \exp(lN_1 - lD_1 + lN_2 - lD_2)
+\end{equation}
+where $lN$ and $lD$ represent the respective logarithmic numerator and denominator components of the prior and conditional lexical probabilities. Document migration iterates until the cluster transition frequency stabilizes below an empirical convergence threshold, yielding tightly bounded micro-clusters optimized for short bibliographic abstracts.
+
+\paragraph{Semantic Labeling Pipeline (\texttt{genai.py})}
+Bridges the mathematical cluster outputs with generative large language models (LLMs) to produce human-interpretable taxonomies. The module aggregates top-ranked lexical keyword vectors from both BERTopic and GSDMM, partitions them into batches of 25 clusters to conform to contextual token windows, and submits structured JSON-schema prompts to target execution endpoints (e.g., Google Gemini, Groq/LLaMA 3, or local Ollama instances). The pipeline enforces a deterministic schema returning mappings of the form:
+\begin{center}
+    $\langle \text{Cluster\_ID} \rangle \longrightarrow \langle \text{Human\_Readable\_Label} \rangle$
+\end{center}
+These labels are then injected into downstream Sankey diagrams and dimensional scatter plots.
+
+\paragraph{Consensus Alignment and Metrics (\texttt{alignment.py}, \texttt{metrics.py})}
+Following the generation of macro-semantic clusters via BERTopic and lexical micro-clusters via GSDMM, these modules evaluate spatial cohesion across both outputs. The module \texttt{alignment.py} projects the probabilistic distribution of GSDMM onto the semantic boundaries defined by BERTopic using Jaccard similarity metrics:
+\begin{equation}
+    J(C_{\text{macro}}, C_{\text{micro}}) = \frac{|C_{\text{macro}} \cap C_{\text{micro}}|}{|C_{\text{macro}} \cup C_{\text{micro}}|}
+\end{equation}
+
+When an individual document exhibits an acute divergence between its semantic embedding neighborhood and its probabilistic lexical cluster assignment, the consensus logic degrades the document to an outlier state. This guarantees that only structurally coherent documents form the basis of the final thematic classifications.
+
+\section{Results}
+\label{sec:results}
+
+To establish an objective benchmark against Asano et al.~\cite{asano2026simplifying}, we utilized the corpus of 10,000 raw PubMed records retrieved under the query ``Artificial Intelligence''. To evaluate metadata repair capabilities under an unassisted cold-start scenario, the corpus was stripped of all existing metadata attributes prior to processing, preserving solely the primary accession keys: \texttt{Title}, \texttt{DOI}, and \texttt{PMID}.
+
+The pipeline was evaluated in two stages: 
+\begin{enumerate}
+    \item \textbf{Stage 1 (Baseline Replication):} A direct comparison against the benchmark by Asano et al.~\cite{asano2026simplifying}, using the identical dataset (10,000 PubMed records under the query term ``Artificial Intelligence'') and constrained to the same 7 baseline fields.
+    \item \textbf{Stage 2 (Full-Scale Enrichment):} Scaling the architecture to the full 21-column schema to validate end-to-end features, multi-tier fallbacks, and throughput under heavy payload conditions.
+\end{enumerate}
+
+\subsection{Stage 1: Baseline Replication and Field Completeness}
+\label{subsec:stage1_results}
+
+From the initial process into the 10,000 PubMed records, the preprocessing phase consolidated 15 duplicate entries, yielding a curated corpus of $N = 9{,}985$ unique articles. Table~\ref{tab:field_completeness} reports the final completeness rates across the 7 baseline fields.
+
+Under the baseline prototype architecture, metadata enrichment relied on synchronous, single-threaded REST requests to Crossref, requiring upwards of two hours per attribute (around 12 hours across six fields) and incurring a 22.5\% loss in citation counts due to unhandled rate limits \cite{asano2026simplifying}. In contrast, our asynchronous multi-tier pipeline reconstructed all requested analytical attributes (\texttt{Author}, \texttt{Publication Year}, \texttt{Times Cited}, \texttt{Article References}, \texttt{Abstract}, and \texttt{Keywords}) in \textbf{less than 50 minutes}. While total runtime may scale up to roughly three hours depending on local workstation processing power, available bandwidth, and external API rate throttling, the asynchronous architecture reliably delivers a $>12\times$ throughput speedup over synchronous querying.
+
+This performance acceleration stems from the balanced workload distribution across the API cascade. Tier~1 (OpenAlex) absorbed the bulk of candidate DOIs at high throughput ($\approx 6.6$ req/s), populating 64,582 discrete attribute lines in an initial sweep. Downstream tiers acted as targeted fallbacks for residual gaps: Tier~2 (Crossref) resolved 3,648 secondary records to recover missing author and publication year fields; Tier~3 (PubMed eUtils) and Tier~4 (Semantic Scholar) recovered 1,634 and 897 missing abstracts, respectively; and Tier~5 rescued legacy entries lacking persistent identifiers via fuzzy title matching. In total, 72.0\% ($n = 7{,}203$) of the corpus achieved complete coverage across all target attributes, 27.9\% ($n = 2{,}794$) gained substantial partial enrichment, and only three records remained unresolvable due to upstream indexing corruptions. Table~\ref{tab:field_completeness} summarizes the final completeness rates.
+
+\begin{table}[htbp]
+\caption{Stage 1 Metadata Completeness and Field Recovery ($N = 9{,}985$)}
+\label{tab:field_completeness}
+\centering
+\renewcommand{\arraystretch}{1.2}
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lccc}
+\hline
+\textbf{Target Field} & \textbf{Populated ($n$)} & \textbf{Missing ($n$)} & \textbf{Completeness (\%)} \\
+\hline
+Title                 & 9,985 & 0     & 100.00\% \\
+Times Cited           & 9,985 & 0     & 100.00\% \\
+Publication Year      & 9,976 & 9     & 99.91\%  \\
+Author                & 9,901 & 84    & 99.16\%  \\
+DOI                   & 9,756 & 229   & 97.71\%  \\
+Article References    & 8,477 & 1,508 & 84.90\%  \\
+Abstract              & 8,142 & 1,843 & 81.54\%  \\
+\hline
+\end{tabular}
+\end{table}
+
+Because the exploratory prototype by Asano et al.~\cite{asano2026simplifying} was restricted to elementary performance analysis and unweighted graph plots, direct analytical validation focused on the \textbf{Main Metrics Dashboard} and \textbf{Co-citation Network Topology}.
+
+\textbf{Bibliometric Profiling Parity:} Operating on the reconstructed dataset, the vectorized analytics engine identified 27,687 unique authors and aggregated 293,156 total citations, yielding a mean impact of 29.36 citations per publication. Systemic citation inequality evaluation produced a Gini coefficient of $G = 0.834$, confirming the heavy-tailed, Pareto-like distribution characteristic of biomedical AI literature \cite{albarran2011skewness}. Furthermore, 306,916 referenced works were captured across 8,477 reference-bearing articles (84.90\% reference density). Minor variations in aggregate citation volumes relative to the original prototype reflect the natural accumulation of citations over the intervening one-year window between harvests rather than extraction disparity.
+
+\textbf{Topological Consistency:} Reconstructing the co-citation network yielded high topological fidelity with the benchmark findings. Modularity optimization via the Louvain algorithm ($Q = 0.65$) identified the same foundational sub-communities documented by Asano et al., with central hubs corresponding to seminal deep learning architectures, convolutional neural networks, and computer-assisted diagnostic models \cite{asano2026simplifying}. However, whereas the precursor tool produced static, unweighted network representations with manual node positioning, our implementation renders reactive, force-directed layouts with five vectorized centrality metrics, allowing seamless structural inspection without client-side browser freezes.
+
+\subsection{Stage 2: Full-Scale Enrichment}
+\label{subsec:stage2_results}
+
+While Stage~~1 validated ingestion throughput and field recovery against the precursor baseline, Stage~~2 evaluates the analytical feature engines exposed when operating on the complete canonical 21-column schema (plus the OpenAlex entity identifier). The objective of this phase is not merely to report bibliometric indicators, but to empirically demonstrate how the system handles complex analytical workflowsâ€”specifically Thematic Stratification, Longitudinal Thematic Flow, Geographic Disambiguation, and Gender Equity Auditingâ€”under standard execution conditions and real-world API rate constraints.
+
+\subsubsection{Unsupervised Thematic Stratification and Mega-Cluster Resolution}
+Applied to the 9,985 curated documents using abstract text, titles, author keywords, and OpenAlex conceptual tags, the dual-model NLP ensemble (BERTopic + GSDMM) evaluated semantic and lexical cohesion across the corpus.
+
+\begin{figure*}[t!]
+\centering
+\includegraphics[width=0.98\linewidth]{thematicflow.png}
+\caption{Longitudinal Thematic Flow Across Five Eras (1963--2027). The alluvial Sankey diagram traces the branching, consolidation, and conceptual continuity of 60 GenAI-synthesized topics, tracking the paradigm transition from early expert decision-support systems to modern clinical generative language models.}
+\label{fig:thematic_flow_sankey}
+\end{figure*}
+
+Under default parameterization (minimum cluster size $N_{\min} = 50$, synchronized topic count $k = 10$), an initial pass produced only four coarse clusters. This was caused by the presence of an acute `mega-cluster'' (Cluster 0) capturing 9,252 articles (93.2\% of the corpus). This phenomenon frequently impairs bibliometric topic modeling when a corpus is queried under a broad topical constraint: ubiquitous query terms (e.g., \textit{`artificial''}, \textit{`intelligence''}, \textit{`ai''}) dominate TF-IDF and embedding spaces, artificially collapsing distinct sub-specialties into a single uninformative super-cluster.
+
+To resolve this without requiring manual corpus pruning, the platform's automated \textit{Mega-Cluster Breakdown Engine} dynamically intercepted the output (trigger condition: $>40\%$ corpus concentration). The module automatically froze ubiquitous lexical tokens exceeding 60\% intra-cluster document frequency and recursively partitioned the dense partition into seven granular sub-topics. As detailed in the execution log, this produced a final balanced taxonomy of \textbf{10 unified topics} with an average assignment confidence score of \textbf{0.88} and only 55 outlier documents (0.6\% assigned to noise class $-1$).
+
+\textbf{Domain Coherence and Semantic Quality Assessment:} A qualitative audit confirms that the GenAI-synthesized topic labels exhibit high fidelity to the queried literature. Because the corpus was harvested from PubMed, the literature does not address theoretical computer science (e.g., compiler optimization or CPU architectures), but rather focuses on clinical and biomedical AI implementations. The GenAI naming module accurately identified fine-grained healthcare verticals:
+\begin{itemize}
+    \item \textit{Diagnostic and Clinical Specialties:} Clusters 03 (\textit{Clinical Medicine}), 05 (\textit{Dental Medicine}), and 09 (\textit{Cardiovascular Medicine}) isolate high-volume medical application domains.
+    \item \textit{Biochemical and Pharmacological Screening:} Clusters 00 (\textit{Drug Discovery}) and 02 (\textit{Cellular Biology}) capture computational pharmacology, molecular docking, and antibody modeling.
+    \item \textit{Socio-Technical and Ethical Dimensions:} Clusters 04 (\textit{Cognitive Systems \& Moral AI}), 07 (\textit{Medical Education}), and 08 (\textit{Trust \& Social Informatics}) capture non-clinical discourses surrounding algorithmic accountability, medical curricula, and misinformation.
+\end{itemize}
+
+
+\begin{table*}[htbp]
+\caption{Thematic Stratification Taxonomy: Dual-Model Clusters and GenAI-Synthesized Labels ($N = 9{,}985$)}
+\label{tab:thematic_clusters}
+\centering
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{5.5pt}
+\small
+\begin{tabular}{clccccp{6.6cm}}
+\hline
+\textbf{ID} & \textbf{GenAI-Generated Topic Label} & \textbf{Docs ($n$)} & \textbf{Share (\%)} & \textbf{Mean Conf.} & \textbf{Top Representative Lexical Keywords} \\
+\hline
+00 & \textbf{Pharmacology and Drug Discovery} & 484 & 4.8\% & 0.84 & \textit{drug, discovery, biology, data, protein, development} \\
+01 & \textbf{Environmental and Veterinary Health} & 137 & 1.4\% & 0.80 & \textit{environmental, animal, water, sustainability, data, welfare} \\
+02 & \textbf{Cellular and In Vitro Biology} & 57 & 0.6\% & 0.72 & \textit{cells, antibodies, serum, activity, animals, rats} \\
+03 & \textbf{Clinical Medicine and Health Services} & 8,369 & 83.8\% & 0.91 & \textit{clinical, medicine, disease, patients, data, diagnosis} \\
+04 & \textbf{Cognitive Systems, Ethics, and Moral AI} & 277 & 2.8\% & 0.73 & \textit{human, moral, brain, neuroscience, cognitive, social} \\
+05 & \textbf{Pharmacy and Dental Medicine} & 177 & 1.8\% & 0.78 & \textit{dental, pharmacy, systematic review, development, implant} \\
+06 & \textbf{Rehabilitation and Nutrition} & 130 & 1.3\% & 0.75 & \textit{rehabilitation, physical, nutrition, sports, eating, science} \\
+07 & \textbf{Medical and Health Sciences Education} & 142 & 1.4\% & 0.72 & \textit{students, education, learning, curriculum, academic, teaching} \\
+08 & \textbf{Trust, Social Informatics, and Misinformation} & 100 & 1.0\% & 0.73 & \textit{trust, social, trustworthiness, identity, misinformation, public} \\
+09 & \textbf{Cardiovascular Medicine and Heart Failure} & 57 & 0.6\% & 0.74 & \textit{heart, failure, cardiology, cardiovascular, cardiac, disease} \\
+\hline
+\multicolumn{6}{l}{\textit{Note:} Outlier documents degraded to noise ($-1$): $n = 55$ ($0.6\%$). Overall mean assignment confidence: $0.88$.} \\
+\hline
+\end{tabular}
+\end{table*}
+
+Projecting these topics onto the Callon Strategic Diagram mapped Cluster 03 (Clinical Medicine) and Cluster 00 (Drug Discovery) as foundational motor themes, while identifying specialized sub-domains (e.g., Dental AI, Medical Education, and Algorithmic Ethics) in peripheral quadrants, providing strategic decision-support for research synthesis.
+
+\subsubsection{Longitudinal Thematic Flow Across Five Eras}
+To evaluate longitudinal paradigm shifts, the temporal modeling engine decomposed the 9,985 publications across five chronological windows: Era~~1 (1963--2021, baseline emergence), Era~~2 (2022--2023, deep learning expansion), Era~~3 (2024, post-pandemic consolidation), Era~~4 (2025, foundation model emergence), and Era~5 (2026--2027, multimodal integration).
+
+Across these windows, Non-Negative Matrix Factorization (NMF) and Jaccard lexical tracking synthesized a directed acyclic graph containing **60 GenAI-labeled topics** (12 topics per temporal era), rendered as an alluvial Sankey diagram (Fig.~\ref{fig:thematic_flow_sankey}).
+
+Comparing the names generated across Thematic Flow against the static Thematic Stratification reveals consistent cross-module alignment: macro-domains identified in the static clustering (such as \textit{Drug Discovery}, \textit{Cardiovascular Imaging}, \textit{Digital Pathology}, \textit{Medical Education}, and \textit{Robotic Surgery}) consistently reappear as stable longitudinal threads in the flow mapping.
+
+Crucially, the Sankey topology visualizes real-world paradigm evolutions across the literature:
+\begin{itemize}
+\item \textbf{Decision-Support Evolution:} Early foundations in \textit{Decision Support Systems} (1963--2021) split into \textit{Clinical Decision Making} (2022--2023), transitioning to \textit{Predictive Diagnostics} (2024), and ultimately integrating into \textit{Clinical Deep Learning} and \textit{Clinical Decision Support} in the modern era.
+\item \textbf{Generative AI Emergence:} Classical text mining and informatics in early eras underwent rapid conceptual divergence following 2022, forming explicit lineages for \textit{Language Models} (2022--2023), \textit{Generative Language Models} (2024), \textit{Conversational AI} (2025), and culminating in \textit{AI Governance} and \textit{Scholarly Integrity} (2026--2027).
+\item \textbf{Ethical and Regulatory Maturation:} The historical \textit{Medical Ethics} thread progressively branched into specialized operational sub-domains, including \textit{Data Ethics}, \textit{Health Equity}, \textit{Academic Integrity}, and ultimately institutionalized \textit{AI Governance}.
+\end{itemize}
+
+\subsubsection{Geographic Disambiguation and Transnational Networks}
+The demographic engine processed raw author affiliations to map global scientific participation. The automated data hygiene diagnostic alerted that **746 out of 9,985 publications (7.5\%)** lacked explicit geographic identifiers in raw affiliation strings. The module's cross-field regex deduction heuristics extracted geographic provenance for five previously missing records by matching institutional administrative subdivisions.
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=0.98\linewidth]{Screenshot 2026-10-06 145657.png}
+\caption{Gender Demographic Distribution and Authorship Team Structure ($N = 27{,}708$ unique authors, $n = 9{,}504$ multi-author teams). Left: Confirmed gender proportions among unique authors (65.0\% male vs. 35.0\% female). Right: Authorship composition by team structure, documenting that male-dominated or all-male authorship structures account for over 64% of all collaborative publications.}
+\label{fig:gender_distribution}
+\end{figure}
+
+The interactive geographic canvas allowed dynamic filtering across country of origin, institutional affiliation, and gender cross-tabulations. Concurrently, the extracted transnational co-authorship network demonstrated an asymmetric core-periphery topology: highly cited research nodes (predominantly the United States, China, the United Kingdom, and Germany) formed a dense, high-centrality collaborative clique, whereas developing nations remained largely isolated or connected via single-edge bilateral collaborations.
+
+\subsubsection{Demographic Equity Auditing and API Quota Resilience}
+Evaluating author lists across the collection yielded a total volume of **27,708 unique authors** and 32,531 individual author mentions.
+
+This volume illustrates a common operational hurdle in scientometrics: commercial name-to-gender classification services enforce strict request quotas (e.g., NamSor's free tier provides 2,500 credits per month), which is insufficient to evaluate a corpus of 27,000 authors.
+
+The platform addressed this bottleneck through its multi-tiered demographic disambiguation cache. The persistent JSON registry and cold-start baseline lexicons resolved \textbf{28,599 author mentions} (87.9\%) completely offline without issuing a single external billable API call. The entire evaluation completed in 12.22 seconds.
+
+Among authors with confirmed gender classifications (24,171 individuals; 87.2\% of the unique author pool), the audit revealed significant demographic disparities (Fig.~\ref{fig:gender_distribution}):
+\begin{itemize}
+\item \textbf{Author Proportions:} The active workforce was heavily male-skewed, comprising 15,707 male authors (65.0\%) versus 8,464 female authors (35.0\%), with 3,537 authors remaining indeterminate due to single-initial formats or unisex phonetic classifications.
+\item \textbf{Collaborative Team Structures:} Analysis across 9,504 multi-author teams revealed that male-majority collaborations accounted for over 64\% of production: 26.4\% all-male teams, 21.2\% male-majority teams, and 16.6\% single-male authors. Conversely, female-majority structures accounted for only 22.1\% (6.85\% all-female teams, 9.3\% female-majority teams, and 5.98\% single-female authors).
+\item \textbf{Academic Scissors Effect:} Tracking author positional hierarchy across 9,901 evaluable articles revealed institutional attrition. While female researchers occupied **29.4\% of first-author positions** (mentee or lead researcher), their representation dropped to **25.3\% in last-author positions** (senior principal investigator or advisor), demonstrating a negative progression gap of **$-4.1$ percentage points**. In contrast, male representation expanded from 59.2\% (first author) to 63.4\% (last author), exhibiting a positive senior progression delta of **$+4.2$ percentage points**.
+\end{itemize}
+
+\subsubsection{Methodological Baseline and Usability Disclaimer}
+All evaluations reported in Stage~2 were executed under the software artifact's out-of-the-box, default configuration parameters (e.g., default Dirichlet priors, standard sentence transformer embeddings, and standard confidence cutoffs). As observed in recent domain-specific natural language investigations \cite{piceni2025musica}, extensive hyperparameter tuning, custom stopword dictionaries, and localized language models can improve cluster boundaries and classification granularity.
+
+However, the primary engineering objective of this study was to demonstrate system resilience, stability, and automated error recovery under default operation, confirming that non-computational researchers and editorial boards can obtain actionable scientometric intelligence without manual parameter tuning or algorithmic intervention.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+More formulas that can be useful:
+
+The Hirsch $h$-index is calculated over sorted citation counts $c_1 \ge c_2 \ge \dots \ge c_N$:
+\begin{equation}
+\label{eq:h_index}
+h = \max \{ i \in \{1, \dots, N\} : c_i \ge i \},
+\end{equation}
+and Egghe's $g$-index, accounting for top-tier citation tail weight:
+\begin{equation}
+\label{eq:g_index}
+g = \max \left\{ i \in \{1, \dots, N\} : \sum_{j=1}^i c_j \ge i^2 \right\}.
+\end{equation}
+
+To capture citation inequality, the cumulative citation distribution is modeled via the Lorenz Curve:
+\begin{equation}
+\label{eq:lorenz_curve}
+L(x_i) = \frac{\sum_{k=1}^i c_{(k)}}{\sum_{k=1}^n c_{(k)}}, \quad x_i = \frac{i}{n} \in [0, 1],
+\end{equation}
+where $c_{(1)} \le c_{(2)} \le \dots \le c_{(n)}$ are sorted ascendingly. The Gini Coefficient ($G$) is computed directly over ordered cumulative vectors:
+\begin{equation}
+\label{eq:gini_index}
+G = \frac{n + 1 - 2 \left( \frac{\sum_{i=1}^n S_i}{S_n} \right)}{n},
+\end{equation}
+in which $S_i = \sum_{k=1}^i c_{(k)}$ is the partial prefix sum and $S_n$ represents total citations.
+
+Annual obsolescence and temporal decay are derived from moving averages:
+\begin{equation}
+\label{eq:avg_citations}
+\bar{C}_Y = 
+\begin{cases} 
+    \frac{C_Y}{P_Y}, & \text{if } P_Y > 0 \\ 
+    \text{NaN}, & \text{if } P_Y = 0 
+\end{cases}
+\end{equation}
+protected via numeric exception trapping to maintain continuous curves.
+
+\subsection{Semantic Ensemble: BERTopic + GSDMM and Strategic Mapping}
+\label{subsec:semantic_ensemble}
+% - Explique o prÃ©-processamento duplo: texto pleno para embeddings vs. stopwords/lematizaÃ§Ã£o para GSDMM.
+% - BERTopic: Sentence-BERT, UMAP, HDBSCAN e c-TF-IDF:
+\begin{equation}
+\label{eq:c_tf_idf}
+W_{t, c} = \text{TF}_{t, c} \times \log\left(1 + \frac{A}{f_t}\right).
+\end{equation}
+% - GSDMM (Gibbs Sampling Dirichlet Multinomial Mixture):
+\begin{equation}
+\label{eq:gsdmm_formula}
+P(z=k \mid \vec{d}, \vec{z}_{\neg d}) \propto \frac{m_{k, \neg d} + \alpha}{D - 1 + K\alpha} \times \frac{\prod_{w \in d} (n_{k,w, \neg d} + \beta)}{\prod_{i=1}^{|d|} (N_{k, \neg d} + V\beta + i - 1)}.
+\end{equation}
+% - Alinhamento consensual, cÃ¡lculo de confianÃ§a e rotulagem GenAI (Gemini / LLaMA 3 / GPT).
+% - MÃ©tricas de avaliaÃ§Ã£o de coerÃªncia e sobreposiÃ§Ã£o: NPMI e Rank-Biased Overlap (RBO):
+\begin{equation}
+\label{eq:npmi}
+\text{NPMI}(w_i, w_j) = \frac{\log \frac{P(w_i, w_j)}{P(w_i)P(w_j)}}{-\log P(w_i, w_j)},
+\end{equation}
+\begin{equation}
+\label{eq:rbo}
+\text{RBO} = (1 - p) \sum_{d=1}^{d_{\text{max}}} p^{d-1} A_d.
+\end{equation}
+% - ProjeÃ§Ã£o no Diagrama de Callon: Ãndice de EquivalÃªncia, Centralidade e Densidade:
+\begin{equation}
+\label{eq:callon_metrics}
+e_{ij} = \frac{(c_{ij})^2}{c_i \times c_j}, \quad C_k = 10 \sum_{i \in k, j \notin k} e_{ij}, \quad D_k = \frac{100}{N_k} \sum_{i,j \in k} e_{ij}.
+\end{equation}
+
+\subsection{Longitudinal Thematic Flow and Complex Networks}
+\label{subsec:thematic\_flow_networks}
+% - Fatiamento por quantis balanceados (pd.qcut) e fatoraÃ§Ã£o matricial NMF por era:
+\begin{equation}
+\label{eq:nmf}
+\min_{W \ge 0, H \ge 0} \frac{1}{2} \|V - W H\|_F^2, \quad K = \max\left(3, \; \min\left(12, \; \lfloor N_{\text{era}} / 35 \rfloor\right)\right).
+\end{equation}
+% - Rastreamento de linhagens conceituais via Coeficiente de Jaccard e peso no Diagrama de Sankey:
+\begin{equation}
+\label{eq:jaccard_sankey}
+J(A, B) = \frac{|A \cap B|}{|A \cup B|}, \quad \text{Flow} = \max\left(1, \; \lfloor J(A, B) \times N_{\text{docs}}(T_{t, i}) \times 10 \rfloor\right).
+\end{equation}
+% - Redes de Co-citaÃ§Ã£o, Acoplamento BibliogrÃ¡fico e CoocorrÃªncia de Palavras.
+% - Algoritmo de resoluÃ§Ã£o e desambiguaÃ§Ã£o de rÃ³tulos: format_ref_label.
+% - DetecÃ§Ã£o de comunidades via Modularidade de Louvain:
+\begin{equation}
+\label{eq:louvain}
+Q = \frac{1}{2m} \sum_{i,j} \left[ A_{ij} - \frac{k_i k_j}{2m} \right] \delta(c_i, c_j).
+\end{equation}
+% - Centralidades vetorizadas (Grau, IntermediaÃ§Ã£o, Autovetor, Proximidade, PageRank).
+
+\subsection{Editorial Governance and PRISMA 2020 Screening Engine}
+\label{subsec:governance_prisma}
+% - FormalizaÃ§Ã£o do Ãndice de Endogenia Institucional (E_inst):
+\begin{equation}
+\label{eq:endogenia}
+E_{\text{inst}} = \left( \frac{\sum_{a=1}^{A} \delta(I_a, I_{\text{pub}})}{A} \right) \times 100,
+\end{equation}
+% - Margem regulatÃ³ria frente ao SciELO (Threshold_reg padrÃ£o de 20%):
+\begin{equation}
+\label{eq:margem_reg}
+\Delta_{\text{reg}} = \text{Threshold}_{\text{reg}} - E_{\text{inst}}.
+\end{equation}
+% - Mapeamento espacial (fronteiras regex \b para evitar falsos positivos como US em Discussion).
+% - Assistente PRISMA: conservaÃ§Ã£o de fluxo amostral e fila reativa (critÃ©rios PICOC):
+\begin{equation}
+\label{eq:prisma_balance}
+N_{\text{screened}} = |D_{\text{raw}}|, \quad N_{\text{included}} = N_{\text{screened}} - |\text{exclusions}|.
+\end{equation}
+
+
+% ==============================================================================
+

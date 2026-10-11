@@ -10,6 +10,7 @@ os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "1"
 import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=FutureWarning)
+warnings.filterwarnings("ignore", message=".*google.generativeai.*")
 warnings.filterwarnings("ignore", message=".*unauthenticated requests to the HF Hub.*")
 warnings.filterwarnings("ignore", message=".*tf.reset_default_graph.*")
 warnings.filterwarnings("ignore", message=".*oneDNN.*")
@@ -280,6 +281,8 @@ else:
                                     is_ultimate=False
                                 )
                                 st.session_state.master_df = proc_df
+                                if 'raw_df_backup' in st.session_state and st.session_state.raw_df_backup is not None:
+                                    st.session_state.raw_df_backup = proc_df.copy()
                                 save_master_dataset(st.session_state.master_df)
                                 st.session_state.has_unstandardized_authors = False
                                 set_author_standardization_dismissed(True)
@@ -302,9 +305,7 @@ else:
         show_net(working_df)
     elif page == "Thematic Stratification":
         from features.thematic_stratification import show as show_stratification
-        # CRITICAL: Always pass raw_df_backup (or master_df) to stratification so they can see all topics!
-        df_to_use = st.session_state.get('raw_df_backup', st.session_state.master_df)
-        show_stratification(df_to_use)
+        show_stratification(st.session_state.master_df)
     elif page == "Thematic Flow":
         from features.thematic_flow import show as show_flow
         show_flow(st.session_state.master_df)

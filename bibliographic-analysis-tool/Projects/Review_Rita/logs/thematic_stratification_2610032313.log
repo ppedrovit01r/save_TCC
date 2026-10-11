@@ -1,0 +1,67 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-10-03 23:00:36  -->  2026-10-03 23:13:53
+Total Duration:      13 minutes 17 seconds
+  • Phase 1 (Data Prep, Language & Preprocessing): 9 minutes 19 seconds
+      - Translation Mode: Smart Multilingual Detection
+      - Translations: 175 translated, 1 from cache, 307 skipped as English
+      - Text Scrubbing: Boilerplate, section headers (Background, Methods, Results, Conclusions, etc.), correction citations, and author/copyright blocks removed
+      - Domain Keywords: 0 overrepresented terms filtered (> 50% df) [None]
+  • Phase 2 (BERTopic + GSDMM Modeling & Consensus Alignment): 3 minutes 57 seconds
+      - BERTopic: Pass 1 Semantic Embeddings (target: 6, min_topic_size: 12)
+      - GSDMM: Pass 1 Lexical Co-occurrence Lens (k=5)
+      - Alignment: Dual-model bipartite matching & consensus centroid refinement
+      - Initial Topics Discovered: 4
+  • Phase 3 (Mega-Cluster Breakdown): 1 minute 6 seconds
+      - Strategy: Enabled
+      - Trigger Threshold: > 40% of corpus (minimum 24 docs)
+      - Ubiquitous Term Freeze Threshold: > 60% of mega-cluster documents
+      - Action Taken: Partitioned 1 mega-cluster(s)
+          ↳ Mega-Cluster 0 (256 docs, 53.9% of corpus): Split into 2 sub-topics [SUCCESS]
+             Frozen Ubiquitous Terms: artificial, computer, intelligence, science
+
+Fields Analyzed: ['Title', 'Abstract', 'Keywords', 'Concepts']
+Alignment Strategy: Consensus-Driven Macro Pillars (5–8 Topics - Recommended)
+Minimum Cluster Size: 12 documents
+Minimum Topic Confidence: 0.50
+Synchronized Topic Count (k): 6
+Total Documents Processed: 483
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Final Unified Topics Generated: 5
+• Outlier Documents (-1): 8 (1.7%)
+• Average Assignment Confidence: 0.81
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [1] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 1: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 2: BERTopic [3] ↔ GSDMM [2] (Similarities: [0.21])
+• Unified Topic 3: BERTopic [5] ↔ GSDMM [6] (Similarities: [0.81])
+• Unified Topic 4: BERTopic [6] ↔ GSDMM [5] (Similarities: [0.08])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:   99 (20.5%) | Mean Conf: 0.72 | Consensus:   0 (0%) | Boundary/Refined:  99
+   • BERTopic Top Keywords: computing, cloud, energy, computer, problem, science
+   • GSDMM Top Keywords:    None
+Cluster 01 | Docs:   68 (14.1%) | Mean Conf: 0.72 | Consensus:   0 (0%) | Boundary/Refined:  68
+   • BERTopic Top Keywords: data, language, programming, social, science, web
+   • GSDMM Top Keywords:    None
+Cluster 02 | Docs:   52 (10.8%) | Mean Conf: 0.72 | Consensus:   7 (13%) | Boundary/Refined:  45
+   • BERTopic Top Keywords: process, business, software, security, management, system
+   • GSDMM Top Keywords:    programming, type, business, system, language, process
+Cluster 03 | Docs:  248 (51.3%) | Mean Conf: 0.92 | Consensus: 172 (69%) | Boundary/Refined:  76
+   • BERTopic Top Keywords: artificial, computer, intelligence, learning, data, neural
+   • GSDMM Top Keywords:    artificial, computer, intelligence, learning, data, image
+Cluster 04 | Docs:    8 ( 1.7%) | Mean Conf: 0.84 | Consensus:   1 (12%) | Boundary/Refined:   7
+   • BERTopic Top Keywords: artificial, computer, intelligence, diffusion, mri, image
+   • GSDMM Top Keywords:    artificial, computer, intelligence, image, encryption, algorithm
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

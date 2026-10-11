@@ -11,6 +11,7 @@ import re
 import json
 import xml.etree.ElementTree as ET
 import difflib
+import numpy as np
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from collections import Counter
 from core.ingestion import deduplicate_and_merge_columns
@@ -129,7 +130,7 @@ def needs_enrichment(row: pd.Series, fields_to_enrich: list, is_ultimate: bool =
 # ---------------------------------------------------------
 
 # Tier 1: OpenAlex Batch
-def fetch_openalex_batch(dois: list) -> dict:
+def fetch_openalex_batch(dois: list, log_list: list = None) -> dict:
     if not dois: return {}
     clean_dois = [str(doi).strip().replace("https://doi.org/", "").replace("doi:", "").lower() for doi in dois if pd.notna(doi) and str(doi).strip()]
     if not clean_dois: return {}
@@ -140,21 +141,34 @@ def fetch_openalex_batch(dois: list) -> dict:
         batch = clean_dois[i:i+batch_size]
         filter_str = "doi:" + "|".join(batch)
         url = f"https://api.openalex.org/works?filter={filter_str}&per-page={batch_size}"
-        try:
-            time.sleep(0.15)  # Respect OpenAlex polite pool (~6.6 req/sec <= 10 req/sec limit)
-            response = requests.get(url, headers=HEADERS, timeout=15)
-            if response.status_code == 200:
-                data = response.json()
-                for work in data.get('results', []):
-                    work_doi = work.get('doi')
-                    if work_doi:
-                        work_doi_clean = str(work_doi).replace("https://doi.org/", "").lower()
-                        results[work_doi_clean] = work
-        except Exception:
-            pass
+        
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                time.sleep(0.15 * (attempt + 1))  # Respect OpenAlex polite pool and backoff
+                response = requests.get(url, headers=HEADERS, timeout=15)
+                if response.status_code == 200:
+                    data = response.json()
+                    for work in data.get('results', []):
+                        work_doi = work.get('doi')
+                        if work_doi:
+                            work_doi_clean = str(work_doi).replace("https://doi.org/", "").lower()
+                            results[work_doi_clean] = work
+                    break
+                elif response.status_code in [429, 500, 502, 503, 504]:
+                    if log_list is not None:
+                        log_list.append(f"[API WARN] OpenAlex batch failed (HTTP {response.status_code}). Retry {attempt+1}/{max_retries}...")
+                    time.sleep(1.0 * (attempt + 1))
+                else:
+                    break
+            except Exception as e:
+                if attempt == max_retries - 1 and log_list is not None:
+                    log_list.append(f"[API ERROR] OpenAlex batch dropped after {max_retries} retries: {str(e)}")
+                elif log_list is not None:
+                    log_list.append(f"[API WARN] OpenAlex batch timeout. Retry {attempt+1}/{max_retries}...")
     return results
 
-def fetch_openalex_batch_by_pmids(pmids: list) -> dict:
+def fetch_openalex_batch_by_pmids(pmids: list, log_list: list = None) -> dict:
     if not pmids:
         return {}
     clean_pmids = []
@@ -175,18 +189,31 @@ def fetch_openalex_batch_by_pmids(pmids: list) -> dict:
         batch = unique_pmids[i:i+batch_size]
         filter_str = "pmid:" + "|".join(batch)
         url = f"https://api.openalex.org/works?filter={filter_str}&per-page={batch_size}"
-        try:
-            time.sleep(0.15)
-            response = requests.get(url, headers=HEADERS, timeout=15)
-            if response.status_code == 200:
-                data = response.json()
-                for work in data.get('results', []):
-                    pmid_url = work.get('ids', {}).get('pmid', '')
-                    if pmid_url:
-                        pmid_val = str(pmid_url).rstrip('/').split('/')[-1]
-                        results[pmid_val] = work
-        except Exception:
-            pass
+        
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                time.sleep(0.15 * (attempt + 1))
+                response = requests.get(url, headers=HEADERS, timeout=15)
+                if response.status_code == 200:
+                    data = response.json()
+                    for work in data.get('results', []):
+                        pmid_url = work.get('ids', {}).get('pmid', '')
+                        if pmid_url:
+                            pmid_val = str(pmid_url).rstrip('/').split('/')[-1]
+                            results[pmid_val] = work
+                    break
+                elif response.status_code in [429, 500, 502, 503, 504]:
+                    if log_list is not None:
+                        log_list.append(f"[API WARN] OpenAlex PMID batch failed (HTTP {response.status_code}). Retry {attempt+1}/{max_retries}...")
+                    time.sleep(1.0 * (attempt + 1))
+                else:
+                    break
+            except Exception as e:
+                if attempt == max_retries - 1 and log_list is not None:
+                    log_list.append(f"[API ERROR] OpenAlex PMID batch dropped after {max_retries} retries: {str(e)}")
+                elif log_list is not None:
+                    log_list.append(f"[API WARN] OpenAlex PMID batch timeout. Retry {attempt+1}/{max_retries}...")
     return results
 
 # Tier 2: Crossref
@@ -296,7 +323,7 @@ def _save_ss_cache(cache: dict):
     except Exception:
         pass
 
-def fetch_semanticscholar_batch(dois: list) -> dict:
+def fetch_semanticscholar_batch(dois: list, log_list: list = None) -> dict:
     if not dois:
         return {}
     clean_dois = [
@@ -329,29 +356,42 @@ def fetch_semanticscholar_batch(dois: list) -> dict:
         chunk = missing_dois[i:i+batch_size]
         ids_payload = [f"DOI:{c}" for c in chunk]
         url = "https://api.semanticscholar.org/graph/v1/paper/batch?fields=title,abstract,tldr,authors,authors.name,authors.authorId"
-        try:
-            time.sleep(1.0)  # Strictly <= 1 req/sec Semantic Scholar rate limit
-            resp = requests.post(url, json={"ids": ids_payload}, headers=HEADERS, timeout=30)
-            if resp.status_code == 200:
-                data = resp.json()
-                if isinstance(data, list):
-                    for doi_key, paper in zip(chunk, data):
-                        if paper and isinstance(paper, dict) and not paper.get('error'):
-                            results[doi_key] = paper
-                            cache[doi_key] = paper
-                            cache_dirty = True
-        except Exception:
-            pass
+        
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                time.sleep(1.0 * (attempt + 1))  # Strictly <= 1 req/sec Semantic Scholar rate limit
+                resp = requests.post(url, json={"ids": ids_payload}, headers=HEADERS, timeout=30)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    if isinstance(data, list):
+                        for doi_key, paper in zip(chunk, data):
+                            if paper and isinstance(paper, dict) and not paper.get('error'):
+                                results[doi_key] = paper
+                                cache[doi_key] = paper
+                                cache_dirty = True
+                    break
+                elif resp.status_code in [429, 500, 502, 503, 504]:
+                    if log_list is not None:
+                        log_list.append(f"[API WARN] Semantic Scholar batch failed (HTTP {resp.status_code}). Retry {attempt+1}/{max_retries}...")
+                    time.sleep(2.0 * (attempt + 1))
+                else:
+                    break
+            except Exception as e:
+                if attempt == max_retries - 1 and log_list is not None:
+                    log_list.append(f"[API ERROR] Semantic Scholar batch dropped after {max_retries} retries: {str(e)}")
+                elif log_list is not None:
+                    log_list.append(f"[API WARN] Semantic Scholar batch timeout. Retry {attempt+1}/{max_retries}...")
 
     if cache_dirty:
         _save_ss_cache(cache)
 
     return results
 
-def fetch_semanticscholar_by_doi(doi: str) -> dict:
+def fetch_semanticscholar_by_doi(doi: str, log_list: list = None) -> dict:
     if pd.isna(doi) or not str(doi).strip(): return None
     clean_doi = str(doi).strip().replace("https://doi.org/", "").replace("doi:", "").lower()
-    batch_res = fetch_semanticscholar_batch([clean_doi])
+    batch_res = fetch_semanticscholar_batch([clean_doi], log_list=log_list)
     return batch_res.get(clean_doi)
 
 # Tier 5: OpenAlex Fuzzy Title Search
@@ -705,7 +745,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
 
     # TIER 1: OpenAlex Batch API (The bulk)
     status_text.markdown(f"**Tier 1:** Querying OpenAlex Batch API for **{t1_queried:,} DOIs** in batches of 50...")
-    oa_batch_results = fetch_openalex_batch(dois_to_fetch)
+    oa_batch_results = fetch_openalex_batch(dois_to_fetch, log_list=log_list)
     status_text.markdown(f"**Tier 1 Complete:** Fetched metadata for **{len(oa_batch_results):,} / {t1_queried:,} DOIs**. Now processing fallbacks (Tiers 2-5)...")
 
     # Pre-fetch candidate PMIDs for Tier 3 in fast polite batches
@@ -720,7 +760,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         _get_field(r, 'PMID') for _, r in tasks
         if not _get_field(r, 'DOI') and _get_field(r, 'PMID')
     ]
-    oa_pmid_batch_results = fetch_openalex_batch_by_pmids(pmids_for_oa) if pmids_for_oa else {}
+    oa_pmid_batch_results = fetch_openalex_batch_by_pmids(pmids_for_oa, log_list=log_list) if pmids_for_oa else {}
     
     completed = 0
     for idx, row in tasks:
@@ -796,7 +836,7 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
         needs_author_aer = bool(curr_auth and pd.notna(curr_auth) and author_has_initials(str(curr_auth)))
         if has_doi and (needs_update('Abstract') or needs_author_aer):
             t4_passed += 1
-            ss_data = fetch_semanticscholar_by_doi(doi or clean_doi)
+            ss_data = fetch_semanticscholar_by_doi(doi or clean_doi, log_list=log_list)
             if ss_data:
                 up_t4 = {}
                 apply_semanticscholar_data(ss_data, row, fields_to_enrich, up_t4, missed)
@@ -910,7 +950,10 @@ def enrich_dataset_openalex(df: pd.DataFrame, fields_to_enrich: list, log_list: 
 
     # Automatic Post-Enrichment Deduplication: Consolidate any records that now share identical DOIs or OpenAlex IDs
     from core.deduplication import deduplicate_dataset
-    df, post_enrich_dups = deduplicate_dataset(df)
+    df, post_enrich_dups, new_dups = deduplicate_dataset(df, return_duplicates=True, phase_name="Post-Enrichment")
+    if 'prisma_duplicates' not in st.session_state:
+        st.session_state.prisma_duplicates = []
+    st.session_state.prisma_duplicates.extend(new_dups)
 
     start_timestamp = datetime.datetime.fromtimestamp(start_time).strftime('%Y-%m-%d %H:%M:%S')
     end_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

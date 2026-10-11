@@ -7,7 +7,7 @@ import re
 # Target standardized columns
 TARGET_COLUMNS = [
     'Author', 'Title', 'OpenAlex ID', 'Abstract', 'Article References',
-    'Times Cited', 'Publication Year', 'DOI', 'Publisher', 'Keywords',
+    'Times Cited', 'Publication Year', 'DOI', 'PMID', 'Publisher', 'Keywords',
     'Affiliations', 'Country', 'Document Type', 'Language', 'Open Access',
     'Funding', 'Concepts', 'Journal', 'Location', 'Address', 'Volume', 'Issue', 'Pages', 'ISSN'
 ]
@@ -185,7 +185,26 @@ def deduplicate_and_merge_columns(df: pd.DataFrame) -> pd.DataFrame:
             sub_cleaned = sub.apply(lambda col_s: col_s.apply(
                 lambda val: pd.NA if _is_empty_val(val) else val
             ))
-            combined = sub_cleaned.bfill(axis=1).iloc[:, 0]
+            if col == 'Keywords':
+                def combine_kw_row(row):
+                    vals = [str(v).strip() for v in row if pd.notna(v) and str(v).strip() and str(v).strip().lower() not in ('nan', '<na>', 'none')]
+                    seen = set()
+                    unique_vals = []
+                    for v in vals:
+                        for part in re.split(r'[;,]', v):
+                            cleaned_part = part.strip()
+                            if cleaned_part and cleaned_part.lower() not in seen:
+                                seen.add(cleaned_part.lower())
+                                unique_vals.append(cleaned_part)
+                    return "; ".join(unique_vals) if unique_vals else pd.NA
+                combined = sub_cleaned.apply(combine_kw_row, axis=1)
+            elif col == 'Abstract':
+                def combine_abs_row(row):
+                    vals = [str(v).strip() for v in row if pd.notna(v) and str(v).strip() and str(v).strip().lower() not in ('nan', '<na>', 'none')]
+                    return max(vals, key=len) if vals else pd.NA
+                combined = sub_cleaned.apply(combine_abs_row, axis=1)
+            else:
+                combined = sub_cleaned.bfill(axis=1).iloc[:, 0]
             merged_data[col] = combined
 
     return pd.DataFrame(merged_data, index=df.index)
@@ -271,10 +290,15 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
         "country": "Country", "countries": "Country", "country code": "Country", "country of publisher": "Country", "país": "Country", "pais": "Country",
 
         # 4. Inteligência Semântica e Modelagem de Tópicos
-        "abstract": "Abstract", "abstract note": "Abstract", "summary": "Abstract", "resumo": "Abstract", "ab": "Abstract", "n2": "Abstract", "description": "Abstract",
-        "keywords": "Keywords", "author keywords": "Keywords", "index keywords": "Keywords", "palavras-chave": "Keywords", "palavras chave": "Keywords", 
-        "descriptors": "Keywords", "subjects": "Keywords", "ot": "Keywords", "kw": "Keywords", "de": "Keywords", "tags": "Keywords", "raw_keywords": "Keywords",
-        "concepts": "Concepts", "mesh terms": "Concepts", "mesh": "Concepts", "categories": "Concepts", "subject areas": "Concepts",
+        "abstract": "Abstract", "abstract note": "Abstract", "abstracts": "Abstract", "abstract text": "Abstract", 
+        "summary": "Abstract", "resumo": "Abstract", "resumen": "Abstract", "ab": "Abstract", "n2": "Abstract", 
+        "description": "Abstract", "author abstract": "Abstract", "paper abstract": "Abstract", "article abstract": "Abstract",
+        "keywords": "Keywords", "keyword": "Keywords", "author keywords": "Keywords", "index keywords": "Keywords", 
+        "keywords plus": "Keywords", "keyword plus": "Keywords", "palavras-chave": "Keywords", "palavras chave": "Keywords", 
+        "palabras clave": "Keywords", "palabras clave ": "Keywords", "descriptors": "Keywords", "subjects": "Keywords", 
+        "subject terms": "Keywords", "subject headings": "Keywords", "all keywords": "Keywords",
+        "ot": "Keywords", "kw": "Keywords", "de": "Keywords", "tags": "Keywords", "raw_keywords": "Keywords",
+        "concepts": "Concepts", "mesh terms": "Concepts", "mesh": "Concepts", "categories": "Concepts", "subject areas": "Concepts", "mesh headings": "Concepts",
 
         # 5. Contexto de Publicação (Distinção de Journal vs Publisher vs Detalhes)
         "journal": "Journal", "journal name": "Journal", "source title": "Journal", "publicationname": "Journal", "publication name": "Journal", 
@@ -309,6 +333,9 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     new_cols = []
     for col in cols_lower:
         mapped_name = column_mapping.get(col)
+        if not mapped_name:
+            col_normalized = col.replace('_', ' ').replace('-', ' ').strip()
+            mapped_name = column_mapping.get(col_normalized)
         if mapped_name:
             new_cols.append(mapped_name)
         else:

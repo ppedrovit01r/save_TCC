@@ -63,7 +63,12 @@ def calculate_jaccard(list1, list2):
     union = len(set1.union(set2))
     return intersection / union if union > 0 else 0
 
-from lib.topic_modeling.genai import generate_batch_topic_names
+from lib.topic_modeling.genai import (
+    generate_batch_topic_names,
+    get_last_genai_error,
+    clear_last_genai_error,
+    render_genai_error_card
+)
 from utils.exports import _download_button, render_project_saved_notice, _save_export_on_click
 from utils.project_manager import format_timestamped_filename, save_project_file, open_project_folder, get_active_project_name
 
@@ -104,17 +109,32 @@ def show(df):
             help="Restores eras, topics, keywords, connection links, and GenAI labels without needing to re-run clustering."
         )
         if uploaded_flow_file is not None:
-            try:
-                flow_payload = json.loads(uploaded_flow_file.read().decode("utf-8"))
-                required_keys = ['nodes', 'links_source', 'links_target', 'links_value', 'links_color', 'links_records']
-                if all(k in flow_payload for k in required_keys):
-                    st.session_state.thematic_flow_data = flow_payload
-                    st.success(f"Successfully restored flow project with {len(flow_payload['nodes'])} topics across {len(set(n['era_name'] for n in flow_payload['nodes']))} eras!")
-                    st.rerun()
-                else:
-                    st.error("Invalid Flow Project JSON: missing required node/link structures.")
-            except Exception as e:
-                st.error(f"Error parsing Flow Project file: {e}")
+            file_id = f"{uploaded_flow_file.name}_{uploaded_flow_file.size}"
+            if st.session_state.get("_last_restored_flow_file") != file_id:
+                try:
+                    flow_payload = json.loads(uploaded_flow_file.read().decode("utf-8"))
+                    required_keys = ['nodes', 'links_source', 'links_target', 'links_value', 'links_color', 'links_records']
+                    if all(k in flow_payload for k in required_keys):
+                        colors = ['#aec7e8', '#ffbb78', '#98df8a', '#ff9896', '#c5b0d5', '#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
+                        if 'node_colors' not in flow_payload or not flow_payload['node_colors']:
+                            flow_payload['node_colors'] = [colors[i % len(colors)] for i in range(len(flow_payload['nodes']))]
+                        if 'genai_labels' not in flow_payload:
+                            flow_payload['genai_labels'] = {}
+
+                        st.session_state.thematic_flow_data = flow_payload
+                        st.session_state._last_restored_flow_file = file_id
+                        st.toast(f"Restored flow project with {len(flow_payload['nodes'])} topics!", icon="🎉")
+                        st.rerun()
+                    else:
+                        st.error("Invalid Flow Project JSON: missing required node/link structures.")
+                except Exception as e:
+                    st.error(f"Error parsing Flow Project file: {e}")
+            else:
+                flow_nodes = st.session_state.get('thematic_flow_data', {}).get('nodes', [])
+                num_eras = len(set(n['era_name'] for n in flow_nodes)) if flow_nodes else 0
+                st.success(f"Flow project loaded from `{uploaded_flow_file.name}` ({len(flow_nodes)} topics across {num_eras} eras).")
+        else:
+            st.session_state.pop("_last_restored_flow_file", None)
         
     df = df.copy()
     # Extract 4-digit year starting with 18, 19, or 20 from strings like "20260721" or "2026-07-21"
@@ -129,16 +149,31 @@ def show(df):
     min_year = int(df["Publication Year"].min())
     max_year = int(df["Publication Year"].max())
 
-    potential_cols = ["Title", "Abstract", "Keywords"]
-    available_cols = [c for c in potential_cols if c in df.columns]
+    potential_cols = ["Title", "Abstract", "Keywords", "Concepts"]
+    extra_candidates = [
+        c for c in df.columns 
+        if c not in potential_cols and any(k in c.lower() for k in ['abstract', 'keyword', 'summary', 'resumo', 'description', 'concept'])
+    ]
+    all_candidate_cols = potential_cols + extra_candidates
+    available_cols = [c for c in all_candidate_cols if c in df.columns]
+
+    # Find which columns are actually populated
+    populated_cols = [
+        c for c in available_cols
+        if df[c].apply(lambda x: pd.notna(x) and str(x).strip() != '' and str(x).strip().lower() not in ('nan', '<na>', 'none', 'null')).sum() > 0
+    ]
 
     with st.expander("⚙️ Configuration", expanded=True):
         col1, col2 = st.columns(2)
         with col1:
+            default_candidates = [c for c in available_cols if c in populated_cols]
+            if not default_candidates:
+                default_candidates = available_cols
             text_cols = st.multiselect(
                 "Text Fields to Analyze",
                 available_cols,
-                default=[c for c in available_cols if c in ["Title", "Abstract"]]
+                default=default_candidates,
+                help="Select text fields to analyze. All detected fields (Title, Abstract, Keywords, Concepts) are enabled by default and can be toggled."
             )
             
             topic_strategy = st.radio(
@@ -361,22 +396,27 @@ def show(df):
     # Render Diagram & GenAI Controls if flow data exists in memory
     if 'thematic_flow_data' in st.session_state:
         flow_data = st.session_state.thematic_flow_data
-        nodes = flow_data['nodes']
-        node_colors = flow_data['node_colors']
-        links_source = flow_data['links_source']
-        links_target = flow_data['links_target']
-        links_value = flow_data['links_value']
-        links_color = flow_data['links_color']
-        links_records = flow_data['links_records']
+        colors_palette = ['#aec7e8', '#ffbb78', '#98df8a', '#ff9896', '#c5b0d5', '#c49c94', '#f7b6d2', '#c7c7c7', '#dbdb8d', '#9edae5']
+        nodes = flow_data.get('nodes', [])
+        node_colors = flow_data.get('node_colors') or [colors_palette[i % len(colors_palette)] for i in range(len(nodes))]
+        links_source = flow_data.get('links_source', [])
+        links_target = flow_data.get('links_target', [])
+        links_value = flow_data.get('links_value', [])
+        links_color = flow_data.get('links_color', [])
+        links_records = flow_data.get('links_records', [])
         genai_labels = flow_data.get('genai_labels', {})
 
         # --- GenAI Naming Expander ---
-        with st.expander("✨ GenAI Era Topic Naming (Single-Batch Quota Protected)", expanded=False):
+        has_flow_err = bool(st.session_state.get('flow_genai_error'))
+        with st.expander("✨ GenAI Era Topic Naming (Single-Batch Quota Protected)", expanded=has_flow_err):
             st.markdown("""
             Automatically name every topic across all eras using an LLM. 
-            To strictly protect your quota and avoid prompt overflow, all topics are batched in a single efficient JSON call (chunked at 25 topics max).
+            To strictly protect your quota and avoid prompt overflow, all topics are batched in a single efficient JSON call (chunked at 50 topics max).
             The generated names are embedded directly into the Sankey diagram node labels!
             """)
+
+            if has_flow_err:
+                render_genai_error_card(st.session_state['flow_genai_error'])
             
             g_col1, g_col2, g_col3 = st.columns([1.2, 2, 1.2])
             with g_col1:
@@ -402,19 +442,36 @@ def show(df):
                     st.warning("Please provide an API Key.")
                 else:
                     with st.spinner(f"Batch labeling {len(nodes)} era topics in 1 quota-protected call..."):
+                        clear_last_genai_error()
                         batch_dict = {
                             n["id"]: n["words"]
                             for n in nodes
                         }
-                        # Generates all names in one batch call with maximum 25 topics per chunk
+                        # Generates all names in one batch call with maximum 50 topics per chunk to minimize API calls
                         res_labels = generate_batch_topic_names(
                             api_key=genai_api_key,
                             provider=genai_provider,
                             topics_dict=batch_dict,
-                            chunk_size=25
+                            chunk_size=50
                         )
+                        last_err = get_last_genai_error()
+                        failed_count = sum(
+                            1 for v in res_labels.values()
+                            if isinstance(v, dict) and (v.get("name", "").lower().startswith("error") or "error_info" in v)
+                        )
+                        if failed_count > 0:
+                            st.session_state.flow_genai_error = last_err or {
+                                "code": "ERR",
+                                "category": "Topic Naming Incomplete",
+                                "message": f"{failed_count} of {len(nodes)} topics could not be named.",
+                                "advice": "Check your API key and provider quota."
+                            }
+                        else:
+                            st.session_state.pop('flow_genai_error', None)
+
                         st.session_state.thematic_flow_data['genai_labels'] = res_labels
-                        st.toast(f"Labeled {len(res_labels)} topics across all eras!", icon="🎉")
+                        if failed_count == 0:
+                            st.toast(f"Labeled {len(res_labels)} topics across all eras!", icon="🎉")
                         st.rerun()
 
         # Build dynamic node labels and hover texts
@@ -427,11 +484,18 @@ def show(df):
             ai_info = genai_labels.get(n_id, {})
             ai_name = ai_info.get("name") if isinstance(ai_info, dict) else None
 
+            # Clean and concise label format: bold era followed by topic title
             era_bold = f"<b>{n['era_name']}</b>"
-            if ai_name and ai_name.strip() and not ai_name.startswith("Topic E"):
-                # Embed AI name directly inside node label with bold era date
-                display_label = f"{era_bold}: {ai_name}"
-                plain_label = f"{n['era_name']}: {ai_name}"
+            is_valid_ai_name = (
+                ai_name 
+                and ai_name.strip() 
+                and not ai_name.startswith("Topic E") 
+                and not ai_name.lower().startswith("error")
+                and "error naming topic" not in ai_name.lower()
+            )
+            if is_valid_ai_name:
+                display_label = f"{era_bold}: {ai_name.strip()}"
+                plain_label = f"{n['era_name']}: {ai_name.strip()}"
             else:
                 display_label = f"{era_bold}: T{n['topic_idx']+1}"
                 plain_label = f"{n['era_name']}: T{n['topic_idx']+1}"
@@ -457,7 +521,7 @@ def show(df):
                 "Top Keywords": ", ".join(n["words"])
             })
 
-        # Inject CSS override to completely eliminate Plotly Sankey SVG text-shadow and enforce crisp dark text
+        # Inject CSS override to eliminate Plotly Sankey text shadow and enhance readability
         st.markdown("""
         <style>
         .sankey-node text, text.node-label {
@@ -469,16 +533,18 @@ def show(df):
         """, unsafe_allow_html=True)
 
         # Render Interactive Sankey Diagram
+        # pad=24 and height=750 provide generous vertical breathing room between stacked titles
         fig = go.Figure(data=[go.Sankey(
+            arrangement="snap",
             textfont=dict(
                 color="#111827",
-                size=13,
+                size=12,
                 family="Source Sans Pro, sans-serif",
                 shadow="none"
             ),
             node=dict(
-                pad=20,
-                thickness=35,
+                pad=24,
+                thickness=28,
                 line=dict(color="black", width=0.5),
                 label=node_labels,
                 color=node_colors,
@@ -495,9 +561,9 @@ def show(df):
         
         fig.update_layout(
             title_text="Thematic Flow Across Eras",
-            font=dict(size=13, color="#111827"),
-            height=620,
-            margin=dict(l=20, r=20, t=50, b=20)
+            font=dict(size=12, color="#111827"),
+            height=750,
+            margin=dict(l=20, r=40, t=50, b=25)
         )
         
         st.plotly_chart(fig, width="stretch")

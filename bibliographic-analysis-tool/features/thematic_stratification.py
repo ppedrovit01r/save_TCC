@@ -28,7 +28,8 @@ from lib.topic_modeling import (
     preprocess_for_gsdmm, run_bertopic, run_gsdmm,
     align_topics, assign_unified_topics,
     calculate_callon_metrics, calculate_temporal_trends, calculate_cluster_quality_metrics,
-    generate_topic_name, generate_batch_topic_names
+    generate_topic_name, generate_batch_topic_names,
+    get_last_genai_error, clear_last_genai_error, render_genai_error_card
 )
 import re
 import hashlib
@@ -107,8 +108,12 @@ def is_likely_english(text: str, lang_meta: str = "") -> bool:
     Determines if text is already English using metadata and offline NLTK stopword analysis.
     Returns True if English (no translation needed), False if non-English.
     """
-    if lang_meta and str(lang_meta).strip().lower() in ["en", "eng", "english"]:
-        return True
+    if lang_meta is not None and pd.notna(lang_meta):
+        lang_str = str(lang_meta).strip().lower()
+        if lang_str in ["en", "eng", "english"]:
+            return True
+        if lang_str in ["pt", "es", "fr", "por", "spa", "fra", "fre", "portuguese", "spanish", "french", "german", "de", "ger", "ita", "italian"]:
+            return False
     if not text or len(str(text).strip()) < 15:
         return True
         
@@ -244,8 +249,13 @@ def render_configuration_tab(df):
     st.divider()
     
     # Validation: Check for available text columns
-    potential_cols = ["Title", "Abstract", "Keywords"]
-    available_cols = [c for c in potential_cols if c in df.columns]
+    potential_cols = ["Title", "Abstract", "Keywords", "Concepts"]
+    extra_candidates = [
+        c for c in df.columns 
+        if c not in potential_cols and any(k in c.lower() for k in ['abstract', 'keyword', 'summary', 'resumo', 'description'])
+    ]
+    all_candidate_cols = potential_cols + extra_candidates
+    available_cols = [c for c in all_candidate_cols if c in df.columns]
     
     if not available_cols:
         st.error("**No text data found.** The thematic stratification requires text to analyze (e.g. Title, Abstract). Please go back to the **Core Data Prep** hub and run the Data Enrichment pipeline before continuing.")
@@ -253,38 +263,98 @@ def render_configuration_tab(df):
         
     # Check data density to warn the user if enrichment is needed
     stats = []
+    populated_cols = []
     for c in available_cols:
-        pct_present = (df[c].notna().sum() / len(df)) * 100
-        stats.append(f"- **{c}**: {pct_present:.1f}% populated")
+        val_count = int(df[c].apply(
+            lambda x: pd.notna(x) and str(x).strip() != '' and str(x).strip().lower() not in ('nan', '<na>', 'none', 'null')
+        ).sum())
+        pct_present = (val_count / len(df)) * 100 if len(df) > 0 else 0
+        stats.append(f"- **{c}**: {pct_present:.1f}% populated ({val_count:,}/{len(df):,} records)")
+        if val_count > 0:
+            populated_cols.append(c)
         
     st.info("**Available Text Data:**\n" + "\n".join(stats) + "\n\n*Tip: If these numbers are low, topic quality will be degraded. Consider enriching your dataset in the Data Prep tab.*")
     
-    col1, col2 = st.columns(2)
+    if 'focus_topics' in st.session_state and len(st.session_state.focus_topics) > 0:
+        st.warning("**Global Focus Mode Active.** You cannot run the Thematic Stratification pipeline while focused on a specific subset of topics. Please clear Focus Mode in the sidebar first.")
+        st.button("Run Unified Ensemble", type="primary", disabled=True)
+        return
+
+    col1, col2 = st.columns(2, gap="medium")
     with col1:
+        st.markdown("#### 📄 Corpus & Preprocessing")
+        default_candidates = [c for c in ["Title", "Abstract", "Keywords", "Concepts"] if c in populated_cols]
+        if not default_candidates:
+            default_candidates = [c for c in ["Title"] if c in available_cols]
         text_cols = st.multiselect(
             "Text Fields to Analyze",
             available_cols,
-            default=[c for c in available_cols if c in ["Title", "Abstract"]]
+            default=default_candidates,
+            help="Select text columns to concatenate for semantic and lexical topic models."
         )
-    with col2:
-        if 'focus_topics' in st.session_state and len(st.session_state.focus_topics) > 0:
-            st.warning("**Global Focus Mode Active.** You cannot run the Thematic Stratification pipeline while focused on a specific subset of topics. Please clear Focus Mode in the sidebar first.")
-            st.button("Run Unified Ensemble", type="primary", disabled=True)
-            return
         
-        with st.expander("⚙️ Topic Alignment Strategy", expanded=True):
+        with st.expander("🧹 Data Cleaning & Filtering", expanded=True):
+            filter_domain_stops = st.checkbox(
+                "Filter Overrepresented Domain Keywords", 
+                value=True, 
+                help="Automatically identify and remove search terms that appear in too many documents across the corpus, preventing them from dominating the topics."
+            )
+            domain_max_df = st.slider(
+                "Max Corpus Document Frequency", 
+                min_value=0.20, 
+                max_value=0.90, 
+                value=0.50, 
+                step=0.05, 
+                format="%d%%",
+                help="Terms appearing in more than this percentage of documents will be removed. Default is 50%."
+            )
+            st.caption("ℹ️ Automated cleaning is active: Section headers (*Background:*, *Methods:*, *Results:*, etc.), corrections, author affiliations, copyright blocks, and error dumps are scrubbed.")
+                
+        with st.expander("🌐 Multilingual & Translation Pipeline", expanded=False):
+            translation_mode = st.radio(
+                "Translation Strategy",
+                ["Disabled", "Selective (Non-English Only - Recommended)", "Force All Documents"],
+                index=1,
+                help="Selective mode automatically identifies non-English documents via metadata ('Language' column) and fast offline heuristics. English texts require 0 network calls, preserving quota."
+            )
+            enable_translation = translation_mode != "Disabled"
+            force_all_translation = translation_mode == "Force All Documents"
+            
+    with col2:
+        st.markdown("#### ⚙️ Topic Alignment & Ensemble Strategy")
+        
+        with st.expander("🎯 Strategy & Parameters", expanded=True):
+            n_corpus = len(df)
+            default_macro = 6
+            max_macro = 12
+            if n_corpus > 10000:
+                default_macro = 12
+                max_macro = 24
+            elif n_corpus > 5000:
+                default_macro = 10
+                max_macro = 20
+            elif n_corpus > 2000:
+                default_macro = 8
+                max_macro = 16
+
+            strategy_options = [
+                f"Consensus-Driven Macro Pillars ({default_macro - 1}–{default_macro + 2} Topics - Recommended)",
+                "Auto-Discovery (High Granularity)",
+                "Custom Target Topics"
+            ]
+            
             strategy = st.radio(
                 "How should the ensemble determine the number of topics?",
-                ["Consensus-Driven Macro Pillars (5–8 Topics - Recommended)", "Auto-Discovery (High Granularity)", "Custom Target Topics"],
-                help="Consensus-Driven Macro Pillars uses hierarchical semantic reduction to merge micro-clusters into substantial, high-confidence research pillars (default: 6 topics). Auto-Discovery allows HDBSCAN to discover many micro-clusters."
+                strategy_options,
+                help=f"Consensus-Driven Macro Pillars uses hierarchical semantic reduction to merge micro-clusters into substantial, high-confidence research pillars (default: {default_macro} topics). Auto-Discovery allows HDBSCAN to discover many micro-clusters."
             )
-            target_k = 6
-            if strategy == "Consensus-Driven Macro Pillars (5–8 Topics - Recommended)":
+            target_k = default_macro
+            if strategy.startswith("Consensus-Driven Macro Pillars"):
                 target_k = st.slider(
                     "Target Number of Consolidated Pillars", 
                     min_value=3, 
-                    max_value=12, 
-                    value=6, 
+                    max_value=max_macro, 
+                    value=default_macro, 
                     help="Consolidates the corpus into robust, cohesive macro-topics where BERTopic embeddings and GSDMM lexical keywords can be maximized for consensus."
                 )
             elif strategy == "Custom Target Topics":
@@ -292,15 +362,22 @@ def render_configuration_tab(df):
             else:
                 target_k = None # Auto
                 
-            n_corpus = len(df)
-            default_min_docs = min(12, max(2, int(0.025 * n_corpus)))
+            if n_corpus < 500:
+                default_min_docs = max(2, int(0.025 * n_corpus))
+            elif n_corpus < 2000:
+                default_min_docs = max(12, int(0.015 * n_corpus))
+            elif n_corpus < 5000:
+                default_min_docs = max(30, int(0.01 * n_corpus))
+            else:
+                default_min_docs = max(50, int(0.005 * n_corpus))
+                
             max_allowed_min = max(20, int(0.10 * n_corpus))
             min_cluster_docs = st.number_input(
                 "Minimum Cluster Size (Documents)",
                 min_value=2,
                 max_value=max_allowed_min,
                 value=default_min_docs,
-                help=f"Topics/clusters with fewer documents than this threshold will be absorbed or pruned, preventing micro-topics (< 2.5% of corpus). Default is min(12, 2.5% of corpus) = {default_min_docs} for {n_corpus} documents."
+                help=f"Topics/clusters with fewer documents than this threshold will be absorbed or pruned. Automatically scales with corpus size. Default is {default_min_docs} for {n_corpus} documents."
             )
             
             min_confidence = st.slider(
@@ -311,18 +388,34 @@ def render_configuration_tab(df):
                 step=0.05,
                 help="Documents with an alignment confidence below this threshold will be marked as outliers (-1). Consensus=1.0, Leader Solo=0.85, Boundary=0.65. Default 0.50 retains all categorized documents while filtering pure outliers."
             )
-                
-        with st.expander("🌐 Text Translation Pipeline"):
-            translation_mode = st.radio(
-                "Translation Strategy",
-                ["Disabled", "Selective (Non-English Only - Recommended)", "Force All Documents"],
-                index=1,
-                help="Selective mode automatically identifies non-English documents via metadata ('Language' column) and fast offline heuristics. English texts require 0 network calls, preventing Google rate-limits (HTTP 500 errors) and preserving quota."
+
+        with st.expander("🧩 Phase 3: Mega-Cluster Breakdown", expanded=True):
+            breakdown_mega_clusters = st.checkbox(
+                "Enable Phase 3 Sub-Categorization", 
+                value=True, 
+                help="Automatically identify massive topics (>40% of corpus) and hierarchically sub-categorize them by temporarily freezing ubiquitous search terms."
             )
-            enable_translation = translation_mode != "Disabled"
-            force_all_translation = translation_mode == "Force All Documents"
-            
-    if st.button("Run Unified Ensemble", type="primary"):
+            mega_threshold = st.slider(
+                "Mega-Cluster Trigger Threshold",
+                min_value=0.25,
+                max_value=0.60,
+                value=0.40,
+                step=0.05,
+                format="%d%%",
+                help="Topics containing more than this percentage of the total corpus will be partitioned into distinct sub-topics."
+            )
+            freeze_threshold = st.slider(
+                "Ubiquitous Term Freeze Threshold",
+                min_value=0.40,
+                max_value=0.80,
+                value=0.60,
+                step=0.05,
+                format="%d%%",
+                help="Terms appearing in more than this percentage of the mega-cluster's documents will be temporarily frozen/scrubbed during sub-clustering."
+            )
+
+    st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
+    if st.button("🚀 Run Unified Ensemble Pipeline", type="primary", use_container_width=True):
         if not text_cols:
             st.error("Please select at least one text column.")
             return
@@ -462,9 +555,42 @@ def render_configuration_tab(df):
                 
             # Final Sanitize: scrub any existing web error boilerplate from text before sending to BERTopic/GSDMM
             def clean_document_text(text: str) -> str:
+                import re
                 if not text or pd.isna(text):
                     return ""
                 s = str(text)
+
+                # Strip useless boilerplate
+                lower_s = s.strip().lower()
+                useless_phrases = [
+                    "null", "dear editor", "the authors have nothing to report",
+                    "no new data were created or analysed", "status: published", "graphical abstract"
+                ]
+                if lower_s in useless_phrases:
+                    return ""
+
+                # Copyright blocks
+                s = re.sub(r'©\s*copyright\s+\d{4}.*?(?:\.|\Z)', '', s, flags=re.IGNORECASE)
+                
+                # Correction notices
+                s = re.sub(r'A Correction on:.*?doi:\s*10\.\d{4,9}/[-._;()/:a-zA-Z0-9]+', '', s, flags=re.IGNORECASE)
+                s = re.sub(r'A Correction on:.*?(?:\n|\Z)', '', s, flags=re.IGNORECASE)
+                s = re.sub(r'\[This corrects the article.*?\]\.?', '', s, flags=re.IGNORECASE)
+                s = re.sub(r'The original version of this article has been updated\.?', '', s, flags=re.IGNORECASE)
+
+                # Author blocks
+                s = re.sub(r'^.*?\(corresponding author\).*?(?:\n|\Z)', '', s, flags=re.IGNORECASE | re.MULTILINE)
+                s = re.sub(r'^[^;]*(?:MD|MSc|PhD|Dr\.)[^;]*;\s*', '', s, flags=re.IGNORECASE)
+
+                # Standard section headers
+                headers = [
+                    r'abstract', r'background', r'objectives?', r'aims?', r'purpose', 
+                    r'methods?', r'results?', r'conclusions?', r'introduction'
+                ]
+                for h in headers:
+                    s = re.sub(rf'\b{h}\s*[:\-]\s*', '', s, flags=re.IGNORECASE)
+                    s = re.sub(rf'^{h}[\s\n\.]+', '', s, flags=re.IGNORECASE | re.MULTILINE)
+
                 # If the entire text or majority is just an HTTP 500 error page dump
                 if is_error_boilerplate(s):
                     # Strip out error boilerplate
@@ -477,6 +603,23 @@ def render_configuration_tab(df):
                 return s.strip()
 
             sanitized_docs = [clean_document_text(d) for d in docs.tolist()]
+
+            filtered_domain_stops = []
+            if filter_domain_stops and len(sanitized_docs) > 0:
+                try:
+                    from sklearn.feature_extraction.text import CountVectorizer
+                    cv = CountVectorizer(stop_words='english', max_df=domain_max_df, min_df=1)
+                    cv.fit(sanitized_docs)
+                    domain_stopwords = cv.stop_words_
+                    if domain_stopwords:
+                        filtered_domain_stops = sorted(list(domain_stopwords))
+                        # cv gives unigrams
+                        escaped_stops = [re.escape(w) for w in filtered_domain_stops]
+                        pattern = re.compile(r'\b(' + '|'.join(escaped_stops) + r')\b', re.IGNORECASE)
+                        sanitized_docs = [pattern.sub('', d) for d in sanitized_docs]
+                        st.info(f"🧹 Filtered {len(filtered_domain_stops)} overrepresented domain keywords (e.g. {', '.join(filtered_domain_stops[:10])}).")
+                except Exception as e:
+                    pass
 
             # Standard docs for BERTopic
             st.session_state.ts_docs = sanitized_docs
@@ -542,6 +685,141 @@ def render_configuration_tab(df):
             st.session_state.topic_mapping = clean_mapping
             st.session_state.topic_names = {}  # Reset previous topic names for fresh run
             
+            pre_p3_topics_count = len(clean_mapping)
+            phase3_executed = False
+            phase3_logs = []
+            formatted_p3_duration = "0s (Disabled)"
+
+            if breakdown_mega_clusters:
+                t_p3_start = time.time()
+                from collections import Counter
+                topic_counts = Counter(u_topics)
+                total_valid_docs = sum(1 for t in u_topics if t != -1)
+                mega_clusters = [t for t, count in topic_counts.items() if t != -1 and count > (mega_threshold * total_valid_docs) and count >= min_cluster_docs * 2]
+                
+                if mega_clusters:
+                    phase3_executed = True
+                    with st.spinner(f"Phase 3: Sub-categorizing {len(mega_clusters)} Mega-Clusters..."):
+                        next_topic_id = max(clean_mapping.keys()) + 1 if clean_mapping else 0
+                        
+                        for mega_id in mega_clusters:
+                            mega_indices = [i for i, t in enumerate(u_topics) if t == mega_id]
+                            mega_docs = [sanitized_docs[i] for i in mega_indices]
+                            mega_doc_count = len(mega_docs)
+                            mega_share_pct = (mega_doc_count / total_valid_docs * 100) if total_valid_docs > 0 else 0
+                            
+                            from sklearn.feature_extraction.text import CountVectorizer
+                            try:
+                                cv_mega = CountVectorizer(stop_words='english', max_df=1.0, min_df=freeze_threshold)
+                                cv_mega.fit(mega_docs)
+                                frozen_terms = sorted(list(cv_mega.vocabulary_.keys()))
+                            except Exception:
+                                frozen_terms = []
+                                
+                            sub_sanitized_docs = list(mega_docs)
+                            if frozen_terms:
+                                escaped_stops = [re.escape(w) for w in frozen_terms]
+                                pattern = re.compile(r'\b(' + '|'.join(escaped_stops) + r')\b', re.IGNORECASE)
+                                sub_sanitized_docs = [pattern.sub('', d) for d in sub_sanitized_docs]
+                                
+                            sub_target_k = max(3, min(8, int(len(mega_docs) / 100)))
+                            sub_min_docs = max(2, int(min_cluster_docs * 0.5))
+                            sub_tokenized = preprocess_for_gsdmm(sub_sanitized_docs)
+                            
+                            try:
+                                b_model, b_tops, b_probs, b_words, b_embeds = run_bertopic(
+                                    sub_sanitized_docs, min_topic_size=sub_min_docs, nr_topics=sub_target_k
+                                )
+                                sub_gsdmm_k = max(2, len(b_words))
+                                g_model, g_tops, g_probs, g_words = run_gsdmm(sub_tokenized, k=sub_gsdmm_k)
+                                
+                                b_to_u_sub, g_to_u_sub, map_sub = align_topics(
+                                    b_tops, g_tops, b_words, g_words, min_topic_size=sub_min_docs
+                                )
+                                
+                                sub_u, sub_conf, sub_sec, sub_cons = assign_unified_topics(
+                                    b_tops, g_tops, b_to_u_sub, g_to_u_sub, unified_mapping=map_sub,
+                                    doc_embeddings=b_embeds, min_confidence=float(min_confidence), min_topic_size=sub_min_docs
+                                )
+                                
+                                surviving_sub = sorted(list(set(t for t in sub_u if t != -1)))
+                                sub_remap = {old: next_topic_id + i for i, old in enumerate(surviving_sub)}
+                                next_topic_id += len(surviving_sub)
+                                
+                                for i, old_u in enumerate(sub_u):
+                                    global_idx = mega_indices[i]
+                                    if old_u == -1:
+                                        u_topics[global_idx] = -1
+                                        confidences[global_idx] = 0.0
+                                        secondary[global_idx] = None
+                                        is_consensus[global_idx] = False
+                                    else:
+                                        new_u = sub_remap[old_u]
+                                        u_topics[global_idx] = new_u
+                                        confidences[global_idx] = sub_conf[i]
+                                        sec_old = sub_sec[i]
+                                        secondary[global_idx] = sub_remap.get(sec_old, None) if sec_old is not None else None
+                                        is_consensus[global_idx] = sub_cons[i]
+                                        
+                                b_id_offset = max(st.session_state.bert_words.keys()) + 1 if st.session_state.bert_words else 0
+                                g_id_offset = max(st.session_state.gsdmm_words.keys()) + 1 if st.session_state.gsdmm_words else 0
+                                
+                                for old_b, words in b_words.items():
+                                    st.session_state.bert_words[old_b + b_id_offset] = frozen_terms[:3] + words
+                                for old_g, words in g_words.items():
+                                    st.session_state.gsdmm_words[old_g + g_id_offset] = frozen_terms[:3] + words
+                                    
+                                for old_sub, m in map_sub.items():
+                                    if old_sub not in sub_remap:
+                                        continue
+                                    new_u = sub_remap[old_sub]
+                                    new_m = {}
+                                    if m.get('bertopic_id') is not None:
+                                        new_m['bertopic_id'] = m['bertopic_id'] + b_id_offset
+                                    if m.get('gsdmm_ids') is not None:
+                                        new_m['gsdmm_ids'] = [g + g_id_offset for g in m['gsdmm_ids']]
+                                    if m.get('gsdmm_id') is not None:
+                                        new_m['gsdmm_id'] = m['gsdmm_id'] + g_id_offset
+                                    new_m['similarities'] = m.get('similarities', [])
+                                    clean_mapping[new_u] = new_m
+                                    
+                                del clean_mapping[mega_id]
+                                phase3_logs.append({
+                                    'mega_id': mega_id,
+                                    'doc_count': mega_doc_count,
+                                    'share_pct': mega_share_pct,
+                                    'sub_topics_count': len(surviving_sub),
+                                    'frozen_terms': frozen_terms,
+                                    'status': 'SUCCESS'
+                                })
+                                st.toast(f"Split Mega-Cluster into {len(surviving_sub)} sub-topics. Frozen terms: {', '.join(frozen_terms[:5])}", icon="🧩")
+                            except Exception as e:
+                                phase3_logs.append({
+                                    'mega_id': mega_id,
+                                    'doc_count': mega_doc_count,
+                                    'share_pct': mega_share_pct,
+                                    'sub_topics_count': 0,
+                                    'frozen_terms': frozen_terms,
+                                    'status': f'FAILED ({str(e)})'
+                                })
+                                
+                        # Final re-compaction of IDs
+                        final_surviving = sorted(list(set(t for t in u_topics if t != -1)))
+                        final_remap = {old: new for new, old in enumerate(final_surviving)}
+                        u_topics = [final_remap.get(t, -1) if t != -1 else -1 for t in u_topics]
+                        secondary = [final_remap.get(s, None) if s is not None and s in final_remap else None for s in secondary]
+                        
+                        final_mapping = {}
+                        for old_id in final_surviving:
+                            final_mapping[final_remap[old_id]] = clean_mapping[old_id]
+                        clean_mapping = final_mapping
+                        st.session_state.topic_mapping = clean_mapping
+                t_p3_end = time.time()
+                p3_duration = t_p3_end - t_p3_start if phase3_executed else 0.0
+                formatted_p3_duration = format_duration(p3_duration) if phase3_executed else "0s (No Mega-Clusters)"
+            else:
+                formatted_p3_duration = "0s (Disabled)"
+            
             # Save results back to session state dataframe
             df['unified_topic'] = u_topics
             df['topic_confidence'] = confidences
@@ -568,31 +846,53 @@ def render_configuration_tab(df):
             "=" * 80,
             f"Execution Timeframe: {start_timestamp}  -->  {end_timestamp}",
             f"Total Duration:      {formatted_total_duration}",
-            f"  • Phase 1 (Language Detection & Translation): {formatted_trans_duration}",
-            f"      - Mode: {'Forced All Translations' if force_all_translation else 'Smart Multilingual Detection' if enable_translation else 'Disabled'}",
-            f"      - Documents: {translated_count} translated, {cached_count} from cache, {english_skipped} skipped as English",
-            f"  • Phase 2 (BERTopic + GSDMM Modeling & Consensus Refinement): {formatted_ml_duration}",
-            f"      - BERTopic: Pass 1 Semantic Embeddings (target: {target_k if target_k is not None else 'Auto'})",
+            f"  • Phase 1 (Data Prep, Language & Preprocessing): {formatted_trans_duration}",
+            f"      - Translation Mode: {'Forced All Translations' if force_all_translation else 'Smart Multilingual Detection' if enable_translation else 'Disabled'}",
+            f"      - Translations: {translated_count} translated, {cached_count} from cache, {english_skipped} skipped as English",
+            f"      - Text Scrubbing: Boilerplate, section headers (Background, Methods, Results, Conclusions, etc.), correction citations, and author/copyright blocks removed",
+            f"      - Domain Keywords: {len(filtered_domain_stops)} overrepresented terms filtered (> {int(domain_max_df*100)}% df)" + (f" [{', '.join(filtered_domain_stops[:10])}...]" if filtered_domain_stops else " [None]"),
+            f"  • Phase 2 (BERTopic + GSDMM Modeling & Consensus Alignment): {formatted_ml_duration}",
+            f"      - BERTopic: Pass 1 Semantic Embeddings (target: {target_k if target_k is not None else 'Auto'}, min_topic_size: {min_cluster_docs})",
             f"      - GSDMM: Pass 1 Lexical Co-occurrence Lens (k={gsdmm_k})",
-            f"      - Ensemble: Pass 2 Consensus Centroid Refinement & Boundary Resolution",
+            f"      - Alignment: Dual-model bipartite matching & consensus centroid refinement",
+            f"      - Initial Topics Discovered: {pre_p3_topics_count}",
+            f"  • Phase 3 (Mega-Cluster Breakdown): {formatted_p3_duration}",
+            f"      - Strategy: {'Enabled' if breakdown_mega_clusters else 'Disabled'}",
+            f"      - Trigger Threshold: > {int(mega_threshold*100)}% of corpus (minimum {min_cluster_docs * 2} docs)",
+            f"      - Ubiquitous Term Freeze Threshold: > {int(freeze_threshold*100)}% of mega-cluster documents",
+            f"      - Action Taken: {f'Partitioned {len(phase3_logs)} mega-cluster(s)' if phase3_logs else 'No mega-clusters exceeded trigger threshold' if breakdown_mega_clusters else 'Feature disabled by user'}",
+        ]
+        
+        if phase3_logs:
+            for pl in phase3_logs:
+                log_lines.append(
+                    f"          ↳ Mega-Cluster {pl['mega_id']} ({pl['doc_count']:,} docs, {pl['share_pct']:.1f}% of corpus): Split into {pl['sub_topics_count']} sub-topics [{pl['status']}]"
+                )
+                if pl.get('frozen_terms'):
+                    log_lines.append(
+                        f"             Frozen Ubiquitous Terms: {', '.join(pl['frozen_terms'][:10])}"
+                    )
+
+        log_lines.extend([
             "",
             f"Fields Analyzed: {text_cols}",
             f"Alignment Strategy: {strategy}",
             f"Minimum Cluster Size: {min_cluster_docs} documents",
+            f"Minimum Topic Confidence: {min_confidence:.2f}",
             f"Synchronized Topic Count (k): {target_k if target_k is not None else 'Auto'}",
-            f"Total Documents Processed: {total_docs}",
+            f"Total Documents Processed: {total_docs:,}",
             "",
             "--------------------------------------------------------------------------------",
             "MODEL STATISTICS",
             "--------------------------------------------------------------------------------",
-            f"• Unified Topics Generated: {len(clean_mapping)}",
+            f"• Final Unified Topics Generated: {len(clean_mapping)}",
             f"• Outlier Documents (-1): {outliers} ({(outliers/total_docs*100):.1f}%)",
             f"• Average Assignment Confidence: {(sum(confidences)/len(confidences)):.2f}",
             "",
             "--------------------------------------------------------------------------------",
             "ALIGNMENT MAPPING SUMMARY",
             "--------------------------------------------------------------------------------"
-        ]
+        ])
         
         for u_id, m in clean_mapping.items():
             b_id = m.get('bertopic_id')
@@ -653,9 +953,10 @@ def render_configuration_tab(df):
         st.session_state.ts_last_log = report_text
         st.session_state.ts_last_log_file = log_filename
             
+        p3_notice = f" | 🧩 **Phase 3:** `{formatted_p3_duration}`" if phase3_executed else ""
         st.success(
             f"✨ **Ensemble Pipeline Completed in {formatted_total_duration}!** "
-            f"(🌐 **Translation:** `{formatted_trans_duration}` | 🤖 **BERTopic + GSDMM:** `{formatted_ml_duration}`). "
+            f"(🌐 **Translation & Scrub:** `{formatted_trans_duration}` | 🤖 **Ensemble:** `{formatted_ml_duration}`{p3_notice}). "
             f"Audit log saved to `{log_filename}`."
         )
 
@@ -669,8 +970,11 @@ def get_topic_name(topic_id):
     if 'topic_names' in st.session_state:
         val = st.session_state.topic_names.get(t_id, st.session_state.topic_names.get(str(t_id)))
         if isinstance(val, dict):
-            return val.get('name') or f"Topic {topic_id}"
-        elif isinstance(val, str) and val.strip():
+            name = val.get('name')
+            if name and not name.lower().startswith("error") and "error naming topic" not in name.lower():
+                return name
+            return f"Topic {topic_id}"
+        elif isinstance(val, str) and val.strip() and not val.lower().startswith("error") and "error naming topic" not in val.lower():
             return val.strip()
     return f"Topic {topic_id}"
 
@@ -724,9 +1028,17 @@ def render_topic_explorer(df):
         
         ai_data = st.session_state.topic_names.get(u_id, {})
         if isinstance(ai_data, dict):
-            ai_name = ai_data.get('name', 'Pending Generation')
+            raw_ai = ai_data.get('name', 'Pending Generation')
+            if raw_ai.lower().startswith("error") or "error_info" in ai_data:
+                code = ai_data.get('error_info', {}).get('code', 'Error')
+                ai_name = f"⚠️ Failed ({code})"
+            else:
+                ai_name = raw_ai
         elif isinstance(ai_data, str) and ai_data.strip():
-            ai_name = ai_data.strip()
+            if ai_data.strip().lower().startswith("error"):
+                ai_name = "⚠️ Failed"
+            else:
+                ai_name = ai_data.strip()
         else:
             ai_name = "Pending Generation"
         
@@ -770,8 +1082,9 @@ def render_topic_explorer(df):
             st.caption("Make sure Ollama is running on your machine.")
     with g_col3:
         if st.button("Generate Names for ALL Topics", width="stretch", type="primary"):
-            if provider != "None" and api_key:
+            if provider != "None" and (api_key or provider == "Ollama (Local)"):
                 with st.spinner("Batch generating all topic labels..."):
+                    clear_last_genai_error()
                     # Collect all topic keyword sets into a single dictionary
                     batch_payload = {}
                     for u_id in unified_ids:
@@ -790,14 +1103,30 @@ def render_topic_explorer(df):
                     
                     # Make 1 single API call for all topics
                     batch_results = generate_batch_topic_names(api_key, provider, batch_payload)
-                    
+                    last_err = get_last_genai_error()
+                    failed_count = sum(
+                        1 for v in batch_results.values()
+                        if isinstance(v, dict) and (v.get("name", "").lower().startswith("error") or "error_info" in v)
+                    )
+                    if failed_count > 0:
+                        st.session_state.strat_genai_error = last_err or {
+                            "code": "ERR",
+                            "category": "Batch Naming Incomplete",
+                            "message": f"{failed_count} topics could not be named.",
+                            "advice": "Check your API key and provider quota."
+                        }
+                    else:
+                        st.session_state.pop('strat_genai_error', None)
+                        
                     for u_id, res in batch_results.items():
                         st.session_state.topic_names[int(u_id)] = res
                         
                 st.rerun()
             else:
                 st.warning("Please provide an API key and select a provider.")
-    
+
+    if st.session_state.get('strat_genai_error'):
+        render_genai_error_card(st.session_state['strat_genai_error'])
         
     # --- GLOBAL FOCUS MODE ACTIVATION ---
     st.subheader("🎯 Global Focus Mode")
@@ -864,24 +1193,40 @@ def render_topic_explorer(df):
             
     with g_col3:
         if st.button("Generate Name (Single)", width="stretch"):
-            if provider != "None":
+            if provider != "None" and (api_key or provider == "Ollama (Local)"):
                 words_to_send = []
                 if b_id is not None: words_to_send.extend(st.session_state.bert_words.get(b_id, []))
                 for g_id in g_ids:
                     words_to_send.extend(st.session_state.gsdmm_words.get(g_id, []))
                 
                 with st.spinner("Generating..."):
+                    clear_last_genai_error()
                     num_t = len(st.session_state.topic_names) if 'topic_names' in st.session_state else 1
                     result = generate_topic_name(api_key, provider, list(set(words_to_send)), total_topics=num_t)
+                    last_err = get_last_genai_error()
+                    if result.get("name", "").lower().startswith("error") or "error_info" in result:
+                        st.session_state.strat_single_error = last_err or result.get("error_info")
+                    else:
+                        st.session_state.pop('strat_single_error', None)
                     st.session_state.topic_names[selected_topic] = result
                 st.rerun()
             else:
-                st.warning("Please select a valid provider.")
+                st.warning("Please provide an API key and select a provider.")
 
     if selected_topic in st.session_state.topic_names:
         ai_data = st.session_state.topic_names[selected_topic]
-        st.success(f"**Generated Name:** {ai_data.get('name')}")
-        st.write(f"**Description:** {ai_data.get('description')}")
+        name = ai_data.get('name', '') if isinstance(ai_data, dict) else str(ai_data)
+        if name.lower().startswith("error") or (isinstance(ai_data, dict) and "error_info" in ai_data):
+            err_info = (ai_data.get("error_info") if isinstance(ai_data, dict) else None) or st.session_state.get("strat_single_error")
+            if err_info:
+                render_genai_error_card(err_info)
+            else:
+                desc = ai_data.get('description', '') if isinstance(ai_data, dict) else ''
+                st.error(f"**Topic Naming Failed:** {name}\n\n{desc}")
+        else:
+            desc = ai_data.get('description', '') if isinstance(ai_data, dict) else ''
+            st.success(f"**Generated Name:** {name}")
+            st.write(f"**Description:** {desc}")
         
     # Dual-Perspective Document Audit
     st.subheader("📄 Dual-Perspective Document Audit: Consensus Core vs. Boundary Articles")
@@ -1189,7 +1534,7 @@ def render_quality(df):
             x='Topic Name',
             y='mean_confidence',
             color='mean_confidence',
-            color_continuous_scale='Blues',
+            color_continuous_scale='RdYlGn',
             text='mean_confidence',
             labels={'mean_confidence': 'Mean Confidence', 'Topic Name': 'Topic Cluster'},
             title="Cluster Assignment Reliability (Mean Confidence per Cluster)"

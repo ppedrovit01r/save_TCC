@@ -168,6 +168,33 @@ def batch_resolve_openalex_ids(ids: list) -> dict:
             _save_oa_works_cache(cache)
     return cache
 
+def _build_dataset_lookup_maps(df: pd.DataFrame) -> tuple:
+    """Builds fast (doi_map, oa_map) dictionaries mapping known DOIs and OpenAlex IDs to dataset row metadata."""
+    if df is None or df.empty:
+        return {}, {}
+    
+    doi_map = {}
+    if 'DOI' in df.columns:
+        cols = [c for c in ['DOI', 'Author', 'Publication Year', 'Title'] if c in df.columns]
+        for _, r in df[cols].dropna(subset=['DOI']).iterrows():
+            raw_doi = str(r['DOI']).strip().lower()
+            if raw_doi and raw_doi not in ('nan', 'none', '<na>', ''):
+                clean = raw_doi.replace("https://doi.org/", "").replace("http://dx.doi.org/", "").replace("doi:", "").strip()
+                if clean:
+                    doi_map[clean] = r
+
+    oa_map = {}
+    if 'OpenAlex ID' in df.columns:
+        cols = [c for c in ['OpenAlex ID', 'Author', 'Publication Year', 'Title'] if c in df.columns]
+        for _, r in df[cols].dropna(subset=['OpenAlex ID']).iterrows():
+            raw_oa = str(r['OpenAlex ID']).strip().upper()
+            if raw_oa and raw_oa not in ('NAN', 'NONE', '<NA>', ''):
+                clean = raw_oa.replace("https://openalex.org/", "").replace("OPENALEX:", "").strip()
+                if clean:
+                    oa_map[clean] = r
+
+    return doi_map, oa_map
+
 def format_ref_label(ref_raw: str, df: pd.DataFrame = None, cache: dict = None, lookup_maps: tuple = None) -> str:
     """Converts cryptic reference strings (DOIs, OpenAlex IDs like 'W...') or long raw strings into human-readable citation labels."""
     if not ref_raw or pd.isna(ref_raw):
@@ -178,8 +205,7 @@ def format_ref_label(ref_raw: str, df: pd.DataFrame = None, cache: dict = None, 
     if lookup_maps:
         doi_map, oa_map = lookup_maps
     elif df is not None and not df.empty:
-        doi_map = {str(d).lower().strip(): r for _, r in df[['DOI', 'Author', 'Publication Year', 'Title']].dropna(subset=['DOI']).iterrows()}
-        oa_map = {str(oa).upper().strip(): r for _, r in df[['OpenAlex ID', 'Author', 'Publication Year', 'Title']].dropna(subset=['OpenAlex ID']).iterrows()}
+        doi_map, oa_map = _build_dataset_lookup_maps(df)
     else:
         doi_map, oa_map = {}, {}
 
@@ -413,11 +439,7 @@ def display_top_20_cocitation_pairs_table(co_citation_counts, df=None):
     all_refs = list(top20["Ref1"].unique()) + list(top20["Ref2"].unique())
     oa_cache = batch_resolve_openalex_ids(all_refs)
 
-    lookup_maps = None
-    if df is not None and not df.empty:
-        doi_map = {str(d).lower().strip(): r for _, r in df[['DOI', 'Author', 'Publication Year', 'Title']].dropna(subset=['DOI']).iterrows()}
-        oa_map = {str(oa).upper().strip(): r for _, r in df[['OpenAlex ID', 'Author', 'Publication Year', 'Title']].dropna(subset=['OpenAlex ID']).iterrows()}
-        lookup_maps = (doi_map, oa_map)
+    lookup_maps = _build_dataset_lookup_maps(df) if (df is not None and not df.empty) else None
 
     top20["Reference 1"] = top20["Ref1"].apply(lambda r: format_ref_label(r, df, oa_cache, lookup_maps))
     top20["Reference 2"] = top20["Ref2"].apply(lambda r: format_ref_label(r, df, oa_cache, lookup_maps))
@@ -718,11 +740,7 @@ def display_selected_cluster(selected_cluster, cluster_dict, G, metric_choice="D
     max_value = max((values.get(n, 0) for n in nodes_to_show), default=1)
     legend_data = []
 
-    lookup_maps = None
-    if df is not None and not df.empty:
-        doi_map = {str(d).lower().strip(): r for _, r in df[['DOI', 'Author', 'Publication Year', 'Title']].dropna(subset=['DOI']).iterrows()}
-        oa_map = {str(oa).upper().strip(): r for _, r in df[['OpenAlex ID', 'Author', 'Publication Year', 'Title']].dropna(subset=['OpenAlex ID']).iterrows()}
-        lookup_maps = (doi_map, oa_map)
+    lookup_maps = _build_dataset_lookup_maps(df) if (df is not None and not df.empty) else None
 
     for cluster_id, cluster_nodes in cluster_dict.items():
         if selected_cluster != "All" and cluster_id != int(selected_cluster.split()[1]):

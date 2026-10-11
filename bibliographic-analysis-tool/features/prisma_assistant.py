@@ -30,7 +30,7 @@ def show(master_df):
     prisma_state['screening_queue'] = [idx for idx in prisma_state['screening_queue'] if idx in raw_df.index]
 
     # Layout: Tabs
-    tab_screening, tab_flowchart = st.tabs(["Screening & Exclusion", "PRISMA Flowchart Generator"])
+    tab_screening, tab_duplicates, tab_flowchart = st.tabs(["Screening & Exclusion", "Excluded Duplicates", "PRISMA Flowchart Generator"])
 
     with tab_screening:
         st.markdown("### Manual Screening & Exclusion")
@@ -114,6 +114,64 @@ def show(master_df):
             
             # Update the thematic flow with the new master_df
             st.rerun()
+
+    with tab_duplicates:
+        st.markdown("### Excluded Duplicates Verification")
+        st.write("Review articles that were automatically excluded during the data ingestion and enrichment phases due to being identified as duplicates.")
+        
+        duplicates_list = st.session_state.get('prisma_duplicates', [])
+        
+        if not duplicates_list:
+            st.info("No duplicates were recorded.")
+        else:
+            st.metric("Total Duplicates Removed", len(duplicates_list))
+            st.divider()
+            
+            # Group by phase
+            phases = {}
+            for dup in duplicates_list:
+                p = dup.get('phase', 'Ingestion')
+                if p not in phases:
+                    phases[p] = []
+                phases[p].append(dup)
+                
+            for phase, ph_dups in phases.items():
+                st.markdown(f"#### Phase: {phase} ({len(ph_dups)} duplicates)")
+                for i, dup in enumerate(ph_dups):
+                    kept = dup['kept']
+                    removed = dup['removed']
+                    stage = dup['stage']
+                    
+                    def _get_val(row, col):
+                        import pandas as pd
+                        return row[col] if col in row and pd.notna(row[col]) and str(row[col]).strip() else 'N/A'
+                    
+                    with st.expander(f"Pair {i+1} - Matched on {stage} (Kept: {_get_val(kept, 'Title')})", expanded=False):
+                        st.markdown("**✅ Kept Version**")
+                    st.markdown(f"""
+                    <div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 12px; border-radius: 4px; margin-bottom: 15px; color: #166534;">
+                        <strong>Title:</strong> {_get_val(kept, 'Title')}<br>
+                        <strong>Authors:</strong> {_get_val(kept, 'Author')}<br>
+                        <strong>Year:</strong> {_get_val(kept, 'Publication Year')} | 
+                        <strong>Venue:</strong> {_get_val(kept, 'Journal')}<br>
+                        <strong>DOI:</strong> {_get_val(kept, 'DOI')} | 
+                        <strong>PMID:</strong> {_get_val(kept, 'PMID')} | 
+                        <strong>OpenAlex ID:</strong> {_get_val(kept, 'OpenAlex ID')}
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    st.markdown("**❌ Excluded Version**")
+                    st.markdown(f"""
+                    <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 12px; border-radius: 4px; margin-bottom: 5px; color: #991b1b;">
+                        <strong>Title:</strong> {_get_val(removed, 'Title')}<br>
+                        <strong>Authors:</strong> {_get_val(removed, 'Author')}<br>
+                        <strong>Year:</strong> {_get_val(removed, 'Publication Year')} | 
+                        <strong>Venue:</strong> {_get_val(removed, 'Journal')}<br>
+                        <strong>DOI:</strong> {_get_val(removed, 'DOI')} | 
+                        <strong>PMID:</strong> {_get_val(removed, 'PMID')} | 
+                        <strong>OpenAlex ID:</strong> {_get_val(removed, 'OpenAlex ID')}
+                    </div>
+                    """, unsafe_allow_html=True)
 
     with tab_flowchart:
         st.markdown("### PRISMA 2020 Flow Diagram")

@@ -1,0 +1,486 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-08 20:35:10 → 2026-10-08 21:01:55 (Duration: 26 minutes 45 seconds)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 9,985
+• Total Records Evaluated for Enrichment: 974
+• Post-Enrichment Duplicates Consolidated: 0
+• Records with Valid DOIs (Tier 1-4 Candidates): 745
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 229
+• Fully Enriched Records (Found 100% of requested fields): 890 (91.4%)
+• Partially Enriched Records (Gained new data): 78 (8.0%)
+• Unresolved Records (Gained NO data): 6 (0.6%)
+
+Target Fields Requested (1 fields): ['Author']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 9985
+• Total Records Evaluated for Enrichment: 974
+• Cluster Source Files Breakdown (1 files):
+    - Asano-original-simplified.csv: 9985 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 745
+    - Records Resolved: 966 (129.7%)
+    - Total Field Values Populated: 1854 lines
+    - Field Breakdown: {'OpenAlex ID': 966, 'Author': 888}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 78
+    - Records Resolved: 2
+    - Total Field Values Populated: 2 lines
+    - Field Breakdown: {'Author': 2}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 276
+    - Records Resolved: 40
+    - Total Field Values Populated: 40 lines
+    - Field Breakdown: {'Author': 40}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 3 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 84 / 974
+
+• [Row 237] Source: Asano-original-simplified.csv
+  Title: 'A Turing test for artificial intelligence in cancer' | DOI: '10.1038/s43018-020-0041-7'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 491] Source: Asano-original-simplified.csv
+  Title: 'AI firms must play fair when they use academic data in ' | DOI: '10.1038/d41586-024-02757-z'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 569] Source: Asano-original-simplified.csv
+  Title: 'AI will transform science — now researchers must tame i' | DOI: '10.1038/d41586-023-02988-6'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 618] Source: Asano-original-simplified.csv
+  Title: 'AI’s international research networks mapped' | DOI: '10.1038/d41586-024-02986-2'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 619] Source: Asano-original-simplified.csv
+  Title: 'AI’s potential to accelerate drug discovery needs a rea' | DOI: '10.1038/d41586-023-03172-6'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 734] Source: Asano-original-simplified.csv
+  Title: 'Anticipating artificial intelligence' | DOI: '10.1038/532413a'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 1074] Source: Asano-original-simplified.csv
+  Title: 'Artificial Intelligence - AI - Present and Future. The ' | DOI: '10.1097/SCS.0000000000010332'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 1097] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence alone won’t solve the complexit' | DOI: '10.1038/d41586-019-00556-5'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 1477] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence and the dreaded 's' | DOI: '10.1097/01.JAA.0000530302.23280.25'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 1869] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence for medical image processing' | DOI: '10.3233/THC-202658'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 1964] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence gives neuron reconstruction a p' | DOI: '10.1038/s41592-022-01712-y'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 1970] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence guides system's best practices,' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 1979] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence identifies new small-molecule s' | DOI: '10.1038/s43587-023-00422-0'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 2357] Source: Asano-original-simplified.csv
+  Title: 'Artificial Intelligence in Health Care' | DOI: '10.1097/HNP.0000000000000594'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 2378] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence in healthcare: Is it beneficial' | DOI: '10.1016/j.jvn.2019.09.001'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 2876] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence in structural biology is here t' | DOI: '10.1038/d41586-021-02037-0'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3130] Source: Asano-original-simplified.csv
+  Title: 'Artificial Intelligence Predicts Drug Response' | DOI: '10.1158/2159-8290.CD-NB2020-109'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3272] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence tool for diagnosis of Johne's d' | DOI: '10.1002/vetr.3516'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3296] Source: Asano-original-simplified.csv
+  Title: 'Artificial Intelligence Use in Healthcare Growing Fast.' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3299] Source: Asano-original-simplified.csv
+  Title: 'Artificial intelligence uses multi-omic data to predict' | DOI: '10.1038/s43018-023-00698-6'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3398] Source: Asano-original-simplified.csv
+  Title: 'Artificial Intelligence-Based Ocular Motor Biomarkers f' | DOI: '10.1212/WNL.0000000000209639'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3626] Source: Asano-original-simplified.csv
+  Title: 'Autonomous Self-Driving Vehicles.' | DOI: '10.1016/j.annemergmed.2019.02.036'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3735] Source: Asano-original-simplified.csv
+  Title: 'BiasWatchIndia.' | DOI: '10.1016/j.tig.2020.11.009'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3764] Source: Asano-original-simplified.csv
+  Title: 'Big data needs a hardware revolution' | DOI: '10.1038/d41586-018-01683-1'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3850] Source: Asano-original-simplified.csv
+  Title: 'California hospital stakes a claim in growing use of ar' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3884] Source: Asano-original-simplified.csv
+  Title: 'Can Artificial Intelligence Chatbots Convincingly Mimic' | DOI: '10.1097/01.NAJ.0000947408.14007.54'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 3920] Source: Asano-original-simplified.csv
+  Title: 'Can artificial intelligence techniques help clinicians ' | DOI: '10.15537/1658-3175.8371'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4065] Source: Asano-original-simplified.csv
+  Title: 'China needs to listen to its researchers to become a sc' | DOI: '10.1038/d41586-018-00659-5'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4068] Source: Asano-original-simplified.csv
+  Title: '[Chinese expert consensus on the technical and clinical' | DOI: '10.3760/cma.j.cn121090-20240217-00064'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4069] Source: Asano-original-simplified.csv
+  Title: '[Chinese Experts Consensus on Artificial Intelligence A' | DOI: '10.3779/j.issn.1009-3419.2022.102.08'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4076] Source: Asano-original-simplified.csv
+  Title: 'Citation Integrity and the Responsible Use of Reference' | DOI: '10.1016/j.jogn.2026.01.004'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4316] Source: Asano-original-simplified.csv
+  Title: 'Computational pathology and the understanding of diseas' | DOI: '10.1002/path.5337'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4330] Source: Asano-original-simplified.csv
+  Title: 'Computers make mistakes and AI will make things worse —' | DOI: '10.1038/d41586-024-00168-8'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4545] Source: Asano-original-simplified.csv
+  Title: '„Das Thema künstliche Intelligenz ist in der Radiologie' | DOI: '10.1055/s-0043-125045'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 4649] Source: Asano-original-simplified.csv
+  Title: 'Detangling AI Transparency in the Medical Regulation Sp' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5083] Source: Asano-original-simplified.csv
+  Title: 'Editor’s Note' | DOI: '10.5692/clinicalneurol.59_3_editors'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5479] Source: Asano-original-simplified.csv
+  Title: 'Executive summary of the 2019 ASHP Commission on Goals:' | DOI: '10.1093/ajhp/zxz205'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5480] Source: Asano-original-simplified.csv
+  Title: 'Executive summary of the meeting of the 2023 ASHP Commi' | DOI: '10.1093/ajhp/zxad261'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5491] Source: Asano-original-simplified.csv
+  Title: '[Expert consensus on artificial intelligence-assisted m' | DOI: '10.7499/j.issn.1008-8830.2603032'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5492] Source: Asano-original-simplified.csv
+  Title: '[Expert consensus on data acquisition and annotation of' | DOI: '10.3760/cma.j.cn112151-20240112-00028'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5579] Source: Asano-original-simplified.csv
+  Title: 'Expression of Concern: Assessment in carbon-based layer' | DOI: '10.1016/j.chemosphere.2024.141986'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5645] Source: Asano-original-simplified.csv
+  Title: 'For chemists, the AI revolution has yet to happen' | DOI: '10.1038/d41586-023-01612-x'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5675] Source: Asano-original-simplified.csv
+  Title: 'Francesco Ciompi' | DOI: '10.1016/j.xcrm.2022.100865'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5700] Source: Asano-original-simplified.csv
+  Title: 'From Einstein to AI: how 100 years have shaped science' | DOI: '10.1038/d41586-023-04021-2'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5750] Source: Asano-original-simplified.csv
+  Title: 'Future Directions in the Evaluation of Forensic Cases I' | DOI: '10.29158/JAAPL.260081-26'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 5948] Source: Asano-original-simplified.csv
+  Title: 'Guidelines on the use of Artificial Intelligence for au' | DOI: '10.6133/apjcn.202608_35(4).0002'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6056] Source: Asano-original-simplified.csv
+  Title: 'How AlphaFold can realize AI’s full potential in struct' | DOI: '10.1038/d41586-022-02088-x'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6185] Source: Asano-original-simplified.csv
+  Title: 'Human neuroscience is entering a new era - it mustn't f' | DOI: '10.1038/d41586-024-02022-3'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6213] Source: Asano-original-simplified.csv
+  Title: 'Humans versus artificial intelligence' | DOI: '10.1097/01.NPR.0000470365.61826.77'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6308] Source: Asano-original-simplified.csv
+  Title: 'Implications of artificial intelligence for nurse manag' | DOI: '10.1097/nmg.0000000000000149'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6418] Source: Asano-original-simplified.csv
+  Title: 'Integrating artificial intelligence into diagnostic tes' | DOI: '10.1002/vetr.5605'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6519] Source: Asano-original-simplified.csv
+  Title: 'International AI ethics panel must be independent' | DOI: '10.1038/d41586-019-02491-x'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6521] Source: Asano-original-simplified.csv
+  Title: 'International Society for Medical Publication Professio' | DOI: '10.1080/03007995.2023.2273139'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6596] Source: Asano-original-simplified.csv
+  Title: 'Is Artificial Intelligence Ready for “Primetime” in Uro' | DOI: '10.1111/bju.15633'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6727] Source: Asano-original-simplified.csv
+  Title: 'Large Language Models in Orthopaedic Publications: The ' | DOI: '10.1177/23259671241265705'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6767] Source: Asano-original-simplified.csv
+  Title: 'Let’s talk about sex robots' | DOI: '10.1038/547138a'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6860] Source: Asano-original-simplified.csv
+  Title: 'L'intelligence artificielle peut aider à prédire le bes' | DOI: '10.1055/s-0044-101930'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6895] Source: Asano-original-simplified.csv
+  Title: 'Machine learning, AI, and breast cancer: A rallying cal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 6981] Source: Asano-original-simplified.csv
+  Title: 'Matthias Schiedel' | DOI: '10.1002/anie.202200131'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7038] Source: Asano-original-simplified.csv
+  Title: 'Melissa McCradden' | DOI: '10.1016/j.xcrm.2022.100853'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7045] Source: Asano-original-simplified.csv
+  Title: 'Meta’s AI system is a boost to endangered languages — a' | DOI: '10.1038/d41586-024-01619-y'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7191] Source: Asano-original-simplified.csv
+  Title: '[Neurosciences and artificial intelligence].' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7201] Source: Asano-original-simplified.csv
+  Title: 'New Guidance: From Infection Hazards to Artificial Inte' | DOI: '10.1097/01.ASW.0000923088.50751.87'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7219] Source: Asano-original-simplified.csv
+  Title: 'News Update' | DOI: '10.1177/1750458919877035'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7291] Source: Asano-original-simplified.csv
+  Title: 'On stethoscopes, patient records, artificial intelligen' | DOI: '10.24875/ACM.20000269'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7446] Source: Asano-original-simplified.csv
+  Title: 'Personalizing adult spinal deformity surgery through mu' | DOI: '10.5152/10.5152/j.aott.2024.23215'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7666] Source: Asano-original-simplified.csv
+  Title: 'Proceedings from the 2nd International symposium "Brain' | DOI: 'No DOI'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7726] Source: Asano-original-simplified.csv
+  Title: 'Psychiatric Conditions in Women With Health Problems, a' | DOI: '10.1177/00912174261444479'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7789] Source: Asano-original-simplified.csv
+  Title: 'Radiological education in the era of artificial intelli' | DOI: '10.1097/MD.0000000000038552'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 7820] Source: Asano-original-simplified.csv
+  Title: 'Rationalisiert IT die Ärzte weg?' | DOI: '10.1055/s-0042-124047'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 8345] Source: Asano-original-simplified.csv
+  Title: 'Silicon smarts' | DOI: '10.1038/521394b'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 8399] Source: Asano-original-simplified.csv
+  Title: 'Special section: Advances in artificial intelligence in' | DOI: '10.1007/s13246-018-0703-2'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 8420] Source: Asano-original-simplified.csv
+  Title: 'Standards and Guidance for Transparent Disclosure of Hu' | DOI: '10.3881/j.issn.1000-503X.17531'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 8438] Source: Asano-original-simplified.csv
+  Title: 'Stop talking about tomorrow’s AI doomsday when AI poses' | DOI: '10.1038/d41586-023-02094-7'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 8888] Source: Asano-original-simplified.csv
+  Title: 'The future of work' | DOI: '10.1038/550315a'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9360] Source: Asano-original-simplified.csv
+  Title: 'There are holes in Europe’s AI Act — and researchers ca' | DOI: '10.1038/d41586-024-00029-4'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9387] Source: Asano-original-simplified.csv
+  Title: 'Tools such as ChatGPT threaten transparent science; her' | DOI: '10.1038/d41586-023-00191-1'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9526] Source: Asano-original-simplified.csv
+  Title: 'Trustworthy Artificial Intelligence (TAI) for Patient-C' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9533] Source: Asano-original-simplified.csv
+  Title: 'Tze-Yun Leong: the need for intelligent regulation' | DOI: '10.2471/BLT.20.030420'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9844] Source: Asano-original-simplified.csv
+  Title: 'What to expect from AI in oncology' | DOI: '10.1038/s41571-019-0283-4'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9908] Source: Asano-original-simplified.csv
+  Title: 'Why Nature will not allow the use of generative AI in i' | DOI: '10.1038/d41586-023-01546-4'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9912] Source: Asano-original-simplified.csv
+  Title: 'Why scientists trust AI too much — and what to do about' | DOI: '10.1038/d41586-024-00639-y'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9914] Source: Asano-original-simplified.csv
+  Title: 'Why the UK-led global AI summit is missing the point' | DOI: '10.1038/d41586-023-03333-7'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 9983] Source: Asano-original-simplified.csv
+  Title: 'Yulong Li' | DOI: '10.1016/j.neuron.2021.10.013'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+================================================================================
+FINAL SUMMARY: 968/974 records received enhancement data. Audit saved to disk.
+================================================================================

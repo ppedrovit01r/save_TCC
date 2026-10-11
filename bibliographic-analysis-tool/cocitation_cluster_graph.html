@@ -1,0 +1,349 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #F3F4F6;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1485876394", "label": "1-1", "shape": "dot", "size": 56.0, "title": "Hartmann (1984) - Light scattering by small particles. Von H. C. V ...\nDegree: 18.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1513984747", "label": "1-2", "shape": "dot", "size": 56.0, "title": "Vrhel et al. (1994) - Measurement and Analysis of Object Reflectance Sp...\nDegree: 18.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1554901925", "label": "1-3", "shape": "dot", "size": 49.333333333333336, "title": "Hulst (1980) - Multiple Light Scattering: Tables, Formulas, and ...\nDegree: 15.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1557590941", "label": "1-4", "shape": "dot", "size": 22.666666666666664, "title": "Nicodemus et al. (1977) - Geometrical considerations and nomenclature for r...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1571903778", "label": "1-5", "shape": "dot", "size": 22.666666666666664, "title": "Tuchin (2015) - Tissue Optics: Light Scattering Methods and Instr...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1983177443", "label": "1-6", "shape": "dot", "size": 22.666666666666664, "title": "Mellon (1953) - Color in Business, Science, and Industry\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2116253700", "label": "1-7", "shape": "dot", "size": 22.666666666666664, "title": "Prahl (1989) - A Monte Carlo model of light propagation in tissue\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1993922719", "label": "1-8", "shape": "dot", "size": 22.666666666666664, "title": "Bruls \u0026 Leun (1984) - FORWARD SCATTERING PROPERTIES OF HUMAN EPIDERMAL ...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W165807459", "label": "1-9", "shape": "dot", "size": 22.666666666666664, "title": "OpenAlex Work (W165807459)\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2111584934", "label": "1-10", "shape": "dot", "size": 22.666666666666664, "title": "Baranoski \u0026 Rokne (1997) - An Algorithmic Reflectance and Transmittance Mode...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2008695134", "label": "1-11", "shape": "dot", "size": 22.666666666666664, "title": "Edward Profio (1989) - Light transport in tissue\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2120448006", "label": "1-12", "shape": "dot", "size": 22.666666666666664, "title": "Jensen et al. (2001) - A practical model for subsurface light transport\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2014872028", "label": "1-13", "shape": "dot", "size": 22.666666666666664, "title": "Greenberg et al. (1997) - A framework for realistic image synthesis\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2091691807", "label": "1-14", "shape": "dot", "size": 22.666666666666664, "title": "Hunter \u0026 Macadam (1975) - The measurement of appearance\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W1999182952", "label": "1-15", "shape": "dot", "size": 22.666666666666664, "title": "Henyey \u0026 Greenstein (1941) - Diffuse radiation in the Galaxy\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2094108443", "label": "1-16", "shape": "dot", "size": 22.666666666666664, "title": "Mourant et al. (1998) - Mechanisms of light scattering from biological ce...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2123517881", "label": "1-17", "shape": "dot", "size": 20.444444444444443, "title": "Prahl et al. (1993) - Determining the optical properties of turbid medi...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2152577388", "label": "1-18", "shape": "dot", "size": 20.444444444444443, "title": "Hulst (1981) - Light Scattering by Small Particles\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "W2146175859", "label": "1-19", "shape": "dot", "size": 20.444444444444443, "title": "Krishnaswamy \u0026 Baranoski (2004) - A Biophysically\u2010Based Spectral Model of Light Int...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2145790759", "label": "2-1", "shape": "dot", "size": 22.666666666666664, "title": "Wooldridge (2002) - An Introduction to MultiAgent Systems\nDegree: 3.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W4285719527", "label": "2-2", "shape": "dot", "size": 22.666666666666664, "title": "OpenAlex Work (W4285719527)\nDegree: 3.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W2122410182", "label": "2-3", "shape": "dot", "size": 20.444444444444443, "title": "Kumar et al. (1995) - Artificial intelligence: a modern approach\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W1903683453", "label": "2-4", "shape": "dot", "size": 20.444444444444443, "title": "Balaji \u0026 Srinivasan (2010) - An Introduction to Multi-Agent Systems\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W6681603819", "label": "2-5", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6681603819)\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "W1983362322", "label": "2-6", "shape": "dot", "size": 18.22222222222222, "title": "Lig\u0119za (1995) - Artificial Intelligence: A Modern Approach\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W4239510810", "label": "3-1", "shape": "dot", "size": 27.11111111111111, "title": "Cortes \u0026 Vapnik (1995) - Support-vector networks\nDegree: 5.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2119821739", "label": "3-2", "shape": "dot", "size": 22.666666666666664, "title": "Cortes \u0026 Vapnik (1995) - Support-Vector Networks\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W1563088657", "label": "3-3", "shape": "dot", "size": 22.666666666666664, "title": "Cristianini \u0026 Shawe-Taylor (2000) - An Introduction to Support Vector Machines and Ot...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W1528620860", "label": "3-4", "shape": "dot", "size": 22.666666666666664, "title": "(2001) - An Introduction to Support Vector Machines and Ot...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W2156909104", "label": "3-5", "shape": "dot", "size": 20.444444444444443, "title": "Vapnik (1995) - The Nature of Statistical Learning Theory\nDegree: 2.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "W4206686222", "label": "3-6", "shape": "dot", "size": 20.444444444444443, "title": "Sain \u0026 Vapnik (1996) - The Nature of Statistical Learning Theory\nDegree: 2.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W2101234009", "label": "4-1", "shape": "dot", "size": 20.444444444444443, "title": "Pedregosa et al. (2012) - Scikit-learn: Machine Learning in Python\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W6675354045", "label": "4-2", "shape": "dot", "size": 20.444444444444443, "title": "OpenAlex Work (W6675354045)\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "W349770100", "label": "4-3", "shape": "dot", "size": 20.444444444444443, "title": "Zhang (2004) - The Optimality of Naive Bayes.\nDegree: 2.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "W2138621811", "label": "5-1", "shape": "dot", "size": 20.444444444444443, "title": "Kleinberg (1999) - Authoritative sources in a hyperlinked environment\nDegree: 2.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "W1981202432", "label": "5-2", "shape": "dot", "size": 20.444444444444443, "title": "Kleinberg (1998) - Authoritative sources in a hyperlinked environment\nDegree: 2.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "W2066636486", "label": "5-3", "shape": "dot", "size": 20.444444444444443, "title": "Brin \u0026 Page (1998) - The anatomy of a large-scale hypertextual Web sea...\nDegree: 2.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "W6931480457", "label": "6-1", "shape": "dot", "size": 20.444444444444443, "title": "OpenAlex Work (W6931480457)\nDegree: 2.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "W2098907614", "label": "6-2", "shape": "dot", "size": 20.444444444444443, "title": "Zitzler et al. (2003) - Performance assessment of multiobjective optimize...\nDegree: 2.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "W2126105956", "label": "6-3", "shape": "dot", "size": 20.444444444444443, "title": "Deb et al. (2002) - A fast and elitist multiobjective genetic algorit...\nDegree: 2.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "W1497120980", "label": "7-1", "shape": "dot", "size": 20.444444444444443, "title": "Bordini et al. (2007) - Programming Multi-Agent Systems in AgentSpeak usi...\nDegree: 2.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "W6648367431", "label": "7-2", "shape": "dot", "size": 20.444444444444443, "title": "OpenAlex Work (W6648367431)\nDegree: 2.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "W1991609163", "label": "7-3", "shape": "dot", "size": 20.444444444444443, "title": "Boissier et al. (2011) - Multi-agent oriented programming with JaCaMo\nDegree: 2.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "W2041404167", "label": "8-1", "shape": "dot", "size": 20.444444444444443, "title": "Shannon (1948) - A Mathematical Theory of Communication\nDegree: 2.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "W1995875735", "label": "8-2", "shape": "dot", "size": 18.22222222222222, "title": "Shannon (1948) - A Mathematical Theory of Communication\nDegree: 1.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "W56793145", "label": "8-3", "shape": "dot", "size": 18.22222222222222, "title": "(2009) - Mathematical Theory of Communication\nDegree: 1.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "W2127218421", "label": "9-1", "shape": "dot", "size": 20.444444444444443, "title": "Macqueen (1967) - Some methods for classification and analysis of m...\nDegree: 2.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "W2140190241", "label": "9-2", "shape": "dot", "size": 18.22222222222222, "title": "Sharma et al. (2012) - Data mining: concepts and techniques\nDegree: 1.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "W1987971958", "label": "9-3", "shape": "dot", "size": 18.22222222222222, "title": "Rousseeuw (1987) - Silhouettes: A graphical aid to the interpretatio...\nDegree: 1.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "W1535521146", "label": "10-1", "shape": "dot", "size": 20.444444444444443, "title": "(2006) - Lectures on the Curry-Howard Isomorphism\nDegree: 2.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "W1556536463", "label": "10-2", "shape": "dot", "size": 20.444444444444443, "title": "Jones \u0026 Simon (2003) - Haskell 98 language and libraries : the revised r...\nDegree: 2.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "W1557561422", "label": "10-3", "shape": "dot", "size": 20.444444444444443, "title": "Pierce (2002) - Types and Programming Languages\nDegree: 2.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "W2114067856", "label": "11-1", "shape": "dot", "size": 18.22222222222222, "title": "Muchnick (1997) - Advanced Compiler Design and Implementation\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "W2153185479", "label": "11-2", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W2153185479)\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "W2139212933", "label": "12-1", "shape": "dot", "size": 18.22222222222222, "title": "Burges (1998) - A Tutorial on Support Vector Machines for Pattern...\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "W2148603752", "label": "12-2", "shape": "dot", "size": 18.22222222222222, "title": "Wu \u0026 Vapnik (1999) - Statistical Learning Theory\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "W1499824367", "label": "13-1", "shape": "dot", "size": 18.22222222222222, "title": "Ricci et al. (2009) - Environment Programming in CArtAgO\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "W6629883159", "label": "13-2", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6629883159)\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "W6638786369", "label": "14-1", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6638786369)\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "W4301118033", "label": "14-2", "shape": "dot", "size": 18.22222222222222, "title": "Dumas et al. (2013) - Fundamentals of Business Process Management\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "W6646781758", "label": "15-1", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6646781758)\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "W1986755980", "label": "15-2", "shape": "dot", "size": 18.22222222222222, "title": "Marsan et al. (1998) - Modelling with Generalized Stochastic Petri Nets\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "W3129170862", "label": "16-1", "shape": "dot", "size": 18.22222222222222, "title": "Hamming (2021) - Error Detecting and Error Correcting Codes (1950)\nDegree: 1.0000\nCluster: 16"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "W2342204193", "label": "16-2", "shape": "dot", "size": 18.22222222222222, "title": "Chauhan et al. (2014) - ERROR DETECTING AND ERROR CORRECTING CODES\nDegree: 1.0000\nCluster: 16"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 17, "id": "W4236236547", "label": "17-1", "shape": "dot", "size": 18.22222222222222, "title": "Altschul (1990) - Basic Local Alignment Search Tool\nDegree: 1.0000\nCluster: 17"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 17, "id": "W6664387049", "label": "17-2", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6664387049)\nDegree: 1.0000\nCluster: 17"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 18, "id": "W6628633436", "label": "18-1", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6628633436)\nDegree: 1.0000\nCluster: 18"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 18, "id": "W1480376833", "label": "18-2", "shape": "dot", "size": 18.22222222222222, "title": "Hastie et al. (2001) - The Elements of Statistical Learning\nDegree: 1.0000\nCluster: 18"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 19, "id": "W2161406034", "label": "19-1", "shape": "dot", "size": 18.22222222222222, "title": "Isard \u0026 Blake (1998) - CONDENSATION\u2014Conditional Density Propagation for ...\nDegree: 1.0000\nCluster: 19"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 19, "id": "W1508960934", "label": "19-2", "shape": "dot", "size": 18.22222222222222, "title": "Forsyth \u0026 Ponce (2002) - Computer Vision: A Modern Approach\nDegree: 1.0000\nCluster: 19"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 20, "id": "W1667165204", "label": "20-1", "shape": "dot", "size": 18.22222222222222, "title": "Abrahams \u0026 Papoulis (1984) - Probability, Random Variables, and Stochastic Pro...\nDegree: 1.0000\nCluster: 20"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 20, "id": "W4301253858", "label": "20-2", "shape": "dot", "size": 18.22222222222222, "title": "Miller \u0026 Papoulis (1966) - Probability, Random Variables, and Stochastic Pro...\nDegree: 1.0000\nCluster: 20"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 21, "id": "W272982077", "label": "21-1", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W272982077)\nDegree: 1.0000\nCluster: 21"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 21, "id": "W2011039300", "label": "21-2", "shape": "dot", "size": 18.22222222222222, "title": "Garey \u0026 Johnson (1979) - Computers and Intractability: A Guide to the Theo...\nDegree: 1.0000\nCluster: 21"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 22, "id": "W2115755118", "label": "22-1", "shape": "dot", "size": 18.22222222222222, "title": "Mallat (1999) - A Wavelet Tour of Signal Processing\nDegree: 1.0000\nCluster: 22"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 22, "id": "W2062024414", "label": "22-2", "shape": "dot", "size": 18.22222222222222, "title": "Daubechies \u0026 Heil (1992) - Ten Lectures on Wavelets\nDegree: 1.0000\nCluster: 22"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 23, "id": "W4250533120", "label": "23-1", "shape": "dot", "size": 18.22222222222222, "title": "Canny (1987) - A Computational Approach to Edge Detection\nDegree: 1.0000\nCluster: 23"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 23, "id": "W2145023731", "label": "23-2", "shape": "dot", "size": 18.22222222222222, "title": "Canny (1986) - A Computational Approach to Edge Detection\nDegree: 1.0000\nCluster: 23"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 24, "id": "W6730426483", "label": "24-1", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6730426483)\nDegree: 1.0000\nCluster: 24"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 24, "id": "W2561955909", "label": "24-2", "shape": "dot", "size": 18.22222222222222, "title": "Arnautov et al. (2016) - SCONE: secure Linux containers with Intel SGX\nDegree: 1.0000\nCluster: 24"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 25, "id": "W2024060531", "label": "25-1", "shape": "dot", "size": 18.22222222222222, "title": "Kirkpatrick et al. (1983) - Optimization by Simulated Annealing\nDegree: 1.0000\nCluster: 25"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 25, "id": "W1993885071", "label": "25-2", "shape": "dot", "size": 18.22222222222222, "title": "Geem et al. (2001) - A New Heuristic Optimization Algorithm: Harmony S...\nDegree: 1.0000\nCluster: 25"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 26, "id": "W2138625816", "label": "26-1", "shape": "dot", "size": 18.22222222222222, "title": "Sinha \u0026 Chandrakasan (2001) - JouleTrack\nDegree: 1.0000\nCluster: 26"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 26, "id": "W4231658190", "label": "26-2", "shape": "dot", "size": 18.22222222222222, "title": "Sinha \u0026 Chandrakasan (2002) - JouleTrack-a Web based tool for software energy p...\nDegree: 1.0000\nCluster: 26"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 27, "id": "W3217467301", "label": "27-1", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W3217467301)\nDegree: 1.0000\nCluster: 27"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 27, "id": "W6679568601", "label": "27-2", "shape": "dot", "size": 18.22222222222222, "title": "OpenAlex Work (W6679568601)\nDegree: 1.0000\nCluster: 27"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 28, "id": "W2905771342", "label": "28-1", "shape": "dot", "size": 18.22222222222222, "title": "Taillandier et al. (2018) - Building, composing and experimenting complex spa...\nDegree: 1.0000\nCluster: 28"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 28, "id": "W1414394768", "label": "28-2", "shape": "dot", "size": 18.22222222222222, "title": "Gaudou et al. (2014) - The MAELIA Multi-Agent Platform for Integrated An...\nDegree: 1.0000\nCluster: 28"}]);
+                  edges = new vis.DataSet([{"color": "rgba(71, 85, 105, 0.45)", "from": "W2101234009", "to": "W6675354045", "value": 6}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2101234009", "to": "W349770100", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W6675354045", "to": "W349770100", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2145790759", "to": "W4285719527", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2145790759", "to": "W1903683453", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2145790759", "to": "W6681603819", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4285719527", "to": "W1903683453", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4285719527", "to": "W2122410182", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2114067856", "to": "W2153185479", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2156909104", "to": "W4206686222", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2156909104", "to": "W4239510810", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4206686222", "to": "W4239510810", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2066636486", "to": "W2138621811", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2066636486", "to": "W1981202432", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2138621811", "to": "W1981202432", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2139212933", "to": "W2148603752", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1995875735", "to": "W2041404167", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2041404167", "to": "W56793145", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1987971958", "to": "W2127218421", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2127218421", "to": "W2140190241", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1983362322", "to": "W2122410182", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2098907614", "to": "W2126105956", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2098907614", "to": "W6931480457", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2126105956", "to": "W6931480457", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1499824367", "to": "W6629883159", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4301118033", "to": "W6638786369", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4239510810", "to": "W1528620860", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4239510810", "to": "W1563088657", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4239510810", "to": "W2119821739", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1528620860", "to": "W1563088657", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1528620860", "to": "W2119821739", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1563088657", "to": "W2119821739", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1497120980", "to": "W1991609163", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1497120980", "to": "W6648367431", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1991609163", "to": "W6648367431", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1986755980", "to": "W6646781758", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2342204193", "to": "W3129170862", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W4236236547", "to": "W6664387049", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1480376833", "to": "W6628633436", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1508960934", "to": "W2161406034", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1667165204", "to": "W4301253858", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2011039300", "to": "W272982077", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1535521146", "to": "W1556536463", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1535521146", "to": "W1557561422", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1556536463", "to": "W1557561422", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2062024414", "to": "W2115755118", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2145023731", "to": "W4250533120", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2561955909", "to": "W6730426483", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1993885071", "to": "W2024060531", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W2138625816", "to": "W4231658190", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W3217467301", "to": "W6679568601", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1414394768", "to": "W2905771342", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W1513984747", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W1554901925", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W1557590941", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W1571903778", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W165807459", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W1983177443", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W1993922719", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W1999182952", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2008695134", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2014872028", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2091691807", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2094108443", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2111584934", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2116253700", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2120448006", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2123517881", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2146175859", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1485876394", "to": "W2152577388", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W1554901925", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W1557590941", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W1571903778", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W165807459", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W1983177443", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W1993922719", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W1999182952", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2008695134", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2014872028", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2091691807", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2094108443", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2111584934", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2116253700", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2120448006", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2123517881", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2146175859", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1513984747", "to": "W2152577388", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W1557590941", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W1571903778", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W165807459", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W1983177443", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W1993922719", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W1999182952", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W2008695134", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W2014872028", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W2091691807", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W2094108443", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W2111584934", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W2116253700", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "W1554901925", "to": "W2120448006", "value": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+================================================================================
+                    GENDER MAPPING INFERENCE & DIVERSITY AUDIT REPORT
+================================================================================
+Generated At:             2026-10-03 23:37:08
+Active Project:           Review_Rita
+Execution Status:         COMPLETE SUCCESS
+Total Execution Duration: 49.75 seconds
+Inference Strategy:       NamSor API + Persistent Cache
+Acceptance Threshold:     75%
+
+--------------------------------------------------------------------------------
+1. DATASET VOLUME & EXECUTION SCOPE
+--------------------------------------------------------------------------------
+• Total Evaluated Articles:        478
+• Total Author Mentions Processed: 1,601
+• Reliable Gender Classifications: 1,555 (97.1%)
+
+--------------------------------------------------------------------------------
+2. INFERENCE ENGINE & QUOTA OPTIMIZATION AUDIT
+--------------------------------------------------------------------------------
+• Persistent Cache Hits (Free):    1,445 names (90.3%)
+• External NamSor API Requests:    150 calls (9.4%)
+• Quota Savings Efficiency:        90.3% free resolutions without network API consumption
+• Classification Engine Breakdown:
+    - Local Lexicon: 734 author mentions (45.8%)
+    - NamSor API (Generic): 379 author mentions (23.7%)
+    - NamSor API: 300 author mentions (18.7%)
+    - NamSor API (Geo: BR): 154 author mentions (9.6%)
+    - NamSor API (Generic Fallback): 24 author mentions (1.5%)
+    - Initial / Abbreviated: 6 author mentions (0.4%)
+    - Initial Lexicon: 2 author mentions (0.1%)
+    - NamSor API (Geo: AR): 1 author mentions (0.1%)
+    - NamSor API (Geo: PT): 1 author mentions (0.1%)
+
+--------------------------------------------------------------------------------
+3. GENDER DEMOGRAPHIC REPRESENTATION SUMMARY
+--------------------------------------------------------------------------------
+• Female Authors: 328 (20.5%)
+• Male Authors:   1,227 (76.6%)
+• Unknown/Unsure: 46 (2.9%)
+
+--------------------------------------------------------------------------------
+4. CAREER PROGRESSION & LEADERSHIP POSITIONING (SCISSORS EFFECT)
+--------------------------------------------------------------------------------
+• First Author (Mentee / Lead Researcher):
+    - Female: 87 articles (18.2%)
+    - Male:   376 articles (78.7%)
+• Last Author (Senior PI / Advisor):
+    - Female: 85 articles (17.8%)
+    - Male:   373 articles (78.0%)
+• Progression Scissors Gap (First% - Last%):
+    - Female Gap: +0.4 percentage points
+    - Male Gap:   +0.6 percentage points
+
+================================================================================
+END OF GENDER AUDIT TRAIL
+================================================================================

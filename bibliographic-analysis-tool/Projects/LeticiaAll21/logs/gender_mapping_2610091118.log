@@ -1,0 +1,85 @@
+================================================================================
+                    GENDER MAPPING INFERENCE & DIVERSITY AUDIT REPORT
+================================================================================
+Generated At:             2026-10-09 11:18:02
+Active Project:           LeticiaAll21
+Execution Status:         COMPLETE SUCCESS
+Total Execution Duration: 11.69 seconds
+Inference Strategy:       Local Cache Only (Offline)
+Acceptance Threshold:     75%
+
+--------------------------------------------------------------------------------
+1. DATASET VOLUME & EXECUTION SCOPE
+--------------------------------------------------------------------------------
+• Total Evaluated Articles:        9,901
+• Total Author Mentions Processed: 32,529
+• Reliable Gender Classifications: 30,061 (92.4%)
+
+--------------------------------------------------------------------------------
+2. INFERENCE ENGINE & QUOTA OPTIMIZATION AUDIT
+--------------------------------------------------------------------------------
+• Verified Persistent Cache Hits:  30,061 author mentions (92.4%)
+• Not Found in Cache (Unknown):    1,975 author mentions (6.1%)
+• External Network API Requests:   0 calls (Pure Offline Mode)
+• Cache Resolution Rate:           92.4% of names resolved from local cache
+• Classification Engine Breakdown:
+    - NamSor API (Generic): 26,109 author mentions (80.3%)
+    - NamSor API: 2,095 author mentions (6.4%)
+    - Local Lexicon: 982 author mentions (3.0%)
+    - NamSor API (Generic Fallback): 752 author mentions (2.3%)
+    - NamSor API (Geo: CN): 695 author mentions (2.1%)
+    - Initial / Abbreviated: 493 author mentions (1.5%)
+    - NamSor API (Geo: US): 364 author mentions (1.1%)
+    - Initial Lexicon: 285 author mentions (0.9%)
+    - NamSor API (Geo: IN): 156 author mentions (0.5%)
+    - NamSor API (Geo: KR): 103 author mentions (0.3%)
+    - NamSor API (Geo: GB): 102 author mentions (0.3%)
+    - NamSor API (Geo: CA): 57 author mentions (0.2%)
+    - NamSor API (Geo: AU): 57 author mentions (0.2%)
+    - NamSor API (Geo: JP): 49 author mentions (0.2%)
+    - NamSor API (Geo: DE): 46 author mentions (0.1%)
+    - NamSor API (Geo: CL): 37 author mentions (0.1%)
+    - NamSor API (Geo: FR): 36 author mentions (0.1%)
+    - NamSor API (Geo: ES): 23 author mentions (0.1%)
+    - NamSor API (Geo: IT): 22 author mentions (0.1%)
+    - NamSor API (Geo: BR): 14 author mentions (0.0%)
+    - NamSor API (Geo: NO): 8 author mentions (0.0%)
+    - NamSor API (Geo: BE): 6 author mentions (0.0%)
+    - NamSor API (Geo: TN): 6 author mentions (0.0%)
+    - NamSor API (Geo: NL): 5 author mentions (0.0%)
+    - NamSor API (Geo: IL): 5 author mentions (0.0%)
+    - NamSor API (Geo: RU): 3 author mentions (0.0%)
+    - NamSor API (Geo: CH): 3 author mentions (0.0%)
+    - NamSor API (Geo: IE): 3 author mentions (0.0%)
+    - NamSor API (Geo: SE): 2 author mentions (0.0%)
+    - NamSor API (Geo: PL): 2 author mentions (0.0%)
+    - NamSor API (Geo: AT): 2 author mentions (0.0%)
+    - NamSor API (Geo: MX): 2 author mentions (0.0%)
+    - NamSor API (Geo: PT): 2 author mentions (0.0%)
+    - NamSor API (Geo: CO): 1 author mentions (0.0%)
+    - NamSor API (Geo: FI): 1 author mentions (0.0%)
+    - NamSor API (Geo: DK): 1 author mentions (0.0%)
+
+--------------------------------------------------------------------------------
+3. GENDER DEMOGRAPHIC REPRESENTATION SUMMARY
+--------------------------------------------------------------------------------
+• Female Authors: 10,098 (31.0%)
+• Male Authors:   19,963 (61.4%)
+• Unknown/Unsure: 2,468 (7.6%)
+
+--------------------------------------------------------------------------------
+4. CAREER PROGRESSION & LEADERSHIP POSITIONING (SCISSORS EFFECT)
+--------------------------------------------------------------------------------
+• First Author (Mentee / Lead Researcher):
+    - Female: 3,051 articles (30.8%)
+    - Male:   6,151 articles (62.1%)
+• Last Author (Senior PI / Advisor):
+    - Female: 2,622 articles (26.5%)
+    - Male:   6,589 articles (66.5%)
+• Progression Scissors Gap (First% - Last%):
+    - Female Gap: +4.3 percentage points
+    - Male Gap:   -4.4 percentage points
+
+================================================================================
+END OF GENDER AUDIT TRAIL
+================================================================================

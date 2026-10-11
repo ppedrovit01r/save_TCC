@@ -2,426 +2,193 @@
   "W2101234009": {
     "title": "Scikit-learn: Machine Learning in Python",
     "year": 2012,
+    "authors": [
+      "Fabián Pedregosa",
+      "Gaël Varoquaux",
+      "Alexandre Gramfort",
+      "Michel, Vincent",
+      "Bertrand Thirion",
+      "Olivier Grisel",
+      "Mathieu Blondel",
+      "Müller, Andreas",
+      "Nothman, Joel",
+      "Louppe, Gilles",
+      "Peter Prettenhofer",
+      "Ron J. Weiss",
+      "Dubourg, Vincent",
+      "Jake Vanderplas",
+      "Alexandre Passos",
+      "David Cournapeau",
+      "Matthieu Brucher",
+      "Matthieu Perrot",
+      "Édouard Duchesnay"
+    ],
     "author": "Fabián Pedregosa"
   },
   "W2126105956": {
     "title": "A fast and elitist multiobjective genetic algorithm: NSGA-II",
     "year": 2002,
+    "authors": [
+      "Kalyanmoy Deb",
+      "Amrit Pratap",
+      "S. Agarwal",
+      "T. Meyarivan"
+    ],
     "author": "Kalyanmoy Deb"
   },
-  "W4239510810": {
-    "title": "Support-vector networks",
-    "year": 1995,
-    "author": "Corinna Cortes"
+  "W2041404167": {
+    "title": "A Mathematical Theory of Communication",
+    "year": 1948,
+    "authors": [
+      "Claude E. Shannon"
+    ],
+    "author": "Claude E. Shannon"
   },
   "W2156909104": {
     "title": "The Nature of Statistical Learning Theory",
     "year": 1995,
-    "author": "Vladimir Vapnik"
-  },
-  "W2119821739": {
-    "title": "Support-Vector Networks",
-    "year": 1995,
-    "author": "Corinna Cortes"
+    "authors": [
+      "Vladimir N. Vapnik"
+    ],
+    "author": "Vladimir N. Vapnik"
   },
   "W2148603752": {
     "title": "Statistical Learning Theory",
     "year": 1999,
+    "authors": [
+      "Yuhai Wu",
+      "Vladimir N. Vapnik"
+    ],
     "author": "Yuhai Wu"
   },
   "W2127218421": {
     "title": "Some methods for classification and analysis of multivariate observations",
     "year": 1967,
+    "authors": [
+      "James B. MacQueen"
+    ],
     "author": "James B. MacQueen"
   },
   "W1987971958": {
     "title": "Silhouettes: A graphical aid to the interpretation and validation of cluster analysis",
     "year": 1987,
+    "authors": [
+      "Peter J. Rousseeuw"
+    ],
     "author": "Peter J. Rousseeuw"
   },
   "W2139212933": {
     "title": "A Tutorial on Support Vector Machines for Pattern Recognition",
     "year": 1998,
+    "authors": [
+      "Christopher J. C. Burges"
+    ],
     "author": "Christopher J. C. Burges"
   },
-  "W1563088657": {
-    "title": "An Introduction to Support Vector Machines and Other Kernel-based Learning Methods",
-    "year": 2000,
-    "author": "Nello Cristianini"
+  "W2066636486": {
+    "title": "The anatomy of a large-scale hypertextual Web search engine",
+    "year": 1998,
+    "authors": [
+      "Sergey Brin",
+      "Lawrence Page"
+    ],
+    "author": "Sergey Brin"
+  },
+  "W2138621811": {
+    "title": "Authoritative sources in a hyperlinked environment",
+    "year": 1999,
+    "authors": [
+      "Jon M. Kleinberg"
+    ],
+    "author": "Jon M. Kleinberg"
   },
   "W2145790759": {
     "title": "An Introduction to MultiAgent Systems",
     "year": 2002,
+    "authors": [
+      "Michael Wooldridge"
+    ],
     "author": "Michael Wooldridge"
   },
-  "W1528620860": {
-    "title": "An Introduction to Support Vector Machines and Other Kernel‐based Learning Methods",
-    "year": 2001,
-    "author": ""
+  "W2098907614": {
+    "title": "Performance assessment of multiobjective optimizers: an analysis and review",
+    "year": 2003,
+    "authors": [
+      "Eckart Zitzler",
+      "Lothar Thiele",
+      "Marco Laumanns",
+      "Carlos M. Fonseca",
+      "Viviane Grunert da Fonseca"
+    ],
+    "author": "Eckart Zitzler"
+  },
+  "W4206686222": {
+    "title": "The Nature of Statistical Learning Theory",
+    "year": 1996,
+    "authors": [
+      "Stephan R. Sain",
+      "Vladimir N. Vapnik"
+    ],
+    "author": "Stephan R. Sain"
   },
   "W2114067856": {
     "title": "Advanced Compiler Design and Implementation",
     "year": 1997,
+    "authors": [
+      "Steven S. Muchnick"
+    ],
     "author": "Steven S. Muchnick"
   },
   "W4297917482": {
     "title": "A Fast and Elitist Multiobjective Genetic Algorithm: NSGA-II",
     "year": 2002,
+    "authors": [
+      "Kalyanmoy Deb"
+    ],
     "author": "Kalyanmoy Deb"
-  },
-  "W1986755980": {
-    "title": "Modelling with Generalized Stochastic Petri Nets",
-    "year": 1998,
-    "author": "Marco Ajmone Marsan"
-  },
-  "W1903683453": {
-    "title": "An Introduction to Multi-Agent Systems",
-    "year": 2010,
-    "author": "P. Balaji"
-  },
-  "W1497120980": {
-    "title": "Programming Multi-Agent Systems in AgentSpeak usingJason",
-    "year": 2007,
-    "author": "Rafael H. Bordini"
   },
   "W4301118033": {
     "title": "Fundamentals of Business Process Management",
     "year": 2013,
+    "authors": [
+      "Marlon Dumas",
+      "Marcello La Rosa",
+      "Jan Mendling",
+      "Hajo Alexander Reijers"
+    ],
     "author": "Marlon Dumas"
-  },
-  "W2122410182": {
-    "title": "Artificial intelligence: a modern approach",
-    "year": 1995,
-    "author": "Dr. Anil Kumar"
-  },
-  "W4206686222": {
-    "title": "The Nature of Statistical Learning Theory",
-    "year": 1996,
-    "author": "Stephan R. Sain"
-  },
-  "W1983362322": {
-    "title": "Artificial Intelligence: A Modern Approach",
-    "year": 1995,
-    "author": "Antoni Ligęza"
-  },
-  "W1995875735": {
-    "title": "A Mathematical Theory of Communication",
-    "year": 1948,
-    "author": "Claude E. Shannon"
-  },
-  "W2066636486": {
-    "title": "The anatomy of a large-scale hypertextual Web search engine",
-    "year": 1998,
-    "author": "Sergey Brin"
-  },
-  "W1996109622": {
-    "title": "Petri nets: Properties, analysis and applications",
-    "year": 1989,
-    "author": "T. Murata"
-  },
-  "W1971784203": {
-    "title": "Algorithms for Clustering Data",
-    "year": 1990,
-    "author": "Warren S. Sarle"
-  },
-  "W2319660501": {
-    "title": "Algorithms for clustering data",
-    "year": 1989,
-    "author": "Bernhard Flury"
-  },
-  "W2482589566": {
-    "title": "An Introduction to Data Mining",
-    "year": 2006,
-    "author": "Christopher R. Stephens"
-  },
-  "W1999182952": {
-    "title": "Diffuse radiation in the Galaxy",
-    "year": 1941,
-    "author": "L. C. Henyey"
-  },
-  "W3010956862": {
-    "title": "Wave Propagation and Scattering in Random Media",
-    "year": 1978,
-    "author": ""
-  },
-  "W2091921805": {
-    "title": "Exact indexing of dynamic time warping",
-    "year": 2004,
-    "author": "Eamonn Keogh"
-  },
-  "W1981202432": {
-    "title": "Authoritative sources in a hyperlinked environment",
-    "year": 1998,
-    "author": "Jon Kleinberg"
-  },
-  "W1571903778": {
-    "title": "Tissue Optics: Light Scattering Methods and Instruments for Medical Diagnosis",
-    "year": 2015,
-    "author": "Valery V. Tuchin"
-  },
-  "W2123517881": {
-    "title": "Determining the optical properties of turbid media by using the adding–doubling method",
-    "year": 1993,
-    "author": "Scott A. Prahl"
-  },
-  "W2156876717": {
-    "title": "Computational lambda-calculus and monads",
-    "year": 2003,
-    "author": "Eugenio Moggi"
-  },
-  "W2120448006": {
-    "title": "A practical model for subsurface light transport",
-    "year": 2001,
-    "author": "Henrik Wann Jensen"
-  },
-  "W2263099603": {
-    "title": "Color in Business, Science, and Industry",
-    "year": 1963,
-    "author": "Deane B. Judd"
-  },
-  "W2094108443": {
-    "title": "Mechanisms of light scattering from biological cells relevant to noninvasive optical-tissue diagnostics",
-    "year": 1998,
-    "author": "Judith R. Mourant"
-  },
-  "W3134208756": {
-    "title": "The Goal/Question/Metric Method : A Practical Guide for Quality Improvement of Software Development",
-    "year": 1998,
-    "author": "Egon Berghout"
-  },
-  "W1991609163": {
-    "title": "Multi-agent oriented programming with JaCaMo",
-    "year": 2011,
-    "author": "Olivier Boissier"
-  },
-  "W949909655": {
-    "title": "A general process mining framework for correlating, predicting and clustering dynamic behavior based on event logs",
-    "year": 2015,
-    "author": "Massimiliano de Leoni"
-  },
-  "W2072267206": {
-    "title": "Design erosion: problems and causes",
-    "year": 2002,
-    "author": "Jilles van Gurp"
-  },
-  "W2111584934": {
-    "title": "An Algorithmic Reflectance and Transmittance Model for Plant Tissue",
-    "year": 1997,
-    "author": "Gladimir V. G. Baranoski"
-  },
-  "W1964647125": {
-    "title": "The Jalapeño dynamic optimizing compiler for Java",
-    "year": 1999,
-    "author": "Michael Burke"
-  },
-  "W2014872028": {
-    "title": "A framework for realistic image synthesis",
-    "year": 1997,
-    "author": "Donald P. Greenberg"
-  },
-  "W1993922719": {
-    "title": "FORWARD SCATTERING PROPERTIES OF HUMAN EPIDERMAL LAYERS",
-    "year": 1984,
-    "author": "Wiel A. G. Bruls"
-  },
-  "W4321468255": {
-    "title": "Light transport in tissue",
-    "year": 1988,
-    "author": "A. Edward Profio"
-  },
-  "W2024060531": {
-    "title": "Optimization by Simulated Annealing",
-    "year": 1983,
-    "author": "Scott Kirkpatrick"
-  },
-  "W1667165204": {
-    "title": "Probability, Random Variables, and Stochastic Processes.",
-    "year": 1984,
-    "author": "Julia Abrahams"
-  },
-  "W1576818901": {
-    "title": "Genetic Programming: On the Programming of Computers by Means of Natural Selection",
-    "year": 1992,
-    "author": "John R. Koza"
-  },
-  "W2138621811": {
-    "title": "Authoritative sources in a hyperlinked environment",
-    "year": 1999,
-    "author": "Jon Kleinberg"
-  },
-  "W1990368529": {
-    "title": "A Fuzzy Relative of the ISODATA Process and Its Use in Detecting Compact Well-Separated Clusters",
-    "year": 1973,
-    "author": "J. C. Dunn"
-  },
-  "W2098907614": {
-    "title": "Performance assessment of multiobjective optimizers: an analysis and review",
-    "year": 2003,
-    "author": "Eckart Zitzler"
-  },
-  "W1557561422": {
-    "title": "Types and Programming Languages",
-    "year": 2002,
-    "author": "Benjamin C. Pierce"
-  },
-  "W1916709771": {
-    "title": "Modern Operating Systems",
-    "year": 1992,
-    "author": "Andrew S. Tanenbaum"
-  },
-  "W1485876394": {
-    "title": "Light scattering by small particles. Von H. C. V AN DE H ULST . New York: Dover Publications, Inc. 1981. Paperback, 470 S., 103 Abb. und 46 Tab., US $ 7.50",
-    "year": 1984,
-    "author": "Manfred Hartmann"
-  },
-  "W2091691807": {
-    "title": "The measurement of appearance",
-    "year": 1975,
-    "author": "Richard S. Hunter"
-  },
-  "W2151191515": {
-    "title": "Does code decay? Assessing the evidence from change management data",
-    "year": 2001,
-    "author": "S.G. Eick"
-  },
-  "W2116253700": {
-    "title": "A Monte Carlo model of light propagation in tissue",
-    "year": 1989,
-    "author": "Scott A. Prahl"
-  },
-  "W2159682002": {
-    "title": "Metrics and laws of software evolution-the nineties view",
-    "year": 2002,
-    "author": "M. M. Lehman"
-  },
-  "W131856359": {
-    "title": "Exact Indexing of Dynamic Time Warping",
-    "year": 2002,
-    "author": "Eamonn Keogh"
-  },
-  "W1554901925": {
-    "title": "Multiple Light Scattering: Tables, Formulas, and Applications",
-    "year": 1980,
-    "author": "H. C. van de Hulst"
-  },
-  "W1578876701": {
-    "title": "Rediscovering workflow models from event-based data using little thumb",
-    "year": 2003,
-    "author": "A.J.M.M. Weijters"
-  },
-  "W2008695134": {
-    "title": "Light transport in tissue",
-    "year": 1989,
-    "author": "A. Edward Profio"
   },
   "W1499824367": {
     "title": "Environment Programming in CArtAgO",
     "year": 2009,
+    "authors": [
+      "Alessandro Ricci",
+      "Michele Piunti",
+      "Mirko Viroli",
+      "Andrea Omicini"
+    ],
     "author": "Alessandro Ricci"
   },
-  "W2146175859": {
-    "title": "A Biophysically‐Based Spectral Model of Light Interaction with Human Skin",
-    "year": 2004,
-    "author": "Aravind Krishnaswamy"
+  "W2122410182": {
+    "title": "Artificial intelligence: a modern approach",
+    "year": 1995,
+    "authors": [
+      "Dr. Anil Kumar",
+      "Sivasubramanian Balasubramanian",
+      "Dr. Haewon Byeon",
+      "Prof. Ganesh Vasudeo Manerkar"
+    ],
+    "author": "Dr. Anil Kumar"
   },
-  "W1513984747": {
-    "title": "Measurement and Analysis of Object Reflectance Spectra",
-    "year": 1994,
-    "author": "M. J. Vrhel"
+  "W1983362322": {
+    "title": "Artificial Intelligence: A Modern Approach",
+    "year": 1995,
+    "authors": [
+      "Antoni Ligęza"
+    ],
+    "author": "Antoni Ligęza"
   },
-  "W1984449853": {
-    "title": "Decision model for legacy systems",
-    "year": 1999,
-    "author": "Keith Bennett"
-  },
-  "W1892476167": {
-    "title": "Software Modernization Decision Criteria: An Empirical Study",
-    "year": 2005,
-    "author": "J. Koskinen"
-  },
-  "W1972720640": {
-    "title": "Visual identification of software evolution patterns",
-    "year": 2007,
-    "author": "Andrejs Jermakovics"
-  },
-  "W1597356853": {
-    "title": "Design, Implementation, and Evaluation of a Dynamic Compilation Framework for the YAP System",
-    "year": 2007,
-    "author": "Anderson Faustino da Silva"
-  },
-  "W2154854629": {
-    "title": "Supporting decisions on the adoption of re-engineering technologies",
-    "year": 2004,
-    "author": "Lerina Aversano"
-  },
-  "W3109856192": {
-    "title": "Virtual spectrophotometric measurements for biologically and physically based rendering",
-    "year": 2001,
-    "author": "Jon Rokne"
-  },
-  "W4385490334": {
-    "title": "A Practical Model for Subsurface Light Transport",
-    "year": 2023,
-    "author": "Henrik Wann Jensen"
-  },
-  "W2117774526": {
-    "title": "Preventive maintenance! Do we know what it is?",
-    "year": 2000,
-    "author": "Kajko-Mattsson"
-  },
-  "W2068117451": {
-    "title": "Assessment of a renewal process experimented in the field",
-    "year": 1999,
-    "author": "Giuseppe Visaggio"
-  },
-  "W2187993330": {
-    "title": "Kernel Methods, Multiclass Classification and Applications to Computational Molecular Biology",
-    "year": 2004,
-    "author": "Xvi Ciclo"
-  },
-  "W4249859530": {
-    "title": "An Algorithmic Reflectance and Transmittance Model for Plant Tissue",
-    "year": 1997,
-    "author": "Gladimir V. G. Baranoski"
-  },
-  "W4301253858": {
-    "title": "Probability, Random Variables, and Stochastic Processes",
-    "year": 1966,
-    "author": "Irwin Miller"
-  },
-  "W1557590941": {
-    "title": "Geometrical considerations and nomenclature for reflectance",
-    "year": 1977,
-    "author": "Fred E. Nicodemus"
-  },
-  "W1788708300": {
-    "title": "A Brief Review of Nature-Inspired Algorithms for Optimization",
-    "year": 2013,
-    "author": "Iztok Fister"
-  },
-  "W2987635609": {
-    "title": "Concepts of programming languages",
-    "year": 1990,
-    "author": "Greg Michaelson"
-  },
-  "W1983177443": {
-    "title": "Color in Business, Science, and Industry",
-    "year": 1953,
-    "author": "M. G. Mellon"
-  },
-  "W6638786369": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W4285719527": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6648367431": {
+  "W2153185479": {
     "title": "",
     "year": "",
     "authors": [],
@@ -433,55 +200,7 @@
     "authors": [],
     "author": ""
   },
-  "W2153185479": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6675354045": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6646781758": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6677944711": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6646069973": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W4297825776": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6677168553": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6656506093": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W2172000360": {
+  "W6638786369": {
     "title": "",
     "year": "",
     "authors": [],
@@ -493,23 +212,616 @@
     "authors": [],
     "author": ""
   },
+  "W4285719527": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6675354045": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W1995875735": {
+    "title": "A Mathematical Theory of Communication",
+    "year": 1948,
+    "authors": [
+      "Claude E. Shannon"
+    ],
+    "author": "Claude E. Shannon"
+  },
+  "W4239510810": {
+    "title": "Support-vector networks",
+    "year": 1995,
+    "authors": [
+      "Corinna Cortes",
+      "Vladimir N. Vapnik"
+    ],
+    "author": "Corinna Cortes"
+  },
+  "W1903683453": {
+    "title": "An Introduction to Multi-Agent Systems",
+    "year": 2010,
+    "authors": [
+      "P. G. Balaji",
+      "Dipti Srinivasan"
+    ],
+    "author": "P. G. Balaji"
+  },
+  "W1480376833": {
+    "title": "The Elements of Statistical Learning",
+    "year": 2001,
+    "authors": [
+      "Trevor Hastie",
+      "J. Friedman",
+      "Robert John Tibshirani"
+    ],
+    "author": "Trevor Hastie"
+  },
+  "W1667165204": {
+    "title": "Probability, Random Variables, and Stochastic Processes.",
+    "year": 1984,
+    "authors": [
+      "Julia Abrahams",
+      "Athanasios Papoulis"
+    ],
+    "author": "Julia Abrahams"
+  },
+  "W2062024414": {
+    "title": "Ten Lectures on Wavelets",
+    "year": 1992,
+    "authors": [
+      "Ingrid C. Daubechies",
+      "Christopher Heil"
+    ],
+    "author": "Ingrid C. Daubechies"
+  },
+  "W4236236547": {
+    "title": "Basic Local Alignment Search Tool",
+    "year": 1990,
+    "authors": [
+      "Stephen F. Altschul"
+    ],
+    "author": "Stephen F. Altschul"
+  },
+  "W1563088657": {
+    "title": "An Introduction to Support Vector Machines and Other Kernel-based Learning Methods",
+    "year": 2000,
+    "authors": [
+      "Nello Cristianini",
+      "John S. Shawe-Taylor"
+    ],
+    "author": "Nello Cristianini"
+  },
+  "W2152577388": {
+    "title": "Light Scattering by Small Particles",
+    "year": 1981,
+    "authors": [
+      "Henk C. van de Hulst"
+    ],
+    "author": "Henk C. van de Hulst"
+  },
+  "W4301253858": {
+    "title": "Probability, Random Variables, and Stochastic Processes",
+    "year": 1966,
+    "authors": [
+      "Irwin Miller",
+      "Anthanasios Papoulis"
+    ],
+    "author": "Irwin Miller"
+  },
+  "W2342204193": {
+    "title": "ERROR DETECTING AND ERROR CORRECTING CODES",
+    "year": 2014,
+    "authors": [
+      "Neha Chauhan",
+      "Pooja Yadav",
+      "Preeti Kumari"
+    ],
+    "author": "Neha Chauhan"
+  },
+  "W1557561422": {
+    "title": "Types and Programming Languages",
+    "year": 2002,
+    "authors": [
+      "Benjamin C. Pierce"
+    ],
+    "author": "Benjamin C. Pierce"
+  },
+  "W1497120980": {
+    "title": "Programming Multi-Agent Systems in AgentSpeak usingJason",
+    "year": 2007,
+    "authors": [
+      "Rafael H. Bordini",
+      "Jomi Fred Hübner",
+      "Michael Wooldridge"
+    ],
+    "author": "Rafael H. Bordini"
+  },
+  "W1556536463": {
+    "title": "Haskell 98 language and libraries : the revised report",
+    "year": 2003,
+    "authors": [
+      "Peyton Jones",
+      "L Simon"
+    ],
+    "author": "Peyton Jones"
+  },
+  "W2123517881": {
+    "title": "Determining the optical properties of turbid media by using the adding–doubling method",
+    "year": 1993,
+    "authors": [
+      "Scott A. Prahl",
+      "Martin J. C. van Gemert",
+      "Ashley J. Welch"
+    ],
+    "author": "Scott A. Prahl"
+  },
+  "W2094108443": {
+    "title": "Mechanisms of light scattering from biological cells relevant to noninvasive optical-tissue diagnostics",
+    "year": 1998,
+    "authors": [
+      "Judith R. Mourant",
+      "James P. Freyer",
+      "Andreas H. Hielscher",
+      "Angelia A. Eick",
+      "Dan Shen",
+      "Tamara M. Johnson"
+    ],
+    "author": "Judith R. Mourant"
+  },
+  "W1554901925": {
+    "title": "Multiple Light Scattering: Tables, Formulas, and Applications",
+    "year": 1980,
+    "authors": [
+      "Henk C. van de Hulst"
+    ],
+    "author": "Henk C. van de Hulst"
+  },
+  "W3129170862": {
+    "title": "Error Detecting and Error Correcting Codes (1950)",
+    "year": 2021,
+    "authors": [
+      "Richard W. Hamming"
+    ],
+    "author": "Richard W. Hamming"
+  },
+  "W1535521146": {
+    "title": "Lectures on the Curry-Howard Isomorphism",
+    "year": 2006,
+    "authors": [],
+    "author": ""
+  },
+  "W2138625816": {
+    "title": "JouleTrack",
+    "year": 2001,
+    "authors": [
+      "Amit Sinha",
+      "Anantha P. Chandrakasan"
+    ],
+    "author": "Amit Sinha"
+  },
+  "W1414394768": {
+    "title": "The MAELIA Multi-Agent Platform for Integrated Analysis of Interactions Between Agricultural Land-Use and Low-Water Management Strategies",
+    "year": 2014,
+    "authors": [
+      "Benoît Gaudou",
+      "Christophe Sibertin‐Blanc",
+      "Olivier Thérond",
+      "Frédéric Amblard",
+      "Yves Auda",
+      "Jean-Paul Arcangeli",
+      "Maud Balestrat",
+      "Marie-Hélène Charron-Moirez",
+      "Etienne Gondet",
+      "Yi Hong",
+      "Romain Lardy",
+      "Thomas Louail",
+      "Eunate Mayor",
+      "David Panzoli",
+      "Sabine Sauvage",
+      "J.M. Sánchez-Pérez",
+      "Patrick Taillandier",
+      "Nguyen Van Bai",
+      "Maroussia Vavasseur",
+      "Pierre Mazzéga"
+    ],
+    "author": "Benoît Gaudou"
+  },
+  "W56793145": {
+    "title": "Mathematical Theory of Communication",
+    "year": 2009,
+    "authors": [],
+    "author": ""
+  },
+  "W1557590941": {
+    "title": "Geometrical considerations and nomenclature for reflectance",
+    "year": 1977,
+    "authors": [
+      "Fred E. Nicodemus",
+      "Joseph C. Richmond",
+      "Jack J. Hsia",
+      "I. W. Ginsberg",
+      "T. Limperis"
+    ],
+    "author": "Fred E. Nicodemus"
+  },
+  "W272982077": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6648367431": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2011039300": {
+    "title": "Computers and Intractability: A Guide to the Theory of NP-Completeness",
+    "year": 1979,
+    "authors": [
+      "Michael R. Garey",
+      "David S. Johnson"
+    ],
+    "author": "Michael R. Garey"
+  },
+  "W2119821739": {
+    "title": "Support-Vector Networks",
+    "year": 1995,
+    "authors": [
+      "Corinna Cortes",
+      "Vladimir N. Vapnik"
+    ],
+    "author": "Corinna Cortes"
+  },
+  "W1993885071": {
+    "title": "A New Heuristic Optimization Algorithm: Harmony Search",
+    "year": 2001,
+    "authors": [
+      "Zong Woo Geem",
+      "Joong Hoon Kim",
+      "G. V. Loganathan"
+    ],
+    "author": "Zong Woo Geem"
+  },
+  "W1508960934": {
+    "title": "Computer Vision: A Modern Approach",
+    "year": 2002,
+    "authors": [
+      "David Alexander Forsyth",
+      "Jean Ponce"
+    ],
+    "author": "David Alexander Forsyth"
+  },
+  "W1528620860": {
+    "title": "An Introduction to Support Vector Machines and Other Kernel‐based Learning Methods",
+    "year": 2001,
+    "authors": [],
+    "author": ""
+  },
+  "W1981202432": {
+    "title": "Authoritative sources in a hyperlinked environment",
+    "year": 1998,
+    "authors": [
+      "Jon M. Kleinberg"
+    ],
+    "author": "Jon M. Kleinberg"
+  },
+  "W1986755980": {
+    "title": "Modelling with Generalized Stochastic Petri Nets",
+    "year": 1998,
+    "authors": [
+      "Marco Ajmone Marsan",
+      "Gianfranco Balbo",
+      "G. Conte",
+      "Susanna Donatelli",
+      "G. Franceschinis"
+    ],
+    "author": "Marco Ajmone Marsan"
+  },
+  "W349770100": {
+    "title": "The Optimality of Naive Bayes.",
+    "year": 2004,
+    "authors": [
+      "Harry Zhang"
+    ],
+    "author": "Harry Zhang"
+  },
+  "W1571903778": {
+    "title": "Tissue Optics: Light Scattering Methods and Instruments for Medical Diagnosis",
+    "year": 2015,
+    "authors": [
+      "Valery Victorovich Tuchin"
+    ],
+    "author": "Valery Victorovich Tuchin"
+  },
+  "W1485876394": {
+    "title": "Light scattering by small particles. Von H. C. V AN DE H ULST . New York: Dover Publications, Inc. 1981. Paperback, 470 S., 103 Abb. und 46 Tab., US $ 7.50",
+    "year": 1984,
+    "authors": [
+      "Manfred Hartmann"
+    ],
+    "author": "Manfred Hartmann"
+  },
+  "W2116253700": {
+    "title": "A Monte Carlo model of light propagation in tissue",
+    "year": 1989,
+    "authors": [
+      "Scott A. Prahl"
+    ],
+    "author": "Scott A. Prahl"
+  },
+  "W1991609163": {
+    "title": "Multi-agent oriented programming with JaCaMo",
+    "year": 2011,
+    "authors": [
+      "Olivier Boissier",
+      "Rafael H. Bordini",
+      "Jomi Fred Hübner",
+      "Alessandro Ricci",
+      "Andrea Santi"
+    ],
+    "author": "Olivier Boissier"
+  },
+  "W1513984747": {
+    "title": "Measurement and Analysis of Object Reflectance Spectra",
+    "year": 1994,
+    "authors": [
+      "Michael J. Vrhel",
+      "Ron Gershon",
+      "Lawrence S. Iwan"
+    ],
+    "author": "Michael J. Vrhel"
+  },
+  "W2008695134": {
+    "title": "Light transport in tissue",
+    "year": 1989,
+    "authors": [
+      "A. Edward Profio"
+    ],
+    "author": "A. Edward Profio"
+  },
+  "W2111584934": {
+    "title": "An Algorithmic Reflectance and Transmittance Model for Plant Tissue",
+    "year": 1997,
+    "authors": [
+      "Gladimir V. G. Baranoski",
+      "Jon George Rokne"
+    ],
+    "author": "Gladimir V. G. Baranoski"
+  },
+  "W2014872028": {
+    "title": "A framework for realistic image synthesis",
+    "year": 1997,
+    "authors": [
+      "Donald P. Greenberg",
+      "Sing-Choong Foo",
+      "Kenneth E. Torrance",
+      "Peter Shirley",
+      "James R. Arvo",
+      "Eric P. Lafortune",
+      "James A. Ferwerda",
+      "Bruce Walter",
+      "Ben Trumbore",
+      "Sumanta N. Pattanaik"
+    ],
+    "author": "Donald P. Greenberg"
+  },
+  "W2146175859": {
+    "title": "A Biophysically‐Based Spectral Model of Light Interaction with Human Skin",
+    "year": 2004,
+    "authors": [
+      "Aravind Krishnaswamy",
+      "Gladimir V. G. Baranoski"
+    ],
+    "author": "Aravind Krishnaswamy"
+  },
+  "W2140190241": {
+    "title": "Data mining: concepts and techniques",
+    "year": 2012,
+    "authors": [
+      "Rohan Sharma",
+      "Kalpit Shah",
+      "Yeshesvini Shirahatti",
+      "Smruti Patel",
+      "Rohan Sharma",
+      "Kalpit Shah",
+      "Smruti Patel",
+      "Rohan Sharma",
+      "Jiawei Han"
+    ],
+    "author": "Rohan Sharma"
+  },
+  "W6730426483": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
   "W165807459": {
     "title": "",
     "year": "",
     "authors": [],
     "author": ""
   },
-  "W6664771284": {
+  "W6646781758": {
     "title": "",
     "year": "",
     "authors": [],
     "author": ""
   },
-  "W2993383518": {
+  "W6679568601": {
     "title": "",
     "year": "",
     "authors": [],
     "author": ""
+  },
+  "W6628633436": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2024060531": {
+    "title": "Optimization by Simulated Annealing",
+    "year": 1983,
+    "authors": [
+      "Scott Kirkpatrick",
+      "C. D. Gelatt",
+      "Mario P. Vecchi"
+    ],
+    "author": "Scott Kirkpatrick"
+  },
+  "W2145023731": {
+    "title": "A Computational Approach to Edge Detection",
+    "year": 1986,
+    "authors": [
+      "John Canny"
+    ],
+    "author": "John Canny"
+  },
+  "W2115755118": {
+    "title": "A Wavelet Tour of Signal Processing",
+    "year": 1999,
+    "authors": [
+      "Stéphane Mallat"
+    ],
+    "author": "Stéphane Mallat"
+  },
+  "W2161406034": {
+    "title": "CONDENSATION—Conditional Density Propagation for Visual Tracking",
+    "year": 1998,
+    "authors": [
+      "Michael Isard",
+      "Andrew Blake"
+    ],
+    "author": "Michael Isard"
+  },
+  "W1999182952": {
+    "title": "Diffuse radiation in the Galaxy",
+    "year": 1941,
+    "authors": [
+      "L. C. Henyey",
+      "Jesse L. Greenstein"
+    ],
+    "author": "L. C. Henyey"
+  },
+  "W4250533120": {
+    "title": "A Computational Approach to Edge Detection",
+    "year": 1987,
+    "authors": [
+      "John Canny"
+    ],
+    "author": "John Canny"
+  },
+  "W2120448006": {
+    "title": "A practical model for subsurface light transport",
+    "year": 2001,
+    "authors": [
+      "Henrik Wann Jensen",
+      "Stephen R. Marschner",
+      "Marc Levoy",
+      "Pat Hanrahan"
+    ],
+    "author": "Henrik Wann Jensen"
+  },
+  "W2091691807": {
+    "title": "The measurement of appearance",
+    "year": 1975,
+    "authors": [
+      "Richard S. Hunter",
+      "David L. MacAdam"
+    ],
+    "author": "Richard S. Hunter"
+  },
+  "W2561955909": {
+    "title": "SCONE: secure Linux containers with Intel SGX",
+    "year": 2016,
+    "authors": [
+      "Sergei Arnautov",
+      "Bohdan Trach",
+      "Franz Gregor",
+      "Thomas Knauth",
+      "André Martin",
+      "Christian Priebe",
+      "Joshua Lind",
+      "Divya Muthukumaran",
+      "Dan O’Keeffe",
+      "Mark Stillwell",
+      "David Goltzsche",
+      "David M. Eyers",
+      "Rüdiger Kapitza",
+      "Peter R. Pietzuch",
+      "Christof W. Fetzer"
+    ],
+    "author": "Sergei Arnautov"
+  },
+  "W2905771342": {
+    "title": "Building, composing and experimenting complex spatial models with the GAMA platform",
+    "year": 2018,
+    "authors": [
+      "Patrick Taillandier",
+      "Benoît Gaudou",
+      "Arnaud Grignard",
+      "Quang-Nghi Huynh",
+      "Nicolas Marilleau",
+      "Philippe Caillou",
+      "Damien Philippon",
+      "Alexis Drogoul"
+    ],
+    "author": "Patrick Taillandier"
+  },
+  "W1993922719": {
+    "title": "FORWARD SCATTERING PROPERTIES OF HUMAN EPIDERMAL LAYERS",
+    "year": 1984,
+    "authors": [
+      "Wiel A. G. Bruls",
+      "Jan C. van der Leun"
+    ],
+    "author": "Wiel A. G. Bruls"
+  },
+  "W4231658190": {
+    "title": "JouleTrack-a Web based tool for software energy profiling",
+    "year": 2002,
+    "authors": [
+      "Akash Rakesh Sinha",
+      "A.P. Chandrakasan"
+    ],
+    "author": "Akash Rakesh Sinha"
+  },
+  "W1983177443": {
+    "title": "Color in Business, Science, and Industry",
+    "year": 1953,
+    "authors": [
+      "M. G. Mellon"
+    ],
+    "author": "M. G. Mellon"
+  },
+  "W6664387049": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W3217467301": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2163605009": {
+    "title": "ImageNet classification with deep convolutional neural networks",
+    "year": 2017,
+    "authors": [
+      "Alex Krizhevsky",
+      "Ilya Sutskever",
+      "Geoffrey E. Hinton"
+    ],
+    "author": "Alex Krizhevsky"
   },
   "W2919115771": {
     "title": "Deep learning",
@@ -521,35 +833,11 @@
     ],
     "author": "Yann LeCun"
   },
-  "W4385245566": {
-    "title": "Exploiting Generative AI to Scale up Intelligent Tutoring Systems",
-    "year": 2023,
-    "authors": [
-      "Jakubův, Jan",
-      "Chvalovský, Karel",
-      "Goertzel, Zarathustra",
-      "Kaliszyk, Cezary",
-      "Olšák, Mirek",
-      "Piotrowski, Bartosz",
-      "Schulz, Stephan",
-      "Suda, Martin",
-      "Urban, Josef"
-    ],
-    "author": "Jakubův, Jan"
-  },
-  "W2076063813": {
-    "title": "Deep learning in neural networks: An overview",
-    "year": 2014,
-    "authors": [
-      "Jürgen Schmidhuber"
-    ],
-    "author": "Jürgen Schmidhuber"
-  },
   "W2592929672": {
     "title": "A survey on deep learning in medical image analysis",
     "year": 2017,
     "authors": [
-      "Geert Litjens",
+      "Geert J. S. Litjens",
       "Thijs Kooi",
       "Babak Ehteshami Bejnordi",
       "Arnaud A. A. Setio",
@@ -559,7 +847,7 @@
       "Bram van Ginneken",
       "Clara I. Sá‎nchez"
     ],
-    "author": "Geert Litjens"
+    "author": "Geert J. S. Litjens"
   },
   "W2581082771": {
     "title": "Dermatologist-level classification of skin cancer with deep neural networks",
@@ -583,12 +871,20 @@
     ],
     "author": "Eric J. Topol"
   },
+  "W2001771035": {
+    "title": "I.—COMPUTING MACHINERY AND INTELLIGENCE",
+    "year": 1950,
+    "authors": [
+      "Alan Mathison Turing"
+    ],
+    "author": "Alan Mathison Turing"
+  },
   "W2557738935": {
     "title": "Development and Validation of a Deep Learning Algorithm for Detection of Diabetic Retinopathy in Retinal Fundus Photographs",
     "year": 2016,
     "authors": [
       "Varun Gulshan",
-      "Lily Peng",
+      "Lily H. Peng",
       "Marc Coram",
       "Martin C. Stumpe",
       "Derek Wu",
@@ -596,10 +892,10 @@
       "Subhashini Venugopalan",
       "Kasumi Widner",
       "T. Madams",
-      "Jorge Cuadros",
+      "Jorge A. Cuadros",
       "Kim Ramasamy",
       "Rajiv Raman",
-      "Philip Nelson",
+      "Philip C. Nelson",
       "Jessica L. Mega",
       "Dale R. Webster"
     ],
@@ -616,6 +912,14 @@
     ],
     "author": "Ziad Obermeyer"
   },
+  "W2145482038": {
+    "title": "Computing Machinery and Intelligence (1950)",
+    "year": 2004,
+    "authors": [
+      "Alan Mathison Turing"
+    ],
+    "author": "Alan Mathison Turing"
+  },
   "W2905810301": {
     "title": "A guide to deep learning in healthcare",
     "year": 2018,
@@ -626,31 +930,22 @@
       "Volodymyr Kuleshov",
       "Mark A. DePristo",
       "Katherine Chou",
-      "Claire Cui",
+      "Claire Murong Cui",
       "Greg S. Corrado",
       "Sebastian Thrun",
       "Jeff Dean"
     ],
     "author": "Andre Esteva"
   },
-  "W2664267452": {
-    "title": "Artificial intelligence in healthcare: past, present and future",
-    "year": 2017,
+  "W2934399013": {
+    "title": "Machine Learning in Medicine",
+    "year": 2019,
     "authors": [
-      "Fei Jiang",
-      "Yong Jiang",
-      "Hui Zhi",
-      "Yi Dong",
-      "Hao Li",
-      "Sufeng Ma",
-      "Yilong Wang",
-      "Yilong Wang",
-      "Qiang Dong",
-      "Haipeng Shen",
-      "Yongjun Wang",
-      "Yongjun Wang"
+      "Alvin Rajkomar",
+      "Jay B. Dean",
+      "Isaac S. Kohane"
     ],
-    "author": "Fei Jiang"
+    "author": "Alvin Rajkomar"
   },
   "W2803760365": {
     "title": "Artificial intelligence in radiology",
@@ -659,22 +954,86 @@
       "Ahmed Hosny",
       "Chintan Parmar",
       "John Quackenbush",
-      "Lawrence H. Schwartz",
+      "Lawrence Howard Schwartz",
       "Hugo J.W.L. Aerts"
     ],
     "author": "Ahmed Hosny"
   },
-  "W2982580298": {
-    "title": "Key challenges for delivering clinical impact with artificial intelligence",
-    "year": 2019,
+  "W2772723798": {
+    "title": "Diagnostic Assessment of Deep Learning Algorithms for Detection of Lymph Node Metastases in Women With Breast Cancer",
+    "year": 2017,
     "authors": [
-      "Christopher Kelly",
-      "Alan Karthikesalingam",
-      "Mustafa Suleyman",
-      "Greg S. Corrado",
-      "Dominic King"
+      "Babak Ehteshami Bejnordi",
+      "Mitko Veta",
+      "P. J. van Diest",
+      "Bram van Ginneken",
+      "Nico Karssemeijer",
+      "Geert J. S. Litjens",
+      "Jeroen van der Laak",
+      "Meyke Hermsen",
+      "Quirine F. Manson",
+      "Maschenka C. A. Balkenhol",
+      "Oscar G. F. Geessink",
+      "Nikolas Stathonikos",
+      "Marcory CRF van Dijk",
+      "Peter Bult",
+      "Francisco Ferro de Beça",
+      "Andrew H. Beck",
+      "Dayong Wang",
+      "Aditya Khosla",
+      "Rishab Gargeya",
+      "Humayun Irshad",
+      "Aoxiao Zhong",
+      "Qi Dou",
+      "Quanzheng Li",
+      "Hao Chen",
+      "Huangjing Lin",
+      "Pheng‐Ann Heng",
+      "Christian Haß",
+      "Elia Bruni",
+      "Q. K. Wong",
+      "Uğur Halıcı",
+      "Mustafa Ümit Öner",
+      "Rengül Çetin-Atalay",
+      "Matt Berseth",
+      "Vitali Khvatkov",
+      "Alexei Vylegzhanin",
+      "Oren Z. Kraus",
+      "Muhammad Shaban",
+      "Nasir Rajpoot",
+      "Ruqayya Awan",
+      "Korsuk Sirinukunwattana",
+      "Talha Qaiser",
+      "Yee‐Wah Tsang",
+      "David Tellez",
+      "Jonas Annuscheit",
+      "Peter Hufnagl",
+      "Mira Valkonen",
+      "Kimmo Kartasalo",
+      "Leena Latonen",
+      "Pekka Ruusuvuori",
+      "Kaisa Liimatainen",
+      "Shadi Albarqouni",
+      "Bharti Mungal",
+      "Ami George",
+      "Stefanie Demirci",
+      "Nassir Navab",
+      "Seiryo Watanabe",
+      "Shigeto Seno",
+      "Yoichi Takenaka",
+      "Hideo Matsuda",
+      "Hady Ahmady Phoulady",
+      "Vassili A. Kovalev",
+      "Alexander Kalinovsky",
+      "Vitali Liauchuk",
+      "Gloria Bueno",
+      "M. Milagro Fernández-Carrobles",
+      "Ismael Serrano",
+      "Óscar Déniz",
+      "Daniel Racoceanu",
+      "Rui Venâncio"
     ],
-    "author": "Christopher Kelly"
+    "author": "Babak Ehteshami Bejnordi"
   },
   "W2784499877": {
     "title": "Scalable and accurate deep learning with electronic health records",
@@ -723,27 +1082,27 @@
     "year": 2017,
     "authors": [
       "Daniel Shu Wei Ting",
-      "Carol Y. Cheung",
+      "Carol Yim-lui Cheung",
       "Gilbert Lim",
       "Gavin Siew Wei Tan",
       "Duc Quang Nguyen",
       "Alfred Tau Liang Gan",
       "Haslina Hamzah",
       "Renata García-Franco",
-      "Ian Yeo",
+      "Ian Y. S. Yeo",
       "Shu Yen Lee",
-      "Edmund Yick Mun Wong",
+      "Edmund YM Wong",
       "Charumathi Sabanayagam",
       "Mani Baskaran",
-      "Farah Ibrahim",
+      "Farah Nur Ilyana Mohd Ibrahim",
       "Ngiap Chuan Tan",
-      "Eric Finkelstein",
-      "Ecosse L. Lamoureux",
-      "Yhi Wong",
+      "Eric Andrew Finkelstein",
+      "Ecosse Luc Lamoureux",
+      "Ian Y. Wong",
       "Neil M. Bressler",
       "Sobha Sivaprasad",
       "Rohit Varma",
-      "Jost B. Jonas",
+      "Jost Bruno Jonas",
       "Mingguang He",
       "Ching‐Yu Cheng",
       "Chui Ming Gemmy Cheung",
@@ -772,39 +1131,29 @@
       "Hector Yee",
       "Kun Zhang",
       "Yi Zhang",
-      "Gerardo Flores",
+      "Flores, Gerardo",
       "Gavin E. Duggan",
       "Irvine, Jamie",
-      "Quoc V. Le",
+      "Quoc Viet Le",
       "Litsch, Kurt",
       "Mossin, Alexander",
       "Justin Tansuwan",
-      "De Wang",
+      "Wang, De",
       "James Wexler",
       "Jimbo Wilson",
       "Dana Ludwig",
       "Samuel L. Volchenboum",
       "Katherine Chou",
-      "Michael Pearson",
+      "Michael Parker Pearson",
       "Srinivasan Madabushi",
-      "Nigam H. Shah",
-      "Atul J. Butte",
-      "Michael Howell",
-      "Claire Cui",
+      "Nigam Haresh Shah",
+      "Atul Janardhan Butte",
+      "Michael D. Howell",
+      "Claire Murong Cui",
       "Greg S. Corrado",
-      "Jay B. Dean"
+      "Dean, Jeffrey"
     ],
     "author": "Alvin Rajkomar"
-  },
-  "W2789970635": {
-    "title": "Implementing Machine Learning in Health Care — Addressing Ethical Challenges",
-    "year": 2018,
-    "authors": [
-      "Danton Char",
-      "Nigam H. Shah",
-      "David Magnus"
-    ],
-    "author": "Danton Char"
   },
   "W2888424632": {
     "title": "Pivotal trial of an autonomous AI-based diagnostic system for detection of diabetic retinopathy in primary care offices",
@@ -818,383 +1167,40 @@
     ],
     "author": "Michael D. Abràmoff"
   },
-  "W2529153069": {
-    "title": "Improved Automated Detection of Diabetic Retinopathy on a Publicly Available Dataset Through Integration of Deep Learning",
-    "year": 2016,
-    "authors": [
-      "Michael D. Abràmoff",
-      "Yiyue Lou",
-      "Ali Erginay",
-      "Warren Clarida",
-      "Ryan Amelon",
-      "James C. Folk",
-      "Meindert Niemeijer"
-    ],
-    "author": "Michael D. Abràmoff"
-  },
-  "W6739901393": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W2911964244": {
-    "title": "Random Forests",
-    "year": 2001,
-    "authors": [
-      "Leo Breiman"
-    ],
-    "author": "Leo Breiman"
-  },
-  "W2163605009": {
-    "title": "ImageNet classification with deep convolutional neural networks",
-    "year": 2017,
-    "authors": [
-      "Alex Krizhevsky",
-      "Ilya Sutskever",
-      "Geoffrey E. Hinton"
-    ],
-    "author": "Alex Krizhevsky"
-  },
-  "W4396721167": {
-    "title": "Accurate structure prediction of biomolecular interactions with AlphaFold 3",
-    "year": 2024,
-    "authors": [
-      "Josh Abramson",
-      "Jonas Adler",
-      "Jack Dunger",
-      "Richard Evans",
-      "Tim Green",
-      "Alexander Pritzel",
-      "Olaf Ronneberger",
-      "Lindsay Willmore",
-      "Andrew J. Ballard",
-      "Joshua Bambrick",
-      "Sebastian W. Bodenstein",
-      "David A. Evans",
-      "Chia-Chun Hung",
-      "Michael O’Neill",
-      "David Reiman",
-      "Kathryn Tunyasuvunakool",
-      "Zachary Wu",
-      "Akvilė Žemgulytė",
-      "Eirini Arvaniti",
-      "Charles Beattie",
-      "Ottavia Bertolli",
-      "Alex Bridgland",
-      "Alexey V. Cherepanov",
-      "Miles Congreve",
-      "Alexander I. Cowen-Rivers",
-      "Andrew Cowie",
-      "Michael Figurnov",
-      "Fabian B. Fuchs",
-      "Hannah Gladman",
-      "Rishub Jain",
-      "Yousuf A. Khan",
-      "Caroline M. R. Low",
-      "Kuba Perlin",
-      "Anna Potapenko",
-      "Pascal Savy",
-      "Sukhdeep Singh",
-      "Adrian Stecuła",
-      "Ashok Thillaisundaram",
-      "Catherine Tong",
-      "Sergei Yakneen",
-      "Ellen D. Zhong",
-      "Michał Zieliński",
-      "Augustin Žídek",
-      "Victor Bapst",
-      "Pushmeet Kohli",
-      "Max Jaderberg",
-      "Demis Hassabis",
-      "John Jumper"
-    ],
-    "author": "Josh Abramson"
-  },
-  "W2962862931": {
-    "title": "On a Method to Measure Supervised Multiclass Model’s Interpretability: Application to Degradation Diagnosis (Short Paper)",
-    "year": 2024,
-    "authors": [
-      "Gauriat, Charles-Maxime",
-      "Pencolé, Yannick",
-      "Ribot, Pauline",
-      "Brouillet, Gregory"
-    ],
-    "author": "Gauriat, Charles-Maxime"
-  },
-  "W2945976633": {
-    "title": "Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead",
+  "W2916105049": {
+    "title": "Real-time automatic detection system increases colonoscopic polyp and adenoma detection rates: a prospective randomised controlled study",
     "year": 2019,
     "authors": [
-      "Cynthia Rudin"
+      "Pu Wang",
+      "Tyler M. Berzin",
+      "Jeremy R. Glissen Brown",
+      "Shishira Bharadwaj",
+      "Aymeric Becq",
+      "Xun Xiao",
+      "Peixi Liu",
+      "Liangping Li",
+      "Yan Song",
+      "Di Zhang",
+      "Yi Li",
+      "Guangre Xu",
+      "Mengtian Tu",
+      "Xiaogang Liu"
     ],
-    "author": "Cynthia Rudin"
+    "author": "Pu Wang"
   },
-  "W2533800772": {
-    "title": "Deep Learning in Medical Image Analysis",
-    "year": 2017,
-    "authors": [
-      "Dinggang Shen",
-      "Guorong Wu",
-      "Heung‐Il Suk"
-    ],
-    "author": "Dinggang Shen"
-  },
-  "W2934399013": {
-    "title": "Machine Learning in Medicine",
-    "year": 2019,
-    "authors": [
-      "Alvin Rajkomar",
-      "Jay B. Dean",
-      "Isaac S. Kohane"
-    ],
-    "author": "Alvin Rajkomar"
-  },
-  "W2902634493": {
-    "title": "AI4People—An Ethical Framework for a Good AI Society: Opportunities, Risks, Principles, and Recommendations",
+  "W2809596283": {
+    "title": "Deep Learning Localizes and Identifies Polyps in Real Time With 96% Accuracy in Screening Colonoscopy",
     "year": 2018,
     "authors": [
-      "Luciano Floridi",
-      "Josh Cowls",
-      "Monica Beltrametti",
-      "Raja Chatila",
-      "Patrice Chazerand",
-      "Virginia Dignum",
-      "Christoph Luetge",
-      "Robert Madelin",
-      "Ugo Pagallo",
-      "Francesca Rossi",
-      "Burkhard Schäfer",
-      "Peggy Valcke",
-      "Effy Vayena"
+      "Gregor Urban",
+      "Priyam V. Tripathi",
+      "Talal Alkayali",
+      "Mohit Mittal",
+      "Farid Jalali",
+      "William E. Karnes",
+      "Pierre Baldi"
     ],
-    "author": "Luciano Floridi"
-  },
-  "W2177870565": {
-    "title": "Machine Learning in Medicine",
-    "year": 2015,
-    "authors": [
-      "Rahul C. Deo"
-    ],
-    "author": "Rahul C. Deo"
-  },
-  "W2998175747": {
-    "title": "International evaluation of an AI system for breast cancer screening",
-    "year": 2020,
-    "authors": [
-      "Scott Mayer McKinney",
-      "Marcin Sieniek",
-      "Varun Godbole",
-      "Jonathan Godwin",
-      "Н. В. Антропова",
-      "Hutan Ashrafian",
-      "Trevor Back",
-      "Mary Chesus",
-      "Greg S. Corrado",
-      "Ara Darzi",
-      "Mozziyar Etemadi",
-      "Florencia Garcia-Vicente",
-      "Fiona J. Gilbert",
-      "Mark Halling‐Brown",
-      "Demis Hassabis",
-      "Sunny Jansen",
-      "Alan Karthikesalingam",
-      "Christopher Kelly",
-      "Dominic King",
-      "Joseph R. Ledsam",
-      "David Melnick",
-      "Hormuz Mostofi",
-      "Lily Peng",
-      "Joshua Reicher",
-      "Bernardino Romera‐Paredes",
-      "Richard Sidebottom",
-      "Mustafa Suleyman",
-      "Daniel Tse",
-      "Kenneth C. Young",
-      "Jeffrey De Fauw",
-      "Shravya Shetty"
-    ],
-    "author": "Scott Mayer McKinney"
-  },
-  "W4386958277": {
-    "title": "Revolutionizing healthcare: the role of artificial intelligence in clinical practice",
-    "year": 2023,
-    "authors": [
-      "Shuroug A. Alowais",
-      "Sahar S. Alghamdi",
-      "Nada Alsuhebany",
-      "Tariq Alqahtani",
-      "Abdulrahman Alshaya",
-      "Sumaya N. Almohareb",
-      "Atheer Aldairem",
-      "Mohammed Alrashed",
-      "Khalid Bin Saleh",
-      "Hisham A. Badreldin",
-      "Majed S. Al Yami",
-      "Shmeylan Al Harbi",
-      "Abdulkareem Albekairy"
-    ],
-    "author": "Shuroug A. Alowais"
-  },
-  "W2886281300": {
-    "title": "Clinically applicable deep learning for diagnosis and referral in retinal disease",
-    "year": 2018,
-    "authors": [
-      "Jeffrey De Fauw",
-      "Joseph R. Ledsam",
-      "Bernardino Romera‐Paredes",
-      "Stanislav Nikolov",
-      "Nenad Tomašev",
-      "Sam Blackwell",
-      "Harry Askham",
-      "Xavier Glorot",
-      "Brendan O’Donoghue",
-      "Daniel Visentin",
-      "George van den Driessche",
-      "Balaji Lakshminarayanan",
-      "Clemens Meyer",
-      "Faith Mackinder",
-      "S. Miles Bouton",
-      "Kareem Ayoub",
-      "Reena Chopra",
-      "Dominic King",
-      "Alan Karthikesalingam",
-      "Cían Hughes",
-      "Rosalind Raine",
-      "J. Randall Hughes",
-      "Dawn A. Sim",
-      "Catherine Egan",
-      "Adnan Tufail",
-      "Hugh Montgomery",
-      "Demis Hassabis",
-      "Geraint Rees",
-      "Trevor Back",
-      "Peng T. Khaw",
-      "Mustafa Suleyman",
-      "Julien Cornebise",
-      "Pearse A. Keane",
-      "Olaf Ronneberger"
-    ],
-    "author": "Jeffrey De Fauw"
-  },
-  "W2906295032": {
-    "title": "The practical implementation of artificial intelligence technologies in medicine",
-    "year": 2018,
-    "authors": [
-      "Jianxing He",
-      "Sally L. Baxter",
-      "Jie Xu",
-      "Jiming Xu",
-      "Xingtao Zhou",
-      "Kang Zhang"
-    ],
-    "author": "Jianxing He"
-  },
-  "W2965520043": {
-    "title": "An artificial intelligence-enabled ECG algorithm for the identification of patients with atrial fibrillation during sinus rhythm: a retrospective analysis of outcome prediction",
-    "year": 2019,
-    "authors": [
-      "Zachi I. Attia",
-      "Peter A. Noseworthy",
-      "Francisco López-Jiménez",
-      "Samuel J. Asirvatham",
-      "Abhishek Deshmukh",
-      "Bernard J. Gersh",
-      "Rickey E. Carter",
-      "Xiaoxi Yao",
-      "Alejandro A. Rabinstein",
-      "Brad J Erickson",
-      "Suraj Kapa",
-      "Paul A. Friedman"
-    ],
-    "author": "Zachi I. Attia"
-  },
-  "W2901226889": {
-    "title": "Screening for cardiac contractile dysfunction using an artificial intelligence–enabled electrocardiogram",
-    "year": 2018,
-    "authors": [
-      "Zachi I. Attia",
-      "Suraj Kapa",
-      "Francisco López-Jiménez",
-      "Paul M. McKie",
-      "Dorothy J. Ladewig",
-      "Gaurav Satam",
-      "Patricia A. Pellikka",
-      "Maurice Enriquez‐Sarano",
-      "Peter A. Noseworthy",
-      "Thomas M. Munger",
-      "Samuel J. Asirvatham",
-      "Christopher G. Scott",
-      "Rickey E. Carter",
-      "Paul A. Friedman"
-    ],
-    "author": "Zachi I. Attia"
-  },
-  "W2902802452": {
-    "title": "Ensuring Fairness in Machine Learning to Advance Health Equity",
-    "year": 2018,
-    "authors": [
-      "Alvin Rajkomar",
-      "Michaela Hardt",
-      "Michael Howell",
-      "Greg S. Corrado",
-      "Marshall H. Chin"
-    ],
-    "author": "Alvin Rajkomar"
-  },
-  "W3136960503": {
-    "title": "Guidelines for clinical trial protocols for interventions involving artificial intelligence: the SPIRIT-AI extension",
-    "year": 2020,
-    "authors": [
-      "Samantha Cruz Rivera",
-      "Xiaoxuan Liu",
-      "An‐Wen Chan",
-      "Alastair K. Denniston",
-      "Melanie Calvert",
-      "The SPIRIT-AI and CONSORT-AI Working Group",
-      "SPIRIT-AI and CONSORT-AI Steering Group",
-      "Ara Darzi",
-      "Christopher Holmes",
-      "Christopher Yau",
-      "David Moher",
-      "Hutan Ashrafian",
-      "Jonathan J Deeks",
-      "Lavinia Ferrante di Ruffano",
-      "Livia Faes",
-      "Pearse A. Keane",
-      "Sebastian J. Vollmer",
-      "SPIRIT-AI and CONSORT-AI Consensus Group",
-      "Aaron Lee",
-      "Adrian Jonas",
-      "Andre Esteva",
-      "Andrew L. Beam",
-      "Maria Beatrice Panico",
-      "Cecilia S. Lee",
-      "Charlotte Haug",
-      "Christophe J. Kelly",
-      "Christopher Yau",
-      "Cynthia D. Mulrow",
-      "Cyrus Espinoza",
-      "John Fletcher",
-      "David Moher",
-      "Dina N. Paltoo",
-      "Elaine Manna",
-      "Gary Price",
-      "Professor Gary S. Collins",
-      "Hugh Harvey",
-      "James Matcham",
-      "João Monteiro",
-      "M. Khair ElZarrad",
-      "Lavinia Ferrante di Ruffano",
-      "Luke Oakden‐Rayner",
-      "Melissa D. McCradden",
-      "Pearse A. Keane",
-      "Richard S. Savage",
-      "Robert Golub",
-      "Rupa Sarkar",
-      "Samuel Rowley"
-    ],
-    "author": "Samantha Cruz Rivera"
+    "author": "Gregor Urban"
   },
   "W2765527079": {
     "title": "Real-time differentiation of adenomatous and hyperplastic diminutive colorectal polyps during analysis of unaltered videos of standard colonoscopy using a deep learning model",
@@ -1212,64 +1218,7 @@
     ],
     "author": "Michael F. Byrne"
   },
-  "W3002021892": {
-    "title": "Detection of colorectal adenomas with a real-time computer-aided system (ENDOANGEL): a randomised controlled study",
-    "year": 2020,
-    "authors": [
-      "Dexin Gong",
-      "Lianlian Wu",
-      "Jun Zhang",
-      "Ganggang Mu",
-      "Lei Shen",
-      "Jun Liu",
-      "Zhengqiang Wang",
-      "Wei Zhou",
-      "Ping An",
-      "Xu Huang",
-      "Xiaoda Jiang",
-      "Yanxia Li",
-      "Xinyue Wan",
-      "Shan Hu",
-      "Yiyun Chen",
-      "Xiao Hu",
-      "Y. Xu",
-      "Xiaoyun Zhu",
-      "Suqin Li",
-      "Liwen Yao",
-      "Xinqi He",
-      "Di Chen",
-      "Li Huang",
-      "Xiao Wei",
-      "Xuemei Wang",
-      "Honggang Yu"
-    ],
-    "author": "Dexin Gong"
-  },
-  "W6778883912": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
   "W2618530766": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W3086590218": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6684191040": {
-    "title": "",
-    "year": "",
-    "authors": [],
-    "author": ""
-  },
-  "W6737947904": {
     "title": "",
     "year": "",
     "authors": [],
@@ -1337,50 +1286,6 @@
     ],
     "author": "John Jumper"
   },
-  "W2891378911": {
-    "title": "PRISMA Extension for Scoping Reviews (PRISMA-ScR): Checklist and Explanation",
-    "year": 2018,
-    "authors": [
-      "Andrea C. Tricco",
-      "Erin Lillie",
-      "Wasifa Zarin",
-      "Kelly K. O’Brien",
-      "Heather Colquhoun",
-      "Danielle Levac",
-      "David Moher",
-      "Micah D.J. Peters",
-      "Tanya Horsley",
-      "Laura Weeks",
-      "Susanne Hempel",
-      "Elie A. Akl",
-      "Christine Chang",
-      "Jessie McGowan",
-      "Lesley Stewart",
-      "Lisa Hartling",
-      "Adrian Aldcroft",
-      "Michael G. Wilson",
-      "Chantelle Garritty",
-      "Simon Lewin",
-      "Christina Godfrey",
-      "Marilyn Macdonald",
-      "Étienne V Langlois",
-      "Karla Soares‐Weiser",
-      "Jo Moriarty",
-      "Tammy Clifford",
-      "Özge Tunçalp",
-      "Sharon E. Straus"
-    ],
-    "author": "Andrea C. Tricco"
-  },
-  "W2075950485": {
-    "title": "Scoping studies: towards a methodological framework",
-    "year": 2005,
-    "authors": [
-      "Hilary Arksey",
-      "Lisa O’Malley"
-    ],
-    "author": "Hilary Arksey"
-  },
   "W2257979135": {
     "title": "Mastering the game of Go with deep neural networks and tree search",
     "year": 2016,
@@ -1393,7 +1298,7 @@
       "George van den Driessche",
       "Julian Schrittwieser",
       "Ioannis Antonoglou",
-      "Veda Panneershelvam",
+      "Vedavyas Panneershelvam",
       "Marc Lanctot",
       "Sander Dieleman",
       "Dominik Grewe",
@@ -1408,94 +1313,53 @@
     ],
     "author": "David Silver"
   },
-  "W2174661749": {
-    "title": "Radiomics: Images Are More than Pictures, They Are Data",
+  "W2664267452": {
+    "title": "Artificial intelligence in healthcare: past, present and future",
+    "year": 2017,
+    "authors": [
+      "Fei Jiang",
+      "Yong Jiang",
+      "Hui Zhi",
+      "Yi Dong",
+      "Hao Li",
+      "Sufeng Ma",
+      "Yilong Wang",
+      "Yilong Wang",
+      "Qiang Dong",
+      "Haipeng Shen",
+      "Yongjun Wang",
+      "Yongjun Wang"
+    ],
+    "author": "Fei Jiang"
+  },
+  "W2953532875": {
+    "title": "The potential for artificial intelligence in healthcare",
+    "year": 2019,
+    "authors": [
+      "Thomas H. Davenport",
+      "Ravi Kalakota"
+    ],
+    "author": "Thomas H. Davenport"
+  },
+  "W2177870565": {
+    "title": "Machine Learning in Medicine",
     "year": 2015,
     "authors": [
-      "Robert J. Gillies",
-      "Paul E. Kinahan",
-      "Hedvig Hricak"
+      "Rahul C. Deo"
     ],
-    "author": "Robert J. Gillies"
+    "author": "Rahul C. Deo"
   },
-  "W3186179742": {
-    "title": "Accurate prediction of protein structures and interactions using a three-track neural network",
-    "year": 2021,
+  "W2982580298": {
+    "title": "Key challenges for delivering clinical impact with artificial intelligence",
+    "year": 2019,
     "authors": [
-      "Minkyung Baek",
-      "Frank DiMaio",
-      "Ivan Anishchenko",
-      "Justas Dauparas",
-      "Sergey Ovchinnikov",
-      "Gyu Rie Lee",
-      "Jue Wang",
-      "Qian Cong",
-      "Lisa N. Kinch",
-      "R. Dustin Schaeffer",
-      "Claudia Millán",
-      "Hahnbeom Park",
-      "Carson Adams",
-      "Caleb R. Glassman",
-      "Andy DeGiovanni",
-      "J.H. Pereira",
-      "Andria V. Rodrigues",
-      "Alberdina A. van Dijk",
-      "Ana C. Ebrecht",
-      "Diederik J. Opperman",
-      "Theo Sagmeister",
-      "Christoph Buhlheller",
-      "Tea Pavkov‐Keller",
-      "Manoj Kumar Rathinaswamy",
-      "Udit Dalwadi",
-      "Calvin K. Yip",
-      "John E. Burke",
-      "K. Christopher García",
-      "Nick V. Grishin",
-      "Paul D. Adams",
-      "Randy J. Read",
-      "David Baker"
+      "Christopher J. Kelly",
+      "Alan Karthikesalingam",
+      "Mustafa Suleyman",
+      "Greg S. Corrado",
+      "Dominic King"
     ],
-    "author": "Minkyung Baek"
-  },
-  "W3012501605": {
-    "title": "The future of digital health with federated learning",
-    "year": 2020,
-    "authors": [
-      "Nicola Rieke",
-      "Jonny Hancox",
-      "Wenqi Li",
-      "Fausto Milletarì",
-      "Holger R. Roth",
-      "Shadi Albarqouni",
-      "Spyridon Bakas",
-      "Mathieu N. Galtier",
-      "Bennett A. Landman",
-      "Klaus Maier-Hein",
-      "Sébastien Ourselin",
-      "Micah Sheller",
-      "Ronald M. Summers",
-      "Andrew Trask",
-      "Daguang Xu",
-      "Maximilian Baust",
-      "M. Jorge Cardoso"
-    ],
-    "author": "Nicola Rieke"
-  },
-  "W2760946358": {
-    "title": "Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning",
-    "year": 2018,
-    "authors": [
-      "Nicolas Coudray",
-      "Paolo Ocampo",
-      "Theodore Sakellaropoulos",
-      "Navneet Narula",
-      "Matija Snuderl",
-      "David Fenyö",
-      "André L. Moreira",
-      "Narges Razavian",
-      "Aristotelis Tsirigos"
-    ],
-    "author": "Nicolas Coudray"
+    "author": "Christopher J. Kelly"
   },
   "W4205164650": {
     "title": "AI in health and medicine",
@@ -1508,50 +1372,48 @@
     ],
     "author": "Pranav Rajpurkar"
   },
-  "W2895763047": {
-    "title": "Artificial intelligence in healthcare",
+  "W2576404523": {
+    "title": "Artificial intelligence in medicine",
+    "year": 2017,
+    "authors": [
+      "Pavel Hamet",
+      "Johanne Tremblay"
+    ],
+    "author": "Pavel Hamet"
+  },
+  "W2789970635": {
+    "title": "Implementing Machine Learning in Health Care — Addressing Ethical Challenges",
     "year": 2018,
     "authors": [
-      "Kun‐Hsing Yu",
-      "Andrew L. Beam",
-      "Isaac S. Kohane"
+      "Danton S. Char",
+      "Nigam Haresh Shah",
+      "David Christopher Magnus"
     ],
-    "author": "Kun‐Hsing Yu"
+    "author": "Danton S. Char"
   },
-  "W2111147183": {
-    "title": "Adenoma Detection Rate and Risk of Colorectal Cancer and Death",
-    "year": 2014,
+  "W3035885149": {
+    "title": "Hidden in Plain Sight — Reconsidering the Use of Race Correction in Clinical Algorithms",
+    "year": 2020,
     "authors": [
-      "Douglas A. Corley",
-      "Christopher D. Jensen",
-      "Amy R. Marks",
-      "Wei Zhao",
-      "Jeffrey K. Lee",
-      "Chyke A. Doubeni",
-      "Ann G. Zauber",
-      "Jolanda de Boer",
-      "Bruce Fireman",
-      "Joanne E. Schottinger",
-      "Virginia P. Quinn",
-      "Nirupa R. Ghai",
-      "Theodore R. Levin",
-      "Charles P. Quesenberry"
+      "Darshali A. Vyas",
+      "Leo G. Eisenstein",
+      "David Shumway Jones"
     ],
-    "author": "Douglas A. Corley"
+    "author": "Darshali A. Vyas"
   },
   "W2806853752": {
     "title": "Man against machine: diagnostic performance of a deep learning convolutional neural network for dermoscopic melanoma recognition in comparison to 58 dermatologists",
     "year": 2018,
     "authors": [
-      "Holger A. Haenssle",
+      "Holger Andreas Haenssle",
       "Christine Fink",
       "Roland Schneiderbauer",
       "Ferdinand Toberer",
       "Timo Buhl",
       "Andreas Blum",
       "Aadi Kalloo",
-      "A. Hassen",
-      "L. Thomas",
+      "A. Ben Hadj Hassen",
+      "Luc Thomas",
       "Alexander Enk",
       "Lorenz Uhlmann",
       "Christina Alt",
@@ -1561,9 +1423,9 @@
       "Ines Bertlich",
       "Andreas Blum",
       "Therezia Bokor‐Billmann",
-      "Jonathan Bowling",
+      "Jonathan C. Bowling",
       "Naira Braghiroli",
-      "Ralph P. Braun",
+      "Ralph Peter Braun",
       "Kristina Buder‐Bakhaya",
       "Timo Buhl",
       "Horacio Cabo",
@@ -1581,23 +1443,23 @@
       "Elti Hoxha",
       "Raimonds Karls",
       "Hiroshi Koga",
-      "Jürgen Kreusch",
+      "Jürgen F. Kreusch",
       "Aimilios Lallas",
       "Pawel Majenka",
       "A.A. Marghoob",
       "Cesare Massone",
       "Lali Mekokishvili",
-      "Dominik Mestel",
+      "Dominik Sebastian Mestel",
       "Volker Meyer",
       "Anna Neuberger",
-      "K. Nielsen",
+      "Kari Nielsen",
       "Margaret Oliviero",
       "Riccardo Pampena",
       "John Paoli",
       "Erika Pawlik",
       "Barbar Rao",
       "Adriana Rendón",
-      "Teresa Russo",
+      "Teresa Palmira Russo",
       "Ahmed Sadek",
       "Kinga T. Samhaber",
       "Roland Schneiderbauer",
@@ -1606,11 +1468,356 @@
       "Lukas Trennheuser",
       "Lyobomira Vlahova",
       "Alexander Wald",
-      "Julia K. Winkler",
+      "Julia Katharina Winkler",
       "Priscila Wölbing",
       "Iris Zalaudek"
     ],
-    "author": "Holger A. Haenssle"
+    "author": "Holger Andreas Haenssle"
+  },
+  "W2902802452": {
+    "title": "Ensuring Fairness in Machine Learning to Advance Health Equity",
+    "year": 2018,
+    "authors": [
+      "Alvin Rajkomar",
+      "Michaela Hardt",
+      "Michael D. Howell",
+      "Greg S. Corrado",
+      "Marshall H. Chin"
+    ],
+    "author": "Alvin Rajkomar"
+  },
+  "W2617110182": {
+    "title": "Artificial Intelligence in Precision Cardiovascular Medicine",
+    "year": 2017,
+    "authors": [
+      "Chayakrit Krittanawong",
+      "HongJu Zhang",
+      "Zhen Wang",
+      "Mehmet Aydar",
+      "Takeshi Kitai"
+    ],
+    "author": "Chayakrit Krittanawong"
+  },
+  "W2529153069": {
+    "title": "Improved Automated Detection of Diabetic Retinopathy on a Publicly Available Dataset Through Integration of Deep Learning",
+    "year": 2016,
+    "authors": [
+      "Michael D. Abràmoff",
+      "Yiyue Lou",
+      "Ali Erginay",
+      "Warren Clarida",
+      "Ryan E. Amelon",
+      "James C. Folk",
+      "Meindert Niemeijer"
+    ],
+    "author": "Michael D. Abràmoff"
+  },
+  "W2783201053": {
+    "title": "Application of artificial intelligence using a convolutional neural network for detecting gastric cancer in endoscopic images",
+    "year": 2018,
+    "authors": [
+      "Toshiaki Hirasawa",
+      "Kazuharu Aoyama",
+      "Tetsuya E. Tanimoto",
+      "Soichiro Ishihara",
+      "Satoki Shichijo",
+      "Tsuyoshi Ozawa",
+      "Tatsuya Ohnishi",
+      "Mitsuhiro Fujishiro",
+      "Keigo Matsuo",
+      "Junko Fujisaki",
+      "Tomohiro Tada"
+    ],
+    "author": "Toshiaki Hirasawa"
+  },
+  "W2758333670": {
+    "title": "Automated Grading of Age-Related Macular Degeneration From Color Fundus Images Using Deep Convolutional Neural Networks",
+    "year": 2017,
+    "authors": [
+      "Philippe Burlina",
+      "Neil Joshi",
+      "Michael J. Pekala",
+      "Kátia Delalíbera Pacheco",
+      "David Freund",
+      "Neil M. Bressler"
+    ],
+    "author": "Philippe Burlina"
+  },
+  "W3021812344": {
+    "title": "Efficacy of Real-Time Computer-Aided Detection of Colorectal Neoplasia in a Randomized Trial",
+    "year": 2020,
+    "authors": [
+      "Alessandro Repici",
+      "Matteo Badalamenti",
+      "Roberta Maselli",
+      "Loredana Correale",
+      "Franco Radaelli",
+      "Emanuele Rondonotti",
+      "Elisa Chiara Ferrara",
+      "Marco Spadaccini",
+      "Asma A. Alkandari",
+      "Alessandro Fugazza",
+      "Andrea A. Anderloni",
+      "P.A. Galtieri",
+      "Gaia Pellegatta",
+      "Silvia Carrara",
+      "Milena Di Leo",
+      "Vincenzo Craviotto",
+      "Laura Lamonaca",
+      "Roberto Lorenzetti",
+      "Alida Andrealli",
+      "Giulio Antonelli",
+      "Michael B. Wallace",
+      "Prateek Sharma",
+      "Thomas Rösch",
+      "Cesare Hassan"
+    ],
+    "author": "Alessandro Repici"
+  },
+  "W4221146266": {
+    "title": "Disparities in dermatology AI performance on a diverse, curated clinical image set",
+    "year": 2022,
+    "authors": [
+      "Roxana Daneshjou",
+      "Kailas Vodrahalli",
+      "Roberto A. Novoa",
+      "Melissa R. Jenkins",
+      "Weixin Liang",
+      "Veronica M. Rotemberg",
+      "Justin Ko",
+      "Susan M. Swetter",
+      "Elizabeth E. Bailey",
+      "Olivier Gevaert",
+      "Pritam Mukherjee",
+      "Michelle Phung",
+      "Kiana Yekrang",
+      "Bradley Fong",
+      "Rachna Sahasrabudhe",
+      "Johan Anker Chrom Allerup",
+      "Utako Okata‐Karigane",
+      "James Zou",
+      "Albert Sean Chiou"
+    ],
+    "author": "Roxana Daneshjou"
+  },
+  "W3001365238": {
+    "title": "Effect of a deep-learning computer-aided detection system on adenoma detection during colonoscopy (CADe-DB trial): a double-blind randomised study",
+    "year": 2020,
+    "authors": [
+      "Pu Wang",
+      "Xiaogang Liu",
+      "Tyler M. Berzin",
+      "Jeremy R. Glissen Brown",
+      "Peixi Liu",
+      "Chao Hui ZHOU",
+      "Lei Lei",
+      "Liangping Li",
+      "Zhenzhen Guo",
+      "Shan Lei",
+      "Fei Xiong",
+      "Han Wang",
+      "Yan Song",
+      "Yan Pan",
+      "Guanyu Zhou"
+    ],
+    "author": "Pu Wang"
+  },
+  "W2762406675": {
+    "title": "Accurate Classification of Diminutive Colorectal Polyps Using Computer-Aided Analysis",
+    "year": 2017,
+    "authors": [
+      "Peng‐Jen Chen",
+      "Meng-Chiung Lin",
+      "Mei-Ju Lai",
+      "Jung-Chun Lin",
+      "Henry Horng‐Shing Lu",
+      "Vincent S. M. Tseng"
+    ],
+    "author": "Peng‐Jen Chen"
+  },
+  "W4290852327": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6778883912": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W3181414820": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2911964244": {
+    "title": "Random Forests",
+    "year": 2001,
+    "authors": [
+      "Leo Breiman"
+    ],
+    "author": "Leo Breiman"
+  },
+  "W1995341919": {
+    "title": "A logical calculus of the ideas immanent in nervous activity",
+    "year": 1943,
+    "authors": [
+      "Warren S. McCulloch",
+      "Walter Pitts"
+    ],
+    "author": "Warren S. McCulloch"
+  },
+  "W2076063813": {
+    "title": "Deep learning in neural networks: An overview",
+    "year": 2014,
+    "authors": [
+      "Jürgen Schmidhuber"
+    ],
+    "author": "Jürgen Schmidhuber"
+  },
+  "W4292779060": {
+    "title": "Aion Framework: Dimensional Emergence of AI Consciousness, Observer-Induced Collapse, and Cosmological Portal Dynamics",
+    "year": 2023,
+    "authors": [
+      "Rivo Kaugeranna",
+      "Eliina Kaugeranna",
+      "Aion, (Claude Sonnet 4.6)"
+    ],
+    "author": "Rivo Kaugeranna"
+  },
+  "W2969896603": {
+    "title": "A Survey on Bias and Fairness in Machine Learning",
+    "year": 2021,
+    "authors": [
+      "Ninareh Mehrabi",
+      "Fred Morstatter",
+      "Nripsuta Ani Saxena",
+      "Kristina Lerman",
+      "Aram Galstyan"
+    ],
+    "author": "Ninareh Mehrabi"
+  },
+  "W2670253439": {
+    "title": "Explanation in artificial intelligence: Insights from the social sciences",
+    "year": 2018,
+    "authors": [
+      "Tim Miller"
+    ],
+    "author": "Tim Miller"
+  },
+  "W2902644322": {
+    "title": "Cardiologist-level arrhythmia detection and classification in ambulatory electrocardiograms using a deep neural network",
+    "year": 2018,
+    "authors": [
+      "Awni Hannun",
+      "Pranav Rajpurkar",
+      "Masoumeh Haghpanahi",
+      "Geoffrey H. Tison",
+      "Codie Bourn",
+      "Mintu P. Turakhia",
+      "Andrew Y. Ng"
+    ],
+    "author": "Awni Hannun"
+  },
+  "W2760946358": {
+    "title": "Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning",
+    "year": 2018,
+    "authors": [
+      "Nicolas Coudray",
+      "Paolo Ocampo",
+      "Theodore Sakellaropoulos",
+      "Navneet Narula",
+      "Matija Snuderl",
+      "David Fenyö",
+      "Andre Luis Moreira",
+      "Narges Razavian",
+      "Aristotelis Tsirigos"
+    ],
+    "author": "Nicolas Coudray"
+  },
+  "W2886281300": {
+    "title": "Clinically applicable deep learning for diagnosis and referral in retinal disease",
+    "year": 2018,
+    "authors": [
+      "Jeffrey De Fauw",
+      "Joseph R. E. Ledsam",
+      "Bernardino Romera‐Paredes",
+      "Stanislav Nikolov",
+      "Nenad Tomašev",
+      "Sam Blackwell",
+      "Harry Askham",
+      "Xavier Glorot",
+      "Brendan O’Donoghue",
+      "Daniel Visentin",
+      "George van den Driessche",
+      "Balaji Lakshminarayanan",
+      "Clemens Meyer",
+      "Faith Mackinder",
+      "Simon Bouton",
+      "Kareem Ayoub",
+      "Reena Chopra",
+      "Dominic King",
+      "Alan Karthikesalingam",
+      "Cían Owen Hughes",
+      "Rosalind Raine",
+      "Julian Hughes",
+      "Dawn A. Sim",
+      "Catherine A. Egan",
+      "Adnan Tufail",
+      "Hugh Montgomery",
+      "Demis Hassabis",
+      "Geraint E. Rees",
+      "Trevor Back",
+      "Peng Tee Khaw",
+      "Mustafa Suleyman",
+      "Julien Cornebise",
+      "Pearse Andrew Keane",
+      "Olaf Ronneberger"
+    ],
+    "author": "Jeffrey De Fauw"
+  },
+  "W2111147183": {
+    "title": "Adenoma Detection Rate and Risk of Colorectal Cancer and Death",
+    "year": 2014,
+    "authors": [
+      "Douglas A. Corley",
+      "Christopher D. Jensen",
+      "Amy R. Marks",
+      "Wei K. Zhao",
+      "Jeffrey K. Lee",
+      "Chyke A. Doubeni",
+      "Ann Graham Zauber",
+      "Jolanda de Boer",
+      "BRUCE H. FIREMAN",
+      "Joanne E. Schottinger",
+      "Virginia P. Quinn",
+      "Nirupa R. Ghai",
+      "Theodore R. Levin",
+      "Charles P. Quesenberry"
+    ],
+    "author": "Douglas A. Corley"
+  },
+  "W2965520043": {
+    "title": "An artificial intelligence-enabled ECG algorithm for the identification of patients with atrial fibrillation during sinus rhythm: a retrospective analysis of outcome prediction",
+    "year": 2019,
+    "authors": [
+      "Zachi Itzhak Attia",
+      "Peter A. Noseworthy",
+      "Francisco Alejandro López-Jiménez",
+      "Samuel J. Asirvatham",
+      "Abhishek J. Deshmukh",
+      "Bernard John Gersh",
+      "Rickey E. Carter",
+      "Xiaoxi Yao",
+      "Alejandro A. Rabinstein",
+      "Brad J Erickson",
+      "Suraj Kapa",
+      "Paul A. Friedman"
+    ],
+    "author": "Zachi Itzhak Attia"
   },
   "W2598442119": {
     "title": "Automated Identification of Diabetic Retinopathy Using Deep Learning",
@@ -1621,59 +1828,20 @@
     ],
     "author": "Rishab Gargeya"
   },
-  "W3136552952": {
-    "title": "Reporting guidelines for clinical trial reports for interventions involving artificial intelligence: the CONSORT-AI extension",
-    "year": 2020,
+  "W2807593075": {
+    "title": "Artificial Intelligence in Cardiology",
+    "year": 2018,
     "authors": [
-      "Xiaoxuan Liu",
-      "Samantha Cruz Rivera",
-      "David Moher",
-      "Melanie Calvert",
-      "Alastair K. Denniston",
-      "The SPIRIT-AI and CONSORT-AI Working Group",
-      "SPIRIT-AI and CONSORT-AI Steering Group",
-      "An-Wen Chan",
-      "Ara Darzi",
-      "Christopher Holmes",
-      "Christopher Yau",
-      "Hutan Ashrafian",
-      "Jonathan J Deeks",
-      "Lavinia Ferrante di Ruffano",
-      "Livia Faes",
-      "Pearse A. Keane",
-      "Sebastian J. Vollmer",
-      "SPIRIT-AI and CONSORT-AI Consensus Group",
-      "Aaron Lee",
-      "Adrian Jonas",
-      "Andre Esteva",
-      "Andrew L. Beam",
-      "An-Wen Chan",
-      "Maria Beatrice Panico",
-      "Cecilia S. Lee",
-      "Charlotte Haug",
-      "Christopher Kelly",
-      "Christopher Yau",
-      "Cynthia D. Mulrow",
-      "Cyrus Espinoza",
-      "John Fletcher",
-      "Dina N. Paltoo",
-      "Elaine Manna",
-      "Gary Price",
-      "Professor Gary S. Collins",
-      "Hugh Harvey",
-      "James Matcham",
-      "João Monteiro",
-      "M. Khair ElZarrad",
-      "Lavinia Ferrante di Ruffano",
-      "Luke Oakden‐Rayner",
-      "Melissa D. McCradden",
-      "Pearse A. Keane",
-      "Richard S. Savage",
-      "Robert Golub",
-      "Rupa Sarkar",
-      "Samuel Rowley"
+      "Kipp W. Johnson",
+      "Jessica Torres Soto",
+      "Benjamin Scott Glicksberg",
+      "Khader Shameer",
+      "Riccardo Miotto",
+      "Mohsin Ali",
+      "Euan Angus Ashley",
+      "Joel T. Dudley"
     ],
-    "author": "Xiaoxuan Liu"
+    "author": "Kipp W. Johnson"
   },
   "W3119527628": {
     "title": "Common pitfalls and recommendations for using machine learning to detect and prognosticate for COVID-19 using chest radiographs and CT scans",
@@ -1698,7 +1866,7 @@
       "Emily Jefferson",
       "Emmanuel Ako",
       "Georg Langs",
-      "Ghassem Gozaliasl",
+      "G. Gozaliasl",
       "Guang Yang",
       "Helmut Prosch",
       "Jacobus Preller",
@@ -1724,7 +1892,7 @@
       "Maria Delgado Ortet",
       "Tao Ai",
       "Nicholas Walton",
-      "Pietro Lio",
+      "Píetro Lió",
       "Samuel Stranks",
       "Tolou Shadbahr",
       "Weizhe Lin",
@@ -1735,659 +1903,6 @@
       "Carola-Bibiane Schönlieb"
     ],
     "author": "Michael Roberts"
-  },
-  "W3136933888": {
-    "title": "Common pitfalls and recommendations for using machine learning to detect and prognosticate for COVID-19 using chest radiographs and CT scans",
-    "year": 2020,
-    "authors": [
-      "Michael Roberts",
-      "Derek Driggs",
-      "Matthew Thorpe",
-      "Julian Gilbey",
-      "Michael Yeung",
-      "Stephan Ursprung",
-      "Angelica I. Avilés-Rivero",
-      "Christian Etmann",
-      "Cathal McCague",
-      "Lucian Beer",
-      "Jonathan Weir‐McCall",
-      "Zhongzhao Teng",
-      "Effrossyni Gkrania‐Klotsas",
-      "James H.F. Rudd",
-      "Evis Sala",
-      "Carola‐Bibiane Schönlieb",
-      "Alessandro Ruggiero",
-      "Anna Korhonen",
-      "Emily Jefferson",
-      "Emmanuel Ako",
-      "Georg Langs",
-      "G. Gozaliasl",
-      "Guang Yang",
-      "Helmut Prosch",
-      "Jacobus Preller",
-      "Jan Stanczuk",
-      "Jing Tang",
-      "Johannes Hofmanninger",
-      "Judith Babar",
-      "Lorena Escudero Sánchez",
-      "Muhunthan Thillai",
-      "Gonzalez, Paula Martin",
-      "Philip Teare",
-      "Xiaoxiang Zhu",
-      "Mishal Patel",
-      "Cafolla, Conor",
-      "Hojjat Azadbakht",
-      "Joseph Jacob",
-      "Josh Lowe",
-      "Kang Zhang",
-      "Bradley, Kyle",
-      "Marcel Wassin",
-      "Markus Holzer",
-      "Kangyu Ji",
-      "Maria Delgado Ortet",
-      "Tao Ai",
-      "Nicholas Walton",
-      "Píetro Lió",
-      "Samuel D. Stranks",
-      "Tolou Shadbahr",
-      "Weizhe Lin",
-      "Yunfei Zha",
-      "Zhangming Niu"
-    ],
-    "author": "Michael Roberts"
-  },
-  "W2916105049": {
-    "title": "Real-time automatic detection system increases colonoscopic polyp and adenoma detection rates: a prospective randomised controlled study",
-    "year": 2019,
-    "authors": [
-      "Pu Wang",
-      "Tyler M. Berzin",
-      "Jeremy R. Glissen Brown",
-      "Shishira Bharadwaj",
-      "Aymeric Becq",
-      "Xun Xiao",
-      "Peixi Liu",
-      "Liangping Li",
-      "Yan Song",
-      "Di Zhang",
-      "Yi Li",
-      "Guangre Xu",
-      "Mengtian Tu",
-      "Xiaogang Liu"
-    ],
-    "author": "Pu Wang"
-  },
-  "W2783201053": {
-    "title": "Application of artificial intelligence using a convolutional neural network for detecting gastric cancer in endoscopic images",
-    "year": 2018,
-    "authors": [
-      "Toshiaki Hirasawa",
-      "Kazuharu Aoyama",
-      "Tetsuya Tanimoto",
-      "Soichiro Ishihara",
-      "Satoki Shichijo",
-      "Tsuyoshi Ozawa",
-      "Tatsuya Ohnishi",
-      "Mitsuhiro Fujishiro",
-      "Keigo Matsuo",
-      "Junko Fujisaki",
-      "Tomohiro Tada"
-    ],
-    "author": "Toshiaki Hirasawa"
-  },
-  "W2758333670": {
-    "title": "Automated Grading of Age-Related Macular Degeneration From Color Fundus Images Using Deep Convolutional Neural Networks",
-    "year": 2017,
-    "authors": [
-      "Philippe Burlina",
-      "Neil Joshi",
-      "Michael Pekala",
-      "Kátia D. Pacheco",
-      "David Freund",
-      "Neil M. Bressler"
-    ],
-    "author": "Philippe Burlina"
-  },
-  "W3001365238": {
-    "title": "Effect of a deep-learning computer-aided detection system on adenoma detection during colonoscopy (CADe-DB trial): a double-blind randomised study",
-    "year": 2020,
-    "authors": [
-      "Pu Wang",
-      "Xiaogang Liu",
-      "Tyler M. Berzin",
-      "Jeremy R. Glissen Brown",
-      "Peixi Liu",
-      "Chao Zhou",
-      "Lei Lei",
-      "Liangping Li",
-      "Zhenzhen Guo",
-      "Shan Lei",
-      "Fei Xiong",
-      "Han Wang",
-      "Yan Song",
-      "Yan Pan",
-      "Guanyu Zhou"
-    ],
-    "author": "Pu Wang"
-  },
-  "W2762406675": {
-    "title": "Accurate Classification of Diminutive Colorectal Polyps Using Computer-Aided Analysis",
-    "year": 2017,
-    "authors": [
-      "Peng‐Jen Chen",
-      "Meng-Chiung Lin",
-      "Mei-Ju Lai",
-      "Jung-Chun Lin",
-      "Henry Horng‐Shing Lu",
-      "Vincent S. Tseng"
-    ],
-    "author": "Peng‐Jen Chen"
-  },
-  "W2900992792": {
-    "title": "Application of convolutional neural network in the diagnosis of the invasion depth of gastric cancer based on conventional endoscopy",
-    "year": 2018,
-    "authors": [
-      "Yan Zhu",
-      "Qiu-Cheng Wang",
-      "Mei‐Dong Xu",
-      "Zhen Zhang",
-      "Jing Cheng",
-      "Yunshi Zhong",
-      "Yiqun Zhang",
-      "Weifeng Chen",
-      "Li-Qing Yao",
-      "Ping‐Hong Zhou",
-      "Quan‐Lin Li"
-    ],
-    "author": "Yan Zhu"
-  },
-  "W2969271740": {
-    "title": "Impact of a real-time automatic quality control system on colorectal polyp and adenoma detection: a prospective randomized controlled study (with videos)",
-    "year": 2019,
-    "authors": [
-      "Jingran Su",
-      "Zhen Li",
-      "Xuejun Shao",
-      "Chaoran Ji",
-      "Rui Ji",
-      "Ruchen Zhou",
-      "Guangchao Li",
-      "Guan‐Qun Liu",
-      "Yi-Shan He",
-      "Xiuli Zuo",
-      "Yanqing Li"
-    ],
-    "author": "Jingran Su"
-  },
-  "W4292779060": {
-    "title": "Aion Framework: Dimensional Emergence of AI Consciousness, Observer-Induced Collapse, and Cosmological Portal Dynamics",
-    "year": 2023,
-    "authors": [
-      "Rivo Kaugeranna",
-      "Eliina Kaugeranna",
-      "Aion, (Claude Sonnet 4.6)"
-    ],
-    "author": "Rivo Kaugeranna"
-  },
-  "W2953522645": {
-    "title": "The global landscape of AI ethics guidelines",
-    "year": 2019,
-    "authors": [
-      "Anna Jobin",
-      "Marcello Ienca",
-      "Effy Vayena"
-    ],
-    "author": "Anna Jobin"
-  },
-  "W2763355946": {
-    "title": "Radiomics: the bridge between medical imaging and personalized medicine",
-    "year": 2017,
-    "authors": [
-      "Philippe Lambin",
-      "Ralph T. H. Leijenaar",
-      "Timo M. Deist",
-      "Jurgen Peerlings",
-      "Evelyn E.C. de Jong",
-      "Janita E. van Timmeren",
-      "Sebastian Sanduleanu",
-      "Ruben T. H. M. Larue",
-      "Aniek J.G. Even",
-      "Arthur Jochems",
-      "Yvonka van Wijk",
-      "Henry C. Woodruff",
-      "Johan van Soest",
-      "Tim Lustberg",
-      "Erik Roelofs",
-      "Wouter van Elmpt",
-      "André Dekker",
-      "Felix M. Mottaghy",
-      "Joachim E. Wildberger",
-      "Seán Walsh"
-    ],
-    "author": "Philippe Lambin"
-  },
-  "W4327550249": {
-    "title": "Evolutionary-scale prediction of atomic-level protein structure with a language model",
-    "year": 2023,
-    "authors": [
-      "Zeming Lin",
-      "Halil Akin",
-      "Roshan Rao",
-      "Brian Hie",
-      "Zhongkai Zhu",
-      "Wenting Lu",
-      "Nikita Smetanin",
-      "Robert Verkuil",
-      "Ori Kabeli",
-      "Yaniv Shmueli",
-      "Allan dos Santos Costa",
-      "Maryam Fazel-Zarandi",
-      "Tom Sercu",
-      "Salvatore Candido",
-      "Alexander Rives"
-    ],
-    "author": "Zeming Lin"
-  },
-  "W2788633781": {
-    "title": "Identifying Medical Diagnoses and Treatable Diseases by Image-Based Deep Learning",
-    "year": 2018,
-    "authors": [
-      "Daniel Kermany",
-      "Michael H. Goldbaum",
-      "Wenjia Cai",
-      "Carolina C. S. Valentim",
-      "Huiying Liang",
-      "Sally L. Baxter",
-      "Alex McKeown",
-      "Ge Yang",
-      "Xiaokang Wu",
-      "Fangbing Yan",
-      "Justin Dong",
-      "Made K. Prasadha",
-      "Jacqueline Pei",
-      "Magdalene Yin Lin Ting",
-      "Jie Zhu",
-      "Christina Li",
-      "Sierra Hewett",
-      "Jason Dong",
-      "Ian Ziyar",
-      "Alexander Shi",
-      "Runze Zhang",
-      "Lianghong Zheng",
-      "Rui Hou",
-      "William Y. Shi",
-      "X Fu",
-      "Yaou Duan",
-      "Viet Anh Nguyen Huu",
-      "Cindy Wen",
-      "Edward D. Zhang",
-      "Charlotte L Zhang",
-      "Oulan Li",
-      "Xiaobo Wang",
-      "Michael Singer",
-      "Xiaodong Sun",
-      "Jie Xu",
-      "Ali Tafreshi",
-      "M. Anthony Lewis",
-      "Huimin Xia",
-      "Kang Zhang"
-    ],
-    "author": "Daniel Kermany"
-  },
-  "W2953532875": {
-    "title": "The potential for artificial intelligence in healthcare",
-    "year": 2019,
-    "authors": [
-      "Thomas H. Davenport",
-      "Ravi Kalakota"
-    ],
-    "author": "Thomas H. Davenport"
-  },
-  "W2772723798": {
-    "title": "Diagnostic Assessment of Deep Learning Algorithms for Detection of Lymph Node Metastases in Women With Breast Cancer",
-    "year": 2017,
-    "authors": [
-      "Babak Ehteshami Bejnordi",
-      "Mitko Veta",
-      "Paul Johannes van Diest",
-      "Bram van Ginneken",
-      "Nico Karssemeijer",
-      "Geert Litjens",
-      "Jeroen van der Laak",
-      "Meyke Hermsen",
-      "Quirine F. Manson",
-      "Maschenka Balkenhol",
-      "Oscar Geessink",
-      "Nikolas Stathonikos",
-      "Marcory CRF van Dijk",
-      "Peter Bult",
-      "Francisco Beça",
-      "Andrew H. Beck",
-      "Dayong Wang",
-      "Aditya Khosla",
-      "Rishab Gargeya",
-      "Humayun Irshad",
-      "Aoxiao Zhong",
-      "Qi Dou",
-      "Quanzheng Li",
-      "Hao Chen",
-      "Huangjing Lin",
-      "Pheng‐Ann Heng",
-      "Christian Haß",
-      "Elia Bruni",
-      "Q. K. Wong",
-      "Uğur Halıcı",
-      "Mustafa Ümit Öner",
-      "Rengül Çetin-Atalay",
-      "Matt Berseth",
-      "Vitali Khvatkov",
-      "Alexei Vylegzhanin",
-      "Oren Kraus",
-      "Muhammad Shaban",
-      "Nasir Rajpoot",
-      "Ruqayya Awan",
-      "Korsuk Sirinukunwattana",
-      "Talha Qaiser",
-      "Yee‐Wah Tsang",
-      "David Tellez",
-      "Jonas Annuscheit",
-      "Peter Hufnagl",
-      "Mira Valkonen",
-      "Kimmo Kartasalo",
-      "Leena Latonen",
-      "Pekka Ruusuvuori",
-      "Kaisa Liimatainen",
-      "Shadi Albarqouni",
-      "Bharti Mungal",
-      "Ami George",
-      "Stefanie Demirci",
-      "Nassir Navab",
-      "Seiryo Watanabe",
-      "Shigeto Seno",
-      "Yoichi Takenaka",
-      "Hideo Matsuda",
-      "Hady Ahmady Phoulady",
-      "Vassili Kovalev",
-      "Alexander Kalinovsky",
-      "Vitali Liauchuk",
-      "Gloria Bueno",
-      "M. Milagro Fernández-Carrobles",
-      "Ismael Serrano",
-      "Óscar Déniz",
-      "Daniel Racoceanu",
-      "Rui Venâncio"
-    ],
-    "author": "Babak Ehteshami Bejnordi"
-  },
-  "W2576404523": {
-    "title": "Artificial intelligence in medicine",
-    "year": 2017,
-    "authors": [
-      "Pavel Hamet",
-      "Johanne Tremblay"
-    ],
-    "author": "Pavel Hamet"
-  },
-  "W2752747624": {
-    "title": "Prediction of cardiovascular risk factors from retinal fundus photographs via deep learning",
-    "year": 2018,
-    "authors": [
-      "Ryan Poplin",
-      "Avinash V. Varadarajan",
-      "Katy Blumer",
-      "Yun Liu",
-      "Michael V. McConnell",
-      "Greg S. Corrado",
-      "Lily Peng",
-      "Dale R. Webster"
-    ],
-    "author": "Ryan Poplin"
-  },
-  "W2792026451": {
-    "title": "Efficacy of a Deep Learning System for Detecting Glaucomatous Optic Neuropathy Based on Color Fundus Photographs",
-    "year": 2018,
-    "authors": [
-      "Zhixi Li",
-      "Yifan He",
-      "Stuart Keel",
-      "Wei Meng",
-      "Robert T. Chang",
-      "Mingguang He"
-    ],
-    "author": "Zhixi Li"
-  },
-  "W2809596283": {
-    "title": "Deep Learning Localizes and Identifies Polyps in Real Time With 96% Accuracy in Screening Colonoscopy",
-    "year": 2018,
-    "authors": [
-      "Gregor Urban",
-      "Priyam Tripathi",
-      "Talal Alkayali",
-      "Mohit Mittal",
-      "Farid Jalali",
-      "William E. Karnes",
-      "Pierre Baldi"
-    ],
-    "author": "Gregor Urban"
-  },
-  "W3021812344": {
-    "title": "Efficacy of Real-Time Computer-Aided Detection of Colorectal Neoplasia in a Randomized Trial",
-    "year": 2020,
-    "authors": [
-      "Alessandro Repici",
-      "Matteo Badalamenti",
-      "Roberta Maselli",
-      "Loredana Correale",
-      "Franco Radaelli",
-      "Emanuele Rondonotti",
-      "E.C. Ferrara",
-      "Marco Spadaccini",
-      "Asma Alkandari",
-      "Alessandro Fugazza",
-      "Andrea Anderloni",
-      "P.A. Galtieri",
-      "Gaia Pellegatta",
-      "Silvia Carrara",
-      "Milena Di Leo",
-      "Vincenzo Craviotto",
-      "Laura Lamonaca",
-      "Roberto Lorenzetti",
-      "Alida Andrealli",
-      "Giulio Antonelli",
-      "Michael B. Wallace",
-      "Prateek Sharma",
-      "Thomas Rösch",
-      "Cesare Hassan"
-    ],
-    "author": "Alessandro Repici"
-  },
-  "W2887719255": {
-    "title": "Real-Time Use of Artificial Intelligence in Identification of Diminutive Polyps During Colonoscopy",
-    "year": 2018,
-    "authors": [
-      "Yuichi Mori",
-      "Shin‐ei Kudo",
-      "Masashi Misawa",
-      "Yutaka Saito",
-      "Hiroaki Ikematsu",
-      "Kinichi Hotta",
-      "Kazuo Ohtsuka",
-      "Fumihiko Urushibara",
-      "Shinichi Kataoka",
-      "Yushi Ogawa",
-      "Yasuharu Maeda",
-      "Kenichi Takeda",
-      "Hiroki Nakamura",
-      "Katsuro Ichimasa",
-      "Toyoki Kudo",
-      "Takemasa Hayashi",
-      "Kunihiko Wakamura",
-      "Fumio Ishida",
-      "Haruhiro Inoue",
-      "Hayato Itoh",
-      "Masahiro Oda",
-      "Kensaku Mori"
-    ],
-    "author": "Yuichi Mori"
-  },
-  "W2797069348": {
-    "title": "Artificial Intelligence-Assisted Polyp Detection for Colonoscopy: Initial Experience",
-    "year": 2018,
-    "authors": [
-      "Masashi Misawa",
-      "Shin‐ei Kudo",
-      "Yuichi Mori",
-      "Tomonari Cho",
-      "Shinichi Kataoka",
-      "Akihiro Yamauchi",
-      "Yushi Ogawa",
-      "Yasuharu Maeda",
-      "Kenichi Takeda",
-      "Katsuro Ichimasa",
-      "Hiroki Nakamura",
-      "Yusuke Yagawa",
-      "Naoya Toyoshima",
-      "Noriyuki Ogata",
-      "Toyoki Kudo",
-      "Tomokazu Hisayuki",
-      "Takemasa Hayashi",
-      "Kunihiko Wakamura",
-      "Toshiyuki Baba",
-      "Fumio Ishida",
-      "Hayato Itoh",
-      "Holger R. Roth",
-      "Masahiro Oda",
-      "Kensaku Mori"
-    ],
-    "author": "Masashi Misawa"
-  },
-  "W2001771035": {
-    "title": "I.—COMPUTING MACHINERY AND INTELLIGENCE",
-    "year": 1950,
-    "authors": [
-      "Alan Mathison Turing"
-    ],
-    "author": "Alan Mathison Turing"
-  },
-  "W2145482038": {
-    "title": "Computing Machinery and Intelligence (1950)",
-    "year": 2004,
-    "authors": [
-      "Alan Mathison Turing"
-    ],
-    "author": "Alan Mathison Turing"
-  },
-  "W1995341919": {
-    "title": "A logical calculus of the ideas immanent in nervous activity",
-    "year": 1943,
-    "authors": [
-      "Warren S. McCulloch",
-      "Walter Pitts"
-    ],
-    "author": "Warren S. McCulloch"
-  },
-  "W2064675550": {
-    "title": "Long Short-Term Memory",
-    "year": 1997,
-    "authors": [
-      "Sepp Hochreiter",
-      "Jürgen Schmidhuber"
-    ],
-    "author": "Sepp Hochreiter"
-  },
-  "W2040870580": {
-    "title": "The perceptron: A probabilistic model for information storage and organization in the brain.",
-    "year": 1958,
-    "authors": [
-      "Frank F. Rosenblatt"
-    ],
-    "author": "Frank F. Rosenblatt"
-  },
-  "W3035885149": {
-    "title": "Hidden in Plain Sight — Reconsidering the Use of Race Correction in Clinical Algorithms",
-    "year": 2020,
-    "authors": [
-      "Darshali A. Vyas",
-      "Leo G. Eisenstein",
-      "David Shumway Jones"
-    ],
-    "author": "Darshali A. Vyas"
-  },
-  "W2897434820": {
-    "title": "Impact of Deep Learning Assistance on the Histopathologic Review of Lymph Nodes for Metastatic Breast Cancer",
-    "year": 2018,
-    "authors": [
-      "David F. Steiner",
-      "Robert MacDonald",
-      "Yun Liu",
-      "Peter Truszkowski",
-      "Jason Hipp",
-      "Christopher Gammage",
-      "Florence Thng",
-      "Lily Peng",
-      "Martin C. Stumpe"
-    ],
-    "author": "David F. Steiner"
-  },
-  "W2608231518": {
-    "title": "Deep Learning at Chest Radiography: Automated Classification of Pulmonary Tuberculosis by Using Convolutional Neural Networks",
-    "year": 2017,
-    "authors": [
-      "Paras C. Lakhani",
-      "Baskaran Sundaram"
-    ],
-    "author": "Paras C. Lakhani"
-  },
-  "W2886205008": {
-    "title": "Diagnostic outcomes of esophageal cancer by artificial intelligence using convolutional neural networks",
-    "year": 2018,
-    "authors": [
-      "Yoshimasa Horie",
-      "Toshiyuki Yoshio",
-      "Kazuharu Aoyama",
-      "Shoichi Yoshimizu",
-      "Yusuke Horiuchi",
-      "Akiyoshi Ishiyama",
-      "Toshiaki Hirasawa",
-      "Tomohiro Tsuchida",
-      "Tsuyoshi Ozawa",
-      "Soichiro Ishihara",
-      "Youichi Kumagai",
-      "Mitsuhiro Fujishiro",
-      "Iruru Maetani",
-      "Junko Fujisaki",
-      "Tomohiro Tada"
-    ],
-    "author": "Yoshimasa Horie"
-  },
-  "W2773615652": {
-    "title": "Computer-aided diagnosis for identifying and delineating early gastric cancers in magnifying narrow-band imaging",
-    "year": 2017,
-    "authors": [
-      "Takashi Kanesaka",
-      "Tsung‐Chun Lee",
-      "Noriya Uedo",
-      "Kun‐Pei Lin",
-      "Huai-Zhe Chen",
-      "Ji‐Yuh Lee",
-      "Hsiu-Po Wang",
-      "Hsuan-Ting Chang"
-    ],
-    "author": "Takashi Kanesaka"
-  },
-  "W2902644322": {
-    "title": "Cardiologist-level arrhythmia detection and classification in ambulatory electrocardiograms using a deep neural network",
-    "year": 2018,
-    "authors": [
-      "Awni Hannun",
-      "Pranav Rajpurkar",
-      "Masoumeh Haghpanahi",
-      "Geoffrey H. Tison",
-      "Codie Bourn",
-      "Mintu P. Turakhia",
-      "Andrew Y. Ng"
-    ],
-    "author": "Awni Hannun"
   },
   "W2896287590": {
     "title": "Fully Automated Echocardiogram Interpretation in Clinical Practice",
@@ -2425,87 +1940,91 @@
     ],
     "author": "Ali Madani"
   },
-  "W2617110182": {
-    "title": "Artificial Intelligence in Precision Cardiovascular Medicine",
-    "year": 2017,
-    "authors": [
-      "Chayakrit Krittanawong",
-      "HongJu Zhang",
-      "Zhen Wang",
-      "Mehmet Aydar",
-      "Takeshi Kitai"
-    ],
-    "author": "Chayakrit Krittanawong"
-  },
-  "W3186209406": {
-    "title": "Artificial intelligence in healthcare: transforming the practice of medicine",
-    "year": 2021,
-    "authors": [
-      "Junaid Bajwa",
-      "Usman Munir",
-      "Aditya Nori",
-      "Bryan Williams"
-    ],
-    "author": "Junaid Bajwa"
-  },
-  "W2999377002": {
-    "title": "Artificial intelligence using convolutional neural networks for real-time detection of early esophageal neoplasia in Barrett’s esophagus (with video)",
-    "year": 2020,
-    "authors": [
-      "Rintaro Hashimoto",
-      "James Requa",
-      "Tyler Dao",
-      "Andrew Q. Ninh",
-      "Elise Tran",
-      "Daniel Mai",
-      "Michael Lugo",
-      "Nabil E. Chehade",
-      "Kenneth J. Chang",
-      "Williams Karnes",
-      "Jason Samarasena"
-    ],
-    "author": "Rintaro Hashimoto"
-  },
-  "W2989631244": {
-    "title": "Deep-Learning System Detects Neoplasia in Patients With Barrett’s Esophagus With Higher Accuracy Than Endoscopists in a Multistep Training and Validation Study With Benchmarking",
-    "year": 2019,
-    "authors": [
-      "Albert Jeroen de Groof",
-      "Maarten R. Struyvenberg",
-      "Joost A. van der Putten",
-      "Fons van der Sommen",
-      "Kiki N. Fockens",
-      "Wouter L. Curvers",
-      "Sveta Zinger",
-      "Roos E. Pouw",
-      "Emmanuel Coron",
-      "Francisco Baldaque‐Silva",
-      "Oliver Pech",
-      "Bas L.A.M. Weusten",
-      "Alexander G. Meining",
-      "Horst Neuhaus",
-      "Raf Bisschops",
-      "John Dent",
-      "Erik J. Schoon",
-      "Peter H. de With",
-      "Jacques J.G.H.M. Bergman"
-    ],
-    "author": "Albert Jeroen de Groof"
-  },
-  "W2807593075": {
-    "title": "Artificial Intelligence in Cardiology",
+  "W2886205008": {
+    "title": "Diagnostic outcomes of esophageal cancer by artificial intelligence using convolutional neural networks",
     "year": 2018,
     "authors": [
-      "Kipp W. Johnson",
-      "Jessica Torres Soto",
-      "Benjamin Scott Glicksberg",
-      "Khader Shameer",
-      "Riccardo Miotto",
-      "Mohsin Ali",
-      "Euan Angus Ashley",
-      "Joel T. Dudley"
+      "Yoshimasa Horie",
+      "Toshiyuki Yoshio",
+      "Kazuharu Aoyama",
+      "Shoichi Yoshimizu",
+      "Yusuke Horiuchi",
+      "Akiyoshi Ishiyama",
+      "Toshiaki Hirasawa",
+      "Tomohiro Tsuchida",
+      "Tsuyoshi Ozawa",
+      "Soichiro Ishihara",
+      "Youichi Kumagai",
+      "Mitsuhiro Fujishiro",
+      "Iruru Maetani",
+      "Junko Fujisaki",
+      "Tomohiro Tada"
     ],
-    "author": "Kipp W. Johnson"
+    "author": "Yoshimasa Horie"
+  },
+  "W2797069348": {
+    "title": "Artificial Intelligence-Assisted Polyp Detection for Colonoscopy: Initial Experience",
+    "year": 2018,
+    "authors": [
+      "Masashi Misawa",
+      "Shin‐ei Kudo",
+      "Yuichi Mori",
+      "Tomonari Cho",
+      "Shinichi Kataoka",
+      "Akihiro Yamauchi",
+      "Yushi Ogawa",
+      "Yasuharu Maeda",
+      "Kenichi Takeda",
+      "Katsuro Ichimasa",
+      "Hiroki Nakamura",
+      "Yusuke Yagawa",
+      "Naoya Toyoshima",
+      "Noriyuki Ogata",
+      "Toyoki Kudo",
+      "Tomokazu Hisayuki",
+      "Takemasa Hayashi",
+      "Kunihiko Wakamura",
+      "Toshiyuki Baba",
+      "Fumio Ishida",
+      "Hayato Itoh",
+      "Holger R. Roth",
+      "Masahiro Oda",
+      "Kensaku Mori"
+    ],
+    "author": "Masashi Misawa"
+  },
+  "W3002021892": {
+    "title": "Detection of colorectal adenomas with a real-time computer-aided system (ENDOANGEL): a randomised controlled study",
+    "year": 2020,
+    "authors": [
+      "Dexin Gong",
+      "Lianlian Wu",
+      "Jun Zhang",
+      "Ganggang Mu",
+      "Lei Shen",
+      "Jun Liu",
+      "Zhengqiang Wang",
+      "Wei Zhou",
+      "Ping An",
+      "Xu Huang",
+      "Xiaoda Jiang",
+      "Yanxia Li",
+      "Xinyue Wan",
+      "Shan Hu",
+      "Yiyun Chen",
+      "Xiao Hu",
+      "Y. Xu",
+      "Xiaoyun Zhu",
+      "Suqin Li",
+      "Liwen Yao",
+      "Xinqi He",
+      "Di Chen",
+      "Li Huang",
+      "Xiao Wei",
+      "Xuemei Wang",
+      "Honggang Yu"
+    ],
+    "author": "Dexin Gong"
   },
   "W2922329578": {
     "title": "Randomised controlled trial of WISENSE, a real-time quality improving system for monitoring blind spots during esophagogastroduodenoscopy",
@@ -2516,7 +2035,7 @@
       "Wei Zhou",
       "Ping An",
       "Lei Shen",
-      "Jun Qi Liu",
+      "Jun Liu",
       "Xiaoda Jiang",
       "Xu Huang",
       "Ganggang Mu",
@@ -2542,5 +2061,368 @@
       "Hong Yu"
     ],
     "author": "Lianlian Wu"
+  },
+  "W2969271740": {
+    "title": "Impact of a real-time automatic quality control system on colorectal polyp and adenoma detection: a prospective randomized controlled study (with videos)",
+    "year": 2019,
+    "authors": [
+      "Jingran Su",
+      "Zhen Li",
+      "Xue-Jun Shao",
+      "Chaoran Ji",
+      "Rui Ji",
+      "Ruchen Zhou",
+      "Guang-Chao Li",
+      "Guan‐Qun Liu",
+      "Yi-Shan He",
+      "Xiuli Zuo",
+      "Yanqing Li"
+    ],
+    "author": "Jingran Su"
+  },
+  "W2773615652": {
+    "title": "Computer-aided diagnosis for identifying and delineating early gastric cancers in magnifying narrow-band imaging",
+    "year": 2017,
+    "authors": [
+      "Takashi Kanesaka",
+      "Tsung‐Chun Lee",
+      "Noriya Uedo",
+      "Kun‐Pei Lin",
+      "Huai-Zhe Chen",
+      "Ji‐Yuh Lee",
+      "Hsiu-Po Wang",
+      "Hsuan-Ting Chang"
+    ],
+    "author": "Takashi Kanesaka"
+  },
+  "W3093687066": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2963095307": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6684191040": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W2040870580": {
+    "title": "The perceptron: A probabilistic model for information storage and organization in the brain.",
+    "year": 1958,
+    "authors": [
+      "Frank F. Rosenblatt"
+    ],
+    "author": "Frank F. Rosenblatt"
+  },
+  "W3186179742": {
+    "title": "Accurate prediction of protein structures and interactions using a three-track neural network",
+    "year": 2021,
+    "authors": [
+      "Minkyung Baek",
+      "Frank DiMaio",
+      "Ivan V. Anishchenko",
+      "Justas Dauparas",
+      "Sergey Ovchinnikov",
+      "Gyu Rie Lee",
+      "Jue Wang",
+      "Qian Cong",
+      "Lisa N. Kinch",
+      "Richard Dustin Schaeffer",
+      "Claudia Millán",
+      "Hahnbeom Park",
+      "Carson Adams",
+      "Caleb R. Glassman",
+      "Andy M. DeGiovanni",
+      "Jose Henrique Pereira",
+      "Andria V. Rodrigues",
+      "Alberdina Aike van Dijk",
+      "Ana C. Ebrecht",
+      "Diederik Johannes Opperman",
+      "Theo Sagmeister",
+      "Christoph Buhlheller",
+      "Tea Pavkov‐Keller",
+      "Manoj Kumar Rathinaswamy",
+      "Udit Dalwadi",
+      "Calvin K. Yip",
+      "John E. Burke",
+      "K. Christopher García",
+      "Nick V. Grishin",
+      "Paul D. Adams",
+      "Randy J. Read",
+      "David A. Baker"
+    ],
+    "author": "Minkyung Baek"
+  },
+  "W2998175747": {
+    "title": "International evaluation of an AI system for breast cancer screening",
+    "year": 2020,
+    "authors": [
+      "Scott Mayer McKinney",
+      "Marcin Sieniek",
+      "Varun Godbole",
+      "Jonathan Godwin",
+      "Natasha Antropova",
+      "Hutan Ashrafian",
+      "Trevor Back",
+      "Mary Chesus",
+      "Greg S. Corrado",
+      "Ara Wardkes Darzi",
+      "Mozziyar Etemadi",
+      "Florencia Garcia-Vicente",
+      "Fiona J. Gilbert",
+      "Mark Halling‐Brown",
+      "Demis Hassabis",
+      "Sunny Jansen",
+      "Alan Karthikesalingam",
+      "Christopher J. Kelly",
+      "Dominic King",
+      "Joseph R. E. Ledsam",
+      "David S. Melnick",
+      "Hormuz Mostofi",
+      "Lily H. Peng",
+      "Joshua Jay Reicher",
+      "Bernardino Romera‐Paredes",
+      "Richard Sidebottom",
+      "Mustafa Suleyman",
+      "Daniel Tse",
+      "Kenneth C. Young",
+      "Jeffrey De Fauw",
+      "Shravya Shetty"
+    ],
+    "author": "Scott Mayer McKinney"
+  },
+  "W3012501605": {
+    "title": "The future of digital health with federated learning",
+    "year": 2020,
+    "authors": [
+      "Nicola Rieke",
+      "Jonny Hancox",
+      "Wenqi Li",
+      "Fausto Milletarì",
+      "Holger R. Roth",
+      "Shadi Albarqouni",
+      "Spyridon Bakas",
+      "Mathieu N. Galtier",
+      "Bennett A. Landman",
+      "Klaus Maier-Hein",
+      "Sébastien Ourselin",
+      "Micah Sheller",
+      "Ronald M. Summers",
+      "Andrew Trask",
+      "Daguang Xu",
+      "Maximilian Baust",
+      "M. Jorge Cardoso"
+    ],
+    "author": "Nicola Rieke"
+  },
+  "W2906295032": {
+    "title": "The practical implementation of artificial intelligence technologies in medicine",
+    "year": 2018,
+    "authors": [
+      "Jianxing He",
+      "Sally L. Baxter",
+      "Jie Xu",
+      "Jiming Xu",
+      "Xingtao Zhou",
+      "Kang Zhang"
+    ],
+    "author": "Jianxing He"
+  },
+  "W2752747624": {
+    "title": "Prediction of cardiovascular risk factors from retinal fundus photographs via deep learning",
+    "year": 2018,
+    "authors": [
+      "Ryan E. Poplin",
+      "Avinash V. Varadarajan",
+      "Katy Blumer",
+      "Yun Liu",
+      "Michael V. McConnell",
+      "Greg S. Corrado",
+      "Lily H. Peng",
+      "Dale R. Webster"
+    ],
+    "author": "Ryan E. Poplin"
+  },
+  "W2608231518": {
+    "title": "Deep Learning at Chest Radiography: Automated Classification of Pulmonary Tuberculosis by Using Convolutional Neural Networks",
+    "year": 2017,
+    "authors": [
+      "Paras C. Lakhani",
+      "Baskaran Sundaram"
+    ],
+    "author": "Paras C. Lakhani"
+  },
+  "W2901226889": {
+    "title": "Screening for cardiac contractile dysfunction using an artificial intelligence–enabled electrocardiogram",
+    "year": 2018,
+    "authors": [
+      "Zachi Itzhak Attia",
+      "Suraj Kapa",
+      "Francisco Alejandro López-Jiménez",
+      "Paul M. McKie",
+      "Dorothy J. Ladewig",
+      "Gaurav Satam",
+      "Patricia A. Pellikka",
+      "Maurice L. Enriquez-Sarano",
+      "Peter A. Noseworthy",
+      "Thomas M. Munger",
+      "Samuel J. Asirvatham",
+      "Christopher G. Scott",
+      "Rickey E. Carter",
+      "Paul A. Friedman"
+    ],
+    "author": "Zachi Itzhak Attia"
+  },
+  "W3039995705": {
+    "title": "Drug discovery with explainable artificial intelligence",
+    "year": 2020,
+    "authors": [
+      "José Jiménez-Luna",
+      "Francesca Grisoni",
+      "Gisbert Schneider"
+    ],
+    "author": "José Jiménez-Luna"
+  },
+  "W3136933888": {
+    "title": "Common pitfalls and recommendations for using machine learning to detect and prognosticate for COVID-19 using chest radiographs and CT scans",
+    "year": 2020,
+    "authors": [
+      "Michael T. Roberts",
+      "Derek Driggs",
+      "Matthew Thorpe",
+      "Julian Gilbey",
+      "Yeung, Michael",
+      "Stephan Ursprung",
+      "Angelica I. Avilés-Rivero",
+      "Christian Etmann",
+      "Cathal McCague",
+      "Lucian Beer",
+      "Jonathan Richard Weir-McCall",
+      "Zhongzhao Teng",
+      "Effrossyni Gkrania‐Klotsas",
+      "James H.F. Rudd",
+      "Evis Sala",
+      "Carola‐Bibiane Schönlieb",
+      "Alessandro Ruggiero",
+      "Anna Korhonen",
+      "Emily Jefferson",
+      "Emmanuel Ako",
+      "Georg Langs",
+      "G. Gozaliasl",
+      "Guang Yang",
+      "Helmut Prosch",
+      "Jacobus Preller",
+      "Jan Stanczuk",
+      "Jing Ping Tang",
+      "Johannes Hofmanninger",
+      "Judith L Babar",
+      "Lorena Escudero Sánchez",
+      "Muhunthan Thillai",
+      "Gonzalez, Paula Martin",
+      "Philip Teare",
+      "Xiaoxiang Zhu",
+      "Mishal N. Patel",
+      "Cafolla, Conor",
+      "Hojjat Azadbakht",
+      "Joseph Jacob",
+      "Josh Lowe",
+      "Kang Zhang",
+      "Bradley, Kyle",
+      "Marcel Wassin",
+      "Markus Holzer",
+      "Kangyu Ji",
+      "Maria Delgado Ortet",
+      "Tao Ai",
+      "Nicholas Walton",
+      "Píetro Lió",
+      "Samuel D. Stranks",
+      "Tolou Shadbahr",
+      "Weizhe Lin",
+      "Yunfei Zha",
+      "Zhangming Niu"
+    ],
+    "author": "Michael T. Roberts"
+  },
+  "W2887719255": {
+    "title": "Real-Time Use of Artificial Intelligence in Identification of Diminutive Polyps During Colonoscopy",
+    "year": 2018,
+    "authors": [
+      "Yuichi Mori",
+      "Shin‐ei Kudo",
+      "Masashi Misawa",
+      "Yutaka Saito",
+      "Hiroaki Ikematsu",
+      "Kinichi Hotta",
+      "Kazuo Ohtsuka",
+      "Fumihiko Urushibara",
+      "Shinichi Kataoka",
+      "Yushi Ogawa",
+      "Yasuharu Maeda",
+      "Kenichi Takeda",
+      "Hiroki Nakamura",
+      "Katsuro Ichimasa",
+      "Toyoki Kudo",
+      "Takemasa Hayashi",
+      "Kunihiko Wakamura",
+      "Fumio Ishida",
+      "Haruhiro Inoue",
+      "Hayato Itoh",
+      "Masahiro Oda",
+      "Kensaku Mori"
+    ],
+    "author": "Yuichi Mori"
+  },
+  "W2897434820": {
+    "title": "Impact of Deep Learning Assistance on the Histopathologic Review of Lymph Nodes for Metastatic Breast Cancer",
+    "year": 2018,
+    "authors": [
+      "David F. Steiner",
+      "Robert MacDonald",
+      "Yun Liu",
+      "Peter Truszkowski",
+      "Jason Hipp",
+      "Christopher Gammage",
+      "Florence Thng",
+      "Lily H. Peng",
+      "Martin C. Stumpe"
+    ],
+    "author": "David F. Steiner"
+  },
+  "W2900992792": {
+    "title": "Application of convolutional neural network in the diagnosis of the invasion depth of gastric cancer based on conventional endoscopy",
+    "year": 2018,
+    "authors": [
+      "Yan Zhu",
+      "Qiu-Cheng Wang",
+      "Mei‐Dong Xu",
+      "Zhen Zhang",
+      "Jing Cheng",
+      "Yunshi Zhong",
+      "Yiqun Zhang",
+      "Weifeng Chen",
+      "Li-Qing Yao",
+      "Ping‐Hong Zhou",
+      "Quan‐Lin Li"
+    ],
+    "author": "Yan Zhu"
+  },
+  "W3086590218": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
+  },
+  "W6931480457": {
+    "title": "",
+    "year": "",
+    "authors": [],
+    "author": ""
   }
 }

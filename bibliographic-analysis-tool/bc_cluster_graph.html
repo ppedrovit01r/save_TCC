@@ -1,0 +1,349 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script>function neighbourhoodHighlight(params) {
+  // console.log("in nieghbourhoodhighlight");
+  allNodes = nodes.get({ returnType: "Object" });
+  // originalNodes = JSON.parse(JSON.stringify(allNodes));
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    highlightActive = true;
+    var i, j;
+    var selectedNode = params.nodes[0];
+    var degrees = 2;
+
+    // mark all nodes as hard to read.
+    for (let nodeId in allNodes) {
+      // nodeColors[nodeId] = allNodes[nodeId].color;
+      allNodes[nodeId].color = "rgba(200,200,200,0.5)";
+      if (allNodes[nodeId].hiddenLabel === undefined) {
+        allNodes[nodeId].hiddenLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+    var connectedNodes = network.getConnectedNodes(selectedNode);
+    var allConnectedNodes = [];
+
+    // get the second degree nodes
+    for (i = 1; i < degrees; i++) {
+      for (j = 0; j < connectedNodes.length; j++) {
+        allConnectedNodes = allConnectedNodes.concat(
+          network.getConnectedNodes(connectedNodes[j])
+        );
+      }
+    }
+
+    // all second degree nodes get a different color and their label back
+    for (i = 0; i < allConnectedNodes.length; i++) {
+      // allNodes[allConnectedNodes[i]].color = "pink";
+      allNodes[allConnectedNodes[i]].color = "rgba(150,150,150,0.75)";
+      if (allNodes[allConnectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[allConnectedNodes[i]].label =
+          allNodes[allConnectedNodes[i]].hiddenLabel;
+        allNodes[allConnectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // all first degree nodes get their own color and their label back
+    for (i = 0; i < connectedNodes.length; i++) {
+      // allNodes[connectedNodes[i]].color = undefined;
+      allNodes[connectedNodes[i]].color = nodeColors[connectedNodes[i]];
+      if (allNodes[connectedNodes[i]].hiddenLabel !== undefined) {
+        allNodes[connectedNodes[i]].label =
+          allNodes[connectedNodes[i]].hiddenLabel;
+        allNodes[connectedNodes[i]].hiddenLabel = undefined;
+      }
+    }
+
+    // the main node gets its own color and its label back.
+    // allNodes[selectedNode].color = undefined;
+    allNodes[selectedNode].color = nodeColors[selectedNode];
+    if (allNodes[selectedNode].hiddenLabel !== undefined) {
+      allNodes[selectedNode].label = allNodes[selectedNode].hiddenLabel;
+      allNodes[selectedNode].hiddenLabel = undefined;
+    }
+  } else if (highlightActive === true) {
+    // console.log("highlightActive was true");
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      // allNodes[nodeId].color = "purple";
+      allNodes[nodeId].color = nodeColors[nodeId];
+      // delete allNodes[nodeId].color;
+      if (allNodes[nodeId].hiddenLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].hiddenLabel;
+        allNodes[nodeId].hiddenLabel = undefined;
+      }
+    }
+    highlightActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    // console.log("Nothing was selected");
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        // console.log(allNodes[nodeId]);
+        // allNodes[nodeId].color = {};
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function filterHighlight(params) {
+  allNodes = nodes.get({ returnType: "Object" });
+  // if something is selected:
+  if (params.nodes.length > 0) {
+    filterActive = true;
+    let selectedNodes = params.nodes;
+
+    // hiding all nodes and saving the label
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = true;
+      if (allNodes[nodeId].savedLabel === undefined) {
+        allNodes[nodeId].savedLabel = allNodes[nodeId].label;
+        allNodes[nodeId].label = undefined;
+      }
+    }
+
+    for (let i=0; i < selectedNodes.length; i++) {
+      allNodes[selectedNodes[i]].hidden = false;
+      if (allNodes[selectedNodes[i]].savedLabel !== undefined) {
+        allNodes[selectedNodes[i]].label = allNodes[selectedNodes[i]].savedLabel;
+        allNodes[selectedNodes[i]].savedLabel = undefined;
+      }
+    }
+
+  } else if (filterActive === true) {
+    // reset all nodes
+    for (let nodeId in allNodes) {
+      allNodes[nodeId].hidden = false;
+      if (allNodes[nodeId].savedLabel !== undefined) {
+        allNodes[nodeId].label = allNodes[nodeId].savedLabel;
+        allNodes[nodeId].savedLabel = undefined;
+      }
+    }
+    filterActive = false;
+  }
+
+  // transform the object into an array
+  var updateArray = [];
+  if (params.nodes.length > 0) {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  } else {
+    for (let nodeId in allNodes) {
+      if (allNodes.hasOwnProperty(nodeId)) {
+        updateArray.push(allNodes[nodeId]);
+      }
+    }
+    nodes.update(updateArray);
+  }
+}
+
+function selectNode(nodes) {
+  network.selectNodes(nodes);
+  neighbourhoodHighlight({ nodes: nodes });
+  return nodes;
+}
+
+function selectNodes(nodes) {
+  network.selectNodes(nodes);
+  filterHighlight({nodes: nodes});
+  return nodes;
+}
+
+function highlightFilter(filter) {
+  let selectedNodes = []
+  let selectedProp = filter['property']
+  if (filter['item'] === 'node') {
+    let allNodes = nodes.get({ returnType: "Object" });
+    for (let nodeId in allNodes) {
+      if (allNodes[nodeId][selectedProp] && filter['value'].includes((allNodes[nodeId][selectedProp]).toString())) {
+        selectedNodes.push(nodeId)
+      }
+    }
+  }
+  else if (filter['item'] === 'edge'){
+    let allEdges = edges.get({returnType: 'object'});
+    // check if the selected property exists for selected edge and select the nodes connected to the edge
+    for (let edge in allEdges) {
+      if (allEdges[edge][selectedProp] && filter['value'].includes((allEdges[edge][selectedProp]).toString())) {
+        selectedNodes.push(allEdges[edge]['from'])
+        selectedNodes.push(allEdges[edge]['to'])
+      }
+    }
+  }
+  selectNodes(selectedNodes)
+}</script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+            
+            
+            
+            
+            
+
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #F3F4F6;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "A Gentle Introduction to Predictive Filters", "label": "1-1", "shape": "dot", "size": 44.57142857142857, "title": "A Gentle Introduction to Predictive Filters\nDegree: 5.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Uma introdu\u00e7\u00e3o ao tema Recupera\u00e7\u00e3o de Informa\u00e7\u00f5es Textuais", "label": "1-2", "shape": "dot", "size": 38.857142857142854, "title": "Uma introdu\u00e7\u00e3o ao tema Recupera\u00e7\u00e3o de Informa\u00e7\u00f5es Te...\nDegree: 4.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Integra\u00e7\u00e3o de evid\u00eancias em redes credais e a regra de Jeffrey", "label": "1-3", "shape": "dot", "size": 38.857142857142854, "title": "Integra\u00e7\u00e3o de evid\u00eancias em redes credais e a regra ...\nDegree: 4.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Decision making for a delivery robot through a fuzzy system", "label": "1-4", "shape": "dot", "size": 38.857142857142854, "title": "Decision making for a delivery robot through a fuzzy...\nDegree: 4.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Um Sistema de Apoio \u00e0 Decis\u00e3o Baseado em Agentes para Tratamento de Ocorr\u00eancias no Setor El\u00e9trico", "label": "1-5", "shape": "dot", "size": 33.14285714285714, "title": "Um Sistema de Apoio \u00e0 Decis\u00e3o Baseado em Agentes par...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "On the Influence of Latent Semantic Analysis Parameterization for Bug Localization", "label": "1-6", "shape": "dot", "size": 33.14285714285714, "title": "On the Influence of Latent Semantic Analysis Paramet...\nDegree: 3.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Uma Estrat\u00e9gia Baseada em Difus\u00e3o de Informa\u00e7\u00e3o para Determina\u00e7\u00e3o de Conte\u00fados Relevantes e Usu\u00e1rios Influentes em Redes Sociais", "label": "1-7", "shape": "dot", "size": 27.428571428571427, "title": "Uma Estrat\u00e9gia Baseada em Difus\u00e3o de Informa\u00e7\u00e3o para...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Usando CSP, RSL e o Modelo PopOrg na Especifica\u00e7\u00e3o Formal de Organiza\u00e7\u00f5es de SMAs", "label": "1-8", "shape": "dot", "size": 27.428571428571427, "title": "Usando CSP, RSL e o Modelo PopOrg na Especifica\u00e7\u00e3o F...\nDegree: 2.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Tutorial: Introdu\u00e7\u00e3o \u00e0 Vis\u00e3o Computacional usando OpenCV", "label": "1-9", "shape": "dot", "size": 21.714285714285715, "title": "Tutorial: Introdu\u00e7\u00e3o \u00e0 Vis\u00e3o Computacional usando Op...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Dimensionality Reduction, Classification and Reconstruction Problems in Statistical Learning Approaches", "label": "1-10", "shape": "dot", "size": 21.714285714285715, "title": "Dimensionality Reduction, Classification and Reconst...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Expressiveness of Automatic Semantic Web Service Composition Approaches: A Survey based on Work\ufb02ow Patterns", "label": "1-11", "shape": "dot", "size": 21.714285714285715, "title": "Expressiveness of Automatic Semantic Web Service Com...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Do multiple sclerosis lesions affect the outcome of magnetic resonance image registration?", "label": "1-12", "shape": "dot", "size": 21.714285714285715, "title": "Do multiple sclerosis lesions affect the outcome of ...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Uma Proposta de Modelagem para a Generaliza\u00e7\u00e3o de Elos de Rastreabilidade", "label": "1-13", "shape": "dot", "size": 21.714285714285715, "title": "Uma Proposta de Modelagem para a Generaliza\u00e7\u00e3o de El...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 1, "id": "Tutorial sobre Fuzzy-c-Means e Fuzzy Learning Vector Quantization: Abordagens H\u00edbridas para Tarefas de Agrupamento e Classifica\u00e7\u00e3o", "label": "1-14", "shape": "dot", "size": 21.714285714285715, "title": "Tutorial sobre Fuzzy-c-Means e Fuzzy Learning Vector...\nDegree: 1.0000\nCluster: 1"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "label": "2-1", "shape": "dot", "size": 56.0, "title": "Intrusion Detection in Unstructured Contexts Using O...\nDegree: 7.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Par\u00e2metros em Algoritmos de Intelig\u00eancia de Enxame e Computa\u00e7\u00e3o Evolutiva", "label": "2-2", "shape": "dot", "size": 50.285714285714285, "title": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Pa...\nDegree: 6.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Optimization Inspired on Herd Immunity Applied to Non-Hierarchical Grouping of Objects", "label": "2-3", "shape": "dot", "size": 38.857142857142854, "title": "Optimization Inspired on Herd Immunity Applied to No...\nDegree: 4.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "3D Compression: from A to Zip a first complete example", "label": "2-4", "shape": "dot", "size": 38.857142857142854, "title": "3D Compression: from A to Zip a first complete example\nDegree: 4.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Aplica\u00e7\u00e3o de redes neurais ART e an\u00e1lise de textura para a classifica\u00e7\u00e3o do estado de altera\u00e7\u00e3o de agregados minerais", "label": "2-5", "shape": "dot", "size": 38.857142857142854, "title": "Aplica\u00e7\u00e3o de redes neurais ART e an\u00e1lise de textura ...\nDegree: 4.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "A Frame-Based System for Automatic Classification of Semi- Structured Data", "label": "2-6", "shape": "dot", "size": 33.14285714285714, "title": "A Frame-Based System for Automatic Classification of...\nDegree: 3.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Use of text mining techniques for unsupervised organization of digital procedural acts", "label": "2-7", "shape": "dot", "size": 33.14285714285714, "title": "Use of text mining techniques for unsupervised organ...\nDegree: 3.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Variation Detection applied in User Signature Verification", "label": "2-8", "shape": "dot", "size": 27.428571428571427, "title": "Variation Detection applied in User Signature Verifi...\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Common Dissimilarity Measures are Inappropriate for Time Series Clustering", "label": "2-9", "shape": "dot", "size": 27.428571428571427, "title": "Common Dissimilarity Measures are Inappropriate for ...\nDegree: 2.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Ab Initio Protein Structure Prediction Using Evolutionary Approach: A Survey", "label": "2-10", "shape": "dot", "size": 21.714285714285715, "title": "Ab Initio Protein Structure Prediction Using Evoluti...\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Teorias da Aleatoriedade", "label": "2-11", "shape": "dot", "size": 21.714285714285715, "title": "Teorias da Aleatoriedade\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Uma Revis\u00e3o Sobre Combina\u00e7\u00e3o de Agrupamentos", "label": "2-12", "shape": "dot", "size": 21.714285714285715, "title": "Uma Revis\u00e3o Sobre Combina\u00e7\u00e3o de Agrupamentos\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Minera\u00e7\u00e3o em Grandes Massas de Dados Utilizando Hadoop MapReduce e Algoritmos Bio-inspirados: Uma Revis\u00e3o Sistem\u00e1tica", "label": "2-13", "shape": "dot", "size": 21.714285714285715, "title": "Minera\u00e7\u00e3o em Grandes Massas de Dados Utilizando Hado...\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 2, "id": "Detec\u00e7\u00e3o e Corre\u00e7\u00e3o Autom\u00e1tica de Estilos de Aprendizagem em Sistemas Adaptativos para Educa\u00e7\u00e3o", "label": "2-14", "shape": "dot", "size": 21.714285714285715, "title": "Detec\u00e7\u00e3o e Corre\u00e7\u00e3o Autom\u00e1tica de Estilos de Aprendi...\nDegree: 1.0000\nCluster: 2"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Aplicando Conceitos de Sistemas Multiagentes na Elabora\u00e7\u00e3o de um Jogo de Estrat\u00e9gia Simulado", "label": "3-1", "shape": "dot", "size": 44.57142857142857, "title": "Aplicando Conceitos de Sistemas Multiagentes na Elab...\nDegree: 5.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Aplica\u00e7\u00e3o de Modelos Intencionais e Sistemas Multiagentes para Estabelecer Pol\u00edticas de Monitora\u00e7\u00e3o de Transpar\u00eancia de Software", "label": "3-2", "shape": "dot", "size": 38.857142857142854, "title": "Aplica\u00e7\u00e3o de Modelos Intencionais e Sistemas Multiag...\nDegree: 4.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Uma Abordagem para Jogos Bayesianos Fuzzy com base na Probabilidade Fuzzy de Buckley", "label": "3-3", "shape": "dot", "size": 38.857142857142854, "title": "Uma Abordagem para Jogos Bayesianos Fuzzy com base n...\nDegree: 4.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Sele\u00e7\u00e3o de Casos de Teste para Agentes Racionais", "label": "3-4", "shape": "dot", "size": 38.857142857142854, "title": "Sele\u00e7\u00e3o de Casos de Teste para Agentes Racionais\nDegree: 4.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Huginn for Jason: Uma arquitetura para agentes normativos", "label": "3-5", "shape": "dot", "size": 33.14285714285714, "title": "Huginn for Jason: Uma arquitetura para agentes norma...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Water Resources Analysis: An Approach based on Agent-Based Modeling", "label": "3-6", "shape": "dot", "size": 33.14285714285714, "title": "Water Resources Analysis: An Approach based on Agent...\nDegree: 3.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Integrating Embedded Multiagent Systems with Urban Simulation Tools and IoT Applications", "label": "3-7", "shape": "dot", "size": 27.428571428571427, "title": "Integrating Embedded Multiagent Systems with Urban S...\nDegree: 2.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "M\u00e9todo Sist\u00eamico com Suporte em GORE para An\u00e1lise de Conformidade de Requisitos n\u00e3o Funcionais Implementados em Software", "label": "3-8", "shape": "dot", "size": 21.714285714285715, "title": "M\u00e9todo Sist\u00eamico com Suporte em GORE para An\u00e1lise de...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 3, "id": "Reestrutura\u00e7\u00e3o de Software Dirigida por Conectividade para Redu\u00e7\u00e3o de Custo de Manuten\u00e7\u00e3o", "label": "3-9", "shape": "dot", "size": 21.714285714285715, "title": "Reestrutura\u00e7\u00e3o de Software Dirigida por Conectividad...\nDegree: 1.0000\nCluster: 3"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "Application of Profile Prediction for Proactive Scheduling", "label": "4-1", "shape": "dot", "size": 50.285714285714285, "title": "Application of Profile Prediction for Proactive Sche...\nDegree: 6.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "Extreme Learning Machine combined with a Differential Evolution algorithm for lithology identification", "label": "4-2", "shape": "dot", "size": 44.57142857142857, "title": "Extreme Learning Machine combined with a Differentia...\nDegree: 5.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "SciPy and OpenCV as an interactive computing environment for computer vision", "label": "4-3", "shape": "dot", "size": 44.57142857142857, "title": "SciPy and OpenCV as an interactive computing environ...\nDegree: 5.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "A Computational Strategy for Classification of Enem Issues Based on Item Response Theory", "label": "4-4", "shape": "dot", "size": 44.57142857142857, "title": "A Computational Strategy for Classification of Enem ...\nDegree: 5.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "Efficient Breast Cancer Classification Using Histopathological Images and a Simple VGG", "label": "4-5", "shape": "dot", "size": 44.57142857142857, "title": "Efficient Breast Cancer Classification Using Histopa...\nDegree: 5.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "A Model for Predicting Music Popularity on Streaming Platforms", "label": "4-6", "shape": "dot", "size": 44.57142857142857, "title": "A Model for Predicting Music Popularity on Streaming...\nDegree: 5.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 4, "id": "A gene based bacterial whole genome comparison toolkit", "label": "4-7", "shape": "dot", "size": 21.714285714285715, "title": "A gene based bacterial whole genome comparison toolkit\nDegree: 1.0000\nCluster: 4"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Support Vector Machines and Kernel Functions for Text Processing", "label": "5-1", "shape": "dot", "size": 38.857142857142854, "title": "Support Vector Machines and Kernel Functions for Tex...\nDegree: 4.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Uma Introdu\u00e7\u00e3o \u00e0s Support Vector Machines", "label": "5-2", "shape": "dot", "size": 33.14285714285714, "title": "Uma Introdu\u00e7\u00e3o \u00e0s Support Vector Machines\nDegree: 3.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Estrat\u00e9gias para a Combina\u00e7\u00e3o de Classificadores Bin\u00e1rios em Solu\u00e7\u00f5es Multiclasses", "label": "5-3", "shape": "dot", "size": 33.14285714285714, "title": "Estrat\u00e9gias para a Combina\u00e7\u00e3o de Classificadores Bin...\nDegree: 3.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Emprego de Banco de Filtros e do Teorema de Imers\u00e3o de Takens em Padr\u00f5es Espaciais para a Classifica\u00e7\u00e3o de Imag\u00e9tica Motora em Interfaces C\u00e9rebro-Computador", "label": "5-4", "shape": "dot", "size": 27.428571428571427, "title": "Emprego de Banco de Filtros e do Teorema de Imers\u00e3o ...\nDegree: 2.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Utiliza\u00e7\u00e3o do Caminhamento Aleat\u00f3rio na Identifica\u00e7\u00e3o de Caracter\u00edsticas de Documentos na L\u00edngua Portuguesa", "label": "5-5", "shape": "dot", "size": 21.714285714285715, "title": "Utiliza\u00e7\u00e3o do Caminhamento Aleat\u00f3rio na Identifica\u00e7\u00e3...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 5, "id": "Avalia\u00e7\u00e3o de Incis\u00e3o Cir\u00fargica em Simuladores com Realidade Virtual", "label": "5-6", "shape": "dot", "size": 21.714285714285715, "title": "Avalia\u00e7\u00e3o de Incis\u00e3o Cir\u00fargica em Simuladores com Re...\nDegree: 1.0000\nCluster: 5"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "Compila\u00e7\u00e3o Just-In-Time: Hist\u00f3rico, Arquitetura, Princ\u00edpios e Sistemas", "label": "6-1", "shape": "dot", "size": 33.14285714285714, "title": "Compila\u00e7\u00e3o Just-In-Time: Hist\u00f3rico, Arquitetura, Pri...\nDegree: 3.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "O Potencial do Uso de Estimativas de Desempenho na Explora\u00e7\u00e3o de Conjuntos de Otimiza\u00e7\u00f5es", "label": "6-2", "shape": "dot", "size": 27.428571428571427, "title": "O Potencial do Uso de Estimativas de Desempenho na E...\nDegree: 2.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "Sele\u00e7\u00e3o de Transforma\u00e7\u00f5es Baseada em Estat\u00edstica", "label": "6-3", "shape": "dot", "size": 27.428571428571427, "title": "Sele\u00e7\u00e3o de Transforma\u00e7\u00f5es Baseada em Estat\u00edstica\nDegree: 2.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 6, "id": "Prolog: A Linguagem, A M\u00e1quina Abstrata de Warren e Implementa\u00e7\u00f5es", "label": "6-4", "shape": "dot", "size": 21.714285714285715, "title": "Prolog: A Linguagem, A M\u00e1quina Abstrata de Warren e ...\nDegree: 1.0000\nCluster: 6"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "Haskell Type System Analysis", "label": "7-1", "shape": "dot", "size": 33.14285714285714, "title": "Haskell Type System Analysis\nDegree: 3.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "V: a language with extensible record accessors and a trait-based type system", "label": "7-2", "shape": "dot", "size": 27.428571428571427, "title": "V: a language with extensible record accessors and a...\nDegree: 2.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "Formal Semantics for Java-like Languages and Research Opportunities", "label": "7-3", "shape": "dot", "size": 27.428571428571427, "title": "Formal Semantics for Java-like Languages and Researc...\nDegree: 2.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 7, "id": "A Mechanized Proof of a Textbook Type Unification Algorithm", "label": "7-4", "shape": "dot", "size": 21.714285714285715, "title": "A Mechanized Proof of a Textbook Type Unification Al...\nDegree: 1.0000\nCluster: 7"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "Comparison of Classical Computer Vision vs. Convolutional Neural Networks for Weed Mapping in Aerial Images", "label": "8-1", "shape": "dot", "size": 27.428571428571427, "title": "Comparison of Classical Computer Vision vs. Convolut...\nDegree: 2.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "Can the Use of nonlinear Color Metrics systematically improve Segmentation?", "label": "8-2", "shape": "dot", "size": 21.714285714285715, "title": "Can the Use of nonlinear Color Metrics systematicall...\nDegree: 1.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 8, "id": "DenseNet-DC: Optimizing DenseNet Parameters Through Feature Map Generation Control", "label": "8-3", "shape": "dot", "size": 21.714285714285715, "title": "DenseNet-DC: Optimizing DenseNet Parameters Through ...\nDegree: 1.0000\nCluster: 8"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "A Multi-objective Version of the Lin-Kernighan Heuristic for the Traveling Salesman Problem", "label": "9-1", "shape": "dot", "size": 27.428571428571427, "title": "A Multi-objective Version of the Lin-Kernighan Heuri...\nDegree: 2.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "Investigation of Archiving Techniques for Evolutionary Multi-objective Optimizers", "label": "9-2", "shape": "dot", "size": 27.428571428571427, "title": "Investigation of Archiving Techniques for Evolutiona...\nDegree: 2.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 9, "id": "Generating Integration Test Orders for Aspect Oriented Software with Multi-objective Algorithms", "label": "9-3", "shape": "dot", "size": 27.428571428571427, "title": "Generating Integration Test Orders for Aspect Orient...\nDegree: 2.0000\nCluster: 9"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "Business Process Models in the Context of Predictive Process Monitoring", "label": "10-1", "shape": "dot", "size": 27.428571428571427, "title": "Business Process Models in the Context of Predictive...\nDegree: 2.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "An operational support approach for Mining Unstructured Business Processes", "label": "10-2", "shape": "dot", "size": 21.714285714285715, "title": "An operational support approach for Mining Unstructu...\nDegree: 1.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 10, "id": "The Explainable Business Process (XBP) - An Exploratory Research", "label": "10-3", "shape": "dot", "size": 21.714285714285715, "title": "The Explainable Business Process (XBP) - An Explorat...\nDegree: 1.0000\nCluster: 10"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "Detec\u00e7\u00e3o de leuc\u00f3citos em imagens de v\u00eddeo de microscopia intravital usando a t\u00e9cnica de congru\u00eancia de fase", "label": "11-1", "shape": "dot", "size": 27.428571428571427, "title": "Detec\u00e7\u00e3o de leuc\u00f3citos em imagens de v\u00eddeo de micros...\nDegree: 2.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "Deconvolu\u00e7\u00e3o Cega Aplicada \u00e0 Corre\u00e7\u00e3o de Artefatos de Movimento em Imagens de V\u00eddeo de Microscopia Intravital para Detec\u00e7\u00e3o Autom\u00e1tica de Leuc\u00f3citos", "label": "11-2", "shape": "dot", "size": 21.714285714285715, "title": "Deconvolu\u00e7\u00e3o Cega Aplicada \u00e0 Corre\u00e7\u00e3o de Artefatos d...\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 11, "id": "A Novel Method for Generating Scale Space Kernels Based on Wavelet Theory", "label": "11-3", "shape": "dot", "size": 21.714285714285715, "title": "A Novel Method for Generating Scale Space Kernels Ba...\nDegree: 1.0000\nCluster: 11"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "An Introduction to Light Interaction with Human Skin", "label": "12-1", "shape": "dot", "size": 21.714285714285715, "title": "An Introduction to Light Interaction with Human Skin\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 12, "id": "Hyperspectral Modeling of Material Appearance: General Framework, Challenges and Prospects", "label": "12-2", "shape": "dot", "size": 21.714285714285715, "title": "Hyperspectral Modeling of Material Appearance: Gener...\nDegree: 1.0000\nCluster: 12"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "Virtual Reality-based Training for the Motor Developmentof People With Intellectual and Multiple Disabilities", "label": "13-1", "shape": "dot", "size": 21.714285714285715, "title": "Virtual Reality-based Training for the Motor Develop...\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 13, "id": "Virtual Reality as a Support Tool for the Treatment of People with Intellectual and Multiple Disabilities: A Systematic Literature Review", "label": "13-2", "shape": "dot", "size": 21.714285714285715, "title": "Virtual Reality as a Support Tool for the Treatment ...\nDegree: 1.0000\nCluster: 13"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "Estima\u00e7\u00e3o de Probabilidade de Perda de Dados em Redes Atrav\u00e9s de Modelagem Multifractal de Tr\u00e1fego e Teoria de Muitas Fontes", "label": "14-1", "shape": "dot", "size": 21.714285714285715, "title": "Estima\u00e7\u00e3o de Probabilidade de Perda de Dados em Rede...\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 14, "id": "Modelagem de Tr\u00e1fego de Redes Utilizando Cascata Multifractal Generalizada", "label": "14-2", "shape": "dot", "size": 21.714285714285715, "title": "Modelagem de Tr\u00e1fego de Redes Utilizando Cascata Mul...\nDegree: 1.0000\nCluster: 14"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "Towards Causal Effect Estimation of Emotional Labeling of Watched Videos", "label": "15-1", "shape": "dot", "size": 21.714285714285715, "title": "Towards Causal Effect Estimation of Emotional Labeli...\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 15, "id": "Evaluating the Causal Effect of Multimedia and Affective Temperament in Felt Emotion and Liking", "label": "15-2", "shape": "dot", "size": 21.714285714285715, "title": "Evaluating the Causal Effect of Multimedia and Affec...\nDegree: 1.0000\nCluster: 15"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "Traveling Salesman Problem with Optional Bonus Collection, Pickup Time and Passengers", "label": "16-1", "shape": "dot", "size": 21.714285714285715, "title": "Traveling Salesman Problem with Optional Bonus Colle...\nDegree: 1.0000\nCluster: 16"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 16, "id": "Prize Collecting Traveling Salesman Problem with Ridesharing", "label": "16-2", "shape": "dot", "size": 21.714285714285715, "title": "Prize Collecting Traveling Salesman Problem with Rid...\nDegree: 1.0000\nCluster: 16"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 17, "id": "Integrating Exploitative and Explorative Thinking in Business Process Analysis: A Conceptual Model and Method", "label": "17-1", "shape": "dot", "size": 21.714285714285715, "title": "Integrating Exploitative and Explorative Thinking in...\nDegree: 1.0000\nCluster: 17"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 17, "id": "Co-creating Service-Dominant Business Artifacts with Action Design Research", "label": "17-2", "shape": "dot", "size": 21.714285714285715, "title": "Co-creating Service-Dominant Business Artifacts with...\nDegree: 1.0000\nCluster: 17"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 18, "id": "Uma Revis\u00e3o Sistem\u00e1tica sobre Abordagens em Organiza\u00e7\u00f5es Virtuais no Contexto de Confian\u00e7a, Reputa\u00e7\u00e3o e Computa\u00e7\u00e3o em Nuvem", "label": "18-1", "shape": "dot", "size": 21.714285714285715, "title": "Uma Revis\u00e3o Sistem\u00e1tica sobre Abordagens em Organiza...\nDegree: 1.0000\nCluster: 18"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 18, "id": "Int-FLBCC: Model for Load Balancing in Cloud Computing using Fuzzy Logic Type-2 and Admissible Orders.", "label": "18-2", "shape": "dot", "size": 21.714285714285715, "title": "Int-FLBCC: Model for Load Balancing in Cloud Computi...\nDegree: 1.0000\nCluster: 18"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 19, "id": "Stochastic Models for Optimizing Availability, Cost and Sustainability of Data Center Power Architectures through Genetic Algorithm", "label": "19-1", "shape": "dot", "size": 21.714285714285715, "title": "Stochastic Models for Optimizing Availability, Cost ...\nDegree: 1.0000\nCluster: 19"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 19, "id": "Stochastic Models for Planning VLE Moodle Environments based on Containers and Virtual Machines", "label": "19-2", "shape": "dot", "size": 21.714285714285715, "title": "Stochastic Models for Planning VLE Moodle Environmen...\nDegree: 1.0000\nCluster: 19"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 20, "id": "A Graph Grammar to Transform a Dataflow Graph into a Multithread Graph and its Application in Task Scheduling", "label": "20-1", "shape": "dot", "size": 21.714285714285715, "title": "A Graph Grammar to Transform a Dataflow Graph into a...\nDegree: 1.0000\nCluster: 20"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 20, "id": "Programa\u00e7\u00e3o matem\u00e1tica e imers\u00f5es m\u00e9tricas para aproxima\u00e7\u00f5es em problemas de corte", "label": "20-2", "shape": "dot", "size": 21.714285714285715, "title": "Programa\u00e7\u00e3o matem\u00e1tica e imers\u00f5es m\u00e9tricas para apro...\nDegree: 1.0000\nCluster: 20"}, {"borderWidth": 2, "borderWidthSelected": 3, "font": {"color": "#0F172A"}, "group": 21, "id": "Avalia\u00e7\u00e3o Pr\u00f3-ativa da Deteriora\u00e7\u00e3o de Sistemas de Informa\u00e7\u00e3o por meio de Medidas de Gest\u00e3o", "label": "21-1", "shape": "dot", "size": 27.428571428571427, "title": "Avalia\u00e7\u00e3o Pr\u00f3-ativa da Deteriora\u00e7\u00e3o de Sistemas de I...\nDegree: 2.0000\nCluster: 21"}]);
+                  edges = new vis.DataSet([{"color": "rgba(71, 85, 105, 0.45)", "from": "An Introduction to Light Interaction with Human Skin", "to": "Hyperspectral Modeling of Material Appearance: General Framework, Challenges and Prospects", "value": 29}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Estrat\u00e9gias para a Combina\u00e7\u00e3o de Classificadores Bin\u00e1rios em Solu\u00e7\u00f5es Multiclasses", "to": "Uma Introdu\u00e7\u00e3o \u00e0s Support Vector Machines", "value": 11}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Estrat\u00e9gias para a Combina\u00e7\u00e3o de Classificadores Bin\u00e1rios em Solu\u00e7\u00f5es Multiclasses", "to": "Support Vector Machines and Kernel Functions for Text Processing", "value": 5}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Estrat\u00e9gias para a Combina\u00e7\u00e3o de Classificadores Bin\u00e1rios em Solu\u00e7\u00f5es Multiclasses", "to": "Emprego de Banco de Filtros e do Teorema de Imers\u00e3o de Takens em Padr\u00f5es Espaciais para a Classifica\u00e7\u00e3o de Imag\u00e9tica Motora em Interfaces C\u00e9rebro-Computador", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma Introdu\u00e7\u00e3o \u00e0s Support Vector Machines", "to": "Support Vector Machines and Kernel Functions for Text Processing", "value": 5}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma Introdu\u00e7\u00e3o \u00e0s Support Vector Machines", "to": "Emprego de Banco de Filtros e do Teorema de Imers\u00e3o de Takens em Padr\u00f5es Espaciais para a Classifica\u00e7\u00e3o de Imag\u00e9tica Motora em Interfaces C\u00e9rebro-Computador", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Avalia\u00e7\u00e3o Pr\u00f3-ativa da Deteriora\u00e7\u00e3o de Sistemas de Informa\u00e7\u00e3o por meio de Medidas de Gest\u00e3o", "to": "Avalia\u00e7\u00e3o Pr\u00f3-ativa da Deteriora\u00e7\u00e3o de Sistemas de Informa\u00e7\u00e3o por meio de Medidas de Gest\u00e3o", "value": 11}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Compila\u00e7\u00e3o Just-In-Time: Hist\u00f3rico, Arquitetura, Princ\u00edpios e Sistemas", "to": "Prolog: A Linguagem, A M\u00e1quina Abstrata de Warren e Implementa\u00e7\u00f5es", "value": 11}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Compila\u00e7\u00e3o Just-In-Time: Hist\u00f3rico, Arquitetura, Princ\u00edpios e Sistemas", "to": "O Potencial do Uso de Estimativas de Desempenho na Explora\u00e7\u00e3o de Conjuntos de Otimiza\u00e7\u00f5es", "value": 5}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Compila\u00e7\u00e3o Just-In-Time: Hist\u00f3rico, Arquitetura, Princ\u00edpios e Sistemas", "to": "Sele\u00e7\u00e3o de Transforma\u00e7\u00f5es Baseada em Estat\u00edstica", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Virtual Reality as a Support Tool for the Treatment of People with Intellectual and Multiple Disabilities: A Systematic Literature Review", "to": "Virtual Reality-based Training for the Motor Developmentof People With Intellectual and Multiple Disabilities", "value": 11}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplica\u00e7\u00e3o de Modelos Intencionais e Sistemas Multiagentes para Estabelecer Pol\u00edticas de Monitora\u00e7\u00e3o de Transpar\u00eancia de Software", "to": "M\u00e9todo Sist\u00eamico com Suporte em GORE para An\u00e1lise de Conformidade de Requisitos n\u00e3o Funcionais Implementados em Software", "value": 10}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplica\u00e7\u00e3o de Modelos Intencionais e Sistemas Multiagentes para Estabelecer Pol\u00edticas de Monitora\u00e7\u00e3o de Transpar\u00eancia de Software", "to": "Aplicando Conceitos de Sistemas Multiagentes na Elabora\u00e7\u00e3o de um Jogo de Estrat\u00e9gia Simulado", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplica\u00e7\u00e3o de Modelos Intencionais e Sistemas Multiagentes para Estabelecer Pol\u00edticas de Monitora\u00e7\u00e3o de Transpar\u00eancia de Software", "to": "Sele\u00e7\u00e3o de Casos de Teste para Agentes Racionais", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplica\u00e7\u00e3o de Modelos Intencionais e Sistemas Multiagentes para Estabelecer Pol\u00edticas de Monitora\u00e7\u00e3o de Transpar\u00eancia de Software", "to": "Uma Abordagem para Jogos Bayesianos Fuzzy com base na Probabilidade Fuzzy de Buckley", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Estima\u00e7\u00e3o de Probabilidade de Perda de Dados em Redes Atrav\u00e9s de Modelagem Multifractal de Tr\u00e1fego e Teoria de Muitas Fontes", "to": "Modelagem de Tr\u00e1fego de Redes Utilizando Cascata Multifractal Generalizada", "value": 10}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Evaluating the Causal Effect of Multimedia and Affective Temperament in Felt Emotion and Liking", "to": "Towards Causal Effect Estimation of Emotional Labeling of Watched Videos", "value": 10}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Optimization Inspired on Herd Immunity Applied to Non-Hierarchical Grouping of Objects", "to": "Use of text mining techniques for unsupervised organization of digital procedural acts", "value": 6}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Optimization Inspired on Herd Immunity Applied to Non-Hierarchical Grouping of Objects", "to": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Optimization Inspired on Herd Immunity Applied to Non-Hierarchical Grouping of Objects", "to": "Common Dissimilarity Measures are Inappropriate for Time Series Clustering", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Optimization Inspired on Herd Immunity Applied to Non-Hierarchical Grouping of Objects", "to": "A Frame-Based System for Automatic Classification of Semi- Structured Data", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Use of text mining techniques for unsupervised organization of digital procedural acts", "to": "A Frame-Based System for Automatic Classification of Semi- Structured Data", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Use of text mining techniques for unsupervised organization of digital procedural acts", "to": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Prize Collecting Traveling Salesman Problem with Ridesharing", "to": "Traveling Salesman Problem with Optional Bonus Collection, Pickup Time and Passengers", "value": 6}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Comparison of Classical Computer Vision vs. Convolutional Neural Networks for Weed Mapping in Aerial Images", "to": "DenseNet-DC: Optimizing DenseNet Parameters Through Feature Map Generation Control", "value": 5}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Comparison of Classical Computer Vision vs. Convolutional Neural Networks for Weed Mapping in Aerial Images", "to": "Can the Use of nonlinear Color Metrics systematically improve Segmentation?", "value": 5}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Support Vector Machines and Kernel Functions for Text Processing", "to": "Avalia\u00e7\u00e3o de Incis\u00e3o Cir\u00fargica em Simuladores com Realidade Virtual", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Support Vector Machines and Kernel Functions for Text Processing", "to": "Utiliza\u00e7\u00e3o do Caminhamento Aleat\u00f3rio na Identifica\u00e7\u00e3o de Caracter\u00edsticas de Documentos na L\u00edngua Portuguesa", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Minera\u00e7\u00e3o em Grandes Massas de Dados Utilizando Hadoop MapReduce e Algoritmos Bio-inspirados: Uma Revis\u00e3o Sistem\u00e1tica", "to": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Par\u00e2metros em Algoritmos de Intelig\u00eancia de Enxame e Computa\u00e7\u00e3o Evolutiva", "value": 5}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Par\u00e2metros em Algoritmos de Intelig\u00eancia de Enxame e Computa\u00e7\u00e3o Evolutiva", "to": "Detec\u00e7\u00e3o e Corre\u00e7\u00e3o Autom\u00e1tica de Estilos de Aprendizagem em Sistemas Adaptativos para Educa\u00e7\u00e3o", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Par\u00e2metros em Algoritmos de Intelig\u00eancia de Enxame e Computa\u00e7\u00e3o Evolutiva", "to": "Uma Revis\u00e3o Sobre Combina\u00e7\u00e3o de Agrupamentos", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Par\u00e2metros em Algoritmos de Intelig\u00eancia de Enxame e Computa\u00e7\u00e3o Evolutiva", "to": "Ab Initio Protein Structure Prediction Using Evolutionary Approach: A Survey", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Par\u00e2metros em Algoritmos de Intelig\u00eancia de Enxame e Computa\u00e7\u00e3o Evolutiva", "to": "3D Compression: from A to Zip a first complete example", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Tutorial Sobre o Uso de T\u00e9cnicas para Controle de Par\u00e2metros em Algoritmos de Intelig\u00eancia de Enxame e Computa\u00e7\u00e3o Evolutiva", "to": "Aplica\u00e7\u00e3o de redes neurais ART e an\u00e1lise de textura para a classifica\u00e7\u00e3o do estado de altera\u00e7\u00e3o de agregados minerais", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "An operational support approach for Mining Unstructured Business Processes", "to": "Business Process Models in the Context of Predictive Process Monitoring", "value": 5}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Business Process Models in the Context of Predictive Process Monitoring", "to": "The Explainable Business Process (XBP) - An Exploratory Research", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "O Potencial do Uso de Estimativas de Desempenho na Explora\u00e7\u00e3o de Conjuntos de Otimiza\u00e7\u00f5es", "to": "Sele\u00e7\u00e3o de Transforma\u00e7\u00f5es Baseada em Estat\u00edstica", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "3D Compression: from A to Zip a first complete example", "to": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "3D Compression: from A to Zip a first complete example", "to": "Aplica\u00e7\u00e3o de redes neurais ART e an\u00e1lise de textura para a classifica\u00e7\u00e3o do estado de altera\u00e7\u00e3o de agregados minerais", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "3D Compression: from A to Zip a first complete example", "to": "Teorias da Aleatoriedade", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "to": "Common Dissimilarity Measures are Inappropriate for Time Series Clustering", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "to": "Aplica\u00e7\u00e3o de redes neurais ART e an\u00e1lise de textura para a classifica\u00e7\u00e3o do estado de altera\u00e7\u00e3o de agregados minerais", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "to": "Variation Detection applied in User Signature Verification", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Intrusion Detection in Unstructured Contexts Using On-line Clustering and Novelty Detection", "to": "A Frame-Based System for Automatic Classification of Semi- Structured Data", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Generating Integration Test Orders for Aspect Oriented Software with Multi-objective Algorithms", "to": "Investigation of Archiving Techniques for Evolutionary Multi-objective Optimizers", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Generating Integration Test Orders for Aspect Oriented Software with Multi-objective Algorithms", "to": "A Multi-objective Version of the Lin-Kernighan Heuristic for the Traveling Salesman Problem", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Investigation of Archiving Techniques for Evolutionary Multi-objective Optimizers", "to": "A Multi-objective Version of the Lin-Kernighan Heuristic for the Traveling Salesman Problem", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Co-creating Service-Dominant Business Artifacts with Action Design Research", "to": "Integrating Exploitative and Explorative Thinking in Business Process Analysis: A Conceptual Model and Method", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Int-FLBCC: Model for Load Balancing in Cloud Computing using Fuzzy Logic Type-2 and Admissible Orders.", "to": "Uma Revis\u00e3o Sistem\u00e1tica sobre Abordagens em Organiza\u00e7\u00f5es Virtuais no Contexto de Confian\u00e7a, Reputa\u00e7\u00e3o e Computa\u00e7\u00e3o em Nuvem", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma Estrat\u00e9gia Baseada em Difus\u00e3o de Informa\u00e7\u00e3o para Determina\u00e7\u00e3o de Conte\u00fados Relevantes e Usu\u00e1rios Influentes em Redes Sociais", "to": "Uma introdu\u00e7\u00e3o ao tema Recupera\u00e7\u00e3o de Informa\u00e7\u00f5es Textuais", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma Estrat\u00e9gia Baseada em Difus\u00e3o de Informa\u00e7\u00e3o para Determina\u00e7\u00e3o de Conte\u00fados Relevantes e Usu\u00e1rios Influentes em Redes Sociais", "to": "On the Influence of Latent Semantic Analysis Parameterization for Bug Localization", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma introdu\u00e7\u00e3o ao tema Recupera\u00e7\u00e3o de Informa\u00e7\u00f5es Textuais", "to": "On the Influence of Latent Semantic Analysis Parameterization for Bug Localization", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma introdu\u00e7\u00e3o ao tema Recupera\u00e7\u00e3o de Informa\u00e7\u00f5es Textuais", "to": "A Gentle Introduction to Predictive Filters", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma introdu\u00e7\u00e3o ao tema Recupera\u00e7\u00e3o de Informa\u00e7\u00f5es Textuais", "to": "Integra\u00e7\u00e3o de evid\u00eancias em redes credais e a regra de Jeffrey", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "On the Influence of Latent Semantic Analysis Parameterization for Bug Localization", "to": "Uma Proposta de Modelagem para a Generaliza\u00e7\u00e3o de Elos de Rastreabilidade", "value": 4}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplica\u00e7\u00e3o de redes neurais ART e an\u00e1lise de textura para a classifica\u00e7\u00e3o do estado de altera\u00e7\u00e3o de agregados minerais", "to": "Variation Detection applied in User Signature Verification", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Model for Predicting Music Popularity on Streaming Platforms", "to": "Application of Profile Prediction for Proactive Scheduling", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Model for Predicting Music Popularity on Streaming Platforms", "to": "A Computational Strategy for Classification of Enem Issues Based on Item Response Theory", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Model for Predicting Music Popularity on Streaming Platforms", "to": "Efficient Breast Cancer Classification Using Histopathological Images and a Simple VGG", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Model for Predicting Music Popularity on Streaming Platforms", "to": "Extreme Learning Machine combined with a Differential Evolution algorithm for lithology identification", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Model for Predicting Music Popularity on Streaming Platforms", "to": "SciPy and OpenCV as an interactive computing environment for computer vision", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Application of Profile Prediction for Proactive Scheduling", "to": "A Computational Strategy for Classification of Enem Issues Based on Item Response Theory", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Application of Profile Prediction for Proactive Scheduling", "to": "Efficient Breast Cancer Classification Using Histopathological Images and a Simple VGG", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Application of Profile Prediction for Proactive Scheduling", "to": "Extreme Learning Machine combined with a Differential Evolution algorithm for lithology identification", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Application of Profile Prediction for Proactive Scheduling", "to": "SciPy and OpenCV as an interactive computing environment for computer vision", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Application of Profile Prediction for Proactive Scheduling", "to": "A gene based bacterial whole genome comparison toolkit", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplicando Conceitos de Sistemas Multiagentes na Elabora\u00e7\u00e3o de um Jogo de Estrat\u00e9gia Simulado", "to": "Water Resources Analysis: An Approach based on Agent-Based Modeling", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplicando Conceitos de Sistemas Multiagentes na Elabora\u00e7\u00e3o de um Jogo de Estrat\u00e9gia Simulado", "to": "Sele\u00e7\u00e3o de Casos de Teste para Agentes Racionais", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplicando Conceitos de Sistemas Multiagentes na Elabora\u00e7\u00e3o de um Jogo de Estrat\u00e9gia Simulado", "to": "Uma Abordagem para Jogos Bayesianos Fuzzy com base na Probabilidade Fuzzy de Buckley", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Aplicando Conceitos de Sistemas Multiagentes na Elabora\u00e7\u00e3o de um Jogo de Estrat\u00e9gia Simulado", "to": "Huginn for Jason: Uma arquitetura para agentes normativos", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Water Resources Analysis: An Approach based on Agent-Based Modeling", "to": "Huginn for Jason: Uma arquitetura para agentes normativos", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Water Resources Analysis: An Approach based on Agent-Based Modeling", "to": "Integrating Embedded Multiagent Systems with Urban Simulation Tools and IoT Applications", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Huginn for Jason: Uma arquitetura para agentes normativos", "to": "Integrating Embedded Multiagent Systems with Urban Simulation Tools and IoT Applications", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Sele\u00e7\u00e3o de Casos de Teste para Agentes Racionais", "to": "Uma Abordagem para Jogos Bayesianos Fuzzy com base na Probabilidade Fuzzy de Buckley", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Sele\u00e7\u00e3o de Casos de Teste para Agentes Racionais", "to": "Reestrutura\u00e7\u00e3o de Software Dirigida por Conectividade para Redu\u00e7\u00e3o de Custo de Manuten\u00e7\u00e3o", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Uma Abordagem para Jogos Bayesianos Fuzzy com base na Probabilidade Fuzzy de Buckley", "to": "Decision making for a delivery robot through a fuzzy system", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Mechanized Proof of a Textbook Type Unification Algorithm", "to": "Haskell Type System Analysis", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Haskell Type System Analysis", "to": "Formal Semantics for Java-like Languages and Research Opportunities", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Haskell Type System Analysis", "to": "V: a language with extensible record accessors and a trait-based type system", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Decision making for a delivery robot through a fuzzy system", "to": "Tutorial sobre Fuzzy-c-Means e Fuzzy Learning Vector Quantization: Abordagens H\u00edbridas para Tarefas de Agrupamento e Classifica\u00e7\u00e3o", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Decision making for a delivery robot through a fuzzy system", "to": "Integra\u00e7\u00e3o de evid\u00eancias em redes credais e a regra de Jeffrey", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Decision making for a delivery robot through a fuzzy system", "to": "Um Sistema de Apoio \u00e0 Decis\u00e3o Baseado em Agentes para Tratamento de Ocorr\u00eancias no Setor El\u00e9trico", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Deconvolu\u00e7\u00e3o Cega Aplicada \u00e0 Corre\u00e7\u00e3o de Artefatos de Movimento em Imagens de V\u00eddeo de Microscopia Intravital para Detec\u00e7\u00e3o Autom\u00e1tica de Leuc\u00f3citos", "to": "Detec\u00e7\u00e3o de leuc\u00f3citos em imagens de v\u00eddeo de microscopia intravital usando a t\u00e9cnica de congru\u00eancia de fase", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Detec\u00e7\u00e3o de leuc\u00f3citos em imagens de v\u00eddeo de microscopia intravital usando a t\u00e9cnica de congru\u00eancia de fase", "to": "A Novel Method for Generating Scale Space Kernels Based on Wavelet Theory", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Stochastic Models for Optimizing Availability, Cost and Sustainability of Data Center Power Architectures through Genetic Algorithm", "to": "Stochastic Models for Planning VLE Moodle Environments based on Containers and Virtual Machines", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Expressiveness of Automatic Semantic Web Service Composition Approaches: A Survey based on Work\ufb02ow Patterns", "to": "Usando CSP, RSL e o Modelo PopOrg na Especifica\u00e7\u00e3o Formal de Organiza\u00e7\u00f5es de SMAs", "value": 3}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Usando CSP, RSL e o Modelo PopOrg na Especifica\u00e7\u00e3o Formal de Organiza\u00e7\u00f5es de SMAs", "to": "Um Sistema de Apoio \u00e0 Decis\u00e3o Baseado em Agentes para Tratamento de Ocorr\u00eancias no Setor El\u00e9trico", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Computational Strategy for Classification of Enem Issues Based on Item Response Theory", "to": "Efficient Breast Cancer Classification Using Histopathological Images and a Simple VGG", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Computational Strategy for Classification of Enem Issues Based on Item Response Theory", "to": "Extreme Learning Machine combined with a Differential Evolution algorithm for lithology identification", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Computational Strategy for Classification of Enem Issues Based on Item Response Theory", "to": "SciPy and OpenCV as an interactive computing environment for computer vision", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Efficient Breast Cancer Classification Using Histopathological Images and a Simple VGG", "to": "Extreme Learning Machine combined with a Differential Evolution algorithm for lithology identification", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Efficient Breast Cancer Classification Using Histopathological Images and a Simple VGG", "to": "SciPy and OpenCV as an interactive computing environment for computer vision", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Extreme Learning Machine combined with a Differential Evolution algorithm for lithology identification", "to": "SciPy and OpenCV as an interactive computing environment for computer vision", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Integra\u00e7\u00e3o de evid\u00eancias em redes credais e a regra de Jeffrey", "to": "Um Sistema de Apoio \u00e0 Decis\u00e3o Baseado em Agentes para Tratamento de Ocorr\u00eancias no Setor El\u00e9trico", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Integra\u00e7\u00e3o de evid\u00eancias em redes credais e a regra de Jeffrey", "to": "A Gentle Introduction to Predictive Filters", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Gentle Introduction to Predictive Filters", "to": "Do multiple sclerosis lesions affect the outcome of magnetic resonance image registration?", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Gentle Introduction to Predictive Filters", "to": "Dimensionality Reduction, Classification and Reconstruction Problems in Statistical Learning Approaches", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Gentle Introduction to Predictive Filters", "to": "Tutorial: Introdu\u00e7\u00e3o \u00e0 Vis\u00e3o Computacional usando OpenCV", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "A Graph Grammar to Transform a Dataflow Graph into a Multithread Graph and its Application in Task Scheduling", "to": "Programa\u00e7\u00e3o matem\u00e1tica e imers\u00f5es m\u00e9tricas para aproxima\u00e7\u00f5es em problemas de corte", "value": 2}, {"color": "rgba(71, 85, 105, 0.45)", "from": "Formal Semantics for Java-like Languages and Research Opportunities", "to": "V: a language with extensible record accessors and a trait-based type system", "value": 2}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

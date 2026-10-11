@@ -1,0 +1,13 @@
+﻿Node ID,Era,Topic Index,Display Label,GenAI Name,Document Count,Top Keywords
+E1_T1,2004-2012,1,2004-2012: Software Engineering,Software Engineering,63,"data, software, business, engineering, language, computer, web, process, programming, reality, image, model, virtual, science, modeling"
+E1_T2,2004-2012,2,2004-2012: Academic Publishing,Academic Publishing,9,"revista, rita, informática, teórica, aplicada, editorial, journal, artigos, revisores, computação, edição, número, editores, qualidade, ano"
+E1_T3,2004-2012,3,2004-2012: Fuzzy Systems,Fuzzy Systems,49,"sistemas, modelo, fuzzy, algoritmos, humanities, trabalho, imagens, abordagem, forma, desempenho, desenvolvimento, redes, sistema, philosophy, resultados"
+E2_T1,2013-2018,1,2013-2018: Multiagent Systems,Multiagent Systems,61,"agentes, dados, software, sistemas, humanities, philosophy, teste, algoritmo, sistema, algoritmos, desenvolvimento, ambiente, abordagem, apresenta, execução"
+E2_T2,2013-2018,2,2013-2018: Computer Programming,Computer Programming,47,"programming, data, computer, problem, language, system, image, algorithm, type, machine, graph, science, learning, techniques, algorithms"
+E2_T3,2013-2018,3,2013-2018: Diagnostic Imaging,Diagnostic Imaging,24,"imagens, detecção, método, leucócitos, diagnóstico, sinais, características, técnicas, image, técnica, automática, detection, análise, classification, utilizando"
+E3_T1,2019-2024,1,2019-2024: Cloud Computing,Cloud Computing,26,"cloud, energy, availability, computing, service, virtual, consumption, engineering, security, petri, center, performance, reliability, system, fuzzy"
+E3_T2,2019-2024,2,2019-2024: Machine Learning,Machine Learning,81,"neural, data, learning, algorithm, machine, convolutional, artificial, network, classification, algorithms, language, mathematics, recognition, information, accuracy"
+E3_T3,2019-2024,3,2019-2024: Process Mining,Process Mining,10,"process, business, management, conceptual, model, operational, activities, mining, framework, modeling, processes, engineering, knowledge, predictive, research"
+E4_T1,2025-2026,1,2025-2026: Visual Recognition,Visual Recognition,75,"data, detection, learning, neural, image, classification, network, feature, models, convolutional, vision, deep, augmentation, machine, model"
+E4_T2,2025-2026,2,2025-2026: Cancer Diagnosis,Cancer Diagnosis,15,"cancer, skin, breast, diagnosis, lesion, classification, learning, federated, medicine, ensemble, early, melanoma, centralized, images, medical"
+E4_T3,2025-2026,3,2025-2026: Semantic Segmentation,Semantic Segmentation,18,"segmentation, semantic, network, deep, unet, satellite, learning, dice, neural, images, image, loss, iou, pruning, translation"

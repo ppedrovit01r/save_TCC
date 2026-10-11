@@ -268,22 +268,43 @@ def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_s
         "Missing Percentage": (missing_counts.values / total_articles) * 100
     }).sort_values(by="Missing Percentage", ascending=False)
 
-    # 3. Categorize errors into Main Mapping Columns vs Additional Columns
-    main_missing = missing_df[missing_df["Column"].isin(TARGET_COLUMNS) & (missing_df["Missing Count"] > 0)]
-    additional_missing = missing_df[(~missing_df["Column"].isin(TARGET_COLUMNS)) & (missing_df["Missing Count"] > 0)]
+    # 3. Categorize into Main Schema Columns vs Additional Columns
+    schema_mask = missing_df["Column"].isin(TARGET_COLUMNS)
 
-    if main_missing.empty and (is_core_screen or additional_missing.empty):
-        st.success("100% Data Completeness! No missing values detected across main schema fields.")
+    # Main schema columns to display:
+    # Include all schema fields where missing count is less than total (e.g. 0 missing like Title, Times Cited, or partially missing).
+    # When missing count equals total (100% unpopulated), omit from main table and chart, and mention in the additional section below.
+    main_missing = missing_df[schema_mask & (missing_df["Missing Count"] < total_articles)].sort_values(
+        by=["Missing Percentage", "Column"], ascending=[False, True]
+    )
+    omitted_schema_missing = missing_df[schema_mask & (missing_df["Missing Count"] == total_articles)].sort_values(
+        by="Column", ascending=True
+    )
+    additional_missing = missing_df[(~schema_mask) & (missing_df["Missing Count"] > 0)].sort_values(
+        by=["Missing Percentage", "Column"], ascending=[False, True]
+    )
+
+    if main_missing.empty and omitted_schema_missing.empty and additional_missing.empty:
+        st.info("No data available.")
         return
+
+    if not main_missing.empty and (main_missing["Missing Count"] == 0).all() and omitted_schema_missing.empty:
+        st.success("100% Data Completeness! All active schema fields are fully populated.")
 
     # Render Main Mapping Columns (Core Focus)
     if not main_missing.empty:
+        shared_height = max(250, min(550, len(main_missing) * 25 + 40))
+
         def render_chart():
+            colors = [
+                '#10B981' if pct == 0 else ('#EF4444' if pct >= 70 else '#C69C55')
+                for pct in main_missing["Missing Percentage"]
+            ]
             fig = go.Figure(go.Bar(
                 x=main_missing["Missing Percentage"],
                 y=main_missing["Column"],
                 orientation='h',
-                marker=dict(color='#C69C55'),
+                marker=dict(color=colors),
                 text=main_missing["Missing Percentage"].apply(lambda v: f"{v:.1f}%"),
                 textposition='outside',
                 hovertemplate="<b>%{y}</b><br>Missing: %{x:.2f}% (%{customdata} records)<extra></extra>",
@@ -295,7 +316,7 @@ def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_s
                 xaxis=dict(title="% Missing", range=[0, 112]),
                 yaxis=dict(autorange="reversed"),
                 margin=dict(l=10, r=20, t=30, b=20),
-                height=max(250, min(480, len(main_missing) * 22)),
+                height=shared_height,
                 paper_bgcolor="rgba(0,0,0,0)",
                 plot_bgcolor="rgba(0,0,0,0)"
             )
@@ -307,7 +328,7 @@ def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_s
                 main_missing.style.format({"Missing Percentage": "{:.2f}%"}),
                 width="stretch",
                 hide_index=True,
-                height=min(280, max(140, len(main_missing) * 35 + 38))
+                height=shared_height - 35
             )
 
         if is_sidebar:
@@ -325,19 +346,43 @@ def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_s
             with col_table:
                 render_table()
 
-    # Secondary Additional Columns (Only on Dashboard screen, not Core screen)
-    if not is_core_screen and not additional_missing.empty:
-        with st.expander("Additional Dataset Columns Diagnostics (Non-Schema)", expanded=False):
-            st.caption("Secondary raw columns present in the input file that fall outside the core schema.")
-            st.dataframe(
-                additional_missing.style.format({"Missing Percentage": "{:.2f}%"}),
-                width="stretch",
-                hide_index=True,
-                height=180
-            )
+    # Secondary Additional Columns & 100% Missing Schema Columns (Mentioned Below)
+    has_omitted_schema = not omitted_schema_missing.empty
+    has_additional = not additional_missing.empty
 
-    # Incomplete records inspection
-    active_missing = main_missing if not main_missing.empty else additional_missing
+    if has_omitted_schema or has_additional:
+        with st.expander("Additional Dataset Columns Diagnostics (Non-Schema)", expanded=False):
+            if has_omitted_schema:
+                omitted_cols_names = omitted_schema_missing["Column"].tolist()
+                st.markdown(
+                    f"<div style='background-color: #F8FAFC; border-left: 4px solid #697aa2; padding: 10px 14px; border-radius: 4px; margin-bottom: 12px; font-size: 13px; color: #334155;'>"
+                    f"<strong><i class='bi bi-info-circle-fill' style='color: #697aa2;'></i> Omitted 100% Missing Schema Fields:</strong><br>"
+                    f"<span style='color: #64748B;'>The following <b>{len(omitted_cols_names)} schema fields</b> have 0 populated records in the current dataset (count of missing equals total articles). They are omitted from the main breakdown above and can be populated via <b>Data Enrichment</b>:</span><br>"
+                    f"<div style='margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px;'>"
+                    + "".join([f"<span style='background: #E2E8F0; color: #334155; padding: 2px 7px; border-radius: 4px; font-size: 11.5px; font-family: monospace;'>{c}</span>" for c in omitted_cols_names])
+                    + "</div></div>",
+                    unsafe_allow_html=True
+                )
+                with st.expander(f"View Omitted 100% Missing Schema Fields Table ({len(omitted_schema_missing)} fields)", expanded=False):
+                    st.dataframe(
+                        omitted_schema_missing.style.format({"Missing Percentage": "{:.2f}%"}),
+                        width="stretch",
+                        hide_index=True,
+                        height=min(220, max(120, len(omitted_schema_missing) * 35 + 38))
+                    )
+
+            if has_additional:
+                st.caption("Secondary Raw Columns Present in File (Outside Core Schema):")
+                st.dataframe(
+                    additional_missing.style.format({"Missing Percentage": "{:.2f}%"}),
+                    width="stretch",
+                    hide_index=True,
+                    height=min(220, max(120, len(additional_missing) * 35 + 38))
+                )
+
+    # Incomplete records inspection (only columns with actual missing records)
+    inspectable_main = main_missing[main_missing["Missing Count"] > 0]
+    active_missing = inspectable_main if not inspectable_main.empty else (additional_missing if not additional_missing.empty else omitted_schema_missing)
     if not active_missing.empty:
         with st.expander("Inspect & Download Records Missing Specific Fields", expanded=False):
             col_to_check = st.selectbox(

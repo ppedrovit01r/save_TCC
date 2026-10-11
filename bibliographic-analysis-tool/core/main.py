@@ -47,7 +47,10 @@ def add_to_memory(new_df, filename):
         
     # Robust hierarchical deduplication across DOI, OpenAlex ID, PMID, and normalized Title
     from core.deduplication import deduplicate_dataset
-    st.session_state.master_df, dups_removed = deduplicate_dataset(st.session_state.master_df)
+    st.session_state.master_df, dups_removed, new_dups = deduplicate_dataset(st.session_state.master_df, return_duplicates=True)
+    if 'prisma_duplicates' not in st.session_state:
+        st.session_state.prisma_duplicates = []
+    st.session_state.prisma_duplicates.extend(new_dups)
             
     # Save a backup of the full deduplicated dataset before any PRISMA exclusions
     st.session_state.raw_df_backup = st.session_state.master_df.copy()
@@ -386,7 +389,7 @@ def show(is_sidebar=False):
             'Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Journal',
             'Article References', 'Affiliations', 'Country', 'Address', 'Location',
             'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access',
-            'Funding', 'DOI', 'OpenAlex ID', 'ISSN'
+            'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN'
         ]
         basic_fields = ['Author', 'Publication Year', 'Times Cited', 'Publisher', 'Journal', 'Article References']
         
@@ -615,6 +618,8 @@ def show(is_sidebar=False):
                     is_ultimate=is_ultimate_run
                 )
                 st.session_state.master_df = df_processed
+                if 'raw_df_backup' in st.session_state and st.session_state.raw_df_backup is not None:
+                    st.session_state.raw_df_backup = df_processed.copy()
                 save_master_dataset(st.session_state.master_df)
                 st.session_state.last_enrich_completed = True
                 st.toast("Multi-Tier Data Enrichment Complete!", icon="🎉")
@@ -649,7 +654,10 @@ def show(is_sidebar=False):
             with d_col2:
                 if st.button("Deduplicate Dataset", icon=":material/cleaning_services:", width="stretch", key="btn_manual_dedup"):
                     from core.deduplication import deduplicate_dataset
-                    st.session_state.master_df, n_dups = deduplicate_dataset(st.session_state.master_df)
+                    st.session_state.master_df, n_dups, new_dups = deduplicate_dataset(st.session_state.master_df, return_duplicates=True)
+                    if 'prisma_duplicates' not in st.session_state:
+                        st.session_state.prisma_duplicates = []
+                    st.session_state.prisma_duplicates.extend(new_dups)
                     save_master_dataset(st.session_state.master_df)
                     if n_dups > 0:
                         st.success(f"Successfully consolidated and removed {n_dups} duplicate records!")

@@ -1,0 +1,68 @@
+================================================================================
+             THEMATIC STRATIFICATION ENSEMBLE AUDIT REPORT
+================================================================================
+Execution Timeframe: 2026-10-03 12:45:11  -->  2026-10-03 14:16:04
+Total Duration:      1 hour 30 minutes 53 seconds
+  • Phase 1 (Language Detection & Translation): 1.43 seconds
+      - Mode: Smart Multilingual Detection
+      - Documents: 0 translated, 281 from cache, 9704 skipped as English
+  • Phase 2 (BERTopic + GSDMM Modeling & Consensus Refinement): 1 hour 30 minutes 41 seconds
+      - BERTopic: Pass 1 Semantic Embeddings (target: 10)
+      - GSDMM: Pass 1 Lexical Co-occurrence Lens (k=9)
+      - Ensemble: Pass 2 Consensus Centroid Refinement & Boundary Resolution
+
+Fields Analyzed: ['Title', 'Abstract', 'Keywords', 'Concepts']
+Alignment Strategy: Consensus-Driven Macro Pillars (9–12 Topics - Recommended)
+Minimum Cluster Size: 50 documents
+Synchronized Topic Count (k): 10
+Total Documents Processed: 9985
+
+--------------------------------------------------------------------------------
+MODEL STATISTICS
+--------------------------------------------------------------------------------
+• Unified Topics Generated: 8
+• Outlier Documents (-1): 135 (1.4%)
+• Average Assignment Confidence: 0.87
+
+--------------------------------------------------------------------------------
+ALIGNMENT MAPPING SUMMARY
+--------------------------------------------------------------------------------
+• Unified Topic 0: BERTopic [1] ↔ GSDMM [4] (Similarities: [0.30])
+• Unified Topic 1: BERTopic [2] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 2: BERTopic [9] ↔ GSDMM [9, 10, 12, 13, 14, 15] (Similarities: [0.18, 0.07, 0.05, 0.10, 0.32, 0.59])
+• Unified Topic 3: BERTopic [10] ↔ GSDMM [11] (Similarities: [0.18])
+• Unified Topic 4: BERTopic [11] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 5: BERTopic [12] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 6: BERTopic [13] ↔ GSDMM [None] (Similarities: [0.00])
+• Unified Topic 7: BERTopic [15] ↔ GSDMM [None] (Similarities: [0.00])
+
+--------------------------------------------------------------------------------
+PER-CLUSTER STATISTICAL & CONFIDENCE AUDIT
+--------------------------------------------------------------------------------
+Cluster 00 | Docs:  549 ( 5.5%) | Mean Conf: 0.84 | Consensus:  90 (16%) | Boundary/Refined: 459
+   • BERTopic Top Keywords: drug, discovery, artificial, intelligence, ai, biology
+   • GSDMM Top Keywords:    artificial, intelligence, drug, discovery, science, biology
+Cluster 01 | Docs:   69 ( 0.7%) | Mean Conf: 0.83 | Consensus:   0 (0%) | Boundary/Refined:  69
+   • BERTopic Top Keywords: animal, veterinary, welfare, poultry, ai, data
+   • GSDMM Top Keywords:    None
+Cluster 02 | Docs: 8204 (82.2%) | Mean Conf: 0.90 | Consensus: 5086 (62%) | Boundary/Refined: 3118
+   • BERTopic Top Keywords: artificial, intelligence, ai, clinical, medicine, data
+   • GSDMM Top Keywords:    artificial, intelligence, ai, medicine, learning, clinical
+Cluster 03 | Docs:  526 ( 5.3%) | Mean Conf: 0.75 | Consensus:  77 (15%) | Boundary/Refined: 449
+   • BERTopic Top Keywords: artificial, intelligence, ai, research, science, scientific
+   • GSDMM Top Keywords:    artificial, intelligence, ai, medical, science, education
+Cluster 04 | Docs:  300 ( 3.0%) | Mean Conf: 0.73 | Consensus:   0 (0%) | Boundary/Refined: 300
+   • BERTopic Top Keywords: artificial, intelligence, ai, human, moral, brain
+   • GSDMM Top Keywords:    None
+Cluster 05 | Docs:   94 ( 0.9%) | Mean Conf: 0.77 | Consensus:   0 (0%) | Boundary/Refined:  94
+   • BERTopic Top Keywords: artificial, intelligence, ai, disease, epilepsy, data
+   • GSDMM Top Keywords:    None
+Cluster 06 | Docs:   76 ( 0.8%) | Mean Conf: 0.72 | Consensus:   0 (0%) | Boundary/Refined:  76
+   • BERTopic Top Keywords: artificial, intelligence, ai, water, waste, environmental
+   • GSDMM Top Keywords:    None
+Cluster 07 | Docs:   32 ( 0.3%) | Mean Conf: 0.70 | Consensus:   0 (0%) | Boundary/Refined:  32
+   • BERTopic Top Keywords: artificial, intelligence, ai, disaster, emergency, management
+   • GSDMM Top Keywords:    None
+================================================================================
+PIPELINE COMPLETED SUCCESSFULLY
+================================================================================

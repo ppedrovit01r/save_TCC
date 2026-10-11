@@ -1,0 +1,873 @@
+﻿Country A,Country B,Co-authorships
+United Kingdom,United States,258
+Canada,United States,160
+Israel,United States,96
+Italy,United States,78
+Germany,United States,74
+China,United States,74
+Brazil,United States,71
+Australia,United States,70
+Australia,United Kingdom,70
+Germany,United Kingdom,66
+India,United States,50
+Netherlands,United States,48
+Switzerland,United States,47
+France,United States,42
+Canada,United Kingdom,38
+Italy,United Kingdom,36
+Brazil,Romania,34
+Spain,United States,34
+China,United Kingdom,32
+Japan,United States,31
+Netherlands,United Kingdom,31
+Germany,Switzerland,30
+France,United Kingdom,28
+South Korea,United States,28
+Germany,Italy,27
+Switzerland,United Kingdom,23
+Germany,Netherlands,22
+Australia,China,22
+Iran,United States,22
+India,United Kingdom,22
+Spain,United Kingdom,21
+Belgium,United States,21
+France,Germany,21
+Australia,Canada,20
+Italy,Spain,20
+Netherlands,Switzerland,20
+Turkey,United States,20
+Austria,United States,19
+Sweden,United States,19
+Mexico,United States,19
+Australia,Germany,19
+China,Germany,18
+France,Italy,18
+Singapore,United States,18
+Brazil,United Kingdom,17
+Belgium,United Kingdom,17
+Sweden,United Kingdom,17
+Norway,United States,16
+Denmark,United Kingdom,16
+Belgium,Netherlands,16
+Denmark,United States,16
+Greece,United Kingdom,16
+Belgium,Italy,15
+Greece,United States,15
+Poland,United States,15
+Canada,France,15
+Qatar,United States,14
+Austria,Germany,14
+Saudi Arabia,United States,14
+Pakistan,United States,13
+Singapore,United Kingdom,13
+Italy,Netherlands,13
+United Arab Emirates,United States,13
+Belgium,France,13
+Norway,United Kingdom,13
+Israel,United Kingdom,13
+Japan,Norway,12
+Germany,India,12
+Canada,Germany,12
+Australia,India,12
+Italy,Switzerland,11
+Brazil,India,11
+India,Italy,11
+Canada,China,11
+Finland,United States,11
+Italy,Turkey,11
+France,Greece,11
+Lebanon,United States,11
+France,Switzerland,11
+Belgium,Germany,10
+Sweden,Switzerland,10
+Australia,New Zealand,10
+Ireland,United Kingdom,10
+France,Netherlands,10
+India,Malaysia,10
+Taiwan,United States,10
+China,Japan,10
+Canada,Italy,10
+Canada,India,9
+China,Taiwan,9
+China,India,9
+Netherlands,Sweden,9
+Germany,Sweden,9
+Ireland,United States,9
+South Africa,United States,9
+Brazil,Italy,9
+Poland,United Kingdom,9
+Brazil,Spain,8
+China,Pakistan,8
+Brazil,Morocco,8
+Egypt,United Kingdom,8
+Japan,United Kingdom,8
+Egypt,Saudi Arabia,8
+Israel,Italy,8
+Brazil,Canada,8
+Qatar,United Kingdom,8
+Canada,Japan,8
+Egypt,United States,8
+Saudi Arabia,United Kingdom,8
+Canada,Israel,8
+Denmark,Netherlands,8
+China,Italy,8
+India,Thailand,7
+Denmark,Norway,7
+China,Spain,7
+Germany,Spain,7
+Austria,United Kingdom,7
+Germany,Turkey,7
+Germany,Ireland,7
+France,Spain,7
+Argentina,United States,7
+Brazil,France,7
+Belgium,Switzerland,7
+Mexico,United Kingdom,7
+Brazil,Serbia,7
+Greece,Italy,7
+New Zealand,United States,7
+Canada,Iran,7
+India,Saudi Arabia,6
+Belgium,Canada,6
+Jordan,United States,6
+United Arab Emirates,United Kingdom,6
+Canada,Netherlands,6
+Nigeria,United Kingdom,6
+Czech Republic,Germany,6
+Netherlands,Spain,6
+Greece,Sweden,6
+Iran,United Kingdom,6
+Portugal,United States,6
+Ireland,Turkey,6
+Austria,Italy,6
+Colombia,Spain,6
+South Africa,United Kingdom,6
+Czech Republic,United States,6
+China,Singapore,6
+Mexico,Spain,6
+Pakistan,United Kingdom,6
+China,Switzerland,6
+Colombia,United States,6
+China,Sweden,6
+Italy,Sweden,6
+Austria,Netherlands,5
+Canada,Qatar,5
+Australia,Netherlands,5
+Nigeria,United States,5
+Austria,Switzerland,5
+Brazil,Israel,5
+Turkey,United Kingdom,5
+Brazil,Germany,5
+Portugal,Spain,5
+Canada,Ireland,5
+Greece,United Arab Emirates,5
+Denmark,Sweden,5
+Bangladesh,United States,5
+Kenya,United States,5
+Greece,Switzerland,5
+Malaysia,Taiwan,5
+China,South Korea,5
+Thailand,United Kingdom,5
+Thailand,United States,5
+Ecuador,Spain,5
+Germany,Israel,5
+China,Poland,5
+Australia,South Korea,5
+Spain,Switzerland,5
+Netherlands,Portugal,5
+Germany,Japan,5
+India,Pakistan,5
+Germany,Qatar,5
+Norway,Switzerland,5
+Australia,Iran,4
+Australia,Switzerland,4
+Pakistan,Saudi Arabia,4
+Saudi Arabia,Thailand,4
+Philippines,United States,4
+Canada,Switzerland,4
+Netherlands,Turkey,4
+Australia,France,4
+Australia,Spain,4
+Indonesia,Malaysia,4
+Brazil,Netherlands,4
+China,Philippines,4
+Israel,Japan,4
+Portugal,United Kingdom,4
+Norway,Spain,4
+Brazil,Portugal,4
+Australia,Taiwan,4
+Sweden,Turkey,4
+Switzerland,Turkey,4
+Germany,Norway,4
+Hungary,United Kingdom,4
+New Zealand,United Kingdom,4
+South Korea,Taiwan,4
+Malaysia,United Kingdom,4
+Canada,Denmark,4
+Cyprus,Turkey,4
+Australia,Poland,4
+Germany,Poland,4
+Canada,Saudi Arabia,4
+Belgium,Turkey,4
+Australia,Denmark,4
+Australia,Singapore,4
+Brazil,South Korea,4
+China,Denmark,4
+Italy,Japan,4
+Chile,Spain,4
+Argentina,Spain,4
+Germany,Greece,4
+Japan,South Korea,4
+Qatar,Saudi Arabia,4
+Jordan,Qatar,4
+Bangladesh,Saudi Arabia,4
+Bangladesh,India,4
+Ukraine,United States,4
+China,Malaysia,4
+Australia,Japan,3
+Belgium,Denmark,3
+Australia,Israel,3
+Malaysia,Thailand,3
+Canada,Lebanon,3
+Australia,Italy,3
+Malaysia,United States,3
+Italy,Qatar,3
+China,Turkey,3
+Jordan,Saudi Arabia,3
+Norway,Saudi Arabia,3
+Brazil,Hungary,3
+China,France,3
+Saudi Arabia,Tunisia,3
+Greece,Mexico,3
+China,Jordan,3
+China,New Zealand,3
+Colombia,United Kingdom,3
+Chile,United States,3
+Israel,Netherlands,3
+Portugal,Switzerland,3
+Kuwait,Turkey,3
+Ghana,United States,3
+Ghana,United Kingdom,3
+Czech Republic,United Kingdom,3
+Brazil,Mexico,3
+Colombia,India,3
+India,Poland,3
+South Korea,United Kingdom,3
+France,United Arab Emirates,3
+Australia,Sweden,3
+Denmark,Singapore,3
+Austria,China,3
+Finland,Germany,3
+Spain,Turkey,3
+Australia,Belgium,3
+Cyprus,Greece,3
+Australia,Saudi Arabia,3
+Ireland,Spain,3
+Germany,New Zealand,3
+Greece,Turkey,3
+Netherlands,Norway,3
+Iran,Turkey,3
+Saudi Arabia,United Arab Emirates,3
+Jordan,United Arab Emirates,3
+India,Turkey,3
+Finland,Netherlands,3
+India,Nigeria,3
+China,United Arab Emirates,3
+Canada,Mexico,3
+China,Saudi Arabia,3
+Malaysia,Saudi Arabia,3
+Denmark,Switzerland,3
+Brazil,China,3
+Lithuania,Malaysia,3
+Canada,Sweden,3
+Luxembourg,United States,3
+Turkey,United Arab Emirates,3
+Brazil,South Africa,3
+Lithuania,Taiwan,3
+Spain,Sweden,3
+Greece,Spain,3
+Canada,Norway,3
+India,Netherlands,3
+Austria,Turkey,3
+Taiwan,United Kingdom,3
+Jordan,Kazakhstan,3
+Kazakhstan,United States,3
+China,Thailand,3
+Norway,Sweden,3
+France,India,3
+Russia,United Kingdom,3
+Belgium,India,3
+Iran,United Arab Emirates,3
+Germany,Iran,3
+Germany,United Arab Emirates,3
+Poland,Ukraine,3
+Canada,Pakistan,3
+Belgium,Portugal,3
+Austria,France,3
+France,Turkey,3
+Hungary,United States,3
+India,Iran,3
+Italy,Norway,3
+Saudi Arabia,Turkey,3
+Hungary,Netherlands,3
+Denmark,Germany,3
+Greece,India,3
+South Africa,Switzerland,3
+Portugal,Turkey,3
+France,Portugal,3
+Italy,Portugal,3
+Austria,Croatia,3
+Philippines,United Kingdom,3
+China,Iran,2
+France,Vietnam,2
+Japan,Taiwan,2
+Israel,Sweden,2
+Ireland,Israel,2
+Germany,Portugal,2
+France,Israel,2
+Croatia,Switzerland,2
+Cyprus,Italy,2
+Cyprus,Russia,2
+China,Russia,2
+Australia,Cyprus,2
+Brazil,Ukraine,2
+Canada,Finland,2
+Poland,Sweden,2
+Denmark,Poland,2
+China,Qatar,2
+Australia,Indonesia,2
+Singapore,Vietnam,2
+Japan,Saudi Arabia,2
+Ghana,South Africa,2
+Iran,Taiwan,2
+Iran,Italy,2
+Chile,Ecuador,2
+Argentina,Chile,2
+India,Israel,2
+Austria,India,2
+Tunisia,United States,2
+Ethiopia,United States,2
+France,Japan,2
+Colombia,Venezuela,2
+India,Switzerland,2
+Germany,Malaysia,2
+Denmark,Israel,2
+Saudi Arabia,South Korea,2
+Qatar,South Korea,2
+Pakistan,Qatar,2
+Iran,Qatar,2
+Israel,Norway,2
+Japan,Spain,2
+Japan,Malaysia,2
+Ghana,Sweden,2
+Canada,Ghana,2
+Czech Republic,Poland,2
+Israel,Switzerland,2
+France,Poland,2
+Italy,Taiwan,2
+Argentina,Italy,2
+Argentina,France,2
+Italy,Poland,2
+United States,Uruguay,2
+China,Israel,2
+Chile,Italy,2
+Lebanon,Saudi Arabia,2
+Kazakhstan,Ukraine,2
+Kazakhstan,Poland,2
+Jordan,Ukraine,2
+Jordan,Poland,2
+Germany,Thailand,2
+Germany,Saudi Arabia,2
+Ukraine,United Kingdom,2
+France,Sweden,2
+Nigeria,Qatar,2
+Finland,Poland,2
+Ethiopia,Poland,2
+Ethiopia,Finland,2
+Argentina,Mexico,2
+Hungary,Qatar,2
+Germany,South Korea,2
+Ireland,United Arab Emirates,2
+India,Singapore,2
+Chile,Mexico,2
+Australia,Czech Republic,2
+Spain,United Arab Emirates,2
+Austria,Canada,2
+Italy,South Korea,2
+South Africa,Spain,2
+Italy,United Arab Emirates,2
+Luxembourg,Sweden,2
+Ecuador,Mexico,2
+Singapore,Taiwan,2
+Canada,Ukraine,2
+Italy,Mexico,2
+Ethiopia,Saudi Arabia,2
+Slovenia,United Kingdom,2
+Croatia,United States,2
+Croatia,United Kingdom,2
+Chile,Greece,2
+Canada,Poland,2
+Belgium,Qatar,2
+Russia,United States,2
+Russia,Spain,2
+Netherlands,Russia,2
+Qatar,Tunisia,2
+South Korea,Vietnam,2
+Pakistan,South Korea,2
+Canada,South Korea,2
+Tunisia,United Kingdom,2
+Finland,Italy,2
+India,Vietnam,2
+Norway,Poland,2
+Croatia,Italy,2
+Croatia,Germany,2
+Belgium,Czech Republic,2
+Austria,Czech Republic,2
+Netherlands,Poland,2
+India,Norway,2
+Jordan,United Kingdom,2
+Canada,Spain,2
+Hungary,Romania,2
+Canada,Kuwait,2
+Canada,New Zealand,2
+Belgium,Ireland,2
+Finland,Norway,2
+Pakistan,Spain,2
+Brazil,Saudi Arabia,2
+Taiwan,Turkey,2
+Germany,Taiwan,2
+Malaysia,Singapore,2
+Luxembourg,Switzerland,2
+Italy,New Zealand,2
+China,Portugal,2
+Egypt,Italy,2
+Costa Rica,Ecuador,2
+Belgium,China,2
+Indonesia,Taiwan,2
+Romania,United Kingdom,2
+South Korea,Spain,2
+Japan,Singapore,2
+Italy,Luxembourg,2
+France,Tunisia,2
+Lithuania,United Kingdom,2
+Cyprus,United Kingdom,2
+Cyprus,United Arab Emirates,2
+India,South Korea,2
+Ireland,Italy,2
+Canada,South Africa,2
+Nigeria,Switzerland,2
+Austria,Ireland,2
+China,Netherlands,2
+India,Romania,2
+Germany,Luxembourg,2
+Belgium,Luxembourg,2
+Germany,South Africa,2
+Germany,Mexico,2
+Ethiopia,United Kingdom,2
+Bangladesh,China,2
+Australia,Malaysia,2
+Australia,Bangladesh,2
+Colombia,Switzerland,2
+Peru,Spain,2
+Denmark,Iran,2
+Greece,Netherlands,2
+Kuwait,Saudi Arabia,2
+Estonia,Spain,2
+Czech Republic,Finland,2
+India,Spain,2
+Brazil,Russia,2
+Denmark,France,2
+India,Indonesia,2
+Bangladesh,Malaysia,2
+Belgium,Greece,2
+Finland,United Kingdom,2
+Argentina,United Kingdom,2
+Austria,Sweden,2
+Czech Republic,Italy,2
+Croatia,Spain,2
+Finland,Switzerland,2
+Bangladesh,Norway,2
+Egypt,Qatar,2
+Nigeria,South Africa,2
+Croatia,France,1
+Ghana,Nigeria,1
+Croatia,Indonesia,1
+Brazil,Nigeria,1
+Morocco,Nigeria,1
+Argentina,Sweden,1
+Ethiopia,Ghana,1
+Hungary,Jordan,1
+France,Lebanon,1
+Australia,Ireland,1
+Croatia,Portugal,1
+Israel,United Arab Emirates,1
+Bangladesh,Japan,1
+Bangladesh,Sri Lanka,1
+Lebanon,United Kingdom,1
+Lebanon,Tunisia,1
+Lebanon,South Korea,1
+Lebanon,Qatar,1
+Ethiopia,Tunisia,1
+Ethiopia,Switzerland,1
+Ethiopia,South Africa,1
+Ethiopia,Norway,1
+Ethiopia,Germany,1
+Australia,Egypt,1
+Iran,Malaysia,1
+Canada,Malaysia,1
+Jordan,Taiwan,1
+Iran,Jordan,1
+Canada,Thailand,1
+Norway,United Arab Emirates,1
+Iran,Spain,1
+Qatar,Turkey,1
+Austria,Finland,1
+Estonia,United Kingdom,1
+France,Singapore,1
+Ethiopia,India,1
+Ethiopia,Nigeria,1
+Cyprus,Nigeria,1
+Cyprus,Ethiopia,1
+Romania,United States,1
+Israel,Romania,1
+Czech Republic,Turkey,1
+Czech Republic,Spain,1
+Czech Republic,Netherlands,1
+Croatia,Turkey,1
+Croatia,Netherlands,1
+Colombia,Germany,1
+Colombia,Finland,1
+Colombia,Czech Republic,1
+Argentina,Netherlands,1
+Argentina,Finland,1
+Philippines,Switzerland,1
+Israel,Philippines,1
+Brazil,Philippines,1
+Kuwait,United States,1
+Greece,Morocco,1
+France,Morocco,1
+Brazil,Greece,1
+Kuwait,Qatar,1
+Estonia,Sweden,1
+Brazil,Denmark,1
+Ecuador,Peru,1
+France,Ireland,1
+Qatar,Singapore,1
+Morocco,United States,1
+Iran,Morocco,1
+Brazil,Iran,1
+Kenya,Kuwait,1
+Denmark,Spain,1
+Belgium,Norway,1
+Belgium,Sweden,1
+Lebanon,Poland,1
+Argentina,Brazil,1
+Czech Republic,Switzerland,1
+Portugal,Sweden,1
+Finland,Sweden,1
+Ireland,Singapore,1
+Canada,Singapore,1
+Japan,Switzerland,1
+Austria,United Arab Emirates,1
+Austria,Iran,1
+Poland,Spain,1
+Bulgaria,Israel,1
+Netherlands,United Arab Emirates,1
+Portugal,Romania,1
+Poland,Romania,1
+Poland,Portugal,1
+Norway,Romania,1
+Australia,Portugal,1
+Israel,South Korea,1
+South Korea,Switzerland,1
+Brazil,Switzerland,1
+Germany,Lithuania,1
+Cyprus,United States,1
+Saudi Arabia,Spain,1
+Pakistan,Tunisia,1
+Morocco,Tunisia,1
+Morocco,Saudi Arabia,1
+Morocco,Pakistan,1
+Brazil,Tunisia,1
+Brazil,Pakistan,1
+Sweden,Taiwan,1
+Indonesia,Turkey,1
+Indonesia,Japan,1
+New Zealand,Switzerland,1
+Luxembourg,New Zealand,1
+Belgium,New Zealand,1
+Bulgaria,United Kingdom,1
+Nigeria,Thailand,1
+Algeria,France,1
+Mexico,Taiwan,1
+Austria,Taiwan,1
+Austria,Mexico,1
+Croatia,Slovenia,1
+Germany,Singapore,1
+Cyprus,Slovenia,1
+France,New Zealand,1
+France,Pakistan,1
+Serbia,United States,1
+Ireland,Switzerland,1
+Colombia,Mexico,1
+Hungary,South Korea,1
+Hungary,India,1
+Italy,Kenya,1
+India,Kenya,1
+Iran,Kazakhstan,1
+India,Jordan,1
+Taiwan,Vietnam,1
+India,Taiwan,1
+Brazil,Vietnam,1
+Brazil,Taiwan,1
+Norway,Portugal,1
+Netherlands,Romania,1
+Croatia,Czech Republic,1
+Belgium,Spain,1
+Belgium,Croatia,1
+Austria,Spain,1
+India,Portugal,1
+Germany,Romania,1
+Canada,Romania,1
+Colombia,Jordan,1
+Canada,Egypt,1
+China,Norway,1
+Canada,Portugal,1
+Bulgaria,Germany,1
+Bulgaria,France,1
+Belgium,Bulgaria,1
+Italy,Russia,1
+Greece,Israel,1
+China,Ireland,1
+Brazil,Poland,1
+Brazil,Norway,1
+Kazakhstan,South Korea,1
+Kazakhstan,Pakistan,1
+Canada,Kazakhstan,1
+Australia,Pakistan,1
+Australia,Kazakhstan,1
+Jordan,Pakistan,1
+India,Qatar,1
+France,Qatar,1
+Bulgaria,Qatar,1
+Chile,Peru,1
+Qatar,Sweden,1
+Canada,Czech Republic,1
+Greece,South Korea,1
+Mexico,Sweden,1
+Luxembourg,Mexico,1
+Greece,Luxembourg,1
+Singapore,South Korea,1
+Italy,Romania,1
+Spain,Taiwan,1
+Croatia,Ukraine,1
+Slovenia,United States,1
+Czech Republic,Mexico,1
+Germany,Hungary,1
+Hungary,Italy,1
+Brazil,Sweden,1
+Australia,Norway,1
+Canada,United Arab Emirates,1
+Austria,Nigeria,1
+Iran,Ireland,1
+Italy,Singapore,1
+India,Serbia,1
+France,Slovenia,1
+France,Serbia,1
+Brazil,Slovenia,1
+Belgium,Slovenia,1
+Belgium,Serbia,1
+Belgium,Brazil,1
+Brazil,Venezuela,1
+Kuwait,Lebanon,1
+Egypt,Thailand,1
+Egypt,India,1
+Bulgaria,India,1
+Pakistan,Thailand,1
+Germany,Pakistan,1
+France,Romania,1
+Colombia,France,1
+Austria,Denmark,1
+Denmark,Portugal,1
+Serbia,Slovenia,1
+Denmark,India,1
+Pakistan,Turkey,1
+Denmark,Greece,1
+Mexico,Peru,1
+Argentina,Peru,1
+Switzerland,Taiwan,1
+Israel,Taiwan,1
+United States,Vietnam,1
+Australia,Vietnam,1
+Ghana,Spain,1
+Germany,Ghana,1
+China,Ghana,1
+Iran,Luxembourg,1
+Ecuador,Germany,1
+Austria,Serbia,1
+Austria,Brazil,1
+Spain,Uruguay,1
+Australia,Mexico,1
+Brazil,Chile,1
+Croatia,Sweden,1
+Lebanon,Turkey,1
+Pakistan,United Arab Emirates,1
+Singapore,Slovenia,1
+New Zealand,South Africa,1
+Malaysia,United Arab Emirates,1
+Italy,Slovenia,1
+Italy,Serbia,1
+India,Slovenia,1
+Indonesia,Singapore,1
+Egypt,Turkey,1
+India,Japan,1
+Denmark,Ireland,1
+Costa Rica,Spain,1
+Kenya,United Kingdom,1
+Indonesia,United Arab Emirates,1
+France,Malaysia,1
+France,Indonesia,1
+Brazil,Croatia,1
+Latvia,Ukraine,1
+Argentina,Ireland,1
+Japan,Philippines,1
+Brazil,Ecuador,1
+Canada,Taiwan,1
+India,Russia,1
+Canada,Turkey,1
+Belgium,Israel,1
+Malaysia,Netherlands,1
+Japan,Netherlands,1
+Israel,Malaysia,1
+Denmark,Malaysia,1
+Denmark,Japan,1
+South Korea,United Arab Emirates,1
+Qatar,United Arab Emirates,1
+Argentina,Israel,1
+Argentina,Germany,1
+Canada,Kenya,1
+Argentina,Ecuador,1
+Estonia,United States,1
+Austria,Israel,1
+Japan,Nigeria,1
+Switzerland,Tunisia,1
+South Africa,Tunisia,1
+Norway,Tunisia,1
+Norway,South Africa,1
+Germany,Tunisia,1
+Argentina,Japan,1
+Argentina,India,1
+Argentina,Bangladesh,1
+Croatia,Serbia,1
+Finland,Russia,1
+China,Egypt,1
+India,South Africa,1
+France,Norway,1
+Finland,France,1
+Italy,Vietnam,1
+United Kingdom,Uruguay,1
+Argentina,Uruguay,1
+Mexico,Netherlands,1
+Finland,Mexico,1
+Indonesia,United States,1
+Canada,Philippines,1
+Australia,Philippines,1
+Brazil,Singapore,1
+Luxembourg,United Kingdom,1
+Austria,Luxembourg,1
+India,New Zealand,1
+Greece,Poland,1
+Greece,Nigeria,1
+Greece,New Zealand,1
+Germany,Nigeria,1
+China,Nigeria,1
+China,Greece,1
+Chile,Turkey,1
+Chile,Sweden,1
+Chile,Poland,1
+Chile,Nigeria,1
+Chile,New Zealand,1
+Chile,India,1
+Chile,Germany,1
+Chile,China,1
+Kazakhstan,Philippines,1
+Cyprus,Ireland,1
+Cyprus,Germany,1
+Australia,United Arab Emirates,1
+Australia,Turkey,1
+Indonesia,United Kingdom,1
+Iran,Sweden,1
+Poland,Turkey,1
+Nigeria,Turkey,1
+Nigeria,Sweden,1
+Nigeria,Poland,1
+New Zealand,Turkey,1
+New Zealand,Sweden,1
+New Zealand,Poland,1
+New Zealand,Nigeria,1
+Italy,Nigeria,1
+India,Sweden,1
+Australia,Tunisia,1
+Australia,Qatar,1
+Australia,Lebanon,1
+Israel,Mexico,1
+France,Mexico,1
+Ireland,Thailand,1
+Ireland,Malaysia,1
+Japan,Sweden,1
+India,Ukraine,1
+Kuwait,United Kingdom,1
+China,Cyprus,1
+Latvia,United States,1
+Germany,Latvia,1
+Kazakhstan,Spain,1
+Egypt,Jordan,1
+Cyprus,Spain,1
+India,United Arab Emirates,1
+Sri Lanka,United States,1
+Saudi Arabia,Sri Lanka,1
+Italy,Tunisia,1
+Italy,Saudi Arabia,1
+Italy,Lebanon,1
+Iran,Tunisia,1
+Iran,South Korea,1
+Iran,Saudi Arabia,1
+Iran,Lebanon,1
+Canada,Tunisia,1
+Belgium,Tunisia,1
+Belgium,South Korea,1
+Belgium,Saudi Arabia,1
+Belgium,Lebanon,1
+Belgium,Iran,1
+Japan,Sri Lanka,1
+Hungary,Luxembourg,1
+Czech Republic,India,1
+Iran,Netherlands,1
+China,Vietnam,1
+Austria,Belgium,1
+Israel,Spain,1
+Ireland,Norway,1
+France,South Korea,1
+Peru,United States,1
+Peru,United Kingdom,1
+Canada,Peru,1
+Poland,Thailand,1
+South Korea,Turkey,1
+Kuwait,South Korea,1
+South Korea,Tunisia,1
+China,Finland,1
+Ireland,New Zealand,1
+Estonia,Germany,1
+Australia,Estonia,1
+Czech Republic,Lithuania,1
+Belgium,Poland,1
+Bangladesh,Canada,1
+Indonesia,South Korea,1
+Panama,United States,1
+Canada,Colombia,1
+South Africa,United Arab Emirates,1
+India,Lebanon,1
+Finland,Singapore,1
+Hungary,Turkey,1
+Cyprus,Hungary,1
+Brazil,United Arab Emirates,1
