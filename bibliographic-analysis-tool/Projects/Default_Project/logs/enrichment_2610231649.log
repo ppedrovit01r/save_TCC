@@ -1,0 +1,128 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-23 16:49:24 → 2026-10-23 16:49:24 (Duration: 0.23 seconds)
+
+=======================================================================
+             DOI IDENTIFICATION & DISCOVERY SUMMARY (UP TO NOW)
+=======================================================================
+• Total Records in Memory Dataset: 1
+• DOIs Originally Present at Ingestion: 1 (100.0%)
+• Missing DOI Records Investigated: 0
+• DOIs Successfully Discovered in Phase 0: 0 (0.0%)
+    - Discovered via Crossref Works Search: 0
+    - Discovered via OpenAlex BM25 Search: 0
+    - Discovered via PubMed eSearch/eFetch: 0
+    - Discovered via Semantic Scholar Match: 0
+    - Discovered via PubMed PMID Batch: 0
+• DOIs Discovered in Fallback Tiers (1.5 / 5): 0
+-----------------------------------------------------------------------
+• TOTAL DOIS FOUND UP TO NOW: 1 / 1 records (100.0% coverage)
+• Newly Discovered DOIs Added to Dataset: +0 records
+• Residual Records Still Without DOI: 0 records
+=======================================================================
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records Evaluated for Enrichment: 1
+• Post-Enrichment Duplicates Consolidated: 0
+• Fully Enriched Records (Found 100% of requested fields): 1 (100.0%)
+• Partially Enriched Records (Gained new data): 0 (0.0%)
+• Unresolved Records (Gained NO data): 0 (0.0%)
+
+Target Fields Requested (6 fields): ['Publication Year', 'Author', 'Title', 'Journal', 'Publisher', 'OpenAlex ID']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 1
+• Total Records Evaluated for Enrichment: 1
+• Cluster Source Files: Single/Unspecified file source
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• PHASE 0: Multi-Engine DOI Discovery (Crossref, OpenAlex, PubMed, Semantic Scholar)
+    - Missing DOI Records Evaluated: 0
+    - DOIs Discovered: 0
+    - Hit Rate: 0.0%
+    - Engine Breakdown: None
+
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 1
+    - Records Resolved: 1 (100.0%)
+    - Total Field Values Populated: 6 lines
+    - Field Breakdown: {'OpenAlex ID': 1, 'Title': 1, 'Author': 1, 'Publication Year': 1, 'Publisher': 1, 'Journal': 1}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 0
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 0
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 5: OpenAlex Fuzzy Title Search (Residual Non-DOI Local Papers)
+    - Records Passed: 0 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. POST-ENRICHMENT HEURISTIC DEDUCTIONS & STANDARDIZATION
+--------------------------------------------------------------------------------
+• Affiliations Deduced from Address: 0 records
+• Country Deduced from Affiliations/Address: 0 records
+• Language Deduced from Country: 0 records
+• Author Western Name Normalization: Completed
+• Post-Enrichment Duplicates Consolidated: 0 records
+
+--------------------------------------------------------------------------------
+4. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 0 / 1
+
+🎉 100% SUCCESS: All evaluated records were fully populated with zero missing target fields!
+
+--------------------------------------------------------------------------------
+5. DETAILED RECORD-BY-RECORD IDENTIFIER TRACE & PROVENANCE AUDIT
+--------------------------------------------------------------------------------
+This section documents the exact API identifiers, URLs, date resolutions, and
+engine source decisions for all evaluated records.
+• TIP: OpenAlex Work IDs ('W...') can be verified in a browser by visiting their direct link
+  (https://openalex.org/works/<ID>). Searching raw 'W...' in openalex.org searches title text.
+• TIP: Crossref records are indexed by DOI at https://api.crossref.org/works/<DOI>.
+
+• [Row 0] "Open-Source Artificial Intelligence in Small-Bowel Capsule Endoscopy"
+  Source File: Unknown File
+  Identifiers & Direct Verification Links:
+    * DOI: 10.1002/deo2.70359 (Resolver: https://doi.org/10.1002/deo2.70359)
+    * OpenAlex Work ID: W7164810708
+    *   - Direct Web URL: https://openalex.org/works/W7164810708
+    *   - Direct API URL: https://api.openalex.org/works/W7164810708
+    * Crossref Work ID: 10.1002/deo2.70359
+    *   - Direct Crossref API: https://api.crossref.org/works/10.1002/deo2.70359
+  Tier Execution Trace:
+    * Tier 1 (OpenAlex): Matched Work W7164810708 (Web Link: https://openalex.org/works/W7164810708). Populated 6 field(s): OpenAlex ID, Title, Author, Publication Year, Publisher, Journal
+  Enriched Fields Populated in this Run:
+    * OpenAlex ID = 'W7164810708' (via Tier 1 OpenAlex)
+    * Title = 'Open‐Source Artificial Intelligence in Small‐Bowel Capsule Endoscop...' (via Tier 1 OpenAlex)
+    * Author = 'Ervin Tóth; Anastasios Koulaouzidis' (via Tier 1 OpenAlex)
+    * Publication Year = '2026' (via Tier 1 OpenAlex)
+    * Publisher = 'Wiley' (via Tier 1 OpenAlex)
+    * Journal = 'DEN Open' (via Tier 1 OpenAlex)
+  Status: 100% Complete (zero missing target fields)
+
+================================================================================
+FINAL SUMMARY: 1/1 records received enhancement data. Audit saved to disk.
+TOTAL DOIS IDENTIFIED: 1 / 1 (100.0% coverage).
+================================================================================

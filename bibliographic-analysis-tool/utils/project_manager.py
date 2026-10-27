@@ -141,9 +141,14 @@ def save_master_dataset(df: pd.DataFrame, project_name: str = None) -> str:
     out_path = os.path.join(root, "master_dataset.csv")
     try:
         save_df = df.copy()
+        from utils.formatters import clean_year_series, clean_pages_series, clean_metadata_series
         if "Publication Year" in save_df.columns:
-            from utils.formatters import clean_year_series
             save_df["Publication Year"] = clean_year_series(save_df["Publication Year"])
+        if "Pages" in save_df.columns:
+            save_df["Pages"] = clean_pages_series(save_df["Pages"])
+        for meta_c in ["Volume", "Issue", "PMID", "ISSN"]:
+            if meta_c in save_df.columns:
+                save_df[meta_c] = clean_metadata_series(save_df[meta_c])
         save_df.to_csv(out_path, index=False, encoding="utf-8-sig")
         clear_project_list_cache()
         return out_path
@@ -169,10 +174,17 @@ def load_master_dataset(project_name: str) -> pd.DataFrame:
     if os.path.exists(target_csv):
         try:
             loaded_df = pd.read_csv(target_csv, low_memory=False)
-            if loaded_df is not None and "Publication Year" in loaded_df.columns:
-                from utils.formatters import clean_year_series
-                loaded_df["Publication Year"] = clean_year_series(loaded_df["Publication Year"])
+            if loaded_df is not None:
+                from utils.formatters import clean_year_series, clean_pages_series, clean_metadata_series
+                if "Publication Year" in loaded_df.columns:
+                    loaded_df["Publication Year"] = clean_year_series(loaded_df["Publication Year"])
+                if "Pages" in loaded_df.columns:
+                    loaded_df["Pages"] = clean_pages_series(loaded_df["Pages"])
+                for meta_c in ["Volume", "Issue", "PMID", "ISSN"]:
+                    if meta_c in loaded_df.columns:
+                        loaded_df[meta_c] = clean_metadata_series(loaded_df[meta_c])
             return loaded_df
+
         except Exception as e:
             st.error(f"Error reading dataset from project '{project_name}': {e}")
             return None
@@ -389,4 +401,240 @@ def delete_manual_author_override(orig_name: str, project_name: str = None) -> d
         except Exception as e:
             print(f"Error deleting manual author override: {e}")
     return overrides
+
+
+def deep_clean_json(obj):
+    """
+    Recursively converts any object, dict, list, pandas Series/DataFrame,
+    numpy scalar/array, or custom structure into pure standard JSON serializable primitives:
+    dict, list, int, float, str, bool, None.
+    Guarantees no pandas Series, numpy types, or non-serializable objects remain.
+    """
+    import numpy as np
+    import pandas as pd
+    
+    if obj is None:
+        return None
+        
+    # Check for pandas Series or DataFrame
+    if isinstance(obj, pd.Series):
+        return {str(k): deep_clean_json(v) for k, v in obj.to_dict().items()}
+    if isinstance(obj, pd.DataFrame):
+        return [deep_clean_json(r) for r in obj.to_dict(orient='records')]
+        
+    # Check for numpy types
+    if isinstance(obj, (np.integer, int)):
+        return int(obj)
+    if isinstance(obj, (np.floating, float)):
+        return None if (pd.isna(obj) or obj != obj) else float(obj)
+    if isinstance(obj, (np.bool_, bool)):
+        return bool(obj)
+    if isinstance(obj, np.ndarray):
+        return [deep_clean_json(x) for x in obj.tolist()]
+        
+    # Check if object has pd.isna (scalar NaN)
+    try:
+        if pd.isna(obj):
+            return None
+    except Exception:
+        pass
+        
+    # Check for dictionaries
+    if isinstance(obj, dict):
+        return {str(k): deep_clean_json(v) for k, v in obj.items()}
+        
+    # Check for lists, tuples, sets, collections
+    if isinstance(obj, (list, tuple, set)):
+        return [deep_clean_json(x) for x in obj]
+        
+    # Check for datetime / timestamp
+    if hasattr(obj, 'isoformat') and callable(obj.isoformat):
+        return obj.isoformat()
+        
+    # If it has to_dict
+    if hasattr(obj, 'to_dict') and callable(obj.to_dict):
+        try:
+            return deep_clean_json(obj.to_dict())
+        except Exception:
+            pass
+            
+    # If it has item() (numpy scalar or single element)
+    if hasattr(obj, 'item') and callable(obj.item):
+        try:
+            return deep_clean_json(obj.item())
+        except Exception:
+            pass
+            
+    # Strings
+    if isinstance(obj, str):
+        return obj
+        
+    # Fallback to str
+    return str(obj)
+
+
+def _prisma_json_default(obj):
+    """Fallback JSON serializer handling numpy scalars, pandas objects, NaNs, and dates."""
+    return deep_clean_json(obj)
+
+
+def save_project_prisma_state(prisma_state: dict, prisma_duplicates: list = None, project_name: str = None) -> str:
+    """
+    Saves the entire PRISMA / SLR protocol and progress to prisma_state.json in the project root.
+    Includes database mappings, initial search query hits, IC sequential funnels,
+    custom criteria definitions, screening exclusions, and screening queue.
+    """
+    if not prisma_state:
+        return ""
+        
+    # Handle defensive overload: if someone called save_project_prisma_state(state, "Project_Name")
+    if isinstance(prisma_duplicates, str) and project_name is None:
+        project_name = prisma_duplicates
+        prisma_duplicates = None
+
+    target_proj = project_name or prisma_state.get('project_name') or get_active_project_name()
+    root = get_project_root(target_proj)
+    target_path = os.path.join(root, "prisma_state.json")
+    try:
+        serializable = {
+            'project_name': target_proj,
+            'mode': prisma_state.get('mode', 'advanced'),
+            'file_db_mapping': prisma_state.get('file_db_mapping', {}),
+            'db_initial_query_hits': prisma_state.get('db_initial_query_hits', {}),
+            'db_ic_progression': prisma_state.get('db_ic_progression', {}),
+            'inclusion_criteria': prisma_state.get('inclusion_criteria', []),
+            'exclusion_criteria': prisma_state.get('exclusion_criteria', []),
+            'ec_overrides': prisma_state.get('ec_overrides', {}),
+            'db_final_overrides': prisma_state.get('db_final_overrides', {}),
+            'custom_reasons': prisma_state.get('custom_reasons', []),
+            'exclusions': {str(idx): val for idx, val in prisma_state.get('exclusions', {}).items()},
+            'screened_ok': [int(idx) if str(idx).isdigit() else str(idx) for idx in prisma_state.get('screened_ok', [])],
+            'screening_queue': [int(idx) if str(idx).isdigit() else str(idx) for idx in prisma_state.get('screening_queue', [])],
+            'loaded_files': prisma_state.get('loaded_files', st.session_state.get('loaded_files', [])),
+            'file_manifest': prisma_state.get('file_manifest', st.session_state.get('file_manifest', {})),
+            'prisma_imported_count': prisma_state.get('prisma_imported_count', st.session_state.get('prisma_imported_count', 0)),
+            'duplicates_override': prisma_state.get('duplicates_override', None),
+            'missing_abstracts_count': prisma_state.get('missing_abstracts_count', 0),
+            'missing_abstracts_override': prisma_state.get('missing_abstracts_override', None),
+            'auto_exclude_missing_abstracts': prisma_state.get('auto_exclude_missing_abstracts', False),
+            'saved_at': datetime.datetime.now().isoformat()
+        }
+
+        # Safely extract and serialize prisma_duplicates (converting pandas Series to clean dicts)
+        dups_source = None
+        if prisma_duplicates is not None and not isinstance(prisma_duplicates, str):
+            dups_source = prisma_duplicates
+        elif 'prisma_duplicates' in st.session_state:
+            dups_source = st.session_state.prisma_duplicates
+
+        if dups_source is not None:
+            clean_dups = []
+            for d in dups_source:
+                if isinstance(d, dict):
+                    clean_d = {}
+                    for k, v in d.items():
+                        clean_d[k] = deep_clean_json(v)
+                    clean_dups.append(clean_d)
+                else:
+                    clean_dups.append(deep_clean_json(d))
+            serializable['prisma_duplicates'] = clean_dups
+
+        clean_serializable = deep_clean_json(serializable)
+
+        with open(target_path, "w", encoding="utf-8") as f:
+            json.dump(clean_serializable, f, ensure_ascii=False, indent=2, default=_prisma_json_default)
+        return target_path
+    except Exception as e:
+        print(f"Error saving prisma state to {target_path}: {e}")
+        return ""
+
+
+def load_project_prisma_state(project_name: str = None, valid_indices=None) -> dict:
+    """
+    Loads saved PRISMA / SLR protocol and screening progress from prisma_state.json.
+    Returns reconstructed prisma_state dict, or None if no saved state exists.
+    """
+    target_proj = project_name or get_active_project_name()
+    root = get_project_root(target_proj)
+    target_path = os.path.join(root, "prisma_state.json")
+    if not os.path.exists(target_path):
+        return None
+    try:
+        with open(target_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        
+        reconstructed = {
+            'project_name': target_proj,
+            'mode': data.get('mode', 'advanced'),
+            'file_db_mapping': data.get('file_db_mapping', {}),
+            'db_initial_query_hits': data.get('db_initial_query_hits', {}),
+            'db_ic_progression': data.get('db_ic_progression', {}),
+            'inclusion_criteria': data.get('inclusion_criteria', []),
+            'exclusion_criteria': data.get('exclusion_criteria', []),
+            'ec_overrides': data.get('ec_overrides', {}),
+            'db_final_overrides': data.get('db_final_overrides', {}),
+            'custom_reasons': data.get('custom_reasons', []),
+            'exclusions': {},
+            'screened_ok': [],
+            'screening_queue': []
+        }
+        
+        # Reconstruct exclusions with integer indices if applicable
+        raw_ex = data.get('exclusions', {})
+        for idx_str, val in raw_ex.items():
+            k = int(idx_str) if idx_str.isdigit() else idx_str
+            reconstructed['exclusions'][k] = val
+
+        # Reconstruct screening lists
+        raw_ok = data.get('screened_ok', [])
+        reconstructed['screened_ok'] = [int(i) if str(i).isdigit() else str(i) for i in raw_ok]
+
+        raw_q = data.get('screening_queue', [])
+        reconstructed['screening_queue'] = [int(i) if str(i).isdigit() else str(i) for i in raw_q]
+
+        if valid_indices is not None:
+            valid_set = set(valid_indices)
+            reconstructed['screened_ok'] = [i for i in reconstructed['screened_ok'] if i in valid_set]
+            reconstructed['exclusions'] = {k: v for k, v in reconstructed['exclusions'].items() if k in valid_set}
+            
+            evaluated_set = set(reconstructed['exclusions'].keys()) | set(reconstructed['screened_ok'])
+            existing_q = [i for i in reconstructed['screening_queue'] if i in valid_set and i not in evaluated_set]
+            existing_q_set = set(existing_q)
+            for idx in valid_indices:
+                if idx not in evaluated_set and idx not in existing_q_set:
+                    existing_q.append(idx)
+                    existing_q_set.add(idx)
+            reconstructed['screening_queue'] = existing_q
+
+        # Restore loaded_files and file_manifest if stored
+        if 'loaded_files' in data and data['loaded_files']:
+            reconstructed['loaded_files'] = data['loaded_files']
+            st.session_state.loaded_files = data['loaded_files']
+        if 'file_manifest' in data and data['file_manifest']:
+            reconstructed['file_manifest'] = data['file_manifest']
+            st.session_state.file_manifest = data['file_manifest']
+        if 'prisma_imported_count' in data and data['prisma_imported_count'] is not None:
+            reconstructed['prisma_imported_count'] = data['prisma_imported_count']
+            st.session_state.prisma_imported_count = data['prisma_imported_count']
+        elif 'file_manifest' in data and data['file_manifest']:
+            reconstructed['prisma_imported_count'] = sum(data['file_manifest'].values())
+            st.session_state.prisma_imported_count = reconstructed['prisma_imported_count']
+        if 'duplicates_override' in data:
+            reconstructed['duplicates_override'] = data['duplicates_override']
+        if 'missing_abstracts_count' in data:
+            reconstructed['missing_abstracts_count'] = data['missing_abstracts_count']
+        if 'missing_abstracts_override' in data:
+            reconstructed['missing_abstracts_override'] = data['missing_abstracts_override']
+        if 'auto_exclude_missing_abstracts' in data:
+            reconstructed['auto_exclude_missing_abstracts'] = data['auto_exclude_missing_abstracts']
+
+        # Restore prisma_duplicates if stored
+        if 'prisma_duplicates' in data:
+            st.session_state.prisma_duplicates = data['prisma_duplicates']
+
+        return reconstructed
+    except Exception as e:
+        print(f"Error loading prisma state from {target_path}: {e}")
+        return None
+
 

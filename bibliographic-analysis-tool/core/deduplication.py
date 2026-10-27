@@ -26,6 +26,9 @@ def normalize_pmid(val) -> str:
     if val is None or pd.isna(val):
         return None
     s = str(val).strip()
+    # Guard: PubMed Central IDs (PMCID) must not be confused with PubMed IDs (PMID)
+    if s.upper().startswith('PMC'):
+        return None
     if s.endswith('.0'):
         s = s[:-2]
     # Digits only check
@@ -71,8 +74,8 @@ def deduplicate_dataset(df: pd.DataFrame, return_duplicates: bool = False, phase
     df_clean = df.copy()
 
     # Pre-calculate metadata richness for intelligent record preservation
-    # Priority: higher non-null column count, then higher Times Cited
-    cit_numeric = pd.to_numeric(df_clean.get("Times Cited", 0), errors="coerce").fillna(0)
+    cit_col = df_clean["Times Cited"] if "Times Cited" in df_clean.columns else pd.Series(0, index=df_clean.index)
+    cit_numeric = pd.to_numeric(cit_col, errors="coerce").fillna(0)
     non_null_counts = df_clean.notna().sum(axis=1)
     df_clean["_richness"] = non_null_counts * 1000000 + cit_numeric
 

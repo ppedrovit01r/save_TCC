@@ -1,0 +1,209 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-13 19:39:17 → 2026-10-13 19:39:18 (Duration: 1.86 seconds)
+
+=======================================================================
+             DOI IDENTIFICATION & DISCOVERY SUMMARY (UP TO NOW)
+=======================================================================
+• Total Records in Memory Dataset: 22
+• DOIs Originally Present at Ingestion: 22 (100.0%)
+• Missing DOI Records Investigated: 0
+• DOIs Successfully Discovered in Phase 0: 0 (0.0%)
+    - Discovered via Crossref Works Search: 0
+    - Discovered via OpenAlex BM25 Search: 0
+    - Discovered via PubMed eSearch/eFetch: 0
+    - Discovered via Semantic Scholar Match: 0
+    - Discovered via PubMed PMID Batch: 0
+• DOIs Discovered in Fallback Tiers (1.5 / 5): 0
+-----------------------------------------------------------------------
+• TOTAL DOIS FOUND UP TO NOW: 22 / 22 records (100.0% coverage)
+• Newly Discovered DOIs Added to Dataset: +0 records
+• Residual Records Still Without DOI: 0 records
+=======================================================================
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records Evaluated for Enrichment: 22
+• Post-Enrichment Duplicates Consolidated: 0
+• Fully Enriched Records (Found 100% of requested fields): 0 (0.0%)
+• Partially Enriched Records (Gained new data): 22 (100.0%)
+• Unresolved Records (Gained NO data): 0 (0.0%)
+
+Target Fields Requested (22 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 22
+• Total Records Evaluated for Enrichment: 22
+• Cluster Source Files Breakdown (2 files):
+    - MSEScopus2.csv: 22 records
+    - MSEIEEE2.csv: 1 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• PHASE 0: Multi-Engine DOI Discovery (Crossref, OpenAlex, PubMed, Semantic Scholar)
+    - Missing DOI Records Evaluated: 0
+    - DOIs Discovered: 0
+    - Hit Rate: 0.0%
+    - Engine Breakdown: None
+
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 22
+    - Records Resolved: 22 (100.0%)
+    - Total Field Values Populated: 402 lines
+    - Field Breakdown: {'OpenAlex ID': 22, 'Title': 22, 'Author': 22, 'Affiliations': 22, 'Country': 22, 'Address': 22, 'Location': 22, 'Abstract': 21, 'Keywords': 22, 'Concepts': 22, 'Article References': 16, 'Publication Year': 22, 'Times Cited': 22, 'Publisher': 17, 'Journal': 22, 'ISSN': 20, 'Document Type': 22, 'Language': 20, 'Open Access': 22}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 22
+    - Records Resolved: 22
+    - Total Field Values Populated: 77 lines
+    - Field Breakdown: {'Title': 22, 'Abstract': 11, 'Author': 22, 'Times Cited': 22}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 1
+    - Records Resolved: 1
+    - Total Field Values Populated: 2 lines
+    - Field Breakdown: {'Title': 1, 'Author': 1}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Residual Non-DOI Local Papers)
+    - Records Passed: 0 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. POST-ENRICHMENT HEURISTIC DEDUCTIONS & STANDARDIZATION
+--------------------------------------------------------------------------------
+• Affiliations Deduced from Address: 0 records
+• Country Deduced from Affiliations/Address: 0 records
+• Language Deduced from Country: 0 records
+• Author Western Name Normalization: Completed
+• Post-Enrichment Duplicates Consolidated: 0 records
+
+--------------------------------------------------------------------------------
+4. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 22 / 22
+
+• [Row 0] Source: MSEScopus2.csv
+  Title: 'Applying Process Mining: The Reality of a Software Deve' | DOI: '10.3390/app14041402'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 1] Source: MSEScopus2.csv
+  Title: 'Design and Implementation of Industrial Internet of Thi' | DOI: '10.1109/access.2026.3674418'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 2] Source: MSEScopus2.csv
+  Title: 'Digitalization, internationalization and scaling of onl' | DOI: '10.22215/timreview/1346'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 3] Source: MSEScopus2.csv
+  Title: 'DOCUMENTING SME PROCESSES WITH CONVERSATIONAL AI: FROM ' | DOI: '10.1049/icp.2025.3640'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 4] Source: MSEScopus2.csv
+  Title: 'Eliminating Non-Value-Added Activities and Optimizing M' | DOI: '10.3390/su16041694'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 5] Source: MSEScopus2.csv
+  Title: 'Evaluation of process orientation dimensions in the app' | DOI: '10.3390/su12104145'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 6] Source: MSEScopus2.csv
+  Title: 'Exploring blockchain for green logistics: how instituti' | DOI: '10.1108/jeim-07-2025-0655'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 7] Source: MSEScopus2.csv
+  Title: 'Exploring MSME Owners’ Expectations of Data-Driven Appr' | DOI: '10.3390/systems13040265'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 8] Source: MSEScopus2.csv
+  Title: 'From Theory to Practice: Empirical Insights on BPM Life' | DOI: '10.1109/access.2025.3585261'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 9] Source: MSEScopus2.csv
+  Title: 'Lean Service Application to Improve On-Time Project Del' | DOI: '10.3233/atde260687'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 10] Source: MSEScopus2.csv
+  Title: 'Major concerns about Enterprise Resource Planning (ERP)' | DOI: '10.1016/j.procs.2023.01.303'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 11] Source: MSEScopus2.csv
+  Title: 'Methodology for Business Process Automation in SMEs: Fr' | DOI: '10.28991/esj-2025-09-03-022'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 12] Source: MSEScopus2.csv
+  Title: 'Optimizing energy efficiency through smart manufacturin' | DOI: '10.18686/cest628'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 13] Source: MSEScopus2.csv
+  Title: 'PADDME—Process Analysis for Digital Development in Mech' | DOI: '10.3390/pr12010173'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 14] Source: MSEScopus2.csv
+  Title: 'PM4SMEs: A Process Mining Methodology for Small and Med' | DOI: '10.5220/0014691800004018'
+  Status: Enriched 16 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 15] Source: MSEScopus2.csv
+  Title: 'Priority Factors for the Adoption of Cloud ERP Based on' | DOI: '10.46338/ijetae1221_14'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 16] Source: MSEScopus2.csv
+  Title: 'Process Discovery in Industrial Valve Maintenance Using' | DOI: '10.1016/j.procs.2026.02.078'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 17] Source: MSEScopus2.csv
+  Title: 'PROMISE: A Process Mining Methodology for Small and Med' | DOI: '10.5220/0014834400004018'
+  Status: Enriched 16 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 18] Source: MSEScopus2.csv
+  Title: 'RPA Experiments in SMEs Through a Collaborative Network' | DOI: '10.1007/978-3-031-42622-3_54'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 19] Source: MSEScopus2.csv
+  Title: 'The Design of IoT-based Business Process for SME Digita' | DOI: '10.47738/jads.v5i2.247'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 20] Source: MSEScopus2.csv
+  Title: 'Understanding Agile Innovation Management Adoption for ' | DOI: '10.1109/tem.2022.3148341'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 21] Source: MSEScopus2.csv
+  Title: 'Unveiling how business process management capabilities ' | DOI: '10.1108/bpmj-06-2024-0467'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+================================================================================
+FINAL SUMMARY: 22/22 records received enhancement data. Audit saved to disk.
+TOTAL DOIS IDENTIFIED: 22 / 22 (100.0% coverage).
+================================================================================

@@ -1,0 +1,628 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-12 13:47:49 → 2026-10-12 13:53:25 (Duration: 5 minutes 36 seconds)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 314
+• Total Records Evaluated for Enrichment: 135
+• Post-Enrichment Duplicates Consolidated: 0
+• Records with Valid DOIs (Tier 1-4 Candidates): 26
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 109
+• Fully Enriched Records (Found 100% of requested fields): 23 (17.0%)
+• Partially Enriched Records (Gained new data): 3 (2.2%)
+• Unresolved Records (Gained NO data): 109 (80.7%)
+
+Target Fields Requested (2 fields): ['Abstract', 'Author']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 314
+• Total Records Evaluated for Enrichment: 135
+• Cluster Source Files Breakdown (3 files):
+    - MSESpringer.csv: 194 records
+    - MSEIEEE.csv: 13 records
+    - MSEScopus.csv: 110 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 26
+    - Records Resolved: 26 (100.0%)
+    - Total Field Values Populated: 72 lines
+    - Field Breakdown: {'OpenAlex ID': 26, 'Author': 24, 'Abstract': 22}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 3
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 19
+    - Records Resolved: 13
+    - Total Field Values Populated: 15 lines
+    - Field Breakdown: {'Abstract': 13, 'Author': 2}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 109 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 112 / 135
+
+• [Row 13] Source: MSESpringer.csv
+  Title: 'A Method for Digital Business Ecosystem Design: Evaluat' | DOI: '10.1007/978-3-031-61007-3_14'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 22] Source: MSESpringer.csv
+  Title: 'Abstracts from The XXV Brazilian Diabetes Society Meeti' | DOI: '10.1186/s13098-026-02095-2'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 52] Source: MSESpringer.csv
+  Title: '<b>GenRL FinTech: supporting the risk management proces' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 63] Source: MSESpringer.csv
+  Title: 'Business innovation modes in China’s firms: Technologic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 66] Source: MSESpringer.csv
+  Title: 'Can industry 5.0 technologies overcome supply chain dis' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 67] Source: MSESpringer.csv
+  Title: 'Capacity of innovation and entrepreneurship development' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 68] Source: MSESpringer.csv
+  Title: 'CEO Transformational Leadership, Supply Chain Agility a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 70] Source: MSESpringer.csv
+  Title: 'Cloud based manufacturing: A review of recent developme' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 82] Source: MSESpringer.csv
+  Title: 'Cyberattack, cyber risk mitigation capabilities, and fi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 84] Source: MSESpringer.csv
+  Title: 'Data Protection Impact Assessments in&#xa0;Practice' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 86] Source: MSESpringer.csv
+  Title: 'Data-driven forwarding:&#xa0;a typology of digital plat' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 111] Source: MSESpringer.csv
+  Title: 'Digitalization, inter-organizational collaboration, and' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 116] Source: MSESpringer.csv
+  Title: 'Does the psychometric validation of the sustainable com' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 121] Source: MSESpringer.csv
+  Title: 'ECR 2026 Book of Abstracts' | DOI: '10.1186/s13244-026-02345-x'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Abstract', 'Author']
+
+• [Row 134] Source: MSESpringer.csv
+  Title: 'Evaluating the Reasons Behind the Inefficient Implement' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 146] Source: MSESpringer.csv
+  Title: 'Extended reality technologies in small and medium-sized' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 154] Source: MSESpringer.csv
+  Title: 'FinTech, bank risk-taking, and credit allocation' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 155] Source: MSESpringer.csv
+  Title: 'FIT4HPC?—Accelerating digital transformation by superco' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 164] Source: MSESpringer.csv
+  Title: 'Government roles in legalizing China’s digital business' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 167] Source: MSESpringer.csv
+  Title: 'Higher Ethical Objective (<i>Maqasid al</i>-<i>Shari’ah' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 168] Source: MSESpringer.csv
+  Title: 'High-growth firms and their habitats' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 171] Source: MSESpringer.csv
+  Title: 'Human-centred SME factories: the future of work in SMEs' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 172] Source: MSESpringer.csv
+  Title: 'Hybrid artificial neural network and structural equatio' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 173] Source: MSESpringer.csv
+  Title: 'Identifying and assessing BIM implementation challenges' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 176] Source: MSESpringer.csv
+  Title: 'Impact of digital transformation on SME’s marketing per' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 178] Source: MSESpringer.csv
+  Title: 'Impact of generative AI and green process innovation on' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 179] Source: MSESpringer.csv
+  Title: 'Impact of personal cultural orientations and cultural i' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 180] Source: MSESpringer.csv
+  Title: 'Improved MRI detection of inflammation-induced changes ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 183] Source: MSESpringer.csv
+  Title: 'Information and communication technology in SMEs: a sys' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 184] Source: MSESpringer.csv
+  Title: 'Innovation Performance in the Digital Divide Context: N' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 185] Source: MSESpringer.csv
+  Title: 'Innovative Activity of the Service Sector of the EU Mem' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 187] Source: MSESpringer.csv
+  Title: 'Integrated ERP lean model for quality enhancement and o' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 188] Source: MSESpringer.csv
+  Title: 'Integrating customer relationship management with busin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 189] Source: MSESpringer.csv
+  Title: 'Integration of green supply chain and logistics practic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 190] Source: MSESpringer.csv
+  Title: 'Interoperability of digital twin data exchange in engin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 191] Source: MSESpringer.csv
+  Title: 'Interoperable Digital Building Twins Through Communicat' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 192] Source: MSESpringer.csv
+  Title: 'Interpretive structural modeling of factors influencing' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 195] Source: MSESpringer.csv
+  Title: 'Is digitalization a source of innovation? Exploring the' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 196] Source: MSESpringer.csv
+  Title: 'IT Capability, Organisational Learning and Innovation P' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 197] Source: MSESpringer.csv
+  Title: 'Key performance indicators for business models: a syste' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 198] Source: MSESpringer.csv
+  Title: 'Knowledge Management and Data Analysis Techniques for D' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 199] Source: MSESpringer.csv
+  Title: 'Large language models and conditional rules in clinical' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 200] Source: MSESpringer.csv
+  Title: 'Lean and Industry 4.0 mitigating common losses in Engin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 202] Source: MSESpringer.csv
+  Title: 'Leapfrogging Manufacturing? Rwanda’s Attempt to Build a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 203] Source: MSESpringer.csv
+  Title: 'Leveraging Natural Language Processing to Extract Influ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 204] Source: MSESpringer.csv
+  Title: 'LLM support for enterprise modelling based on integrati' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 205] Source: MSESpringer.csv
+  Title: 'Long-term business impacts of disasters on firm sales: ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 206] Source: MSESpringer.csv
+  Title: 'Low Code Development Cycle Investigation' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 208] Source: MSESpringer.csv
+  Title: 'Managerial experimental approaches and business model d' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 209] Source: MSESpringer.csv
+  Title: 'Managing big data and blockchain for enterprise interna' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 210] Source: MSESpringer.csv
+  Title: 'Mapping the digitalization in SMEs of Middle East regio' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 211] Source: MSESpringer.csv
+  Title: 'Mapping the evolution of cloud computing, AI, and busin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 213] Source: MSESpringer.csv
+  Title: 'Marketing communication tools and their influence on ma' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 216] Source: MSESpringer.csv
+  Title: 'Method engineering in information systems analysis and ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 218] Source: MSESpringer.csv
+  Title: 'Modeling ecosystems of reference frameworks for assuran' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 220] Source: MSESpringer.csv
+  Title: 'Multilevel relational influences on HRM practices: a cr' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 222] Source: MSESpringer.csv
+  Title: 'Navigating Business Model Redesign: The Compass Method ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 223] Source: MSESpringer.csv
+  Title: 'Navigating competing priorities for societal value crea' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 225] Source: MSESpringer.csv
+  Title: 'Necessary condition analysis (NCA): review of research ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 226] Source: MSESpringer.csv
+  Title: 'Onsite/offsite social commerce adoption for SMEs using ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 227] Source: MSESpringer.csv
+  Title: 'Open innovation: status quo and quo vadis - an analysis' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 231] Source: MSESpringer.csv
+  Title: 'Past, ongoing, and future debate on the interplay betwe' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 232] Source: MSESpringer.csv
+  Title: 'Pathways to digital entrepreneurship adoption among Mal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 234] Source: MSESpringer.csv
+  Title: 'Performance Management of Supply Chain Sustainability i' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 236] Source: MSESpringer.csv
+  Title: 'Port economics, management and policy studies (2009–202' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 239] Source: MSESpringer.csv
+  Title: 'Process Mining Success Factors and Their Interrelations' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 242] Source: MSESpringer.csv
+  Title: 'Protecting Citizens’ Personal Data and Privacy: Joint E' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 244] Source: MSESpringer.csv
+  Title: 'Reflective interventions for cybersecurity: insights fr' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 245] Source: MSESpringer.csv
+  Title: 'Research on data driven dynamic mechanism of energy ent' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 246] Source: MSESpringer.csv
+  Title: 'Resilience analysis of service-oriented collaboration p' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 247] Source: MSESpringer.csv
+  Title: 'Resilience in tourism-based SMEs driven by initiatives ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 248] Source: MSESpringer.csv
+  Title: 'Review of Material Modeling and Digitalization in Indus' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 249] Source: MSESpringer.csv
+  Title: 'Role of the orexin 2 receptor in palatable-food consump' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 251] Source: MSESpringer.csv
+  Title: 'Shaping Digital Innovation Via Digital-related Capabili' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 252] Source: MSESpringer.csv
+  Title: 'Significant Aspects of Managing Personnel Risk in the S' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 255] Source: MSESpringer.csv
+  Title: 'Small banks, big burdens: How regulatory requirements a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 257] Source: MSESpringer.csv
+  Title: 'Spatial distribution and business environment of specia' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 259] Source: MSESpringer.csv
+  Title: 'Strategic data democratization toward open finance: sta' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 260] Source: MSESpringer.csv
+  Title: 'Suitability- and utilization-based cost–benefit analysi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 261] Source: MSESpringer.csv
+  Title: 'Supply chain sustainability performance measurement of ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 265] Source: MSESpringer.csv
+  Title: 'Sustainable performance in public sector universities o' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 266] Source: MSESpringer.csv
+  Title: 'Tackling digital transformation strategy: how it affect' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 269] Source: MSESpringer.csv
+  Title: 'The D-BEST Reference Model: A Flexible and Sustainable ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 271] Source: MSESpringer.csv
+  Title: 'The determinants of green innovations in manufacturing ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 272] Source: MSESpringer.csv
+  Title: 'The digital backbone for architecting smart operations ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 274] Source: MSESpringer.csv
+  Title: 'The Five Diamond Method for Explorative Business Proces' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 275] Source: MSESpringer.csv
+  Title: 'The future of rare disease drug development: the rare d' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 277] Source: MSESpringer.csv
+  Title: 'The impact of digital transformation on the total facto' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 278] Source: MSESpringer.csv
+  Title: 'The impact of dynamic capabilities on shipping port per' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 279] Source: MSESpringer.csv
+  Title: 'The impact of entrepreneurship knowledge on students' e' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 281] Source: MSESpringer.csv
+  Title: 'The Main Drivers of Local Business Internationalization' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 282] Source: MSESpringer.csv
+  Title: 'The privacy protection mechanism of Hyperledger Fabric ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 283] Source: MSESpringer.csv
+  Title: 'The role of artificial intelligence in the supply chain' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 285] Source: MSESpringer.csv
+  Title: 'To twin or not to twin, that is the question: evaluatin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 287] Source: MSESpringer.csv
+  Title: 'Toward SMEs digital transformation success: a systemati' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 288] Source: MSESpringer.csv
+  Title: 'Towards a lightweight framework for service management ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 289] Source: MSESpringer.csv
+  Title: 'Towards a process selection method for embedded analyti' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 290] Source: MSESpringer.csv
+  Title: 'Towards an approach for strategic IoT architecture deci' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 291] Source: MSESpringer.csv
+  Title: 'Towards an integrated risk analysis security framework ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 292] Source: MSESpringer.csv
+  Title: 'Towards business partnership recommendation using user ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 295] Source: MSESpringer.csv
+  Title: 'Towards supply chain resilience: A structured process a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 297] Source: MSESpringer.csv
+  Title: 'Transitioning to circular business models in developing' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 301] Source: MSESpringer.csv
+  Title: 'Unlocking the power of youth: harnessing technology to ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 302] Source: MSESpringer.csv
+  Title: 'Unveiling challenges and insights in cloud Enterprise R' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 304] Source: MSESpringer.csv
+  Title: 'Upgrading the DUI mode: Human Resources Practices for t' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 305] Source: MSESpringer.csv
+  Title: 'Using Statistical Modeling for Enhanced and Flexible Ph' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 307] Source: MSESpringer.csv
+  Title: 'Verification, validation, and evaluation of modeling me' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 308] Source: MSESpringer.csv
+  Title: 'Virtual reality for prospective and process-related com' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 309] Source: MSESpringer.csv
+  Title: 'Visualization of Digital Transformation Initiatives Ele' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 311] Source: MSESpringer.csv
+  Title: 'Where does AI play a major role in the new product deve' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 312] Source: MSESpringer.csv
+  Title: 'Why the COVID-19 Crisis Is an Ethical Issue for Busines' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 313] Source: MSESpringer.csv
+  Title: '&#xa0;Transition of Manufacturing Companies towards the' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+================================================================================
+FINAL SUMMARY: 26/135 records received enhancement data. Audit saved to disk.
+================================================================================

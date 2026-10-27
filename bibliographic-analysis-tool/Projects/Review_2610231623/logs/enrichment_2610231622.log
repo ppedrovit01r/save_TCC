@@ -1,0 +1,103 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-23 16:22:41 → 2026-10-23 16:22:48 (Duration: 6.16 seconds)
+
+=======================================================================
+             DOI IDENTIFICATION & DISCOVERY SUMMARY (UP TO NOW)
+=======================================================================
+• Total Records in Memory Dataset: 1
+• DOIs Originally Present at Ingestion: 1 (100.0%)
+• Missing DOI Records Investigated: 0
+• DOIs Successfully Discovered in Phase 0: 0 (0.0%)
+    - Discovered via Crossref Works Search: 0
+    - Discovered via OpenAlex BM25 Search: 0
+    - Discovered via PubMed eSearch/eFetch: 0
+    - Discovered via Semantic Scholar Match: 0
+    - Discovered via PubMed PMID Batch: 0
+• DOIs Discovered in Fallback Tiers (1.5 / 5): 0
+-----------------------------------------------------------------------
+• TOTAL DOIS FOUND UP TO NOW: 1 / 1 records (100.0% coverage)
+• Newly Discovered DOIs Added to Dataset: +0 records
+• Residual Records Still Without DOI: 0 records
+=======================================================================
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records Evaluated for Enrichment: 1
+• Post-Enrichment Duplicates Consolidated: 0
+• Fully Enriched Records (Found 100% of requested fields): 0 (0.0%)
+• Partially Enriched Records (Gained new data): 1 (100.0%)
+• Unresolved Records (Gained NO data): 0 (0.0%)
+
+Target Fields Requested (22 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 1
+• Total Records Evaluated for Enrichment: 1
+• Cluster Source Files Breakdown (1 files):
+    - beest.xlsx: 1 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• PHASE 0: Multi-Engine DOI Discovery (Crossref, OpenAlex, PubMed, Semantic Scholar)
+    - Missing DOI Records Evaluated: 0
+    - DOIs Discovered: 0
+    - Hit Rate: 0.0%
+    - Engine Breakdown: None
+
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 1
+    - Records Resolved: 1 (100.0%)
+    - Total Field Values Populated: 18 lines
+    - Field Breakdown: {'OpenAlex ID': 1, 'Title': 1, 'Author': 1, 'Affiliations': 1, 'Country': 1, 'Address': 1, 'Location': 1, 'Keywords': 1, 'Concepts': 1, 'Article References': 1, 'Publication Year': 1, 'Times Cited': 1, 'Publisher': 1, 'Journal': 1, 'ISSN': 1, 'Document Type': 1, 'Language': 1, 'Open Access': 1}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 1
+    - Records Resolved: 1
+    - Total Field Values Populated: 13 lines
+    - Field Breakdown: {'Title': 1, 'Journal': 1, 'Publisher': 1, 'Publication Year': 1, 'Author': 1, 'ISSN': 1, 'Document Type': 1, 'Language': 1, 'Open Access': 1, 'Article References': 1, 'Times Cited': 1, 'Affiliations': 1, 'Country': 1}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 1 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 1
+    - Records Resolved: 1
+    - Total Field Values Populated: 1 lines
+    - Field Breakdown: {'Title': 1}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Residual Non-DOI Local Papers)
+    - Records Passed: 0 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. POST-ENRICHMENT HEURISTIC DEDUCTIONS & STANDARDIZATION
+--------------------------------------------------------------------------------
+• Affiliations Deduced from Address: 0 records
+• Country Deduced from Affiliations/Address: 0 records
+• Language Deduced from Country: 0 records
+• Author Western Name Normalization: Completed
+• Post-Enrichment Duplicates Consolidated: 0 records
+
+--------------------------------------------------------------------------------
+4. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 1 / 1
+
+• [Row 0] Source: beest.xlsx
+  Title: 'Open-Source Artificial Intelligence in Small-Bowel Caps' | DOI: '10.1002/deo2.70359'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Abstract', 'Funding']
+
+================================================================================
+FINAL SUMMARY: 1/1 records received enhancement data. Audit saved to disk.
+TOTAL DOIS IDENTIFIED: 1 / 1 (100.0% coverage).
+================================================================================

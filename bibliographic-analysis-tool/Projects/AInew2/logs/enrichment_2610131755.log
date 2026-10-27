@@ -1,0 +1,345 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-13 17:49:11 → 2026-10-13 17:55:07 (Duration: 5 minutes 56 seconds)
+
+=======================================================================
+             DOI IDENTIFICATION & DISCOVERY SUMMARY (UP TO NOW)
+=======================================================================
+• Total Records in Memory Dataset: 51
+• DOIs Originally Present at Ingestion: 51 (100.0%)
+• Missing DOI Records Investigated: 0
+• DOIs Successfully Discovered in Phase 0: 0 (0.0%)
+    - Discovered via Crossref Works Search: 0
+    - Discovered via OpenAlex BM25 Search: 0
+    - Discovered via PubMed eSearch/eFetch: 0
+    - Discovered via Semantic Scholar Match: 0
+    - Discovered via PubMed PMID Batch: 0
+• DOIs Discovered in Fallback Tiers (1.5 / 5): 0
+-----------------------------------------------------------------------
+• TOTAL DOIS FOUND UP TO NOW: 51 / 51 records (100.0% coverage)
+• Newly Discovered DOIs Added to Dataset: +0 records
+• Residual Records Still Without DOI: 0 records
+=======================================================================
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records Evaluated for Enrichment: 51
+• Post-Enrichment Duplicates Consolidated: 0
+• Fully Enriched Records (Found 100% of requested fields): 2 (3.9%)
+• Partially Enriched Records (Gained new data): 49 (96.1%)
+• Unresolved Records (Gained NO data): 0 (0.0%)
+
+Target Fields Requested (22 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 51
+• Total Records Evaluated for Enrichment: 51
+• Cluster Source Files Breakdown (3 files):
+    - AISpringer2.csv: 1 records
+    - AIIEEE2.csv: 6 records
+    - AIScopus2.csv: 49 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• PHASE 0: Multi-Engine DOI Discovery (Crossref, OpenAlex, PubMed, Semantic Scholar)
+    - Missing DOI Records Evaluated: 0
+    - DOIs Discovered: 0
+    - Hit Rate: 0.0%
+    - Engine Breakdown: None
+
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 51
+    - Records Resolved: 51 (100.0%)
+    - Total Field Values Populated: 914 lines
+    - Field Breakdown: {'OpenAlex ID': 51, 'Title': 51, 'Author': 51, 'Affiliations': 49, 'Country': 49, 'Address': 49, 'Location': 48, 'Abstract': 44, 'Keywords': 51, 'Concepts': 51, 'Article References': 37, 'Publication Year': 51, 'Times Cited': 51, 'Publisher': 39, 'Journal': 48, 'ISSN': 42, 'Document Type': 51, 'Language': 50, 'Open Access': 51}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 51
+    - Records Resolved: 51
+    - Total Field Values Populated: 187 lines
+    - Field Breakdown: {'Title': 51, 'Abstract': 19, 'Author': 50, 'Times Cited': 51, 'Document Type': 3, 'Funding': 5, 'Open Access': 3, 'Article References': 4, 'Publisher': 1}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 9
+    - Records Resolved: 8
+    - Total Field Values Populated: 19 lines
+    - Field Breakdown: {'Title': 8, 'Author': 8, 'Abstract': 3}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Residual Non-DOI Local Papers)
+    - Records Passed: 0 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. POST-ENRICHMENT HEURISTIC DEDUCTIONS & STANDARDIZATION
+--------------------------------------------------------------------------------
+• Affiliations Deduced from Address: 0 records
+• Country Deduced from Affiliations/Address: 0 records
+• Language Deduced from Country: 0 records
+• Author Western Name Normalization: Completed
+• Post-Enrichment Duplicates Consolidated: 0 records
+
+--------------------------------------------------------------------------------
+4. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 49 / 51
+
+• [Row 0] Source: AIScopus2.csv
+  Title: 'A conversational tool for AI-driven feedback for UML mo' | DOI: '10.1007/s10270-026-01373-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 1] Source: AIScopus2.csv
+  Title: 'A Decomposed Hybrid Approach to Business Process Modeli' | DOI: '10.1007/978-3-031-81375-7_14'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 2] Source: AIScopus2.csv
+  Title: 'A Direct Manipulation Interface for LLM-based Process M' | DOI: '10.1145/3750069.3755960'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 3] Source: AIScopus2.csv
+  Title: 'A Method for Extracting BPMN Models from Textual Descri' | DOI: '10.1016/j.procs.2024.06.196'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 4] Source: AIScopus2.csv
+  Title: 'A model-driven knowledge graph treatment for process-ce' | DOI: '10.1007/s10115-026-02819-w'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 5] Source: AIIEEE2.csv
+  Title: 'A Systematic LLM-Assisted Approach for Deriving Skills ' | DOI: '10.1109/access.2026.3692408'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 6] Source: AIScopus2.csv
+  Title: 'AIMHI-sport: an AI-driven mobile human–computer interac' | DOI: '10.1007/s44163-026-01629-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 7] Source: AIScopus2.csv
+  Title: 'Amalgamation of Classical and Large Language Models for' | DOI: '10.32604/cmc.2025.057792'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 8] Source: AIScopus2.csv
+  Title: 'An Adaptive Multi-Agent Framework for Semantic-Aware Pr' | DOI: '10.3390/computers14110481'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 9] Source: AIScopus2.csv
+  Title: 'An LLM-Based Q&A Natural Language Interface to Process ' | DOI: '10.1007/978-3-031-82225-4_1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 10] Source: AIScopus2.csv
+  Title: 'Are Large Language Models Fluent in Declarative Process' | DOI: '10.24963/ijcai.2025/501'
+  Status: Enriched 16 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 11] Source: AIScopus2.csv
+  Title: 'Assessing the business process modeling competences of ' | DOI: '10.1016/j.is.2026.102761'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 12] Source: AIScopus2.csv
+  Title: 'Automated Business Process Model Generation with Large ' | DOI: '10.1109/access.2026.3723936'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 13] Source: AIScopus2.csv
+  Title: 'Automatic Extraction and Formalization of Temporal Requ' | DOI: '10.1007/978-3-031-78338-8_14'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 14] Source: AIScopus2.csv
+  Title: 'Automatically Generating BPMN 2.0 Process Models from N' | DOI: '10.1007/s12599-025-00983-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 15] Source: AIScopus2.csv
+  Title: 'Automating Computation Independent Model Elicitation in' | DOI: '10.14569/ijacsa.2026.0170224'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 16] Source: AIScopus2.csv
+  Title: 'BPMN Assistant: An LLM-Based Approach to Business Proce' | DOI: '10.3390/app16052213'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 17] Source: AIScopus2.csv
+  Title: 'BPMN-Based Design of Multi-Agent Systems: Personalized ' | DOI: '10.3390/info16090809'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 18] Source: AIScopus2.csv
+  Title: 'Bridging the Interpretability Gap in Process Mining: A ' | DOI: '10.1007/978-3-032-08324-1_4'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 19] Source: AIScopus2.csv
+  Title: 'Conversational Process Model Redesign' | DOI: '10.1142/s0218843026500048'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 20] Source: AIScopus2.csv
+  Title: 'Conversational Systems for AI-Augmented Business Proces' | DOI: '10.1007/978-3-031-59465-6_12'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 21] Source: AIScopus2.csv
+  Title: 'Conversing with business process-aware large language m' | DOI: '10.1007/s10844-024-00898-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 22] Source: AIScopus2.csv
+  Title: 'DOCUMENTING SME PROCESSES WITH CONVERSATIONAL AI: FROM ' | DOI: '10.1049/icp.2025.3640'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 23] Source: AIScopus2.csv
+  Title: 'Dynamic Prompt-Based Framework for Pragmatic Quality Im' | DOI: '10.1109/access.2025.3580616'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 24] Source: AIScopus2.csv
+  Title: 'Enabling Non-Simulation Experts to Adapt Digital Twins ' | DOI: '10.1145/3802463.3802479'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 25] Source: AIScopus2.csv
+  Title: 'Exploring Conversational Dynamics in Scientific and Pse' | DOI: '10.2196/95273'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Funding']
+
+• [Row 26] Source: AIScopus2.csv
+  Title: 'FIDES: A Neuro-Symbolic Conversational Tool for Faithfu' | DOI: '10.1007/978-3-032-27997-2_22'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 27] Source: AIScopus2.csv
+  Title: 'From chat to process: A conversational agent framework ' | DOI: '10.1016/j.ipm.2026.104940'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 29] Source: AIScopus2.csv
+  Title: 'From Text to Process: Leveraging LLMs to Unveil Italian' | DOI: '10.1007/978-3-032-13426-4_38'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 30] Source: AIScopus2.csv
+  Title: 'Generating BPMN Healthcare Process Models Using LLMs' | DOI: '10.1007/978-3-032-28819-6_33'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 31] Source: AIScopus2.csv
+  Title: 'Generative AI for Business Model Generation (GAI4BM): f' | DOI: '10.46354/i3m.2024.foodops.013'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 32] Source: AIScopus2.csv
+  Title: 'GIVUP: Automated Generation and Verification of Textual' | DOI: '10.1145/3696630.3728593'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 33] Source: AIScopus2.csv
+  Title: 'Governance-Aware AI Workflow Infrastructure for Secure ' | DOI: '10.1109/ojcs.2026.3718448'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 34] Source: AIScopus2.csv
+  Title: 'Identifying GDPR-Critical Tasks in Business Process Des' | DOI: '10.1007/s12599-026-01016-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 35] Source: AIScopus2.csv
+  Title: 'Intelligent Business Document Processing Using AI- and ' | DOI: '10.3390/analytics5030031'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 36] Source: AIScopus2.csv
+  Title: 'Legal process mining for the analysis of public procure' | DOI: '10.1016/j.clsr.2026.106283'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 37] Source: AIScopus2.csv
+  Title: 'Leveraging large language models for enhanced process m' | DOI: '10.1016/j.dss.2025.114563'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 38] Source: AIIEEE2.csv
+  Title: 'LLM-Enhanced Human–Machine Interaction for Adaptive Dec' | DOI: '10.1109/access.2025.3549529'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 39] Source: AIScopus2.csv
+  Title: 'Locally Hosted Conversational Process Mining for Produc' | DOI: '10.24191/jmeche.v14i1.5757'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 40] Source: AIScopus2.csv
+  Title: 'Modelling Engineering Processes in Natural Language: A ' | DOI: '10.1145/3646548.3672584'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 41] Source: AIScopus2.csv
+  Title: 'Process Knowledge Extraction and Knowledge Graph Constr' | DOI: '10.1145/3605098.3635957'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 42] Source: AIScopus2.csv
+  Title: 'Process mining between the lines: Extracting object-cen' | DOI: '10.1016/j.is.2026.102713'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 43] Source: AIScopus2.csv
+  Title: 'ProcessGPT: Transforming Business Process Management wi' | DOI: '10.1109/icws60048.2023.00099'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 44] Source: AIIEEE2.csv
+  Title: 'Structured Extraction and BPMN Generation From Chinese ' | DOI: '10.1109/access.2025.3611811'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 45] Source: AIScopus2.csv
+  Title: 'Synthesis of BPMN Models from Text Specification Using ' | DOI: '10.12700/aph.23.2.2026.2.3'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 46] Source: AIScopus2.csv
+  Title: 'Taming the Complexity of Legal Change for Business Proc' | DOI: '10.1007/s12599-026-01008-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 47] Source: AIScopus2.csv
+  Title: 'Tell Me What to Do: Automatically Generating Process Im' | DOI: '10.24251/hicss.2025.676'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Address', 'PMID']
+
+• [Row 48] Source: AIScopus2.csv
+  Title: 'Towards the Integration of Conversational Agents Throug' | DOI: '10.1007/978-3-031-71739-0_3'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 50] Source: AIScopus2.csv
+  Title: 'WaterSeeker: Pioneering Efficient Detection of Watermar' | DOI: '10.18653/v1/2025.findings-naacl.156'
+  Status: Enriched 16 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+================================================================================
+FINAL SUMMARY: 51/51 records received enhancement data. Audit saved to disk.
+TOTAL DOIS IDENTIFIED: 51 / 51 (100.0% coverage).
+================================================================================

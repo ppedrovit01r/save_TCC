@@ -1,0 +1,98 @@
+digraph Auditable_SLR_Pipeline {
+    rankdir=LR;
+    size="7.4,4.6!";
+    ratio="compress";
+    margin="0.06,0.06";
+    nodesep=0.18;
+    ranksep=0.25;
+    fontname="Segoe UI, Helvetica, Arial, sans-serif";
+    node [fontname="Segoe UI, Helvetica, Arial, sans-serif", fontsize=9, height=0.32, margin="0.10,0.05"];
+    edge [fontname="Segoe UI, Helvetica, Arial, sans-serif", fontsize=8, color="#0F172A", penwidth=1.1, arrowsize=0.65];
+
+    subgraph cluster_search {
+        label = <<b>PHASE 1: SEARCH EXECUTION</b><br/><font point-size="9">(Using Inclusion Criteria)</font>>;
+        fontsize = 11;
+        fontcolor = "#0369A1";
+        color = "#0284C7";
+        style = "solid";
+        penwidth = 1.2;
+        margin = 10;
+
+        header_0 [label=<<b>IC 1</b><br/><font point-size="8">Conferências</font>>, shape=box, style="filled,rounded", fillcolor="#F0F9FF", color="#0284C7", penwidth=1.2];
+        header_1 [label=<<b>IC 2</b><br/><font point-size="8">English</font>>, shape=box, style="filled,rounded", fillcolor="#F0F9FF", color="#0284C7", penwidth=1.2];
+        header_2 [label=<<b>IC 3</b><br/><font point-size="8">Open Access</font>>, shape=box, style="filled,rounded", fillcolor="#F0F9FF", color="#0284C7", penwidth=1.2];
+        header_0 -> header_1 -> header_2 [style=invis, weight=5];
+
+        db_0 [label=<Scopus<br/><b>41 hits</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F172A", penwidth=1.3];
+        db_0_ic_0 [label=<IC 1: <b>37</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0284C7", penwidth=1.1];
+        db_0_ic_1 [label=<IC 2: <b>37</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0284C7", penwidth=1.1];
+        db_0_ic_2 [label=<IC 3: <b>11</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0284C7", penwidth=1.1];
+        db_0 -> db_0_ic_0 -> db_0_ic_1 -> db_0_ic_2 [color="#0284C7", penwidth=1.1];
+
+        db_1 [label=<IEEE Xplore<br/><b>25 hits</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0F172A", penwidth=1.3];
+        db_1_ic_0 [label=<IC 1: <b>20</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0284C7", penwidth=1.1];
+        db_1_ic_1 [label=<IC 2: <b>20</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0284C7", penwidth=1.1];
+        db_1_ic_2 [label=<IC 3: <b>8</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#0284C7", penwidth=1.1];
+        db_1 -> db_1_ic_0 -> db_1_ic_1 -> db_1_ic_2 [color="#0284C7", penwidth=1.1];
+
+        {rank=same; header_0; db_0_ic_0; db_1_ic_0;}
+        header_0 -> db_0_ic_0 [style=invis, weight=10];
+        {rank=same; header_1; db_0_ic_1; db_1_ic_1;}
+        header_1 -> db_0_ic_1 [style=invis, weight=10];
+        {rank=same; header_2; db_0_ic_2; db_1_ic_2;}
+        header_2 -> db_0_ic_2 [style=invis, weight=10];
+        {rank=same; db_0; db_1;}
+    }
+
+    # Pre-screening transition: duplicates and missing abstracts
+    total_retrieved [label=<19<br/><font point-size="8"><b>RETRIEVED</b></font>>, shape=box, style="rounded,bold", color="#0F172A", penwidth=1.4, fillcolor="#F8FAFC", width=0.9, height=0.4];
+    dedup_tag [label=<- 3<br/><font point-size="7" color="#DC2626"><b>DUPLICATES</b></font>>, shape=box, style="solid", color="#DC2626", penwidth=1.0, fillcolor="#FEF2F2", width=0.7, height=0.3];
+    noabs_tag [label=<- 2<br/><font point-size="7" color="#DC2626"><b>NO ABSTRACT</b></font>>, shape=box, style="solid", color="#DC2626", penwidth=1.0, fillcolor="#FEF2F2", width=0.7, height=0.3];
+    total_screen [label=<14<br/><font point-size="8" color="#0369A1"><b>SCREENING POOL</b></font>>, shape=box, style="rounded,bold", color="#0369A1", penwidth=1.5, fillcolor="#E0F2FE", width=0.9, height=0.4];
+
+    db_0_ic_2 -> total_retrieved;
+    db_1_ic_2 -> total_retrieved;
+    total_retrieved -> dedup_tag [color="#DC2626", penwidth=1.0, style=dashed];
+    total_retrieved -> noabs_tag [color="#DC2626", penwidth=1.0, style=dashed];
+    total_retrieved -> total_screen [color="#0284C7", penwidth=1.5];
+    {rank=same; dedup_tag; noabs_tag;}
+
+    # PHASE 2: SELECTION OF PUBLICATIONS (Thematic ECs in order)
+    subgraph cluster_selection {
+        label = <<b>PHASE 2: SELECTION</b><br/><font point-size="9">(Thematic Exclusion Criteria)</font>>;
+        fontsize = 11;
+        fontcolor = "#0369A1";
+        color = "#0369A1";
+        style = "dashed";
+        penwidth = 1.2;
+        margin = 10;
+
+        ec_0 [label=<EC 1: <b>Out of Scope</b><br/><font point-size="8" color="#166534">Passed: 10</font>>, shape=box, style="rounded,filled", fillcolor="#E0F2FE", color="#0284C7", penwidth=1.3];
+        ec_cnt_0 [label=<- 4<br/><font point-size="7" color="#DC2626"><b>EXCLUDED</b></font>>, shape=box, style="solid", color="#DC2626", penwidth=1.0, fillcolor="#FEF2F2", width=0.7, height=0.3];
+        ec_0 -> ec_cnt_0 [color="#DC2626", penwidth=1.0, style=dashed];
+        {rank=same; ec_0; ec_cnt_0;}
+
+        ec_1 [label=<EC 2: <b>Secondary Focus</b><br/><font point-size="8" color="#166534">Passed: 7</font>>, shape=box, style="rounded,filled", fillcolor="#E0F2FE", color="#0284C7", penwidth=1.3];
+        ec_cnt_1 [label=<- 3<br/><font point-size="7" color="#DC2626"><b>EXCLUDED</b></font>>, shape=box, style="solid", color="#DC2626", penwidth=1.0, fillcolor="#FEF2F2", width=0.7, height=0.3];
+        ec_1 -> ec_cnt_1 [color="#DC2626", penwidth=1.0, style=dashed];
+        {rank=same; ec_1; ec_cnt_1;}
+
+        ec_2 [label=<EC 3: <b>Grey Literature</b><br/><font point-size="8" color="#166534">Passed: 5</font>>, shape=box, style="rounded,filled", fillcolor="#E0F2FE", color="#0284C7", penwidth=1.3];
+        ec_cnt_2 [label=<- 2<br/><font point-size="7" color="#DC2626"><b>EXCLUDED</b></font>>, shape=box, style="solid", color="#DC2626", penwidth=1.0, fillcolor="#FEF2F2", width=0.7, height=0.3];
+        ec_2 -> ec_cnt_2 [color="#DC2626", penwidth=1.0, style=dashed];
+        {rank=same; ec_2; ec_cnt_2;}
+
+        ec_0 -> ec_1 -> ec_2 [color="#0284C7", penwidth=1.2];
+    }
+
+    total_screen -> ec_0 [color="#0284C7", penwidth=1.4];
+
+    final_selected [label=<5<br/><font point-size="8" color="#166534"><b>FINAL INCLUDED</b></font>>, shape=box, style="rounded,bold", color="#16A34A", penwidth=1.8, fillcolor="#DCFCE7", width=0.9, height=0.4];
+    ec_2 -> final_selected [penwidth=1.5, color="#16A34A"];
+
+    db_out_0 [label=<Scopus:<br/><b>3 included</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#16A34A", penwidth=1.2];
+    db_out_1 [label=<IEEE Xplore:<br/><b>2 included</b>>, shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#16A34A", penwidth=1.2];
+    final_selected -> db_out_0 [color="#16A34A", penwidth=1.1];
+    final_selected -> db_out_1 [color="#16A34A", penwidth=1.1];
+    {rank=same; db_out_0; db_out_1;}
+}

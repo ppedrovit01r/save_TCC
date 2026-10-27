@@ -18,7 +18,9 @@ from utils.project_manager import (
     save_master_dataset,
     load_master_dataset,
     list_saved_projects,
-    open_project_folder
+    open_project_folder,
+    save_project_prisma_state,
+    load_project_prisma_state
 )
 from utils.exports import render_project_saved_notice, _save_export_on_click
 
@@ -64,6 +66,24 @@ def add_to_memory(new_df, filename):
     
     # Auto-save master dataset into active project
     save_master_dataset(st.session_state.master_df)
+
+    # Auto-save PRISMA state with duplicates and raw file manifest so audit provenance is never lost
+    from utils.project_manager import get_active_project_name
+    active_proj = get_active_project_name()
+    if 'prisma_state' in st.session_state and st.session_state.prisma_state:
+        st.session_state.prisma_state['loaded_files'] = list(st.session_state.loaded_files)
+        st.session_state.prisma_state['file_manifest'] = dict(st.session_state.file_manifest)
+        st.session_state.prisma_state['prisma_imported_count'] = st.session_state.prisma_imported_count
+        save_project_prisma_state(st.session_state.prisma_state, prisma_duplicates=st.session_state.prisma_duplicates, project_name=active_proj)
+    else:
+        init_state = {
+            'project_name': active_proj,
+            'loaded_files': list(st.session_state.loaded_files),
+            'file_manifest': dict(st.session_state.file_manifest),
+            'prisma_imported_count': st.session_state.prisma_imported_count,
+            'screening_queue': list(st.session_state.master_df.index) if ('master_df' in st.session_state and st.session_state.master_df is not None) else []
+        }
+        save_project_prisma_state(init_state, prisma_duplicates=st.session_state.prisma_duplicates, project_name=active_proj)
     
     dedup_msg = f" (removed {dups_removed} duplicates)" if dups_removed > 0 else ""
     st.session_state.execution_logs.append(f"Auto-committed '{filename}' ({len(new_df)} valid rows out of {raw_new_count} raw){dedup_msg}. Total records in memory: {len(st.session_state.master_df)}")
@@ -161,6 +181,9 @@ def show(is_sidebar=False):
                     old_project = st.session_state.get("active_project_name", "Default_Project")
                     clean_name = set_active_project(user_name, migrate_from=old_project)
                     save_master_dataset(st.session_state.master_df, clean_name)
+                    if 'prisma_state' in st.session_state and st.session_state.prisma_state:
+                        st.session_state.prisma_state['project_name'] = clean_name
+                        save_project_prisma_state(st.session_state.prisma_state, project_name=clean_name)
                     st.session_state.fullscreen_core = False
                     st.session_state.last_enrich_completed = False
                     st.rerun()
@@ -170,11 +193,14 @@ def show(is_sidebar=False):
                     old_project = st.session_state.get("active_project_name", "Default_Project")
                     clean_name = set_active_project(def_name, migrate_from=old_project)
                     save_master_dataset(st.session_state.master_df, clean_name)
+                    if 'prisma_state' in st.session_state and st.session_state.prisma_state:
+                        st.session_state.prisma_state['project_name'] = clean_name
+                        save_project_prisma_state(st.session_state.prisma_state, project_name=clean_name)
                     st.session_state.fullscreen_core = False
                     st.session_state.last_enrich_completed = False
                     st.rerun()
 
-        @st.dialog("📂 Resume Saved Project")
+        @st.dialog("Resume Saved Project")
         def prompt_resume_project_modal():
             st.markdown("""
             Select an existing project workspace from `Projects/` to restore its enriched dataset and jump directly into the analysis workspace.
@@ -184,7 +210,7 @@ def show(is_sidebar=False):
                 return
 
             proj_labels = [
-                f"📁 {p['name']} ({p['row_count']:,} records · {p['file_size_mb']:.1f} MB · modified {p['modified_str']})"
+                f"{p['name']} ({p['row_count']:,} records · {p['file_size_mb']:.1f} MB · modified {p['modified_str']})"
                 for p in saved_projects
             ]
             selected_idx = st.selectbox(
@@ -205,18 +231,33 @@ def show(is_sidebar=False):
                         st.session_state.raw_df_backup = loaded_df.copy()
                         set_active_project(proj_name, migrate_from=None)
                         
-                        # Rebuild provenance if Source File present
-                        if 'Source File' in loaded_df.columns:
-                            src_counts = loaded_df['Source File'].value_counts().to_dict()
-                            st.session_state.file_manifest = src_counts
-                            st.session_state.loaded_files = list(src_counts.keys())
+                        # Restore saved PRISMA / SLR protocol & progress if present
+                        saved_prisma = load_project_prisma_state(proj_name, valid_indices=loaded_df.index)
+                        if saved_prisma:
+                            saved_prisma['project_name'] = proj_name
+                            st.session_state.prisma_state = saved_prisma
+                            if 'file_manifest' in saved_prisma and saved_prisma['file_manifest']:
+                                st.session_state.file_manifest = saved_prisma['file_manifest']
+                            if 'loaded_files' in saved_prisma and saved_prisma['loaded_files']:
+                                st.session_state.loaded_files = saved_prisma['loaded_files']
+                            if 'prisma_imported_count' in saved_prisma and saved_prisma['prisma_imported_count']:
+                                st.session_state.prisma_imported_count = saved_prisma['prisma_imported_count']
                         else:
-                            st.session_state.file_manifest = {f"{proj_name}_master": len(loaded_df)}
-                            st.session_state.loaded_files = [f"{proj_name}_master"]
+                            st.session_state.prisma_state = None
+
+                        # Fallback provenance only if not restored from saved_prisma
+                        if not st.session_state.get('loaded_files'):
+                            if 'Source File' in loaded_df.columns:
+                                src_counts = loaded_df['Source File'].value_counts().to_dict()
+                                st.session_state.file_manifest = src_counts
+                                st.session_state.loaded_files = list(src_counts.keys())
+                            else:
+                                st.session_state.file_manifest = {f"{proj_name}_master": len(loaded_df)}
+                                st.session_state.loaded_files = [f"{proj_name}_master"]
                             
                         st.session_state.fullscreen_core = False
                         st.session_state.last_enrich_completed = False
-                        st.toast(f"Workspace '{proj_name}' resumed successfully with {len(loaded_df):,} records!", icon="🚀")
+                        st.toast(f"Workspace '{proj_name}' resumed successfully with {len(loaded_df):,} records!", icon=":material/rocket_launch:")
                         st.rerun()
                     else:
                         st.error(f"Could not load valid dataset for '{proj_name}'.")
@@ -240,6 +281,9 @@ def show(is_sidebar=False):
         # If project is already set and not the initial un-named placeholder
         if current_active and current_active != "Default_Project":
             save_master_dataset(st.session_state.master_df, current_active)
+            if 'prisma_state' in st.session_state and st.session_state.prisma_state:
+                st.session_state.prisma_state['project_name'] = current_active
+                save_project_prisma_state(st.session_state.prisma_state, project_name=current_active)
             st.session_state.fullscreen_core = False
             st.session_state.last_enrich_completed = False
             st.rerun()
@@ -263,19 +307,19 @@ def show(is_sidebar=False):
             st.caption("Re-open an existing project from `Projects/` to restore previous enrichments.")
             
             num_saved = len(saved_projects)
-            st.markdown(f"""
-            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; padding: 12px 14px; border-radius: 6px; margin-bottom: 12px;">
-                <div style="font-size: 13px; color: #475569;">
-                    <strong>{num_saved}</strong> saved project{'s' if num_saved != 1 else ''} available on disk.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                f'<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; padding: 12px 14px; border-radius: 6px; margin-bottom: 12px;">'
+                f'<div style="font-size: 13px; color: #475569;">'
+                f'<strong>{num_saved}</strong> saved project{"s" if num_saved != 1 else ""} available on disk.'
+                f'</div></div>',
+                unsafe_allow_html=True
+            )
             
             if st.button("Browse & Resume Saved Project", type="secondary", icon=":material/folder_open:", width="stretch", key="btn_open_resume_modal", disabled=(num_saved == 0)):
                 prompt_resume_project_modal()
     else:
         uploaded_files = st.file_uploader(
-            "Add dataset file(s) (Excel, CSV, RIS, BibTeX, NBIB):",
+            "Add dataset file(s) (CSV, Excel, RIS, BibTeX, NBIB):",
             type=["csv", "xls", "xlsx", "bib", "ris", "nbib"],
             accept_multiple_files=True,
             key="uploader_sidebar"
@@ -289,7 +333,7 @@ def show(is_sidebar=False):
                     parsed_df = parse_file(u_file)
                     duration = time.time() - start_time
                     add_to_memory(parsed_df, u_file.name)
-                    st.toast(f"Auto-committed `{u_file.name}` ({len(parsed_df)} rows) in {format_duration(duration)}!", icon="📂")
+                    st.toast(f"Auto-committed `{u_file.name}` ({len(parsed_df)} rows) in {format_duration(duration)}!", icon=":material/folder_open:")
                 except Exception as e:
                     st.error(f"Error parsing `{u_file.name}`: {e}")
 
@@ -307,18 +351,16 @@ def show(is_sidebar=False):
         is_already_named = bool(current_active and current_active != "Default_Project")
         btn_label = f"Return to Analysis Workspace ({current_active})" if is_already_named else "Proceed Directly to Analysis Workspace (Skip Enrichment)"
         
-        st.markdown(f"""
-        <div style="background-color: rgba(105, 122, 162, 0.06); border: 1px solid rgba(105, 122, 162, 0.2); border-left: 5px solid #697aa2; padding: 14px 18px; border-radius: 8px; margin-top: 10px; margin-bottom: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                <div>
-                    <strong style="color: #1E293B; font-size: 15px;"><i class="bi bi-check-circle-fill" style="color: #697aa2;"></i> Dataset Loaded & Memory Cluster Active!</strong>
-                    <div style="color: #475569; font-size: 13.5px; margin-top: 2px;">
-                        {'Active project workspace: <b>' + current_active + '</b>. You can return directly to your interactive analysis tools.' if is_already_named else 'You can proceed directly into the interactive analysis workspace (Dashboards, Science Mapping, Stratification) without running enrichment.'}
-                    </div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        info_txt = f"Active project workspace: <b>{current_active}</b>. You can return directly to your interactive analysis tools." if is_already_named else "You can proceed directly into the interactive analysis workspace (Dashboards, Science Mapping, Stratification) without running enrichment."
+        st.markdown(
+            f'<div style="background-color: rgba(105, 122, 162, 0.06); border: 1px solid rgba(105, 122, 162, 0.2); border-left: 5px solid #697aa2; padding: 14px 18px; border-radius: 8px; margin-top: 10px; margin-bottom: 14px;">'
+            f'<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">'
+            f'<div>'
+            f'<strong style="color: #1E293B; font-size: 15px;"><i class="bi bi-check-circle-fill" style="color: #697aa2;"></i> Dataset Loaded & Memory Cluster Active!</strong>'
+            f'<div style="color: #475569; font-size: 13.5px; margin-top: 2px;">{info_txt}</div>'
+            f'</div></div></div>',
+            unsafe_allow_html=True
+        )
 
         if st.button(btn_label, type="primary", width="stretch", key="proceed_main_btn", icon=":material/arrow_forward:"):
             handle_proceed_to_workspace()
@@ -332,16 +374,25 @@ def show(is_sidebar=False):
         
         # Post-enrichment Success Banner (if just completed)
         if st.session_state.get('last_enrich_completed', False):
-            st.markdown("""
-            <div style="background-color: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-left: 5px solid #22c55e; padding: 14px 18px; border-radius: 8px; margin-bottom: 15px;">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <div>
-                        <strong style="color: #166534; font-size: 15px;"><i class="bi bi-check-circle-fill" style="color: #22c55e;"></i> Data Enrichment Succeeded!</strong>
-                        <div style="color: #15803d; font-size: 13.5px; margin-top: 2px;">Your dataset was enhanced across all 5 tiers. You can inspect updated columns below or proceed to the analysis workspace.</div>
-                    </div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            doi_summary_badge = ""
+            if st.session_state.get('last_doi_summary_line'):
+                doi_summary_badge = (
+                    f'<div style="background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; padding: 6px 12px; margin-top: 8px; font-size: 13px; color: #065f46; font-weight: 600;">'
+                    f'<i class="bi bi-fingerprint"></i> {st.session_state["last_doi_summary_line"]}'
+                    f'</div>'
+                )
+            banner_html = (
+                f'<div style="background-color: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-left: 5px solid #22c55e; padding: 14px 18px; border-radius: 8px; margin-bottom: 15px;">'
+                f'<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">'
+                f'<div>'
+                f'<strong style="color: #166534; font-size: 15px;"><i class="bi bi-check-circle-fill" style="color: #22c55e;"></i> Data Enrichment Succeeded!</strong>'
+                f'<div style="color: #15803d; font-size: 13.5px; margin-top: 2px;">Your dataset was enhanced across all 5 tiers. You can inspect updated columns below or proceed to the analysis workspace.</div>'
+                f'{doi_summary_badge}'
+                f'</div>'
+                f'</div>'
+                f'</div>'
+            )
+            st.markdown(banner_html, unsafe_allow_html=True)
             p_col1, p_col2 = st.columns([1, 3])
             with p_col1:
                 if st.button("Proceed to Analysis Workspace", type="primary", icon=":material/arrow_forward:", key="proceed_after_enrich"):
@@ -353,29 +404,30 @@ def show(is_sidebar=False):
             st.divider()
 
         # Comprehensive Guide & Instructions Panel
-        with st.expander("📖 Guide: How Data Enrichment & Multi-Tier Fallbacks Work", expanded=False):
-            st.markdown("""
+        with st.expander("Guide: How Data Enrichment & Multi-Tier Fallbacks Work", icon=":material/menu_book:", expanded=False):
+            st.markdown(r"""
             ### What is Bibliographic Data Enrichment?
-            When bibliographies are exported from academic databases (Scopus, Web of Science, PubMed, Google Scholar, etc.), records often have incomplete data: missing abstracts, incomplete affiliations, outdated citation counts, missing publication places, or unindexed keywords.
-            The **5-Tier Enrichment Engine** connects to scientific open-access registries to automatically populate these gaps without manual work.
+            When bibliographies are exported from academic databases (Scopus, Web of Science, PubMed, Google Scholar, etc.), records often have incomplete data: missing DOIs, missing abstracts, incomplete affiliations, outdated citation counts, or unindexed keywords.
+            The **Multi-Tier Enrichment Engine** connects to scientific open-access registries to automatically populate these gaps without manual work.
 
             ---
-            ### The 5-Tier Fallback Hierarchy
-            When enrichment runs, each record cascades through 5 specialized APIs:
-            1. **Tier 1 (OpenAlex Batch API):** Fast bulk queries via DOIs that resolve author affiliations, publication years, fresh citation counts, abstracts, journal names, and concept maps.
-            2. **Tier 2 (Crossref REST API):** Official DOI registration agency fallback to recover official publisher names, container journal titles, dates, volumes, and page numbers.
+            ### The Multi-Tier Fallback Hierarchy
+            When enrichment runs, each record traverses an intelligent multi-stage cascade:
+            0. **Phase 0 (Concurrent Multi-Engine DOI Discovery):** For records missing DOIs, the engine concurrently queries **Crossref Works Search**, **OpenAlex BM25 Search**, **PubMed eSearch**, and **Semantic Scholar Match**. Candidates are verified with a triangulated confidence score (Title similarity $\ge 82\%$, Author surname match, and Year tolerance) to safely discover canonical DOIs before querying metadata tiers.
+            1. **Tier 1 (OpenAlex Batch API):** Fast bulk queries via DOIs that resolve author affiliations, publication years, fresh citation counts, abstracts, journal names, and concept maps in batches of 50.
+            2. **Tier 2 (Crossref REST API):** Official DOI registration agency fallback to recover official publisher names, container journal titles, dates, volumes, document types, funding, open access status, and references whenever OpenAlex has gaps.
             3. **Tier 3 (PubMed / NLM eUtils):** Biomedical authority fallback using PMIDs to fetch authoritative MeSH terms and clinical abstracts.
             4. **Tier 4 (Semantic Scholar API):** AI-powered scholarly index fallback for retrieving missing paper abstracts and TLDR summaries.
-            5. **Tier 5 (OpenAlex Fuzzy Title Matching):** For local or non-DOI records (e.g., conference papers or institutional preprints), searches by title to recover true DOIs and complete metadata.
+            5. **Tier 5 (Residual Non-DOI Fallback):** For unindexed local papers that lack DOIs anywhere, applies candidate metadata retrieved from title search.
 
             ---
             ### 1-Click Multi-Tier Profiles
             - **Smart Enrich (X Missing):** Dynamically inspects your current dataset and only queries the APIs for the specific columns that have empty/missing values in memory.
             - **Basic Enrich:** Quickly enriches foundational bibliographic publishing data (`Author`, `Publication Year`, `Times Cited`, `Publisher`, `Journal`, `Article References`).
             - **Smart + Basic Enrich:** Merges detected missing fields with the core publishing metadata.
-            - **Smart + All (Ultimate Enrich):** The **ultimate button**. Evaluates all records across all 5 tiers for all 20+ fields (including resolving missing DOIs, live citation updates, full abstracts, author addresses, conference locations, and funding).
+            - **Smart + All (Ultimate Enrich):** The **ultimate button**. Evaluates all records across all tiers for all 20+ fields (including resolving missing DOIs, live citation updates, full abstracts, author addresses, conference locations, and funding).
 
-            *Note: All API queries are cached locally for 7 days, so re-running enrichment on the same dataset is instantaneous.*
+            *Note: All API queries are cached locally, so re-running enrichment on the same dataset is instantaneous.*
             """)
 
         # Categorized Core Diagnostics (Only shows on fullscreen core screen, skipped in compact sidebar)
@@ -416,16 +468,16 @@ def show(is_sidebar=False):
         st.markdown("<h3 style='font-size: 19px; font-weight: 700; color: #1E293B; margin-top: 10px;'><i class='bi bi-rocket-takeoff-fill' style='color: #697aa2;'></i> 1-Click Multi-Tier Enrichment Hub</h3>", unsafe_allow_html=True)
         
         with st.container():
-            st.markdown(f"""
-            <div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; padding: 12px 16px; border-radius: 6px; margin-bottom: 12px;">
-                <div style="font-weight: 700; color: #1E293B; font-size: 13.5px; margin-bottom: 4px;">
-                    <i class="bi bi-search" style="color: #697aa2;"></i> Live Smart Enrich Pre-Flight Plan
-                </div>
-                <div style="color: #475569; font-size: 12.5px;">
-                    Scanning current dataset detected <b>{len(missing_fields)} fields</b> with incomplete or missing records.
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown(
+                f'<div style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-left: 4px solid #697aa2; padding: 12px 16px; border-radius: 6px; margin-bottom: 12px;">'
+                f'<div style="font-weight: 700; color: #1E293B; font-size: 13.5px; margin-bottom: 4px;">'
+                f'<i class="bi bi-search" style="color: #697aa2;"></i> Live Smart Enrich Pre-Flight Plan'
+                f'</div>'
+                f'<div style="color: #475569; font-size: 12.5px;">'
+                f'Scanning current dataset detected <b>{len(missing_fields)} fields</b> with incomplete or missing records.'
+                f'</div></div>',
+                unsafe_allow_html=True
+            )
 
             if missing_fields:
                 badges_html = []
@@ -459,13 +511,13 @@ def show(is_sidebar=False):
 
                 st.markdown(
                     "<div style='margin-bottom: 12px;'>"
-                    "<div style='font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px;'>🎯 Smart Enrich Will Target:</div>"
+                    "<div style='font-size: 13px; font-weight: 700; color: #334155; margin-bottom: 6px;'><i class='bi bi-bullseye' style='color:#697aa2;'></i> Smart Enrich Will Target:</div>"
                     f"<div style='display: flex; flex-wrap: wrap; gap: 4px;'>{''.join(badges_html)}</div>"
                     "</div>",
                     unsafe_allow_html=True
                 )
             else:
-                st.success("✨ All 20+ schema fields are currently 100% populated in memory!")
+                st.success("All 20+ schema fields are currently 100% populated in memory!", icon=":material/check_circle:")
 
         enrich_target_fields = None
         is_ultimate_run = False
@@ -521,6 +573,7 @@ def show(is_sidebar=False):
         # Feature Clusters & Custom Selection
         st.markdown("<h4 style='font-size: 16px; font-weight: 700; color: #1E293B; margin-top: 20px;'><i class='bi bi-grid-3x3-gap-fill' style='color: #697aa2;'></i> Feature Clusters & Custom Field Selection</h4>", unsafe_allow_html=True)
         clusters = {
+            "Identifier Discovery": ['DOI', 'OpenAlex ID', 'PMID'],
             "Author Disambiguation": ['Author'],
             "Basic Metadata": basic_fields,
             "English Normalization": ['Title', 'Abstract', 'Keywords', 'Concepts'],
@@ -622,7 +675,7 @@ def show(is_sidebar=False):
                     st.session_state.raw_df_backup = df_processed.copy()
                 save_master_dataset(st.session_state.master_df)
                 st.session_state.last_enrich_completed = True
-                st.toast("Multi-Tier Data Enrichment Complete!", icon="🎉")
+                st.toast("Multi-Tier Data Enrichment Complete!", icon=":material/check_circle:")
                 st.rerun()
 
     with tab_memory:
@@ -644,7 +697,8 @@ def show(is_sidebar=False):
                 st.dataframe(manifest_df, width="stretch", hide_index=True, height=140)
 
             st.caption("Combined Dataset Preview:")
-            st.dataframe(st.session_state.master_df.head(5), width="stretch", height=180)
+            from utils.formatters import sanitize_df_for_streamlit
+            st.dataframe(sanitize_df_for_streamlit(st.session_state.master_df.head(5)), width="stretch", height=180)
 
             # Dataset Integrity & Deduplication Action
             d_col1, d_col2 = st.columns([0.7, 0.3], vertical_alignment="center")
@@ -754,12 +808,25 @@ def show(is_sidebar=False):
                 st.session_state.active_project_name = "Default_Project"
                 st.session_state.loaded_files = []
                 st.session_state.file_manifest = {}
-                st.toast("Memory wiped & project workspace closed. Session restarted cleanly.", icon="🧹")
+                st.toast("Memory wiped & project workspace closed. Session restarted cleanly.", icon=":material/cleaning_services:")
                 st.rerun()
 
         st.divider()
         with st.expander("Detailed Enrichment Execution Logs & Audit Trail", expanded=False):
+            if st.session_state.get('last_doi_summary_line'):
+                st.markdown(
+                    f'<div style="background-color: #F0FDF4; border: 1px solid #BBF7D0; border-left: 4px solid #16A34A; padding: 10px 14px; border-radius: 6px; margin-bottom: 12px; font-size: 13.5px; color: #166534; font-weight: 600;">'
+                    f'<i class="bi bi-fingerprint" style="margin-right: 4px;"></i> {st.session_state["last_doi_summary_line"]}'
+                    f'</div>',
+                    unsafe_allow_html=True
+                )
+
             if "last_enrichment_report" in st.session_state and st.session_state.last_enrichment_report:
+                st.info(
+                    "💡 **API & Work Verification Guide:**\n"
+                    "- **OpenAlex Work IDs** (`W...`): Open `https://openalex.org/works/<ID>` directly in your browser. (Searching raw 'W...' in openalex.org search box only searches article title text, not the ID database).\n"
+                    "- **Crossref Works**: Crossref uses DOIs as primary identifiers. You can inspect Crossref's raw JSON response at `https://api.crossref.org/works/<DOI>` or the paper via `https://doi.org/<DOI>`."
+                )
                 fn_audit = format_timestamped_filename("enrichment_audit.log")
                 st.download_button(
                     "Download Full Audit Log (.log)",
@@ -769,11 +836,14 @@ def show(is_sidebar=False):
                     width="stretch"
                 )
                 st.code(st.session_state.last_enrichment_report, language="text")
-            elif len(st.session_state.execution_logs) > 0:
-                for log in st.session_state.execution_logs:
-                    if isinstance(log, str) and "======" in log:
-                        st.code(log, language="text")
-                    else:
-                        st.markdown(f"**>** `{log}`")
-            else:
+
+            # Granular per-record events log
+            exec_logs = st.session_state.get('execution_logs', [])
+            if exec_logs:
+                non_audit_logs = [l for l in exec_logs if not (isinstance(l, str) and "======" in l)]
+                if non_audit_logs:
+                    with st.expander(f"Granular Step-by-Step Event Log ({len(non_audit_logs):,} events)", expanded=False):
+                        for log in non_audit_logs:
+                            st.markdown(f"**>** `{log}`")
+            elif not st.session_state.get('last_enrichment_report'):
                 st.caption("No enrichment execution logs recorded yet.")

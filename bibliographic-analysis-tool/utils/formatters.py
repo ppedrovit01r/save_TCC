@@ -117,3 +117,194 @@ def clean_year_series(series) -> 'pd.Series':
     except Exception:
         return series
 
+
+def clean_pages_value(val) -> str:
+    """
+    Cleans a single Pages value so that it never displays with trailing '.0' or as a float.
+    Handles numeric page numbers, page ranges, and missing/NaN values uniformly as strings.
+    
+    Examples:
+        42.0 -> '42'
+        '42.0' -> '42'
+        '1817-1818' -> '1817-1818'
+        'e12345' -> 'e12345'
+        np.nan -> ''
+        None -> ''
+    """
+    if val is None:
+        return ""
+        
+    import numpy as np
+    import pandas as pd
+
+    if isinstance(val, (float, np.floating)):
+        if np.isnan(val):
+            return ""
+        if val.is_integer():
+            return str(int(val))
+        return str(val)
+        
+    if isinstance(val, (int, np.integer)):
+        return str(int(val))
+
+    s = str(val).strip()
+    if not s or s.lower() in ("nan", "<na>", "none", "null", "unknown", "n/a"):
+        return ""
+
+    if s.endswith(".0"):
+        s_int = s[:-2]
+        if s_int.isdigit():
+            return s_int
+
+    return s
+
+
+def clean_pages_series(series) -> 'pd.Series':
+    """
+    Standardizes a pandas Series of Pages into clean strings (e.g. '42', '1817-1818', or '').
+    Prevents mixed float and string objects that cause PyArrow serialization errors in Streamlit.
+    """
+    if series is None:
+        return series
+    try:
+        import pandas as pd
+        if not isinstance(series, pd.Series) or series.empty:
+            return series
+        return series.apply(clean_pages_value).astype(str)
+    except Exception:
+        return series
+
+
+def clean_metadata_value(val) -> str:
+    """
+    Cleans a general textual/metadata value (e.g. Volume, Issue, ISSN, PMID) into a uniform string.
+    Removes trailing '.0' if representing an integer, and converts missing/NaN values to empty strings.
+    """
+    if val is None:
+        return ""
+        
+    import numpy as np
+    import pandas as pd
+
+    if isinstance(val, (float, np.floating)):
+        if np.isnan(val):
+            return ""
+        if val.is_integer():
+            return str(int(val))
+        return str(val)
+        
+    if isinstance(val, (int, np.integer)):
+        return str(int(val))
+        
+    if isinstance(val, (list, tuple)):
+        return ", ".join(str(x) for x in val if pd.notna(x) and str(x).strip())
+
+    s = str(val).strip()
+    if not s or s.lower() in ("nan", "<na>", "none", "null", "unknown", "n/a"):
+        return ""
+
+    if s.endswith(".0"):
+        s_int = s[:-2]
+        if s_int.isdigit():
+            return s_int
+
+    return s
+
+
+def clean_metadata_series(series) -> 'pd.Series':
+    """
+    Standardizes a pandas Series of textual metadata into clean strings.
+    """
+    if series is None:
+        return series
+    try:
+        import pandas as pd
+        if not isinstance(series, pd.Series) or series.empty:
+            return series
+        return series.apply(clean_metadata_value).astype(str)
+    except Exception:
+        return series
+
+
+def sanitize_df_for_streamlit(df: 'pd.DataFrame') -> 'pd.DataFrame':
+    """
+    Sanitizes a pandas DataFrame before rendering in Streamlit (via st.dataframe, st.data_editor, etc.).
+    Ensures that mixed-type columns (specifically object columns containing a mixture of strings,
+    floats, ints, or nested collections) are coerced to uniform types, preventing PyArrow serialization
+    exceptions such as ArrowTypeError: ("Expected bytes, got a 'float' object").
+    """
+    if df is None:
+        return df
+    try:
+        import pandas as pd
+        import numpy as np
+        if not isinstance(df, pd.DataFrame) or df.empty:
+            return df
+
+        clean_df = df.copy()
+        
+        # Columns that should remain purely numeric
+        numeric_col_names = {
+            'times cited', 'citations', 'count', 'frequency', 'n_docs', 
+            'centrality', 'density', 'probability', 'position', 'growth_coefficient'
+        }
+
+        for col in clean_df.columns:
+            col_lower = str(col).lower().strip()
+            if col_lower in numeric_col_names:
+                continue
+
+            col_series = clean_df[col]
+
+            if col == 'Publication Year':
+                clean_df[col] = clean_year_series(col_series)
+            elif col == 'Pages':
+                clean_df[col] = clean_pages_series(col_series)
+            elif col in ('Volume', 'Issue', 'PMID', 'ISSN', 'DOI', 'OpenAlex ID', 'Language', 'Document Type'):
+                clean_df[col] = clean_metadata_series(col_series)
+            elif col_series.dtype == 'object':
+                non_nulls = col_series.dropna()
+                if not non_nulls.empty:
+                    val_types = set(type(x) for x in non_nulls)
+                    # If mixed scalar types, non-primitives, or float in object column
+                    if len(val_types) > 1 or any(t in (dict, list, tuple, set) for t in val_types) or float in val_types:
+                        clean_df[col] = clean_metadata_series(col_series)
+
+        return clean_df
+    except Exception:
+        return df
+
+
+def normalize_doi_url(val) -> str | None:
+    """
+    Normalizes a DOI string or URL into a canonical https://doi.org/... URL.
+    Returns None if the value is empty, invalid, or missing.
+    
+    Examples:
+        '10.1002/deo2.70359' -> 'https://doi.org/10.1002/deo2.70359'
+        'https://doi.org/10.1002/deo2.70359' -> 'https://doi.org/10.1002/deo2.70359'
+        'http://dx.doi.org/10.1002/deo2.70359' -> 'https://doi.org/10.1002/deo2.70359'
+        'doi:10.1002/deo2.70359' -> 'https://doi.org/10.1002/deo2.70359'
+        np.nan -> None
+    """
+    if val is None:
+        return None
+    import pandas as pd
+    if pd.isna(val):
+        return None
+    s = str(val).strip()
+    if not s or s.lower() in ('nan', 'none', 'null', '-', 'n/a'):
+        return None
+    if s.startswith('http://') or s.startswith('https://'):
+        if s.startswith('http://dx.doi.org/'):
+            return 'https://doi.org/' + s[18:]
+        elif s.startswith('http://doi.org/'):
+            return 'https://doi.org/' + s[15:]
+        return s
+    if s.lower().startswith('doi:'):
+        s = s[4:].strip()
+    s = s.lstrip('/')
+    return f"https://doi.org/{s}"
+
+
+

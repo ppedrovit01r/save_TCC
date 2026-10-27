@@ -1,0 +1,1259 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-12 15:29:53 → 2026-10-12 15:36:07 (Duration: 6 minutes 14 seconds)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 238
+• Total Records Evaluated for Enrichment: 238
+• Post-Enrichment Duplicates Consolidated: 0
+• Records with Valid DOIs (Tier 1-4 Candidates): 40
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 198
+• Fully Enriched Records (Found 100% of requested fields): 0 (0.0%)
+• Partially Enriched Records (Gained new data): 40 (16.8%)
+• Unresolved Records (Gained NO data): 198 (83.2%)
+
+Target Fields Requested (12 fields): ['Author', 'Title', 'Location', 'Concepts', 'Language', 'Journal', 'Publication Year', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 238
+• Total Records Evaluated for Enrichment: 238
+• Cluster Source Files Breakdown (3 files):
+    - AIScopus.csv: 35 records
+    - AISpringer.csv: 200 records
+    - AIIEEE.csv: 9 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 40
+    - Records Resolved: 0 (0.0%)
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 40
+    - Records Resolved: 40
+    - Total Field Values Populated: 52 lines
+    - Field Breakdown: {'Title': 40, 'Abstract': 12}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 4
+    - Records Resolved: 4
+    - Total Field Values Populated: 6 lines
+    - Field Breakdown: {'Title': 4, 'Abstract': 2}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 198 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 238 / 238
+
+• [Row 0] Source: AISpringer.csv
+  Title: 'A bibliometric review of interpretability and explainab' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 1] Source: AISpringer.csv
+  Title: 'A comparative analysis of predictive process monitoring' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 2] Source: AISpringer.csv
+  Title: 'A comprehensive review of AI methods in upper extremity' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 3] Source: AISpringer.csv
+  Title: 'A conversational tool for AI-driven feedback for UML mo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 4] Source: AIScopus.csv
+  Title: 'A Decomposed Hybrid Approach to Business Process Modeli' | DOI: '10.1007/978-3-031-81375-7_14'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 5] Source: AIScopus.csv
+  Title: 'A Direct Manipulation Interface for LLM-based Process M' | DOI: '10.1145/3750069.3755960'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 6] Source: AISpringer.csv
+  Title: 'A knowledge-driven semantic framework for non-functiona' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 7] Source: AIScopus.csv
+  Title: 'A Method for Extracting BPMN Models from Textual Descri' | DOI: '10.1016/j.procs.2024.06.196'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 8] Source: AISpringer.csv
+  Title: 'A model for incorporating AI into ERP software' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 9] Source: AIScopus.csv
+  Title: 'A model-driven knowledge graph treatment for process-ce' | DOI: '10.1007/s10115-026-02819-w'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 10] Source: AISpringer.csv
+  Title: 'A model-driven knowledge graph treatment for process-ce' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 11] Source: AISpringer.csv
+  Title: 'A novel intelligent hybrid reinforcement learning frame' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 12] Source: AISpringer.csv
+  Title: 'A novel recommender framework with chatbot to stratify ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 13] Source: AISpringer.csv
+  Title: 'A personal health large language model for sleep and fi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 14] Source: AISpringer.csv
+  Title: 'A secured accreditation and equivalency certification u' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 15] Source: AISpringer.csv
+  Title: 'A smart community interactive art therapy platform base' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 16] Source: AIIEEE.csv
+  Title: 'A Systematic LLM-Assisted Approach for Deriving Skills ' | DOI: '10.1109/ACCESS.2026.3692408'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Location', 'Concepts', 'Document Type', 'Open Access']
+
+• [Row 17] Source: AISpringer.csv
+  Title: 'A systematic review and descriptive analysis of artific' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 18] Source: AISpringer.csv
+  Title: 'A systematic review of neurophysiological sensing for t' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 19] Source: AISpringer.csv
+  Title: 'A Taxonomy for Process Improvement and Innovation Syste' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 20] Source: AISpringer.csv
+  Title: 'A Teleological Approach to Information Systems Design' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 21] Source: AISpringer.csv
+  Title: 'A unified knowledge graph linking foodomics to chemical' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 22] Source: AISpringer.csv
+  Title: 'Abstracts of the ERICA ERN research conference' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 23] Source: AISpringer.csv
+  Title: 'Acoustic feature decoupling and pre-trained language mo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 24] Source: AISpringer.csv
+  Title: 'Agentic AI' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 25] Source: AISpringer.csv
+  Title: 'AI integration in financial services: a systematic revi' | DOI: '10.1057/s41599-025-04850-8'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 26] Source: AISpringer.csv
+  Title: 'AI-based remaining useful life prediction for civil inf' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 27] Source: AISpringer.csv
+  Title: 'AI−driven listening systems in language acquisition red' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 28] Source: AISpringer.csv
+  Title: 'AI-Enhanced Hybrid Decision Management' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 29] Source: AIScopus.csv
+  Title: 'AIMHI-sport: an AI-driven mobile human–computer interac' | DOI: '10.1007/s44163-026-01629-x'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 30] Source: AISpringer.csv
+  Title: 'AIMHI-sport: an AI-driven mobile human–computer interac' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 31] Source: AISpringer.csv
+  Title: 'Aligning Clinical Needs and AI Capabilities: A Survey o' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 32] Source: AISpringer.csv
+  Title: 'An ambient assisted living architecture for hospital at' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 33] Source: AISpringer.csv
+  Title: 'An empirical study of business process models and model' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 34] Source: AISpringer.csv
+  Title: 'Analyzing structural and semantic similarities between ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 35] Source: AISpringer.csv
+  Title: 'Apnea detection using wrist actigraphy in patients with' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 36] Source: AISpringer.csv
+  Title: 'Application of artificial intelligence in schizophrenia' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 37] Source: AISpringer.csv
+  Title: 'Artificial intelligence in conformance checking: state ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 38] Source: AISpringer.csv
+  Title: 'Artificial Intelligence-powered tiered early warning fr' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 39] Source: AISpringer.csv
+  Title: 'Assessing and&#xa0;Comparing Free Large Language Models' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 40] Source: AIScopus.csv
+  Title: 'Assessing the business process modeling competences of ' | DOI: '10.1016/j.is.2026.102761'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 41] Source: AISpringer.csv
+  Title: 'Augmenting software engineering with AI. The <i>ai4se</' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 42] Source: AIScopus.csv
+  Title: 'Automated Business Process Model Generation With Large ' | DOI: '10.1109/ACCESS.2026.3723936'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 43] Source: AISpringer.csv
+  Title: 'Automated consistency analysis for legal contracts' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 44] Source: AISpringer.csv
+  Title: 'Automated cybersecurity compliance and threat response ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 45] Source: AISpringer.csv
+  Title: 'Automated project scheduling from UML sequence diagrams' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 46] Source: AIScopus.csv
+  Title: 'Automatic Extraction and Formalization of Temporal Requ' | DOI: '10.1007/978-3-031-78338-8_14'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 47] Source: AIScopus.csv
+  Title: 'Automatically Generating BPMN 2.0 Process Models from N' | DOI: '10.1007/s12599-025-00983-x'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 48] Source: AISpringer.csv
+  Title: 'Automatically Generating BPMN 2.0 Process Models from N' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 49] Source: AIScopus.csv
+  Title: 'Automating Computation Independent Model Elicitation in' | DOI: '10.14569/IJACSA.2026.0170224'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 50] Source: AISpringer.csv
+  Title: 'Automating model management: a survey on metaheuristics' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 51] Source: AISpringer.csv
+  Title: 'Best Abstracts' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 52] Source: AISpringer.csv
+  Title: 'BioEnvSense: a human-centred security framework for pre' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 53] Source: AISpringer.csv
+  Title: 'Biologically inspired neuromorphic-XAI synergy for tran' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 54] Source: AIScopus.csv
+  Title: 'BPMN Assistant: An LLM-Based Approach to Business Proce' | DOI: '10.3390/app16052213'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 55] Source: AISpringer.csv
+  Title: 'Business Information System Consultant Competences' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 56] Source: AIScopus.csv
+  Title: 'Business Process Management and Artificial Intelligence' | DOI: '10.1007/s13218-025-00891-y'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 57] Source: AISpringer.csv
+  Title: 'Business Process Management and Artificial Intelligence' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 58] Source: AISpringer.csv
+  Title: 'Business process management in the age of AI – three es' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 59] Source: AISpringer.csv
+  Title: 'Can conformance checking monitor process compliance? A ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 60] Source: AISpringer.csv
+  Title: 'Case ID Revealed HERE: Hybrid Elusive Case Repair Metho' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 61] Source: AISpringer.csv
+  Title: 'Challenges and prospects of visual contactless physiolo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 62] Source: AISpringer.csv
+  Title: 'ChatGPT-4 versus emergency physicians for walk-in ED pa' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 63] Source: AISpringer.csv
+  Title: 'Cognitive and artificial intelligence evaluation framew' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 64] Source: AISpringer.csv
+  Title: 'Comparing deep learning and Fourier series models for e' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 65] Source: AISpringer.csv
+  Title: 'Construction of an Automatic Music Content Generation M' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 66] Source: AISpringer.csv
+  Title: 'Context is key for cybersecurity: leveraging external k' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 67] Source: AIScopus.csv
+  Title: 'Conversational Process Model Redesign' | DOI: '10.1142/S0218843026500048'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 68] Source: AIScopus.csv
+  Title: 'Conversing with business process-aware large language m' | DOI: '10.1007/s10844-024-00898-1'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 69] Source: AISpringer.csv
+  Title: 'Conversing with business process-aware large language m' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 70] Source: AISpringer.csv
+  Title: 'Critical success factors and challenges for individual ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 71] Source: AISpringer.csv
+  Title: 'Data-Centric AI' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 72] Source: AISpringer.csv
+  Title: 'Deciphering clinical abbreviations with a privacy prote' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 73] Source: AISpringer.csv
+  Title: 'Decoupling Learning from Time and Space. Towards the Im' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 74] Source: AISpringer.csv
+  Title: 'Deep knowledge-driven multi-modal fusion for diagnosis ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 75] Source: AISpringer.csv
+  Title: 'Design of classical-quantum systems with UML' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 76] Source: AISpringer.csv
+  Title: 'Design of explanation user interfaces for interactive m' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 77] Source: AISpringer.csv
+  Title: 'Development and external validation of an artificial in' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 78] Source: AISpringer.csv
+  Title: 'Development and validation of a deep learning-based eme' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 79] Source: AISpringer.csv
+  Title: 'Development of an artificial intelligence bacteremia pr' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 80] Source: AISpringer.csv
+  Title: 'Diagnosis of cardiac conditions from 12-lead electrocar' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 81] Source: AISpringer.csv
+  Title: 'Discovering operational decisions from data—a framework' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 82] Source: AISpringer.csv
+  Title: 'Disruptive business value models in the digital era' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 83] Source: AISpringer.csv
+  Title: 'Dual smart sensor data-based deep learning network for ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 84] Source: AISpringer.csv
+  Title: 'Dynamic electrocardiogram detection and diagnosis based' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 85] Source: AIScopus.csv
+  Title: 'Dynamic Prompt-Based Framework for Pragmatic Quality Im' | DOI: '10.1109/ACCESS.2025.3580616'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 86] Source: AISpringer.csv
+  Title: 'Early prognostication for ICU patients with combined re' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 87] Source: AISpringer.csv
+  Title: 'ECR 2022 Book of Abstracts' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 88] Source: AISpringer.csv
+  Title: 'ECR 2023 Book of Abstracts' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 89] Source: AISpringer.csv
+  Title: 'ECR 2025 Book of Abstracts' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 90] Source: AISpringer.csv
+  Title: 'ECR 2026 Book of Abstracts' | DOI: '10.1186/s13244-026-02345-x'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Author', 'Location', 'Concepts', 'Keywords', 'Abstract']
+
+• [Row 91] Source: AISpringer.csv
+  Title: 'Editorial: KI-SI: Business Process Management (BPM) in ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 92] Source: AISpringer.csv
+  Title: 'Emotion induction by western music across personality t' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 93] Source: AISpringer.csv
+  Title: 'Enabling natural language analysis for object-centric e' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 94] Source: AISpringer.csv
+  Title: 'Enhancing declarative business process management avail' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 95] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2022: part 1' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 96] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2023' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 97] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2025' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 98] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2026' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 99] Source: AISpringer.csv
+  Title: 'Evaluating large language models on business process mo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 100] Source: AISpringer.csv
+  Title: 'Explanatory Capabilities of&#xa0;Large Language Models ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 101] Source: AIScopus.csv
+  Title: 'Exploratory association between multimodal AI-derived d' | DOI: '10.1371/journal.pdig.0000960'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Location', 'Concepts', 'Keywords']
+
+• [Row 102] Source: AISpringer.csv
+  Title: 'Exploring AI-driven approaches for unstructured documen' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 103] Source: AISpringer.csv
+  Title: 'Exploring Human Trust in Software Robots for Robotic Pr' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 104] Source: AISpringer.csv
+  Title: 'Exploring large language models in enterprise modeling' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 105] Source: AISpringer.csv
+  Title: 'Exploring modeling methods for information systems anal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 106] Source: AIScopus.csv
+  Title: 'Exploring Natural Language Processing in Model-To-Model' | DOI: '10.1109/ACCESS.2022.3219455'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 107] Source: AISpringer.csv
+  Title: 'Exploring the application of Artificial Intelligence in' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 108] Source: AISpringer.csv
+  Title: 'Eye tracking insights into physician behaviour with saf' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 109] Source: AISpringer.csv
+  Title: 'Fib-4 score is able to predict intra-hospital mortality' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 110] Source: AISpringer.csv
+  Title: 'Foliar disease resistance phenomics of fungal pathogens' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 111] Source: AISpringer.csv
+  Title: 'From data to decision: a clinical pipeline for wearable' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 112] Source: AISpringer.csv
+  Title: 'From Legal Contracts to Formal Specifications: A System' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 113] Source: AISpringer.csv
+  Title: 'From process mining to augmented process execution' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 114] Source: AIScopus.csv
+  Title: 'From Sketch to Structure: Agentic Prompting for Busines' | DOI: '10.1109/ACCESS.2026.3678494'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 115] Source: AISpringer.csv
+  Title: 'From Source to Target: Leveraging Transfer Learning for' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 116] Source: AIScopus.csv
+  Title: 'Generating BPMN Healthcare Process Models Using LLMs' | DOI: '10.1007/978-3-032-28819-6_33'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 117] Source: AISpringer.csv
+  Title: 'Generating BPMN Healthcare Process Models Using LLMs' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 118] Source: AISpringer.csv
+  Title: 'Generating ICS vulnerability playbooks with open standa' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 119] Source: AISpringer.csv
+  Title: 'Generating semi-automated security playbooks for vulner' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 120] Source: AISpringer.csv
+  Title: 'Generating UML class diagrams as conceptual models thro' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 121] Source: AIScopus.csv
+  Title: 'Generative AI for Business Model Generation (GAI4BM): f' | DOI: '10.46354/i3m.2024.foodops.013'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 122] Source: AISpringer.csv
+  Title: 'Generative AI' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 123] Source: AIScopus.csv
+  Title: 'GIVUP: Automated Generation and Verification of Textual' | DOI: '10.1145/3696630.3728593'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 124] Source: AIScopus.csv
+  Title: 'Governance-Aware AI Workflow Infrastructure for Secure ' | DOI: '10.1109/OJCS.2026.3718448'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 125] Source: AISpringer.csv
+  Title: 'GPT- 4 as a virtual fitness coach: a case study assessi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 126] Source: AISpringer.csv
+  Title: 'GRAPHxx: DSML engineering for knowledge graph building ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 127] Source: AISpringer.csv
+  Title: 'HRA-TPF: a Hierarchical Radiomics Feature Extraction an' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 128] Source: AISpringer.csv
+  Title: 'Hybrid CNN-BLSTM architecture for classification and de' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 129] Source: AISpringer.csv
+  Title: 'Hyperparameter optimization for cardiovascular disease ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 130] Source: AIScopus.csv
+  Title: 'Identifying GDPR-Critical Tasks in Business Process Des' | DOI: '10.1007/s12599-026-01016-x'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 131] Source: AISpringer.csv
+  Title: 'Identifying GDPR-Critical Tasks in Business Process Des' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 132] Source: AISpringer.csv
+  Title: 'Incorporating Collaborative and Active Learning Strateg' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 133] Source: AIScopus.csv
+  Title: 'Information Technology for the Data Integrationin Intel' | DOI: '10.5815/ijieeb.2024.04.05'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 134] Source: AISpringer.csv
+  Title: 'Innovating proficiency testing in software: a digital p' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 135] Source: AISpringer.csv
+  Title: 'Integrating deep learning in cardiology: a comprehensiv' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 136] Source: AIScopus.csv
+  Title: 'Integrating Machine Learning and a Rule-Based Approach ' | DOI: '10.5220/0014756000004015'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 137] Source: AISpringer.csv
+  Title: 'Integrating machine learning into business and manageme' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 138] Source: AIScopus.csv
+  Title: 'Intelligent Business Document Processing Using AI- and ' | DOI: '10.3390/analytics5030031'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 139] Source: AISpringer.csv
+  Title: 'Interpretable and explainable machine learning methods ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 140] Source: AISpringer.csv
+  Title: 'Interpretable depressive symptoms screening via statist' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 141] Source: AISpringer.csv
+  Title: 'Interpretable prediction of hospital mortality in bleed' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 142] Source: AISpringer.csv
+  Title: 'Large Action Models for Programmatic Orchestration' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 143] Source: AISpringer.csv
+  Title: 'Large language models and conditional rules in clinical' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 144] Source: AISpringer.csv
+  Title: 'Large Language Models for Process Knowledge Acquisition' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 145] Source: AISpringer.csv
+  Title: 'Large language models versus classical machine learning' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 146] Source: AISpringer.csv
+  Title: 'Large Process Models: A Vision for Business Process Man' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 147] Source: AIScopus.csv
+  Title: 'Leveraging large language models for enhanced process m' | DOI: '10.1016/j.dss.2025.114563'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 148] Source: AISpringer.csv
+  Title: 'LLM support for enterprise modelling based on integrati' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 149] Source: AISpringer.csv
+  Title: 'LLM support for non-expert enterprise modeling' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 150] Source: AISpringer.csv
+  Title: 'LLM-enabled cognitive metasurfaces' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 151] Source: AISpringer.csv
+  Title: 'Local Large Language Models for&#xa0;Business Process M' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 152] Source: AISpringer.csv
+  Title: 'Logic-based analysis of fake news diffusion on social m' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 153] Source: AISpringer.csv
+  Title: 'Low responsiveness of machine learning models to critic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 154] Source: AISpringer.csv
+  Title: 'Machine learning for cognitive behavioral analysis: dat' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 155] Source: AISpringer.csv
+  Title: 'Machine learning-based model for predicting the occurre' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 156] Source: AISpringer.csv
+  Title: 'Machine learning-driven optimization of enterprise reso' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 157] Source: AISpringer.csv
+  Title: 'Measuring the Connection Between Open Innovation, Dynam' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 158] Source: AISpringer.csv
+  Title: 'MEGAEL: automated multimodal event generation for IoT-d' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 159] Source: AISpringer.csv
+  Title: 'Micro-variations in timing and loudness affect music-ev' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 160] Source: AIIEEE.csv
+  Title: 'MINDS: An NLP-Driven Process Mining Framework for Super' | DOI: '10.1109/ACCESS.2025.3639460'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Location', 'Concepts', 'Language', 'Document Type', 'Open Access']
+
+• [Row 161] Source: AISpringer.csv
+  Title: 'Model-based digital twin engineering: insights, challen' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 162] Source: AIScopus.csv
+  Title: 'Modelling Engineering Processes in Natural Language: A ' | DOI: '10.1145/3646548.3672584'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 163] Source: AISpringer.csv
+  Title: 'Modelling in low-code development: a multi-vocal system' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 164] Source: AISpringer.csv
+  Title: 'MSBA-LSTM: a multi-scale bidirectional attention long s' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 165] Source: AIIEEE.csv
+  Title: 'Multi-Graph Anomaly Detection in Business Processes Wit' | DOI: '10.1109/ACCESS.2025.3544268'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Location', 'Concepts', 'Language', 'Document Type', 'Open Access']
+
+• [Row 166] Source: AISpringer.csv
+  Title: 'Multi-layer rhythmic modeling and interactive system fo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 167] Source: AISpringer.csv
+  Title: 'Multi-modal fake news detection: A comprehensive survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 168] Source: AISpringer.csv
+  Title: 'Multimodal machine learning for risk-stratified bundled' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 169] Source: AISpringer.csv
+  Title: 'Narrative as cognitive infrastructure reduces semantic ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 170] Source: AISpringer.csv
+  Title: 'Neuroergonomic signatures of improved human–robot colla' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 171] Source: AISpringer.csv
+  Title: 'Non-Invasive Brain-Computer Interfaces: Converging Fron' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 172] Source: AISpringer.csv
+  Title: 'On the potential of large language models to solve sema' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 173] Source: AISpringer.csv
+  Title: 'Pediatric Gastrointestinal Bleeding: Emergency Departme' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 174] Source: AISpringer.csv
+  Title: 'Performance comparison of a neuro-symbolic large langua' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 175] Source: AISpringer.csv
+  Title: 'Personalized prediction of mortality in patients with a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 176] Source: AISpringer.csv
+  Title: 'PhysFormer++: Facial Video-Based Physiological Measurem' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 177] Source: AISpringer.csv
+  Title: 'Predicting emergency department disposition using machi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 178] Source: AISpringer.csv
+  Title: 'Predicting triage of pediatric patients in the emergenc' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 179] Source: AISpringer.csv
+  Title: 'Predicting unplanned readmissions in the intensive care' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 180] Source: AISpringer.csv
+  Title: 'Prediction of oxygen requirement in patients with COVID' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 181] Source: AISpringer.csv
+  Title: 'Pre-training in Medical Data: A Survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 182] Source: AISpringer.csv
+  Title: 'Proceedings of the 101st Annual Meeting of The Physiolo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 183] Source: AIScopus.csv
+  Title: 'Process Knowledge Extraction and Knowledge Graph Constr' | DOI: '10.1145/3605098.3635957'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 184] Source: AISpringer.csv
+  Title: 'Process Modeler vs. Chatbot: Is Generative AI Taking ov' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 185] Source: AISpringer.csv
+  Title: 'Process science: the interdisciplinary study of socio-t' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 186] Source: AISpringer.csv
+  Title: 'Processes-of-business processes: a novel information so' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 187] Source: AIScopus.csv
+  Title: 'ProcessGPT: Transforming Business Process Management wi' | DOI: '10.1109/ICWS60048.2023.00099'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 188] Source: AISpringer.csv
+  Title: 'Providing Domain Knowledge for&#xa0;Process Mining with' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 189] Source: AISpringer.csv
+  Title: 'Public perceptions of AI energy consumption: Awareness,' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 190] Source: AISpringer.csv
+  Title: 'Quality control in open-ended crowdsourcing: a survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 191] Source: AISpringer.csv
+  Title: 'Recent advances in music generation: methods, evaluatio' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 192] Source: AISpringer.csv
+  Title: 'Recent advances of AI for engineering service and maint' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 193] Source: AISpringer.csv
+  Title: 'Recent applications of machine learning&#xa0;and deep l' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 194] Source: AISpringer.csv
+  Title: 'Repeat, reorder, rephrase: data augmentation for proces' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 195] Source: AISpringer.csv
+  Title: 'Reporting changes in right ventricular systolic pressur' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 196] Source: AISpringer.csv
+  Title: 'Roadmap on singular optics and its applications' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 197] Source: AISpringer.csv
+  Title: 'Selected abstracts from Sleep Medicine Disruptors 2025,' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 198] Source: AISpringer.csv
+  Title: 'Sensor-free, Camera-only: Low-cost multi-angle CPR skil' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 199] Source: AISpringer.csv
+  Title: 'Size matters less: how fine-tuned small LLMs excel in B' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 200] Source: AISpringer.csv
+  Title: 'Skill Learning Using Process Mining for&#xa0;Large Lang' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 201] Source: AISpringer.csv
+  Title: 'Small banks, big burdens: How regulatory requirements a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 202] Source: AISpringer.csv
+  Title: 'Software and Systems
+Modeling journal celebrates its si' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 203] Source: AISpringer.csv
+  Title: 'Software comprehension in code-centric and model-driven' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 204] Source: AISpringer.csv
+  Title: 'Software-Tool Support for Collaborative, Virtual, Multi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 205] Source: AISpringer.csv
+  Title: 'Specializing large language models for process modeling' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 206] Source: AISpringer.csv
+  Title: 'SPEED-TR: a self-distilled and pre-trained transformer ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 207] Source: AISpringer.csv
+  Title: 'Static test flakiness prediction: How Far Can We Go?' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 208] Source: AISpringer.csv
+  Title: 'Still doing it yourself? Investigating determinants for' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 209] Source: AIScopus.csv
+  Title: 'Structured Extraction and BPMN Generation From Chinese ' | DOI: '10.1109/ACCESS.2025.3611811'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 210] Source: AISpringer.csv
+  Title: 'SurIoT: Automatic generation of Internet-of-Medical-Thi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 211] Source: AIScopus.csv
+  Title: 'Synthesis of BPMN Models from Text Specification Using ' | DOI: '10.12700/APH.23.2.2026.2.3'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 212] Source: AISpringer.csv
+  Title: 'Synthesize high-dimensional longitudinal electronic hea' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 213] Source: AIScopus.csv
+  Title: 'Taming the Complexity of Legal Change for Business Proc' | DOI: '10.1007/s12599-026-01008-x'
+  Status: Enriched 2 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Location', 'Concepts']
+
+• [Row 214] Source: AISpringer.csv
+  Title: 'Taming the Complexity of Legal Change for Business Proc' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 215] Source: AIScopus.csv
+  Title: 'Tell Me What to Do: Automatically Generating Process Im' | DOI: '10.24251/hicss.2025.676'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 216] Source: AISpringer.csv
+  Title: 'Terpsichora: A&#xa0;Tool to&#xa0;Generate Synthetic MP-' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 217] Source: AISpringer.csv
+  Title: 'The competitive esports physiological, affective, and v' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 218] Source: AISpringer.csv
+  Title: 'The democratization of software engineering: evolution,' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 219] Source: AISpringer.csv
+  Title: 'The evolution of web development: the role of AI in sha' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 220] Source: AISpringer.csv
+  Title: 'The extended EA ModelSet—a FAIR dataset for researching' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 221] Source: AISpringer.csv
+  Title: 'The impact of GenAI-assisted instructional design on th' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 222] Source: AISpringer.csv
+  Title: 'The role of generative AI in improving the sustainabili' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 223] Source: AISpringer.csv
+  Title: 'The sound of emotions: an artificial intelligence appro' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 224] Source: AISpringer.csv
+  Title: 'Time series forecasting of weight for diuretic dose adj' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 225] Source: AISpringer.csv
+  Title: 'Toward LLM-enabled business process coherence checking ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 226] Source: AISpringer.csv
+  Title: 'Toward robust automated cardiovascular arrhythmia detec' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 227] Source: AISpringer.csv
+  Title: 'Transformer-based heart language model with electrocard' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 228] Source: AISpringer.csv
+  Title: 'Transformers for 3D medical image analysis: a systemati' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 229] Source: AISpringer.csv
+  Title: 'Transforming higher education with robotic process auto' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 230] Source: AISpringer.csv
+  Title: 'Trustworthy human computation: a survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 231] Source: AISpringer.csv
+  Title: 'Unveiling AI-powered ERP systems: a systematic review o' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 232] Source: AISpringer.csv
+  Title: 'Using biometric data to improve our understanding and s' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 233] Source: AISpringer.csv
+  Title: 'Using convolutional neural networks with late fusion to' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 234] Source: AISpringer.csv
+  Title: 'Using machine learning and natural language processing ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 235] Source: AIScopus.csv
+  Title: 'WaterSeeker: Pioneering Efficient Detection of Watermar' | DOI: '10.18653/v1/2025.findings-naacl.156'
+  Status: Enriched 1 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Concepts']
+
+• [Row 236] Source: AISpringer.csv
+  Title: 'What do we need from modeling tools for teaching? A sur' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 237] Source: AISpringer.csv
+  Title: 'What Questions Can I Ask? A Taxonomy and Question Catal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Location', 'Concepts', 'Language', 'Journal', 'Keywords', 'Document Type', 'Publisher', 'Open Access', 'Abstract']
+
+================================================================================
+FINAL SUMMARY: 40/238 records received enhancement data. Audit saved to disk.
+================================================================================

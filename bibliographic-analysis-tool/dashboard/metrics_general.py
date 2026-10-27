@@ -397,7 +397,8 @@ def display_error_info(df: pd.DataFrame, key_prefix: str = "err_info", is_core_s
                 incomplete_records = df_norm[is_nan | is_empty]
                 
                 st.warning(f"Found **{len(incomplete_records)}** records missing **{col_to_check}**.")
-                st.dataframe(incomplete_records.head(5), width="stretch", height=180)
+                from utils.formatters import sanitize_df_for_streamlit
+                st.dataframe(sanitize_df_for_streamlit(incomplete_records.head(5)), width="stretch", height=180)
                 
                 _download_button(
                     incomplete_records, 

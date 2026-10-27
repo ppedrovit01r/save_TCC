@@ -1,0 +1,425 @@
+{
+  "project_name": "MSEnew",
+  "mode": "advanced",
+  "file_db_mapping": {
+    "MSEScopus2.csv": "Scopus",
+    "MSESpringer2.csv": "SpringerLink",
+    "MSEIEEE2.csv": "IEEE Xplore"
+  },
+  "db_initial_query_hits": {
+    "Scopus": 81,
+    "SpringerLink": 834,
+    "IEEE Xplore": 3
+  },
+  "db_ic_progression": {
+    "Scopus": {
+      "IC 1": 75,
+      "IC 2": 74,
+      "IC 3": 44,
+      "IC 4": 22
+    },
+    "SpringerLink": {
+      "IC 1": 534,
+      "IC 2": 534,
+      "IC 3": 232,
+      "IC 4": 67
+    },
+    "IEEE Xplore": {
+      "IC 1": 3,
+      "IC 2": 3,
+      "IC 3": 1,
+      "IC 4": 1
+    }
+  },
+  "inclusion_criteria": [
+    {
+      "id": "IC 1",
+      "title": "Journals and Conferences",
+      "desc": ""
+    },
+    {
+      "id": "IC 2",
+      "title": "English",
+      "desc": ""
+    },
+    {
+      "id": "IC 3",
+      "title": "From 2018",
+      "desc": ""
+    },
+    {
+      "id": "IC 4",
+      "title": "Open Access",
+      "desc": ""
+    }
+  ],
+  "exclusion_criteria": [
+    {
+      "id": "EC 1",
+      "title": "Acronym Ambiguity / Distinct Domain",
+      "stage": "Title_Abstract",
+      "desc": "The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline)."
+    },
+    {
+      "id": "EC 2",
+      "title": "Incompatible Technological Focus",
+      "stage": "Title_Abstract",
+      "desc": "The study addresses BPM or software solely from a strictly technical perspective—such as programming, network infrastructure, or information security—without any connection to business processes, modeling, or organizational management."
+    },
+    {
+      "id": "EC 3",
+      "title": "Exclusive Focus on Large Corporations",
+      "stage": "Title_Abstract",
+      "desc": "The study analyzes the implementation of BPM or AI in large multinational companies, mature corporations, or the public sector, where the realities faced by micro and small enterprises—such as resource scarcity, informality, and infrastructure constraints—do not apply."
+    }
+  ],
+  "ec_overrides": {
+    "EC 1": 0,
+    "EC 2": 0,
+    "EC 3": 0,
+    "EC 4": 3
+  },
+  "db_final_overrides": {},
+  "custom_reasons": [],
+  "exclusions": {
+    "5": {
+      "code": "PRE_NO_ABS",
+      "reason": "Missing Abstract",
+      "full_text": "EC 4: Missing Abstract - The publication lacks an abstract or metadata summary for preliminary title/abstract screening.",
+      "stage": "Pre_Screening"
+    },
+    "25": {
+      "code": "PRE_NO_ABS",
+      "reason": "Missing Abstract",
+      "full_text": "EC 4: Missing Abstract - The publication lacks an abstract or metadata summary for preliminary title/abstract screening.",
+      "stage": "Pre_Screening"
+    },
+    "73": {
+      "code": "PRE_NO_ABS",
+      "reason": "Missing Abstract",
+      "full_text": "EC 4: Missing Abstract - The publication lacks an abstract or metadata summary for preliminary title/abstract screening.",
+      "stage": "Pre_Screening"
+    },
+    "0": {
+      "code": "EC 2",
+      "reason": "Incompatible Technological Focus",
+      "full_text": "EC 2: Incompatible Technological Focus - The study addresses BPM or software solely from a strictly technical perspective—such as programming, network infrastructure, or information security—without any connection to business processes, modeling, or organizational management.",
+      "stage": "Title_Abstract"
+    },
+    "2": {
+      "code": "EC 3",
+      "reason": "Exclusive Focus on Large Corporations",
+      "full_text": "EC 3: Exclusive Focus on Large Corporations - The study analyzes the implementation of BPM or AI in large multinational companies, mature corporations, or the public sector, where the realities faced by micro and small enterprises—such as resource scarcity, informality, and infrastructure constraints—do not apply.",
+      "stage": "Title_Abstract"
+    },
+    "6": {
+      "code": "EC 2",
+      "reason": "Incompatible Technological Focus",
+      "full_text": "EC 2: Incompatible Technological Focus - The study addresses BPM or software solely from a strictly technical perspective—such as programming, network infrastructure, or information security—without any connection to business processes, modeling, or organizational management.",
+      "stage": "Title_Abstract"
+    },
+    "9": {
+      "code": "EC 3",
+      "reason": "Exclusive Focus on Large Corporations",
+      "full_text": "EC 3: Exclusive Focus on Large Corporations - The study analyzes the implementation of BPM or AI in large multinational companies, mature corporations, or the public sector, where the realities faced by micro and small enterprises—such as resource scarcity, informality, and infrastructure constraints—do not apply.",
+      "stage": "Title_Abstract"
+    },
+    "12": {
+      "code": "EC 2",
+      "reason": "Incompatible Technological Focus",
+      "full_text": "EC 2: Incompatible Technological Focus - The study addresses BPM or software solely from a strictly technical perspective—such as programming, network infrastructure, or information security—without any connection to business processes, modeling, or organizational management.",
+      "stage": "Title_Abstract"
+    },
+    "13": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "14": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "15": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "16": {
+      "code": "EC 3",
+      "reason": "Exclusive Focus on Large Corporations",
+      "full_text": "EC 3: Exclusive Focus on Large Corporations - The study analyzes the implementation of BPM or AI in large multinational companies, mature corporations, or the public sector, where the realities faced by micro and small enterprises—such as resource scarcity, informality, and infrastructure constraints—do not apply.",
+      "stage": "Title_Abstract"
+    },
+    "17": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "18": {
+      "code": "EC 2",
+      "reason": "Incompatible Technological Focus",
+      "full_text": "EC 2: Incompatible Technological Focus - The study addresses BPM or software solely from a strictly technical perspective—such as programming, network infrastructure, or information security—without any connection to business processes, modeling, or organizational management.",
+      "stage": "Title_Abstract"
+    },
+    "19": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "20": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "21": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "22": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "23": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "27": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    },
+    "28": {
+      "code": "EC 2",
+      "reason": "Incompatible Technological Focus",
+      "full_text": "EC 2: Incompatible Technological Focus - The study addresses BPM or software solely from a strictly technical perspective—such as programming, network infrastructure, or information security—without any connection to business processes, modeling, or organizational management.",
+      "stage": "Title_Abstract"
+    },
+    "29": {
+      "code": "EC 1",
+      "reason": "Acronym Ambiguity / Distinct Domain",
+      "full_text": "EC 1: Acronym Ambiguity / Distinct Domain - The study uses the acronym \"BPM\" to refer to areas completely unrelated to the scope (such as Beats Per Minute in medicine or music, Bits Per Month in telecommunications, or generic project management lacking a process-oriented discipline).",
+      "stage": "Title_Abstract"
+    }
+  },
+  "screened_ok": [
+    1,
+    3,
+    4,
+    7,
+    8,
+    10,
+    11,
+    24,
+    26
+  ],
+  "screening_queue": [
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88
+  ],
+  "loaded_files": [
+    "MSEScopus2.csv",
+    "MSESpringer2.csv",
+    "MSEIEEE2.csv"
+  ],
+  "file_manifest": {
+    "MSEScopus2.csv": 22,
+    "MSESpringer2.csv": 67,
+    "MSEIEEE2.csv": 1
+  },
+  "prisma_imported_count": 90,
+  "duplicates_override": 1,
+  "missing_abstracts_count": 3,
+  "missing_abstracts_override": 3,
+  "auto_exclude_missing_abstracts": 1,
+  "saved_at": "2026-10-13T15:10:55.199883",
+  "prisma_duplicates": [
+    {
+      "phase": "Ingestion",
+      "stage": "DOI",
+      "kept": {
+        "Author": "P Arno",
+        "Author(S) Id": "59914593700",
+        "Title": "From Theory to Practice: Empirical Insights on BPM Lifecycle Adoption and Low-Code Utilization in SMEs",
+        "Publication Year": "2025",
+        "Journal": "IEEE Access",
+        "Volume": "13",
+        "Issue": null,
+        "Pages": 117385.0,
+        "Times Cited": 2,
+        "DOI": "10.1109/access.2025.3585261",
+        "URL": "https://www.scopus.com/pages/publications/105010037742?origin=resultslist",
+        "Affiliations": "University of Warsaw, Faculty of Economic Sciences, Warsaw, 00-927, Poland",
+        "Abstract": "Small and medium-sized enterprises (SMEs) face growing pressure to adapt to dynamic, competitive markets. Business Process Management (BPM) offers a strategic pathway to operational efficiency and digital transformation. While the BPM lifecycle and low-code platforms are frequently presented as key enablers for SMEs, few empirical studies examine their practical implementation. This study addresses two research questions: 1) how SMEs use low-code technologies to support BPM, and 2) how they apply – or deviate from – the traditional BPM lifecycle. Using a triangulated research design combining a rapid literature review and an expert survey of BPM practitioners in SMEs, the study finds that low-code tools are widely adopted for basic BPM tasks such as process modeling and workflow automation. However, advanced features like AI and process mining are underutilized. Likewise, SMEs often skip or adapt BPM lifecycle phases due to organizational constraints. These findings highlight a gap between BPM theory and SME practice, emphasizing the need for more adaptive BPM frameworks and accessible low-code solutions tailored to SME contexts. © 2013 IEEE.",
+        "Keywords": "BPM lifecycle; Business process management; low-code; SME; Administrative data processing; Codes (symbols); Engineering research; Enterprise resource management; Information systems; Information use; Business Process; Business process management lifecycle; Competitive markets; Operational efficiencies; Process management; Small and medium-sized enterprise; Life cycle",
+        "Molecular Sequence Numbers": null,
+        "Chemicals/Cas": null,
+        "Tradenames": null,
+        "Manufacturers": null,
+        "Funding": null,
+        "Article References": "Arno P., SME business agility framework: A comprehensive review of capabilities, dimensions, and enablers, IEEE Access, 13, pp. 91161-91181, (2025); Pingali S.R.; Singha S.; Arunachalam S.; Pedada K., Digital readiness of small and medium enterprises in emerging markets: The construct, propositions, measurement, and implications, J. Bus. Res., 164, (2023); Zakrzewski R.; Orlowska J.; Niecc M.; Chaber P.; Zadura P.; Bednarek W.; Wojcik M.; Wronowski A.; Stajszczak A., Raport O Stanie Sektora Małych I średnich Przedsiębiorstw, Polska Agencja Rozwoju Przedsiębiorczości, (2024); Sharif S.M.F.; Wang W.; Yang N.; Alghamdi O.; Kanwal F.; Gebremariam M.G., Sustaining SME agility through knowledge coupling, business process digitization, and innovation during crisis, J. Eng. Technol. Manage., 71, (2024); Uddin A.; Cetindamar D.; Hawryszkiewycz I.; Sohaib O., The role of dynamic cloud capability in improving SME’s strategic agility and resource flexibility: An empirical study, Sustainability, 15, 11, (2023); Bazhenova E.; Taratukhin V.; Becker J., Towards on business process management on small-to medium enterprises in the emerging economies, Proc. 7th Int. Forum Strategic Technol. (IFOST), pp. 1-5, (2012); Gabryelczyk R., Exploring BPM adoption factors: Insights into literature and experts knowledge, Proc. Conf. Adv. Inf. Technol. Manage., pp. 155-175, (2019); Marcinkowski B.; Gawin B., A study on the adaptive approach to technology-driven enhancement of multi-scenario business processes, Inf. Technol. People, 32, 1, pp. 118-146, (2019); Dumas M.; Rosa M.L.; Mendling J.; Reijers H.A., Fundamentals of Bus. Process Management, (2018); Laar D.; Seymour L., The nature of business process redesign in small and medium-sized enterprises in a developing country context, Proc. Conf.-IRM, pp. 1-12, (2022); Okreglicka M.; Mynarzova M.; Kana R., Business process maturity in small and medium-sized enterprises, Polish J. Manag. Stud., 12, 1, pp. 1-11, (2015); Buh B.; Kovacic A.; Stemberger M.I., Critical success factors for different stages of business process management adoption—A case study, Econ. Research-Ekonomska Istraživanja, 28, 1, pp. 243-258, (2015); Germano K.; Fernandez R.; Silva E.; Maria R.; Coicev M.; Gartenkraut E.; Goncalves M.; Rodrigues V.; Neto A.; Ferreira M., A transdisciplinary process oriented framework to support generic PLM implementation for use by small and medium enterprises, Advances in Transdisciplinary Engineering, (2016); de Bruin T.; Doebeli G., An organizational approach to BPM: The experience of an Australian transport provider, Handbook on Bus. Process Management 2: Strategic Alignment, Governance, People and Culture, pp. 559-577, (2010); Veldhuizen R.; Ravesteyn P.; Versendaal J., BPMS implementation in SMEs: Exploring the creation of a situational method, Utrecht Univ. Appl. Sci., (2012); Dumas M.; Rosa M.L.; Mendling J.; Reijers H.A., Fundamentals of Bus. Process Management, (2013); Szelagowski M., Evolution of the BPM lifecycle, Proc. Ann. Com-put. Sci. Inf. Syst., 17, pp. 205-211, (2018); Rosemann M.; Brocke J.V., The six core elements of business process management, Handbook on Bus. Process Management 1: Introduction, Methods, and Information Systems, pp. 105-122, (2015); Bach M.P.; Vuksic V.B.; Vugec D.S.; Stjepic A.M., BPM and BI in SMEs: The role of BPM/BI alignment in organizational performance, Int. J. Eng. Bus. Manage., 11, (2019); Glazkova I., The impact of business processes on the efficiency of small and medium-sized enterprises, Montenegrin J. Econ., 17, 3, pp. 131-143, (2021); Laghouag A.; Zafrah F.B.; Qureshi M.R.N.M.; Sahli A.A., Eliminating non-value-added activities and optimizing manufacturing processes using process mining: A stock of challenges for family SMEs, Sustainability, 16, 4, (2024); Ravesteyn P.; Batenburg R., Surveying the critical success factors of BPM-systems implementation, Bus. Process Manage. J., 16, 3, pp. 492-507, (2010); Sahay A.; Indamutsa A.; Di Ruscio D.; Pierantonio A., Supporting the understanding and comparison of low-code development platforms, Proc. 46th Euromicro Conf. Softw. Eng. Adv. Appl. (SEAA), pp. 171-178, (2020); Bock A.C.; Frank U., Low-code platform, Bus. Inf. Syst. Eng., 63, 6, pp. 733-740, (2021); Kokala A., Low-code platforms in BPM: How workflow and rules engines enable citizen development, Int. J. Sci. Res. Arch., 6, 1, pp. 343-346, (2022); Kumar A.; Bhattacharyya S.S.; Krishnamoorthy B., Automation-augmentation paradox in organizational artificial intelligence technology deployment capabilities; An empirical investigation for achieving simultaneous economic and social benefits, J. Enterprise Inf. Manage., 36, 6, pp. 1556-1582, (2023); Bratincevic J.; Koplowitz R., The Forrester Wave: Low-Code Development Platforms for Professional Developers, Q2 2021, (2025); Wong J.; Iijima K.; Leow A.; Jain A.; Vincent P., Magic Quadrant for Enterprise Low-Code Application, (2021); Sliz P.; Berniak-Wozny J.; Brzychczy E.; Gabryelczyk R.; Gdowska K.; Grzesiak M.; Napieraj A.; Podobinska-Staniec M.; Potoczek N.R.; Szelagowski M.; Senkus P.; Kluza K., Business process management education in poland: A manifesto for academic teaching, e-Mentor, 104, 2, pp. 91-98, (2024); Szelagowski M.; Lupeikiene A.; Berniak-Wozny J., Drivers and evolution paths of BPMS: State-of-the-art and future research directions, Informatica, 2022, pp. 399-420, (2022); Haleem A.; Javaid M.; Singh R.P.; Rab S.; Suman R., Hyperautomation for the enhancement of automation in industries, Sensors Int, 2, (2021); Jain A.; Iijima K.; Leow A.; Wong J.; Vincent P., Critical capabilities for enterprise low-code application platforms, (2021); Raghavendran K.R.; Elragal A., Low-code machine learning platforms: A fastlane to digitalization, Informatics, 10, 2, (2023); Looy A.V.; Backer M.D.; Poels G., A conceptual framework and classification of capability areas for business process maturity, Enterprise Inf. Syst., 8, 2, pp. 188-224, (2014); Rodriguez-Rios C.Y.; Narvaez A.C.; Jimenez S.C., Application of the CERT values measurement model for organizational culture in the management and quality company, Applied Computer Sciences in Engineering, pp. 399-408, (2021); Denzin N.K., Sociological Methods: A Sourcebook, (2017); Jabareen Y., Building a conceptual framework: Philosophy, definitions, and procedure, Int. J. Qualitative Methods, 8, 4, pp. 49-62, (2009); Tricco A.C.; Zarin W.; Antony J.; Hutton B.; Moher D.; Sherifali D.; Straus S.E., An international survey and modified delphi approach revealed numerous rapid review methods, J. Clin. Epidemiology, 70, pp. 61-67, (2016); Haby M.M.; Chapman E.; Clark R.; Barreto J.; Reveiz L.; Lavis J.N., What are the best methodologies for rapid reviews of the research evidence for evidence-informed decision making in health policy and practice: A rapid review, Health Res. Policy Syst., 14, 1, (2016); Wohlin C., Guidelines for snowballing in systematic literature studies and a replication in software engineering, Proc. 18th Int. Conf. Eval. Assessment Softw. Eng., pp. 1-10, (2014); Corbin J.M.; Strauss A., Grounded theory research: Procedures, canons, and evaluative criteria, Qualitative Sociology, 13, 1, pp. 3-21, (1990); Flick U., The SAGE Handbook of Qualitative Data Collection, (2017); Sliz P., Organizacja Procesowo-Projektowa: Istota, Modelowanie, Pomiar Dojrzłaości, (2021); Gabryelczyk R.; Sipior J.C.; Biernikowicz A., Motivations to adopt BPM in view of digital transformation, Inf. Syst. Manage., 41, 4, pp. 340-356, (2024); Bailey K.D., Typologies and Taxonomies, (1994); Farshidi S.; Jansen S.; Fortuin S., Model-driven development platform selection: Four industry case studies, Softw. Syst. Model., 20, 5, pp. 1525-1551, (2021); Rogozov Y.I., Intelligent low-code platform as a rule construction environment: Practices for resolving differences in understanding, Sci. Tech. Inf. Process., 51, 5, pp. 402-411, (2024); Benjamin M., Hyperautomation: The Next Evolution of AI and RPA, (2025); Peinl R.; Perak O., BPMN and DMN for easy customizing of manufacturing execution systems, Proc. Bus. Process Manag. Workshops, pp. 441-452, (2019); Madakam S.; Holmukhe R.M.; Revulagadda R.K., The next generation intelligent automation: Hyperautomation, J. Inf. Syst. Technol. Manage., 19, (2022); Van Looy A., A quantitative and qualitative study of the link between business process management and digital innovation, Inf. Manage., 58, 2, (2021); Antwiadjei L.; Huma Z., Comparative analysis of low-code platforms in automating business processes, Asian J. Multidisciplinary Res. Rev., 3, 5, pp. 132-139, (2022); Sahay A.; Di Ruscio D.; Iovino L.; Pierantonio A., Analyzing business process management capabilities of low-code development platforms, Softw., Pract. Exp., 53, 4, pp. 1036-1060, (2023); Braunnagel D.; Falk T.; Wehner B.; Leist S., BPM adoption in small and medium-sized companies in Bavaria, (2016); Reher F., Adaptation of business process management to requirements of small and medium-sized enterprises in the context of strategic flexibility, Proc. Bus. Process Manage. Workshops, pp. 561-566, (2015); Broekaert W.; Andries P.; Debackere K., Innovation processes in family firms: The relevance of organizational flexibility, Small Bus. Econ., 47, 3, pp. 771-785, (2016); Paunovic M.; Ruzicic M.M.; Moravcevic M.L., Business process innovations in family firms: Evidence from Serbia, J. Family Bus. Manag., 13, 1, pp. 166-184, (2022)",
+        "Address": "P. Arno; University of Warsaw, Faculty of Economic Sciences, Warsaw, 00-927, Poland; email: p.arno@uw.edu.pl",
+        "Publisher": "Institute of Electrical and Electronics Engineers Inc.",
+        "Conference Name": null,
+        "Conference Date": null,
+        "Location": null,
+        "Conference Code": null,
+        "ISSN": "21693536",
+        "ISBN": null,
+        "Coden": null,
+        "PMID": null,
+        "Language": "English",
+        "Document Type": "Article",
+        "Publication Stage": "Final",
+        "Open Access": "All Open Access; Gold Open Access; Green Open Access",
+        "Scopus ID": "2-s2.0-105010037742",
+        "OpenAlex ID": null,
+        "Country": null,
+        "Concepts": null,
+        "Source File": "MSEScopus2.csv",
+        "Date Added To Xplore": null,
+        "Start Page": null,
+        "End Page": null,
+        "Funding Information": null,
+        "Pdf Link": null,
+        "Ieee Terms": null,
+        "Article Citation Count": null,
+        "Patent Citation Count": null,
+        "Reference Count": null,
+        "License": null,
+        "Online Date": null,
+        "Issue Date": null,
+        "Meeting Date": null,
+        "Document Identifier": null,
+        "_richness": 23000002.0,
+        "_norm_doi": "10.1109/access.2025.3585261"
+      },
+      "removed": {
+        "Author": "P. Arno",
+        "Author(S) Id": null,
+        "Title": "From Theory to Practice: Empirical Insights on BPM Lifecycle Adoption and Low-Code Utilization in SMEs",
+        "Publication Year": "2025",
+        "Journal": "IEEE Access",
+        "Volume": 13,
+        "Issue": null,
+        "Pages": null,
+        "Times Cited": null,
+        "DOI": "10.1109/access.2025.3585261",
+        "URL": null,
+        "Affiliations": "Faculty of Economic Sciences, University of Warsaw, Warsaw, Poland",
+        "Abstract": "Small and medium-sized enterprises (SMEs) face growing pressure to adapt to dynamic, competitive markets. Business Process Management (BPM) offers a strategic pathway to operational efficiency and digital transformation. While the BPM lifecycle and low-code platforms are frequently presented as key enablers for SMEs, few empirical studies examine their practical implementation. This study addresses two research questions: 1) how SMEs use low-code technologies to support BPM, and 2) how they apply – or deviate from – the traditional BPM lifecycle. Using a triangulated research design combining a rapid literature review and an expert survey of BPM practitioners in SMEs, the study finds that low-code tools are widely adopted for basic BPM tasks such as process modeling and workflow automation. However, advanced features like AI and process mining are underutilized. Likewise, SMEs often skip or adapt BPM lifecycle phases due to organizational constraints. These findings highlight a gap between BPM theory and SME practice, emphasizing the need for more adaptive BPM frameworks and accessible low-code solutions tailored to SME contexts.",
+        "Keywords": "Business process management;BPM lifecycle;low-code;SME",
+        "Molecular Sequence Numbers": null,
+        "Chemicals/Cas": null,
+        "Tradenames": null,
+        "Manufacturers": null,
+        "Funding": null,
+        "Article References": null,
+        "Address": null,
+        "Publisher": "IEEE",
+        "Conference Name": null,
+        "Conference Date": null,
+        "Location": null,
+        "Conference Code": null,
+        "ISSN": "2169-3536",
+        "ISBN": null,
+        "Coden": null,
+        "PMID": null,
+        "Language": null,
+        "Document Type": null,
+        "Publication Stage": null,
+        "Open Access": null,
+        "Scopus ID": null,
+        "OpenAlex ID": null,
+        "Country": null,
+        "Concepts": null,
+        "Source File": "MSEIEEE2.csv",
+        "Date Added To Xplore": "11 Jul 2025",
+        "Start Page": 117385.0,
+        "End Page": 117403.0,
+        "Funding Information": null,
+        "Pdf Link": "https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=11062816",
+        "Ieee Terms": "Systematic literature review;Surveys;Monitoring;Digital transformation;Organizations;Optimization;Design methodology;Business process management;Artificial intelligence;Adaptation models",
+        "Article Citation Count": 6.0,
+        "Patent Citation Count": null,
+        "Reference Count": 57.0,
+        "License": "CCBY",
+        "Online Date": "2 Jul 2025",
+        "Issue Date": 2025.0,
+        "Meeting Date": null,
+        "Document Identifier": "IEEE Journals",
+        "_richness": 23000000.0,
+        "_norm_doi": "10.1109/access.2025.3585261"
+      }
+    }
+  ]
+}

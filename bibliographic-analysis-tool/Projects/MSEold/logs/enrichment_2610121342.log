@@ -1,0 +1,663 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-12 13:31:32 → 2026-10-12 13:42:49 (Duration: 11 minutes 17 seconds)
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records in Memory Dataset: 314
+• Total Records Evaluated for Enrichment: 316
+• Post-Enrichment Duplicates Consolidated: 2
+• Records with Valid DOIs (Tier 1-4 Candidates): 122
+• Records without DOIs (Tier 5 Fuzzy Title Search Candidates): 194
+• Fully Enriched Records (Found 100% of requested fields): 197 (62.3%)
+• Partially Enriched Records (Gained new data): 10 (3.2%)
+• Unresolved Records (Gained NO data): 109 (34.5%)
+
+Target Fields Requested (10 fields): ['Title', 'Author', 'Language', 'Journal', 'Publication Year', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 314
+• Total Records Evaluated for Enrichment: 316
+• Cluster Source Files Breakdown (3 files):
+    - MSESpringer.csv: 194 records
+    - MSEIEEE.csv: 13 records
+    - MSEScopus.csv: 110 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 122
+    - Records Resolved: 121 (99.2%)
+    - Total Field Values Populated: 630 lines
+    - Field Breakdown: {'OpenAlex ID': 121, 'Title': 121, 'Author': 120, 'Abstract': 106, 'Keywords': 121, 'Journal': 10, 'Document Type': 12, 'Language': 7, 'Open Access': 12}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 3
+    - Records Resolved: 3
+    - Total Field Values Populated: 8 lines
+    - Field Breakdown: {'Title': 3, 'Journal': 2, 'Author': 3}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 22
+    - Records Resolved: 22
+    - Total Field Values Populated: 53 lines
+    - Field Breakdown: {'Title': 22, 'Abstract': 17, 'Author': 14}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Legacy / Non-DOI Local Papers)
+    - Records Passed: 194 (searched by Title)
+    - Records Resolved: 85
+    - Total Field Values Populated: 928 lines
+    - Field Breakdown: {'DOI': 85, 'OpenAlex ID': 85, 'Title': 85, 'Author': 83, 'Abstract': 83, 'Keywords': 84, 'Publisher': 83, 'Journal': 85, 'Document Type': 85, 'Language': 85, 'Open Access': 85}
+
+--------------------------------------------------------------------------------
+3. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 119 / 316
+
+• [Row 6] Source: MSEIEEE.csv
+  Title: 'A Hybrid Cloud–Blockchain Framework Enhanced by Deep Le' | DOI: '10.1109/ICAAIC64647.2025.11331187'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Language']
+
+• [Row 13] Source: MSESpringer.csv
+  Title: 'A method for digital business ecosystem design: evaluat' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Abstract']
+
+• [Row 22] Source: MSESpringer.csv
+  Title: 'Abstracts from The XXV Brazilian Diabetes Society Meeti' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Author']
+
+• [Row 26] Source: MSEIEEE.csv
+  Title: 'AMBGS: A Layered Multi-Agent Architecture for Autonomou' | DOI: '10.1109/ICCVBIC71195.2026.11688533'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Language']
+
+• [Row 52] Source: MSESpringer.csv
+  Title: '<b>GenRL FinTech: supporting the risk management proces' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 55] Source: MSEIEEE.csv
+  Title: 'BizCollab : An AI-enhanced integrated platform for busi' | DOI: '10.1109/DASA68193.2025.11498965'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Language']
+
+• [Row 63] Source: MSESpringer.csv
+  Title: 'Business innovation modes in China’s firms: Technologic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 66] Source: MSESpringer.csv
+  Title: 'Can industry 5.0 technologies overcome supply chain dis' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 67] Source: MSESpringer.csv
+  Title: 'Capacity of innovation and entrepreneurship development' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 68] Source: MSESpringer.csv
+  Title: 'CEO Transformational Leadership, Supply Chain Agility a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 70] Source: MSESpringer.csv
+  Title: 'Cloud based manufacturing: A review of recent developme' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 82] Source: MSESpringer.csv
+  Title: 'Cyberattack, cyber risk mitigation capabilities, and fi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 84] Source: MSESpringer.csv
+  Title: 'Data Protection Impact Assessments in&#xa0;Practice' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 86] Source: MSESpringer.csv
+  Title: 'Data-driven forwarding:&#xa0;a typology of digital plat' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 98] Source: MSESpringer.csv
+  Title: 'Digital business process integration and sustainability' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Publisher']
+
+• [Row 106] Source: MSEIEEE.csv
+  Title: 'Digital Transformation in the Textile Sector: ERP, Fina' | DOI: '10.1109/ETCM67548.2025.11304439'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Language']
+
+• [Row 111] Source: MSESpringer.csv
+  Title: 'Digitalization, inter-organizational collaboration, and' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 117] Source: MSESpringer.csv
+  Title: 'Does the psychometric validation of the sustainable com' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 122] Source: MSESpringer.csv
+  Title: 'ECR 2026 Book of Abstracts' | DOI: 'No DOI'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (3): ['Author', 'Keywords', 'Abstract']
+
+• [Row 135] Source: MSESpringer.csv
+  Title: 'Evaluating the Reasons Behind the Inefficient Implement' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 143] Source: MSESpringer.csv
+  Title: 'Exploring Collaborative Marketing Experience Between Sm' | DOI: 'No DOI'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Publisher']
+
+• [Row 147] Source: MSESpringer.csv
+  Title: 'Extended reality technologies in small and medium-sized' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 156] Source: MSESpringer.csv
+  Title: 'FinTech, bank risk-taking, and credit allocation' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 157] Source: MSESpringer.csv
+  Title: 'FIT4HPC?—Accelerating digital transformation by superco' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 166] Source: MSESpringer.csv
+  Title: 'Government roles in legalizing China’s digital business' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 169] Source: MSESpringer.csv
+  Title: 'Higher Ethical Objective (<i>Maqasid al</i>-<i>Shari’ah' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 170] Source: MSESpringer.csv
+  Title: 'High-growth firms and their habitats' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 173] Source: MSESpringer.csv
+  Title: 'Human-centred SME factories: the future of work in SMEs' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 174] Source: MSESpringer.csv
+  Title: 'Hybrid artificial neural network and structural equatio' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 175] Source: MSESpringer.csv
+  Title: 'Identifying and assessing BIM implementation challenges' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 178] Source: MSESpringer.csv
+  Title: 'Impact of digital transformation on SME’s marketing per' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 180] Source: MSESpringer.csv
+  Title: 'Impact of generative AI and green process innovation on' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 181] Source: MSESpringer.csv
+  Title: 'Impact of personal cultural orientations and cultural i' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 182] Source: MSESpringer.csv
+  Title: 'Improved MRI detection of inflammation-induced changes ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 185] Source: MSESpringer.csv
+  Title: 'Information and communication technology in SMEs: a sys' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 186] Source: MSESpringer.csv
+  Title: 'Innovation Performance in the Digital Divide Context: N' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 187] Source: MSESpringer.csv
+  Title: 'Innovative Activity of the Service Sector of the EU Mem' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 189] Source: MSESpringer.csv
+  Title: 'Integrated ERP lean model for quality enhancement and o' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 190] Source: MSESpringer.csv
+  Title: 'Integrating customer relationship management with busin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 191] Source: MSESpringer.csv
+  Title: 'Integration of green supply chain and logistics practic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 192] Source: MSESpringer.csv
+  Title: 'Interoperability of digital twin data exchange in engin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 193] Source: MSESpringer.csv
+  Title: 'Interoperable Digital Building Twins Through Communicat' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 194] Source: MSESpringer.csv
+  Title: 'Interpretive structural modeling of factors influencing' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 197] Source: MSESpringer.csv
+  Title: 'Is digitalization a source of innovation? Exploring the' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 198] Source: MSESpringer.csv
+  Title: 'IT Capability, Organisational Learning and Innovation P' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 199] Source: MSESpringer.csv
+  Title: 'Key performance indicators for business models: a syste' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 200] Source: MSESpringer.csv
+  Title: 'Knowledge Management and Data Analysis Techniques for D' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 201] Source: MSESpringer.csv
+  Title: 'Large language models and conditional rules in clinical' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 202] Source: MSESpringer.csv
+  Title: 'Lean and Industry 4.0 mitigating common losses in Engin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 204] Source: MSESpringer.csv
+  Title: 'Leapfrogging Manufacturing? Rwanda’s Attempt to Build a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 205] Source: MSESpringer.csv
+  Title: 'Leveraging Natural Language Processing to Extract Influ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 206] Source: MSESpringer.csv
+  Title: 'LLM support for enterprise modelling based on integrati' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 207] Source: MSESpringer.csv
+  Title: 'Long-term business impacts of disasters on firm sales: ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 208] Source: MSESpringer.csv
+  Title: 'Low Code Development Cycle Investigation' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 210] Source: MSESpringer.csv
+  Title: 'Managerial experimental approaches and business model d' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 211] Source: MSESpringer.csv
+  Title: 'Managing big data and blockchain for enterprise interna' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 212] Source: MSESpringer.csv
+  Title: 'Mapping the digitalization in SMEs of Middle East regio' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 213] Source: MSESpringer.csv
+  Title: 'Mapping the evolution of cloud computing, AI, and busin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 215] Source: MSESpringer.csv
+  Title: 'Marketing communication tools and their influence on ma' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 218] Source: MSESpringer.csv
+  Title: 'Method engineering in information systems analysis and ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 220] Source: MSESpringer.csv
+  Title: 'Modeling ecosystems of reference frameworks for assuran' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 221] Source: MSEIEEE.csv
+  Title: 'Multi-Agent Systems and Agentic AI in Business Process ' | DOI: '10.1109/ICNWC68145.2026.11518382'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['Language']
+
+• [Row 222] Source: MSESpringer.csv
+  Title: 'Multilevel relational influences on HRM practices: a cr' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 224] Source: MSESpringer.csv
+  Title: 'Navigating Business Model Redesign: The Compass Method ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 225] Source: MSESpringer.csv
+  Title: 'Navigating competing priorities for societal value crea' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 227] Source: MSESpringer.csv
+  Title: 'Necessary condition analysis (NCA): review of research ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 228] Source: MSESpringer.csv
+  Title: 'Onsite/offsite social commerce adoption for SMEs using ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 229] Source: MSESpringer.csv
+  Title: 'Open innovation: status quo and quo vadis - an analysis' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 233] Source: MSESpringer.csv
+  Title: 'Past, ongoing, and future debate on the interplay betwe' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 234] Source: MSESpringer.csv
+  Title: 'Pathways to digital entrepreneurship adoption among Mal' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 236] Source: MSESpringer.csv
+  Title: 'Performance Management of Supply Chain Sustainability i' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 238] Source: MSESpringer.csv
+  Title: 'Port economics, management and policy studies (2009–202' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 241] Source: MSESpringer.csv
+  Title: 'Process Mining Success Factors and Their Interrelations' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 244] Source: MSESpringer.csv
+  Title: 'Protecting Citizens’ Personal Data and Privacy: Joint E' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 246] Source: MSESpringer.csv
+  Title: 'Reflective interventions for cybersecurity: insights fr' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 247] Source: MSESpringer.csv
+  Title: 'Research on data driven dynamic mechanism of energy ent' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 248] Source: MSESpringer.csv
+  Title: 'Resilience analysis of service-oriented collaboration p' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 249] Source: MSESpringer.csv
+  Title: 'Resilience in tourism-based SMEs driven by initiatives ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 250] Source: MSESpringer.csv
+  Title: 'Review of Material Modeling and Digitalization in Indus' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 251] Source: MSESpringer.csv
+  Title: 'Role of the orexin 2 receptor in palatable-food consump' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 253] Source: MSESpringer.csv
+  Title: 'Shaping Digital Innovation Via Digital-related Capabili' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 254] Source: MSESpringer.csv
+  Title: 'Significant Aspects of Managing Personnel Risk in the S' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 257] Source: MSESpringer.csv
+  Title: 'Small banks, big burdens: How regulatory requirements a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 259] Source: MSESpringer.csv
+  Title: 'Spatial distribution and business environment of specia' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 261] Source: MSESpringer.csv
+  Title: 'Strategic data democratization toward open finance: sta' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 262] Source: MSESpringer.csv
+  Title: 'Suitability- and utilization-based cost–benefit analysi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 263] Source: MSESpringer.csv
+  Title: 'Supply chain sustainability performance measurement of ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 267] Source: MSESpringer.csv
+  Title: 'Sustainable performance in public sector universities o' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 268] Source: MSESpringer.csv
+  Title: 'Tackling digital transformation strategy: how it affect' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 271] Source: MSESpringer.csv
+  Title: 'The D-BEST Reference Model: A Flexible and Sustainable ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 273] Source: MSESpringer.csv
+  Title: 'The determinants of green innovations in manufacturing ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 274] Source: MSESpringer.csv
+  Title: 'The digital backbone for architecting smart operations ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 276] Source: MSESpringer.csv
+  Title: 'The Five Diamond Method for Explorative Business Proces' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 277] Source: MSESpringer.csv
+  Title: 'The future of rare disease drug development: the rare d' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 279] Source: MSESpringer.csv
+  Title: 'The impact of digital transformation on the total facto' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 280] Source: MSESpringer.csv
+  Title: 'The impact of dynamic capabilities on shipping port per' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 281] Source: MSESpringer.csv
+  Title: 'The impact of entrepreneurship knowledge on students' e' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 283] Source: MSESpringer.csv
+  Title: 'The Main Drivers of Local Business Internationalization' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 284] Source: MSESpringer.csv
+  Title: 'The privacy protection mechanism of Hyperledger Fabric ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 285] Source: MSESpringer.csv
+  Title: 'The role of artificial intelligence in the supply chain' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 287] Source: MSESpringer.csv
+  Title: 'To twin or not to twin, that is the question: evaluatin' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 289] Source: MSESpringer.csv
+  Title: 'Toward SMEs digital transformation success: a systemati' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 290] Source: MSESpringer.csv
+  Title: 'Towards a lightweight framework for service management ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 291] Source: MSESpringer.csv
+  Title: 'Towards a process selection method for embedded analyti' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 292] Source: MSESpringer.csv
+  Title: 'Towards an approach for strategic IoT architecture deci' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 293] Source: MSESpringer.csv
+  Title: 'Towards an integrated risk analysis security framework ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 294] Source: MSESpringer.csv
+  Title: 'Towards business partnership recommendation using user ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 297] Source: MSESpringer.csv
+  Title: 'Towards supply chain resilience: A structured process a' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 299] Source: MSESpringer.csv
+  Title: 'Transitioning to circular business models in developing' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 303] Source: MSESpringer.csv
+  Title: 'Unlocking the power of youth: harnessing technology to ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 304] Source: MSESpringer.csv
+  Title: 'Unveiling challenges and insights in cloud Enterprise R' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 306] Source: MSESpringer.csv
+  Title: 'Upgrading the DUI mode: Human Resources Practices for t' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 307] Source: MSESpringer.csv
+  Title: 'Using Statistical Modeling for Enhanced and Flexible Ph' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 309] Source: MSESpringer.csv
+  Title: 'Verification, validation, and evaluation of modeling me' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 310] Source: MSESpringer.csv
+  Title: 'Virtual reality for prospective and process-related com' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 311] Source: MSESpringer.csv
+  Title: 'Visualization of Digital Transformation Initiatives Ele' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 313] Source: MSESpringer.csv
+  Title: 'Where does AI play a major role in the new product deve' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 314] Source: MSESpringer.csv
+  Title: 'Why the COVID-19 Crisis Is an Ethical Issue for Busines' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+• [Row 315] Source: MSESpringer.csv
+  Title: '&#xa0;Transition of Manufacturing Companies towards the' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Language', 'Journal', 'Document Type', 'Keywords', 'Publisher', 'Open Access', 'Abstract']
+
+================================================================================
+FINAL SUMMARY: 207/316 records received enhancement data. Audit saved to disk.
+================================================================================

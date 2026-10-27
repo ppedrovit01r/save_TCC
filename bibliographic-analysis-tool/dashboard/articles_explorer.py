@@ -310,10 +310,14 @@ def show(df_input: pd.DataFrame = None):
     # 1. Text Search Filter
     if search_query:
         q_lower = search_query.lower()
+        q_clean_doi = q_lower.replace("https://doi.org/", "").replace("http://dx.doi.org/", "").replace("doi:", "").strip()
         match_mask = pd.Series(False, index=filtered_df.index)
         for col in ["Title", "Author", "Abstract", "Journal", "Source title", "DOI"]:
             if col in filtered_df.columns:
-                match_mask = match_mask | filtered_df[col].astype(str).str.lower().str.contains(q_lower, regex=False, na=False)
+                col_match = filtered_df[col].astype(str).str.lower().str.contains(q_lower, regex=False, na=False)
+                if col == "DOI" and q_clean_doi and q_clean_doi != q_lower:
+                    col_match = col_match | filtered_df[col].astype(str).str.lower().str.contains(q_clean_doi, regex=False, na=False)
+                match_mask = match_mask | col_match
         filtered_df = filtered_df[match_mask]
 
     # 2. Author Format Filter
@@ -383,16 +387,18 @@ def show(df_input: pd.DataFrame = None):
         if not selected_cols:
             selected_cols = default_cols
 
-        # Configure column formatting
-        display_df = filtered_df[selected_cols].copy()
+        # Configure column formatting and Arrow compatibility
+        from utils.formatters import sanitize_df_for_streamlit, normalize_doi_url
+        display_df = sanitize_df_for_streamlit(filtered_df[selected_cols].copy())
         
         col_cfg = {}
         if "DOI" in display_df.columns:
+            display_df["DOI"] = display_df["DOI"].apply(normalize_doi_url)
             col_cfg["DOI"] = st.column_config.LinkColumn(
                 "DOI",
-                help="Clickable DOI link",
-                validate=r"^https?://.*|^10\.\d{4,9}/[-._;()/:A-Z0-9]+$",
-                max_chars=100
+                help="Clickable DOI link (opens in new tab)",
+                display_text=r"https?://(?:dx\.)?doi\.org/(.*)",
+                max_chars=120
             )
         if "_author_status" in display_df.columns:
             col_cfg["_author_status"] = st.column_config.TextColumn(
@@ -457,12 +463,7 @@ def show(df_input: pd.DataFrame = None):
                 has_inits = row.get('_has_initials', False)
 
                 # Format DOI link
-                clean_doi_url = ""
-                if doi:
-                    if doi.startswith("http"):
-                        clean_doi_url = doi
-                    else:
-                        clean_doi_url = f"https://doi.org/{doi}"
+                clean_doi_url = normalize_doi_url(doi)
 
                 # Author status badge
                 if has_inits:
@@ -474,7 +475,8 @@ def show(df_input: pd.DataFrame = None):
                 journal_html = f'<span style="background-color:#F1F5F9; color:#334155; padding:3px 8px; border-radius:6px; font-size:11px; margin-right:6px;">📖 {html.escape(journal[:45])}{"..." if len(journal) > 45 else ""}</span>' if journal else ""
 
                 # DOI button/link
-                doi_html = f'<a href="{clean_doi_url}" target="_blank" style="text-decoration:none; background-color:#EFF6FF; color:#1D4ED8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid #BFDBFE;">🔗 DOI: {html.escape(doi)}</a>' if doi else ""
+                clean_display_doi = doi.replace("https://doi.org/", "").replace("http://dx.doi.org/", "").replace("doi:", "").strip()
+                doi_html = f'<a href="{clean_doi_url}" target="_blank" style="text-decoration:none; background-color:#EFF6FF; color:#1D4ED8; padding:3px 8px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid #BFDBFE;">🔗 DOI: {html.escape(clean_display_doi)}</a>' if clean_doi_url else ""
 
                 st.html(
                     f"""

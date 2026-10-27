@@ -1,0 +1,704 @@
+================================================================================
+GEOGRAPHIC PROVENANCE & DEMOGRAPHIC INFERENCE AUDIT LOG
+================================================================================
+Project Name:                   LeticiaAll21
+Generated At:                   2026-10-23 17:03:18
+Methodology:                    Rule-based gazetteer & administrative subdivision regex heuristics
+
+--------------------------------------------------------------------------------
+1. CORPUS SUMMARY & QUALITY AUDIT METRICS
+--------------------------------------------------------------------------------
+Total Publications in Corpus:           9,985 (100.0%)
+Affiliations Metadata Present:          9,479 (94.9%)
+Author Address Metadata Present:        9,479 (94.9%)
+Explicit Country Present in Raw Data:   9,234 (92.5%)
+Country Recovered by Regex Heuristics:    108 (1.1%)
+--------------------------------------------------------------------------------
+Total Geographic Provenance Identified:  9,239 (92.5%)
+Unresolved Records (Missing Country):      746 (7.5%)
+--------------------------------------------------------------------------------
+
+2. BREAKDOWN OF RECOVERED COUNTRIES VIA HEURISTICS
+--------------------------------------------------------------------------------
+  - United States                 :   47 records
+  - Turkey                        :   14 records
+  - United Kingdom                :    9 records
+  - South Korea                   :    6 records
+  - Singapore                     :    4 records
+  - Greece                        :    3 records
+  - Austria                       :    3 records
+  - India                         :    2 records
+  - Pakistan                      :    2 records
+  - South Africa                  :    1 records
+  - New Zealand                   :    1 records
+  - Iran                          :    1 records
+  - Belgium                       :    1 records
+  - Norway                        :    1 records
+  - Israel                        :    1 records
+  - France                        :    1 records
+  - Egypt                         :    1 records
+  - Poland                        :    1 records
+  - Czech Republic                :    1 records
+  - Malaysia                      :    1 records
+  - Australia                     :    1 records
+  - Croatia                       :    1 records
+  - Costa Rica                    :    1 records
+  - Nigeria                       :    1 records
+  - United Arab Emirates          :    1 records
+  - China                         :    1 records
+  - Hungary                       :    1 records
+  - Denmark                       :    1 records
+
+--------------------------------------------------------------------------------
+3. DEDUCTION PROVENANCE RECORDS (108 publications recovered from Affiliations/Address)
+--------------------------------------------------------------------------------
+[Record #49]
+  Title:    A Compass for North Carolina Health Care Workers Navigating the Adoption of Artificial Intelligence
+  Affil:    North Carolina Healthcare Association
+  Address:  North Carolina Healthcare Association
+  Deduced:  United States
+
+[Record #84]
+  Title:    A fairer way forward for AI in health care
+  Affil:    Linda Nordling is a science journalist in Cape Town, South Africa
+  Address:  Linda Nordling is a science journalist in Cape Town, South Africa
+  Deduced:  South Africa
+
+[Record #287]
+  Title:    Accuracy of Chatbots in Citing Journal Articles
+  Affil:    ELHS Institute, Inc, Palo Alto, California; Learning Health Community, Palo Alto, Californ...
+  Address:  ELHS Institute, Inc, Palo Alto, California; Learning Health Community, Palo Alto, Californ...
+  Deduced:  United States
+
+[Record #448]
+  Title:    Agentic Artificial Intelligence in Medical Imaging Education: Architectural Autonomy and the Risk of Cognitive Surrender
+  Affil:    Virtual Medical Coaching  Christchurch New Zealand
+  Address:  Virtual Medical Coaching  Christchurch New Zealand
+  Deduced:  New Zealand
+
+[Record #485]
+  Title:    AI empowers conservation biology
+  Affil:    Roberta Kwok is a freelance science writer in Kirkland, Washington
+  Address:  Roberta Kwok is a freelance science writer in Kirkland, Washington
+  Deduced:  United States
+
+[Record #520]
+  Title:    AI in practice
+  Affil:    Practitioner; a family NP at Northwest Health Pulmonary and Critical Care Medical Group in...
+  Address:  Practitioner; a family NP at Northwest Health Pulmonary and Critical Care Medical Group in...
+  Deduced:  India
+
+[Record #603]
+  Title:    AI-fuelled election campaigns are here — where are the rules?
+  Affil:    Rumman Chowdhury is the US Science Envoy for artificial intelligence, based in Washington ...
+  Address:  Rumman Chowdhury is the US Science Envoy for artificial intelligence, based in Washington ...
+  Deduced:  United States
+
+[Record #719]
+  Title:    Analyzing the Strengths, Weaknesses, Opportunities, and Threats (SWOT) of Chatbots in Emergency Nursing: A Narrative Review of Literature
+  Affil:    Faculty Member at Nursing Department, Khomein University of Medical Sciences, Khomein, Ira...
+  Address:  Faculty Member at Nursing Department, Khomein University of Medical Sciences, Khomein, Ira...
+  Deduced:  Iran
+
+[Record #900]
+  Title:    Applications of artificial intelligence in drug discovery
+  Affil:    1Discovery Biology Ltd., Cambridge, U.K; 2Amour Scientific Consulting Ltd, Cambridge, U.K;...
+  Address:  1Discovery Biology Ltd., Cambridge, U.K; 2Amour Scientific Consulting Ltd, Cambridge, U.K;...
+  Deduced:  United Kingdom
+
+[Record #1010]
+  Title:    Artificial Intelligence: A Private Practice Perspective
+  Affil:    Radiology Partners, El Segundo, California; Radiology Partners, El Segundo, California. El...
+  Address:  Radiology Partners, El Segundo, California; Radiology Partners, El Segundo, California. El...
+  Deduced:  United States
+
+[Record #1042]
+  Title:    Artificial Intelligence (AI) and Lung Ultrasound in Infectious Pulmonary Disease
+  Affil:    The European Medical Association (EMA), Brussels, Belgium
+  Address:  The European Medical Association (EMA), Brussels, Belgium
+  Deduced:  Belgium
+
+[Record #1178]
+  Title:    Artificial intelligence and diagnosis in general practice
+  Affil:    Yorkshire Medical Chambers, Welton, Brough, East Yorkshire; Your.MD Limited, Bloomsbury, L...
+  Address:  Yorkshire Medical Chambers, Welton, Brough, East Yorkshire; Your.MD Limited, Bloomsbury, L...
+  Deduced:  United Kingdom
+
+[Record #1295]
+  Title:    Artificial Intelligence and Machine Learning in Cardiovascular
+                        Imaging
+  Affil:    CLEERLY, INC., NEW YORK, NEW YORK; Cleerly, Inc., New York, New York
+  Address:  CLEERLY, INC., NEW YORK, NEW YORK; Cleerly, Inc., New York, New York
+  Deduced:  United States
+
+[Record #1296]
+  Title:    Artificial Intelligence and Machine Learning in Clinical Medicine, 2023
+  Affil:    Dr. Haug, the International Correspondent of the Journal, can be contacted at [email prote...
+  Address:  Dr. Haug, the International Correspondent of the Journal, can be contacted at [email prote...
+  Deduced:  Norway
+
+[Record #1342]
+  Title:    Artificial Intelligence and Medicine: Discussion Paper
+  Affil:    Biometrics Unit, Institute of Psychiatry, London SE5
+  Address:  Biometrics Unit, Institute of Psychiatry, London SE5
+  Deduced:  United Kingdom
+
+[Record #1510]
+  Title:    Artificial Intelligence and the Practice of Radiology: An Alternative View.
+  Affil:    Radnet, Orinda, California; Radnet, Orinda, California. Electronic address: bobschier@gmai...
+  Address:  Radnet, Orinda, California; Radnet, Orinda, California. Electronic address: bobschier@gmai...
+  Deduced:  United States
+
+[Record #1734]
+  Title:    Artificial Intelligence Effecting a Paradigm Shift in Drug Development
+  Affil:    KYAN Therapeutics, Singapore, Singapore
+  Address:  KYAN Therapeutics, Singapore, Singapore
+  Deduced:  Singapore
+
+[Record #1756]
+  Title:    Artificial intelligence faces reproducibility crisis
+  Affil:    Matthew Hutson is a journalist in New York City
+  Address:  Matthew Hutson is a journalist in New York City
+  Deduced:  United States
+
+[Record #2050]
+  Title:    Artificial Intelligence in Biomedicine: A Legal Insight
+  Affil:    Hellenic National Commission for Bioethics and Technoethics, 10674 Athens, Greece
+  Address:  Hellenic National Commission for Bioethics and Technoethics, 10674 Athens, Greece
+  Deduced:  Greece
+
+[Record #2262]
+  Title:    Artificial Intelligence in Echocardiography
+  Affil:    Center for Women's Heart and Vascular Health, Texas Heart Institute, Houston, Texas
+  Address:  Center for Women's Heart and Vascular Health, Texas Heart Institute, Houston, Texas
+  Deduced:  United States
+
+[Record #2338]
+  Title:    Artificial Intelligence in Gynaecological Malignancies: Perspectives of a Clinical Oncologist
+  Affil:    . Gynaecological Oncology/In Vitro Fertilization, Shri Ram Murti Samarak Institute of Medi...
+  Address:  . Gynaecological Oncology/In Vitro Fertilization, Shri Ram Murti Samarak Institute of Medi...
+  Deduced:  India
+
+[Record #2384]
+  Title:    Artificial Intelligence in Healthcare: Past, Present and Future.
+  Affil:    Department of Cardiology, Dr. Siyami Ersek Thoracic and Cardiovascular Surgery Training an...
+  Address:  Department of Cardiology, Dr. Siyami Ersek Thoracic and Cardiovascular Surgery Training an...
+  Deduced:  Turkey
+
+[Record #2478]
+  Title:    Artificial Intelligence in Medical Imaging: An Overview of a Decade of Experience.
+  Affil:    Nanox Vision, Petah Tikva, Israel
+  Address:  Nanox Vision, Petah Tikva, Israel
+  Deduced:  Israel
+
+[Record #2514]
+  Title:    Artificial intelligence in medicine: current trends and future possibilities
+  Affil:    Cera Care, London
+  Address:  Cera Care, London
+  Deduced:  United Kingdom
+
+[Record #2702]
+  Title:    Artificial Intelligence in Pediatric Nursing Care
+  Affil:    Dongguk University WISE
+  Address:  Author Affiliation: Department of Nursing, Dongguk University WISE, Gyeongju, Gyeongbuk, S...
+  Deduced:  South Korea
+
+[Record #2831]
+  Title:    Artificial intelligence in retinal imaging: current status and future prospects
+  Affil:    Department of Ophthalmology, Landesklinikum Mistelbach-Gaenserndorf, Mistelbach, Austria
+  Address:  Department of Ophthalmology, Landesklinikum Mistelbach-Gaenserndorf, Mistelbach, Austria
+  Deduced:  Austria
+
+[Record #2834]
+  Title:    Artificial Intelligence in Rheumatology: Quo Vadis?
+  Affil:    Fourth Department of Internal Medicine, Hippokration Hospital, Thessaloniki, Greece
+  Address:  Fourth Department of Internal Medicine, Hippokration Hospital, Thessaloniki, Greece
+  Deduced:  Greece
+
+[Record #2887]
+  Title:    Artificial Intelligence in Surgery: The American College of Surgeons and the Future of the Profession
+  Affil:    Baltimore, MD; Murray, UT
+  Address:  Baltimore, MD; Murray, UT
+  Deduced:  United States
+
+[Record #3021]
+  Title:    Artificial intelligence is improving the detection of lung cancer
+  Affil:    Elizabeth Svoboda is a freelance writer in San Jose, California
+  Address:  Elizabeth Svoboda is a freelance writer in San Jose, California
+  Deduced:  United States
+
+[Record #3053]
+  Title:    Artificial intelligence, machine learning, and deep learning in orthopedic surgery
+  Affil:    President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foun...
+  Address:  President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foun...
+  Deduced:  Turkey
+
+[Record #3200]
+  Title:    Artificial intelligence technologies in nuclear medicine
+  Affil:    Department of Nuclear Medicine, Prof. Dr. Cemil Tascioglu City Hospital, İstanbul 34381, T...
+  Address:  Department of Nuclear Medicine, Prof. Dr. Cemil Tascioglu City Hospital, İstanbul 34381, T...
+  Deduced:  Turkey
+
+[Record #3263]
+  Title:    Artificial intelligence to predict task activation from resting state fMRI
+  Affil:    İstanbul Başakşehir Çam ve Sakura Şehir Hastanesi
+  Address:  Department of Radiology, Basaksehir Cam and Sakura City Hospital, Basaksehir, 34480, Istan...
+  Deduced:  Turkey
+
+[Record #3314]
+  Title:    Artificial intelligence: Who must have autonomy the machine or the human?
+  Affil:    President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foun...
+  Address:  President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foun...
+  Deduced:  Turkey
+
+[Record #3493]
+  Title:    Artificial intelligence's interpretation of the neuroanatomical aspect of Peter Paul Rubens's copy of “The Battle of Anghiari” by Leonardo da Vinci
+  Affil:    Clinic Helsicore, Georgia
+  Address:  Clinic Helsicore, Georgia
+  Deduced:  United States
+
+[Record #3495]
+  Title:    Artificial Intelligence’s Ongoing Expansion in Pharmacy Practice: Opportunities, Challenges, and Unknowns
+  Affil:    Dumbarton Group & Associates, Health Care Law and Policy Firm, The Foundry Building, 1050 ...
+  Address:  Dumbarton Group & Associates, Health Care Law and Policy Firm, The Foundry Building, 1050 ...
+  Deduced:  United States
+
+[Record #3682]
+  Title:    Beyond AI literacy to irreplaceable human capacities: What nursing education must teach in the AI era
+  Affil:    Center for Econometric Optimization in the Nursing Workforce, Seoul, Republic of Korea. El...
+  Address:  Center for Econometric Optimization in the Nursing Workforce, Seoul, Republic of Korea. El...
+  Deduced:  South Korea
+
+[Record #3708]
+  Title:    Beyond the AJR: Early Applications of Generative Artificial Intelligence for Radiology Report Interpretation.
+  Affil:    University of Maryland Medical Intelligent Imaging Center, 22 S Greene St, Baltimore, MD 2...
+  Address:  University of Maryland Medical Intelligent Imaging Center, 22 S Greene St, Baltimore, MD 2...
+  Deduced:  United States
+
+[Record #3793]
+  Title:    Boxing behavior recognition based on artificial intelligence convolutional neural network with sports psychology assistant
+  Affil:    School of Science of Physical Culture and Sports, Kunsan University, Kunsan, 54150, Korea;...
+  Address:  School of Science of Physical Culture and Sports, Kunsan University, Kunsan, 54150, Korea;...
+  Deduced:  South Korea
+
+[Record #3878]
+  Title:    Can artificial intelligence be of help to psychoanalysis ... or ... vice versa?
+  Affil:    320 East 54th Street, Suite 1D, 10022, New York, NY
+  Address:  320 East 54th Street, Suite 1D, 10022, New York, NY
+  Deduced:  United States
+
+[Record #4002]
+  Title:    Chapitre 6. L’hybridation des réseaux
+  Affil:    Professeur à l’Université des Sciences Sociales de Toulouse
+  Address:  Professeur à l’Université des Sciences Sociales de Toulouse
+  Deduced:  France
+
+[Record #4004]
+  Title:    Characterization of a beta subunit of the gastric H+/K(+)-transporting ATPase.
+  Affil:    Center for Ulcer Research and Education, Wadsworth Veterans Administration Hospital, Los A...
+  Address:  Center for Ulcer Research and Education, Wadsworth Veterans Administration Hospital, Los A...
+  Deduced:  United States
+
+[Record #4194]
+  Title:    Comment on “Can Large Artificial Intelligence‐Based Linguistic Models Help to Obtain Information About Burning Mouth Syndrome?”
+  Affil:    Galala University; King Salman International University
+  Address:  Oral Medicine and Periodontology, Faculty of Dentistry Galala University  Suez Egypt; Oral...
+  Deduced:  Egypt
+
+[Record #4269]
+  Title:    Comparative analysis of artificial intelligence chatbots in orthodontic emergency scenarios: ChatGPT-3.5, ChatGPT-4.0, Copilot, and Gemini
+  Affil:    Istanbul Health and Technology University
+  Address:  Assistant Professor, Department of Orthodontics, Faculty of Dentistry, Istanbul Health and...
+  Deduced:  Turkey
+
+[Record #4274]
+  Title:    Comparative Detector Analysis for the Identification of Academic Articles Synthesized by Artificial Intelligence in the Field of Ophthalmology
+  Affil:    Department of Ophthalmology, Kocaeli State Hospital, Kocaeli, Türkiye
+  Address:  Department of Ophthalmology, Kocaeli State Hospital, Kocaeli, Türkiye
+  Deduced:  Turkey
+
+[Record #4284]
+  Title:    Comparison efficiency of the artificial intelligence methods for the diagnosis of Acid - base and anion gap disorders.
+  Affil:    College of Computer Science in Lodz, Poland; College of Computer Science in Lodz, Poland. ...
+  Address:  College of Computer Science in Lodz, Poland; College of Computer Science in Lodz, Poland. ...
+  Deduced:  Poland
+
+[Record #4347]
+  Title:    Cons of Artificial Intelligence as a Diagnostic Aid in Dermatology: A Threat to Quality of Care and the Role of the Dermatologist.
+  Affil:    Keystone Dermatology Partners, Horsham, Pennsylvania; Mountainview Hospital, Las Vegas, Ne...
+  Address:  Keystone Dermatology Partners, Horsham, Pennsylvania; Mountainview Hospital, Las Vegas, Ne...
+  Deduced:  United States
+
+[Record #4363]
+  Title:    Continuance intention to use artificial intelligence personal assistant: type, gender, and use experience
+  Affil:    Department of Strategic Planning, RealSecu, 60 Centum Buk-daero, Haeundae-gu, Busan 48059,...
+  Address:  Department of Strategic Planning, RealSecu, 60 Centum Buk-daero, Haeundae-gu, Busan 48059,...
+  Deduced:  South Korea
+
+[Record #4382]
+  Title:    Conversations on the nature of reality
+  Affil:    the Nour Foundation  New York New York; the Nour Foundation, New York, New York
+  Address:  the Nour Foundation  New York New York; the Nour Foundation, New York, New York
+  Deduced:  United States
+
+[Record #4569]
+  Title:    Databases, artificial intelligence and knowledge-based systems for molecular biology
+  Affil:    Biomedical Computing Unit, Imperial Cancer Research Fund, P.O. Box 123, Lincoln's Inn Fiel...
+  Address:  Biomedical Computing Unit, Imperial Cancer Research Fund, P.O. Box 123, Lincoln's Inn Fiel...
+  Deduced:  United Kingdom
+
+[Record #4783]
+  Title:    Discussion: The Use of Emotional Artificial Intelligence in Plastic Surgery
+  Affil:    Austin, Texas; Disclosure:The author has no financial interest in any of the products or d...
+  Address:  Austin, Texas; Disclosure:The author has no financial interest in any of the products or d...
+  Deduced:  United States
+
+[Record #4838]
+  Title:    Earth hacker
+  Affil:    Virginia Gewin is a freelance writer in Portland, Oregon
+  Address:  Virginia Gewin is a freelance writer in Portland, Oregon
+  Deduced:  United States
+
+[Record #5273]
+  Title:    Estimating the risk of sudden death in hypertrophic cardiomyopathy might be solved by artificial intelligence.
+  Affil:    JV Cardiology, Janský vršek, Prague 1, 110 00, Czech Republic; JV Cardiology, Janský vršek...
+  Address:  JV Cardiology, Janský vršek, Prague 1, 110 00, Czech Republic; JV Cardiology, Janský vršek...
+  Deduced:  Czech Republic
+
+[Record #5293]
+  Title:    Ethical Artificial Intelligence in Nursing Workforce Management and Policymaking: Bridging Philosophy and Practice
+  Affil:    "SECURE Team for You" (Sweet Spot Consulting Research Team for the Next Generation, You), ...
+  Address:  "SECURE Team for You" (Sweet Spot Consulting Research Team for the Next Generation, You), ...
+  Deduced:  South Korea
+
+[Record #5523]
+  Title:    Explainable artificial intelligence to detect atrial fibrillation using electrocardiogram
+  Affil:    Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, I...
+  Address:  Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, I...
+  Deduced:  South Korea
+
+[Record #5634]
+  Title:    First passages of rolled-up Herculaneum scroll revealed.
+  Affil:    Jo Marchant is a science journalist based in London
+  Address:  Jo Marchant is a science journalist based in London
+  Deduced:  United Kingdom
+
+[Record #5647]
+  Title:    For whom the artificial intelligence bell tolls: preimplantation genetic testing for aneuploidy, does it toll for thee?
+  Affil:    ART Compass, A Fertility Guidance Technology, Newport Beach, California
+  Address:  ART Compass, A Fertility Guidance Technology, Newport Beach, California
+  Deduced:  United States
+
+[Record #5653]
+  Title:    Forget ChatGPT: why researchers now run small AIs on their laptops
+  Affil:    Matthew Hutson is a science writer based in New York City
+  Address:  Matthew Hutson is a science writer based in New York City
+  Deduced:  United States
+
+[Record #5668]
+  Title:    Four change-makers seek impact in medical research
+  Affil:    Amy Coombs is a freelance science writer in Chicago, Illinois; Sandy Ong is a freelance wr...
+  Address:  Amy Coombs is a freelance science writer in Chicago, Illinois; Sandy Ong is a freelance wr...
+  Deduced:  Singapore, United States
+
+[Record #5944]
+  Title:    Guide, don’t hide: reprogramming learning in the wake of AI
+  Affil:    Monique Brouillette is a science journalist in Cambridge, Massachusetts
+  Address:  Monique Brouillette is a science journalist in Cambridge, Massachusetts
+  Deduced:  United Kingdom
+
+[Record #5953]
+  Title:    Hallucination: A key challenge to Artificial Intelligence-Generated writing
+  Affil:    Klinik Kesihatan Bota Kiri, Jalan Bota Kiri, Bota Kiri, Perak Tengah, Perak, Malaysia; Kli...
+  Address:  Klinik Kesihatan Bota Kiri, Jalan Bota Kiri, Bota Kiri, Perak Tengah, Perak, Malaysia; Kli...
+  Deduced:  Malaysia
+
+[Record #5977]
+  Title:    Harnessing artificial intelligence, machine learning and novel approaches to tackle mortality in acute type A aortic dissection
+  Affil:    Islamic International Medical College , Rawalpindi, Pakistan; MBBS, Islamic International ...
+  Address:  Islamic International Medical College , Rawalpindi, Pakistan; MBBS, Islamic International ...
+  Deduced:  Pakistan
+
+[Record #6158]
+  Title:    How to harness AI’s potential in research — responsibly and ethically
+  Affil:    Jane Palmer is a freelance journalist in Colorado
+  Address:  Jane Palmer is a freelance journalist in Colorado
+  Deduced:  United States
+
+[Record #6165]
+  Title:    How to read and review papers on machine learning and artificial intelligence in radiology: a survival guide to key methodological concepts
+  Affil:    İstanbul Başakşehir Çam ve Sakura Şehir Hastanesi
+  Address:  Department of Radiology, Basaksehir Cam and Sakura City Hospital, Basaksehir, 34480, Istan...
+  Deduced:  Turkey
+
+[Record #6325]
+  Title:    Improving Periodontal Disease Management With Artificial Intelligence.
+  Affil:    Chief Compliance/Hygiene Officer, Passion Dental, Marlborough, Massachusetts; Clinical Dir...
+  Address:  Chief Compliance/Hygiene Officer, Passion Dental, Marlborough, Massachusetts; Clinical Dir...
+  Deduced:  United States
+
+[Record #6330]
+  Title:    In AI, is bigger always better?
+  Affil:    Anil Ananthaswamy is a freelance science writer based in California
+  Address:  Anil Ananthaswamy is a freelance science writer based in California
+  Deduced:  United States
+
+[Record #6630]
+  Title:    Is There Value for Artificial Intelligence Applications in Molecular Imaging and Nuclear Medicine?
+  Affil:    Department of Nuclear Medicine, Ambulatorium Döbling, Vienna, Austria; Department of Nucle...
+  Address:  Department of Nuclear Medicine, Ambulatorium Döbling, Vienna, Austria; Department of Nucle...
+  Deduced:  Austria
+
+[Record #6637]
+  Title:    Japanese robotics lags as AI captures global attention
+  Affil:    Rachel Nuwer is a freelance writer based in New York City
+  Address:  Rachel Nuwer is a freelance writer based in New York City
+  Deduced:  United States
+
+[Record #6639]
+  Title:    Join the disruptors of health science
+  Affil:    Mindstrong Health, Palo Alto, California; president and co-founder at Mindstrong Health, P...
+  Address:  Mindstrong Health, Palo Alto, California; president and co-founder at Mindstrong Health, P...
+  Deduced:  United States
+
+[Record #6887]
+  Title:    LTE: Enhancing colorectal cancer patient selection for cytoreductive surgery: The role of artificial intelligence and integration of pathological peritoneal cancer index in improving clinical outcomes.
+  Affil:    Islamic International Medical College, Peshawar Road, Rawalpindi, 44000, Pakistan. Electro...
+  Address:  Islamic International Medical College, Peshawar Road, Rawalpindi, 44000, Pakistan. Electro...
+  Deduced:  Pakistan
+
+[Record #6893]
+  Title:    Machine ethics: The robot’s dilemma
+  Affil:    Boer Deng is a news intern for Nature in Washington DC.,
+  Address:  Boer Deng is a news intern for Nature in Washington DC.,
+  Deduced:  United States
+
+[Record #6936]
+  Title:    Maintaining Privacy in Artificial Intelligence-driven Bioinformatics: An Inquiry into the Suitability of Australia's Laws.
+  Affil:    Solicitor, Kinneally Miley Law, Brisbane
+  Address:  Solicitor, Kinneally Miley Law, Brisbane
+  Deduced:  Australia
+
+[Record #6943]
+  Title:    Making digital government a better government
+  Affil:    Neil Savage is a freelance writer in Lowell, Massachusetts
+  Address:  Neil Savage is a freelance writer in Lowell, Massachusetts
+  Deduced:  United States
+
+[Record #6964]
+  Title:    Managing expectations of artificial intelligence
+  Affil:    Jeff Hecht is a freelance writer based in Newton, Massachusetts
+  Address:  Jeff Hecht is a freelance writer based in Newton, Massachusetts
+  Deduced:  United States
+
+[Record #7005]
+  Title:    [Medical ethic consideration of artificial intelligence medicine].
+  Affil:    Springhill Medical Group, 2220 Gladstone Dr., Pittsburg, California 94565, U. S. A
+  Address:  Springhill Medical Group, 2220 Gladstone Dr., Pittsburg, California 94565, U. S. A
+  Deduced:  United States
+
+[Record #7135]
+  Title:    NATO is boosting AI and climate research as scientific diplomacy remains on ice
+  Affil:    Natasha Gilbert is a freelance writer in Washington, DC
+  Address:  Natasha Gilbert is a freelance writer in Washington, DC
+  Deduced:  United States
+
+[Record #7141]
+  Title:    Navigating AI in clinical practice: A practical guide for physicians
+  Affil:    1775 Eye St. NW, Suite 410, Washington, DC 20006. Electronic address: fmeyers@fsmb.org
+  Address:  1775 Eye St. NW, Suite 410, Washington, DC 20006. Electronic address: fmeyers@fsmb.org
+  Deduced:  United States
+
+[Record #7272]
+  Title:    Objectivization of virus titration method in GMP-regulated environment using artificial intelligence-based classification system
+  Affil:    Vaccines Product Development, Dechra Pharmaceuticals PLC, Svetonedeljska cesta 2, Kalinovi...
+  Address:  Vaccines Product Development, Dechra Pharmaceuticals PLC, Svetonedeljska cesta 2, Kalinovi...
+  Deduced:  Croatia
+
+[Record #7327]
+  Title:    Opinion paper: artificial intelligence in cardio-oncology: a clinical call to action
+  Affil:    Cardiology Department, Clínica Bíblica, San José, Costa Rica; Health Research Department, ...
+  Address:  Cardiology Department, Clínica Bíblica, San José, Costa Rica; Health Research Department, ...
+  Deduced:  Costa Rica
+
+[Record #7340]
+  Title:    Opportunities for artificial intelligence in healthcare and in vitro fertilization
+  Affil:    ALQIMI, Rockville, Maryland; ALQIMI, Rockville, Maryland. Electronic address: brian.milosk...
+  Address:  ALQIMI, Rockville, Maryland; ALQIMI, Rockville, Maryland. Electronic address: brian.milosk...
+  Deduced:  United States
+
+[Record #7415]
+  Title:    Pediatric nurses' use of generative artificial intelligence and their competency levels
+  Affil:    Kutahya Saglik Bilimleri Universitesi
+  Address:  Department of Child Health and Diseases Nursing, Faculty of Health Sciences, Kütahya Healt...
+  Deduced:  Turkey
+
+[Record #7495]
+  Title:    Piquing artificial intelligence towards drug discovery: Tools, techniques, and applications
+  Affil:    Department of Biochemistry, College of Science Evangel University Akaeze Ebonyi State Nige...
+  Address:  Department of Biochemistry, College of Science Evangel University Akaeze Ebonyi State Nige...
+  Deduced:  Nigeria
+
+[Record #7601]
+  Title:    Prediction of patient cooperation before orthodontic treatment: Handwriting and artificial intelligence
+  Affil:    Afyonkarahisar Sağlık Bilimleri Üniversitesi
+  Address:  Assistant professor, Department of Orthodontics, Afyonkarahisar Health Sciences University...
+  Deduced:  Turkey
+
+[Record #7665]
+  Title:    Problems with Medical Claims that Artificial Intelligence (AI) and Blockchain Can Fix
+  Affil:    Board Member, TachyHealth, Dubai, United Arab Emirates; Editor
+  Address:  Board Member, TachyHealth, Dubai, United Arab Emirates; Editor
+  Deduced:  United Arab Emirates
+
+[Record #7815]
+  Title:    Rammya Mathew: Could artificial intelligence be the key to transforming general practice?
+  Affil:    London
+  Address:  London
+  Deduced:  United Kingdom
+
+[Record #7845]
+  Title:    Ready or not, AI is coming to science education — and students have opinions
+  Affil:    Sarah Wells is an independent science journalist based in Washington DC
+  Address:  Sarah Wells is an independent science journalist based in Washington DC
+  Deduced:  United States
+
+[Record #8161]
+  Title:    Revolutionizing Nutrition: Artificial Intelligence–Driven Health Solutions and Personalized Diets
+  Affil:    İzmir Demokrasi Üniversitesi
+  Address:  Department of Nutrition and Dietetics, Faculty of Health Sciences, Izmir Democracy Univers...
+  Deduced:  Turkey
+
+[Record #8208]
+  Title:    Robo-writers: the rise and risks of language-generating AI
+  Affil:    Matthew Hutson is a science writer based in New York City
+  Address:  Matthew Hutson is a science writer based in New York City
+  Deduced:  United States
+
+[Record #8233]
+  Title:    Role of Artificial Intelligence in Imaging: From A Radiologist's Point of View with A Focus on Breast Imaging.
+  Affil:    Department of Radiology, Radiologica Imaging center, İstanbul-Turkey
+  Address:  Department of Radiology, Radiologica Imaging center, İstanbul-Turkey
+  Deduced:  Turkey
+
+[Record #8307]
+  Title:    Self-regulation needed for artificial intelligence tools.
+  Affil:    VetCT, Hauser Forum, The Broers Building  21 JJ Thomson Avenue Cambridge CB3 0FA; VetCT, H...
+  Address:  VetCT, Hauser Forum, The Broers Building  21 JJ Thomson Avenue Cambridge CB3 0FA; VetCT, H...
+  Deduced:  United Kingdom
+
+[Record #8469]
+  Title:    [Study on the Clinical Evaluation of Image-based Artificial Intelligence Aided Diagnosis Software Approved in the United States].
+  Affil:    Zhejiang Medical Device Evaluation Center, Hangzhou, 311121
+  Address:  Zhejiang Medical Device Evaluation Center, Hangzhou, 311121
+  Deduced:  China
+
+[Record #8558]
+  Title:    Technology driven by artificial intelligence advances professional growth and development
+  Affil:    At Texas Health Resources in Arlington, Tex., Leisha Buller is a business intelligence adm...
+  Address:  At Texas Health Resources in Arlington, Tex., Leisha Buller is a business intelligence adm...
+  Deduced:  United States
+
+[Record #8678]
+  Title:    The Challenges of Data Privacy and Cybersecurity in Cloud Computing and Artificial Intelligence (AI) Applications for EQA Organizations.
+  Affil:    ESEAP & GSCC-CB, Athens, Greece; HeadWay Consultants, Athens, Greece
+  Address:  ESEAP & GSCC-CB, Athens, Greece; HeadWay Consultants, Athens, Greece
+  Deduced:  Greece
+
+[Record #8742]
+  Title:    The Editor's Desk: Artificial Intelligence.
+  Affil:    Editor-in-Chief, AANA Journal, McLean, Virginia
+  Address:  Editor-in-Chief, AANA Journal, McLean, Virginia
+  Deduced:  United States
+
+[Record #8746]
+  Title:    The Effect of Nursing Students' Artificial Intelligence Anxiety on Their Knowledge of Robotic Surgery: The Mediating Role of Individual Innovativeness
+  Affil:    Afyonkarahisar Sağlık Bilimleri Üniversitesi
+  Address:  Afyonkarahisar Sağlık Bilimleri Üniversitesi Sağlık Bilimleri Fakültesi, Hemşirelik Bölümü...
+  Deduced:  Turkey
+
+[Record #8874]
+  Title:    The Future of Keratoconus Screening with Artificial Intelligence.
+  Affil:    Port Washington, New York; Port Washington, New York. Electronic address: sklyce@klyce.com
+  Address:  Port Washington, New York; Port Washington, New York. Electronic address: sklyce@klyce.com
+  Deduced:  United States
+
+[Record #8917]
+  Title:    The Humanistic Basis of Psychoanalytic Practice
+  Affil:    Mitchell Wilson , 2960A Piedmont Avenue , Berkeley , CA 94705
+  Address:  Mitchell Wilson , 2960A Piedmont Avenue , Berkeley , CA 94705
+  Deduced:  United States
+
+[Record #8945]
+  Title:    The impact of artificial intelligence on the risk analysis profession.
+  Affil:    Principal Scientist, Risk and Decision Systems, Teknowledge, Inc., 1850 Embarcadero Road, ...
+  Address:  Principal Scientist, Risk and Decision Systems, Teknowledge, Inc., 1850 Embarcadero Road, ...
+  Deduced:  United States
+
+[Record #9044]
+  Title:    The Performance of Artificial Intelligence in One Anastomosis Gastric Bypass Surgery: Comparative Efficacy of ChatGPT-4.0, ChatGPT-Omni, and Gemini AI
+  Affil:    Department of General Surgery, Private Meditech Hospital, Ordu, Turkey. doktorerkanaksoy@h...
+  Address:  Department of General Surgery, Private Meditech Hospital, Ordu, Turkey. doktorerkanaksoy@h...
+  Deduced:  Turkey
+
+[Record #9121]
+  Title:    The Real Era of the Art of Medicine Begins with Artificial Intelligence
+  Affil:    The Medical Futurist Institute, Budapest, Hungary
+  Address:  The Medical Futurist Institute, Budapest, Hungary
+  Deduced:  Hungary
+
+[Record #9143]
+  Title:    The rise of artificial intelligence: addressing the impact of large language models such as ChatGPT on scientific publications
+  Affil:    Deputy Editor, Singapore Medical Journal, Singapore; Editor-in-Chief, Singapore Medical Jo...
+  Address:  Deputy Editor, Singapore Medical Journal, Singapore; Editor-in-Chief, Singapore Medical Jo...
+  Deduced:  Singapore
+
+[Record #9232]
+  Title:    The Role of Artificial Intelligence in Supporting the Core Mission of Nursing
+  Affil:    Author Affiliation: Vice President, Clinical Advisory Services, Get Well, Bethesda, Maryla...
+  Address:  Author Affiliation: Vice President, Clinical Advisory Services, Get Well, Bethesda, Maryla...
+  Deduced:  United States
+
+[Record #9268]
+  Title:    The shape of work to come
+  Affil:    a science journalist in New York City,
+  Address:  a science journalist in New York City,
+  Deduced:  United States
+
+[Record #9569]
+  Title:    Unlock the algorithms: regulation of adaptive algorithms in reproduction
+  Affil:    ART Compass, an AIVF Technology, Newport Beach, California; ART Compass, an AIVF Technolog...
+  Address:  ART Compass, an AIVF Technology, Newport Beach, California; ART Compass, an AIVF Technolog...
+  Deduced:  United States
+
+[Record #9609]
+  Title:    Use of artificial intelligence in analytical systems for the clinical laboratory
+  Affil:    DAKO A/S Produktionsvej 42 Glostrup/Copenhagen 2600 Denmark; International Federation of C...
+  Address:  DAKO A/S Produktionsvej 42 Glostrup/Copenhagen 2600 Denmark; International Federation of C...
+  Deduced:  Denmark
+
+[Record #9765]
+  Title:    Views on artificial intelligence (AI) assisted clinical trials
+  Affil:    Biohymns Innovations Pte ltd , Singapore ,; Biohymns Innovations Pte ltd, Singapore,
+  Address:  Biohymns Innovations Pte ltd , Singapore ,; Biohymns Innovations Pte ltd, Singapore,
+  Deduced:  Singapore
+
+[Record #9809]
+  Title:    What can the brain teach us about building artificial intelligence?
+  Affil:    Vicarious,Union City,CA 94587.dileep@vicarious.comwww.vicarious.com
+  Address:  Vicarious,Union City,CA 94587.dileep@vicarious.comwww.vicarious.com
+  Deduced:  United States
+
+[Record #9899]
+  Title:    Why AI might be a game-changer for Africa
+  Affil:    Rachel Nuwer is a freelance writer based in New York City
+  Address:  Rachel Nuwer is a freelance writer based in New York City
+  Deduced:  United States
+
+[Record #9954]
+  Title:    With Power Comes Responsibility
+  Affil:    Papillon Pathways, Landskron, Austria
+  Address:  Papillon Pathways, Landskron, Austria
+  Deduced:  Austria
+
+================================================================================

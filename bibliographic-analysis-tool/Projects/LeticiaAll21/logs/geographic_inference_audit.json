@@ -1,0 +1,1022 @@
+{
+  "project_name": "LeticiaAll21",
+  "generated_at": "2026-10-23 17:03:18",
+  "total_records": 9985,
+  "affiliations_present": 9479,
+  "affiliations_pct": 94.93,
+  "address_present": 9479,
+  "address_pct": 94.93,
+  "explicit_country_count": 9234,
+  "explicit_country_pct": 92.48,
+  "heuristic_deduced_count": 108,
+  "heuristic_deduced_pct": 1.08,
+  "total_identified_count": 9239,
+  "total_identified_pct": 92.53,
+  "missing_country_count": 746,
+  "missing_country_pct": 7.47,
+  "recovered_countries_breakdown": {
+    "United States": 47,
+    "Turkey": 14,
+    "United Kingdom": 9,
+    "South Korea": 6,
+    "Singapore": 4,
+    "Greece": 3,
+    "Austria": 3,
+    "India": 2,
+    "Pakistan": 2,
+    "South Africa": 1,
+    "New Zealand": 1,
+    "Iran": 1,
+    "Belgium": 1,
+    "Norway": 1,
+    "Israel": 1,
+    "France": 1,
+    "Egypt": 1,
+    "Poland": 1,
+    "Czech Republic": 1,
+    "Malaysia": 1,
+    "Australia": 1,
+    "Croatia": 1,
+    "Costa Rica": 1,
+    "Nigeria": 1,
+    "United Arab Emirates": 1,
+    "China": 1,
+    "Hungary": 1,
+    "Denmark": 1
+  },
+  "deduced_records": [
+    {
+      "index": 49,
+      "title": "A Compass for North Carolina Health Care Workers Navigating the Adoption of Artificial Intelligence",
+      "affiliations": "North Carolina Healthcare Association",
+      "address": "North Carolina Healthcare Association",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 84,
+      "title": "A fairer way forward for AI in health care",
+      "affiliations": "Linda Nordling is a science journalist in Cape Town, South Africa",
+      "address": "Linda Nordling is a science journalist in Cape Town, South Africa",
+      "deduced_countries": [
+        "South Africa"
+      ]
+    },
+    {
+      "index": 287,
+      "title": "Accuracy of Chatbots in Citing Journal Articles",
+      "affiliations": "ELHS Institute, Inc, Palo Alto, California; Learning Health Community, Palo Alto, California",
+      "address": "ELHS Institute, Inc, Palo Alto, California; Learning Health Community, Palo Alto, California",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 448,
+      "title": "Agentic Artificial Intelligence in Medical Imaging Education: Architectural Autonomy and the Risk of Cognitive Surrender",
+      "affiliations": "Virtual Medical Coaching  Christchurch New Zealand",
+      "address": "Virtual Medical Coaching  Christchurch New Zealand",
+      "deduced_countries": [
+        "New Zealand"
+      ]
+    },
+    {
+      "index": 485,
+      "title": "AI empowers conservation biology",
+      "affiliations": "Roberta Kwok is a freelance science writer in Kirkland, Washington",
+      "address": "Roberta Kwok is a freelance science writer in Kirkland, Washington",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 520,
+      "title": "AI in practice",
+      "affiliations": "Practitioner; a family NP at Northwest Health Pulmonary and Critical Care Medical Group in Valparaiso, Ind; a hospitalist at Team Health in Valparaiso, Ind; and editor for three Elsevier pathophysiology textbooks; editorial advisory board member for The Nurse Practitioner; host of NP POW podcasts for The Nurse Practitioner Podcast; textbooks",
+      "address": "Practitioner; a family NP at Northwest Health Pulmonary and Critical Care Medical Group in Valparaiso, Ind; a hospitalist at Team Health in Valparaiso, Ind; and editor for three Elsevier pathophysiology textbooks; editorial advisory board member for The Nurse Practitioner; host of NP POW podcasts for The Nurse Practitioner Podcast; textbooks",
+      "deduced_countries": [
+        "India"
+      ]
+    },
+    {
+      "index": 603,
+      "title": "AI-fuelled election campaigns are here — where are the rules?",
+      "affiliations": "Rumman Chowdhury is the US Science Envoy for artificial intelligence, based in Washington DC",
+      "address": "Rumman Chowdhury is the US Science Envoy for artificial intelligence, based in Washington DC",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 719,
+      "title": "Analyzing the Strengths, Weaknesses, Opportunities, and Threats (SWOT) of Chatbots in Emergency Nursing: A Narrative Review of Literature",
+      "affiliations": "Faculty Member at Nursing Department, Khomein University of Medical Sciences, Khomein, Iran; Khomein University of Medical Sciences",
+      "address": "Faculty Member at Nursing Department, Khomein University of Medical Sciences, Khomein, Iran; Khomein University of Medical Sciences",
+      "deduced_countries": [
+        "Iran"
+      ]
+    },
+    {
+      "index": 900,
+      "title": "Applications of artificial intelligence in drug discovery",
+      "affiliations": "1Discovery Biology Ltd., Cambridge, U.K; 2Amour Scientific Consulting Ltd, Cambridge, U.K; Amour Scientific Consulting Ltd, Cambridge, U.K; Discovery Biology Ltd., Cambridge, U.K",
+      "address": "1Discovery Biology Ltd., Cambridge, U.K; 2Amour Scientific Consulting Ltd, Cambridge, U.K; Amour Scientific Consulting Ltd, Cambridge, U.K; Discovery Biology Ltd., Cambridge, U.K",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 1010,
+      "title": "Artificial Intelligence: A Private Practice Perspective",
+      "affiliations": "Radiology Partners, El Segundo, California; Radiology Partners, El Segundo, California. Electronic address: nina.kottler@radpartners.com",
+      "address": "Radiology Partners, El Segundo, California; Radiology Partners, El Segundo, California. Electronic address: nina.kottler@radpartners.com",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 1042,
+      "title": "Artificial Intelligence (AI) and Lung Ultrasound in Infectious Pulmonary Disease",
+      "affiliations": "The European Medical Association (EMA), Brussels, Belgium",
+      "address": "The European Medical Association (EMA), Brussels, Belgium",
+      "deduced_countries": [
+        "Belgium"
+      ]
+    },
+    {
+      "index": 1178,
+      "title": "Artificial intelligence and diagnosis in general practice",
+      "affiliations": "Yorkshire Medical Chambers, Welton, Brough, East Yorkshire; Your.MD Limited, Bloomsbury, London",
+      "address": "Yorkshire Medical Chambers, Welton, Brough, East Yorkshire; Your.MD Limited, Bloomsbury, London",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 1295,
+      "title": "Artificial Intelligence and Machine Learning in Cardiovascular\n                        Imaging",
+      "affiliations": "CLEERLY, INC., NEW YORK, NEW YORK; Cleerly, Inc., New York, New York",
+      "address": "CLEERLY, INC., NEW YORK, NEW YORK; Cleerly, Inc., New York, New York",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 1296,
+      "title": "Artificial Intelligence and Machine Learning in Clinical Medicine, 2023",
+      "affiliations": "Dr. Haug, the International Correspondent of the Journal, can be contacted at [email protected] or at Aamotveien 63, 0880 Oslo, Norway",
+      "address": "Dr. Haug, the International Correspondent of the Journal, can be contacted at [email protected] or at Aamotveien 63, 0880 Oslo, Norway",
+      "deduced_countries": [
+        "Norway"
+      ]
+    },
+    {
+      "index": 1342,
+      "title": "Artificial Intelligence and Medicine: Discussion Paper",
+      "affiliations": "Biometrics Unit, Institute of Psychiatry, London SE5",
+      "address": "Biometrics Unit, Institute of Psychiatry, London SE5",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 1510,
+      "title": "Artificial Intelligence and the Practice of Radiology: An Alternative View.",
+      "affiliations": "Radnet, Orinda, California; Radnet, Orinda, California. Electronic address: bobschier@gmail.com",
+      "address": "Radnet, Orinda, California; Radnet, Orinda, California. Electronic address: bobschier@gmail.com",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 1734,
+      "title": "Artificial Intelligence Effecting a Paradigm Shift in Drug Development",
+      "affiliations": "KYAN Therapeutics, Singapore, Singapore",
+      "address": "KYAN Therapeutics, Singapore, Singapore",
+      "deduced_countries": [
+        "Singapore"
+      ]
+    },
+    {
+      "index": 1756,
+      "title": "Artificial intelligence faces reproducibility crisis",
+      "affiliations": "Matthew Hutson is a journalist in New York City",
+      "address": "Matthew Hutson is a journalist in New York City",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 2050,
+      "title": "Artificial Intelligence in Biomedicine: A Legal Insight",
+      "affiliations": "Hellenic National Commission for Bioethics and Technoethics, 10674 Athens, Greece",
+      "address": "Hellenic National Commission for Bioethics and Technoethics, 10674 Athens, Greece",
+      "deduced_countries": [
+        "Greece"
+      ]
+    },
+    {
+      "index": 2262,
+      "title": "Artificial Intelligence in Echocardiography",
+      "affiliations": "Center for Women's Heart and Vascular Health, Texas Heart Institute, Houston, Texas",
+      "address": "Center for Women's Heart and Vascular Health, Texas Heart Institute, Houston, Texas",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 2338,
+      "title": "Artificial Intelligence in Gynaecological Malignancies: Perspectives of a Clinical Oncologist",
+      "affiliations": ". Gynaecological Oncology/In Vitro Fertilization, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND; . Radiation Oncology, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND; Gynaecological Oncology/In Vitro Fertilization, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND; Radiation Oncology, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND",
+      "address": ". Gynaecological Oncology/In Vitro Fertilization, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND; . Radiation Oncology, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND; Gynaecological Oncology/In Vitro Fertilization, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND; Radiation Oncology, Shri Ram Murti Samarak Institute of Medical Sciences, Bareilly, IND",
+      "deduced_countries": [
+        "India"
+      ]
+    },
+    {
+      "index": 2384,
+      "title": "Artificial Intelligence in Healthcare: Past, Present and Future.",
+      "affiliations": "Department of Cardiology, Dr. Siyami Ersek Thoracic and Cardiovascular Surgery Training and Research Hospital, İstanbul-Turkey",
+      "address": "Department of Cardiology, Dr. Siyami Ersek Thoracic and Cardiovascular Surgery Training and Research Hospital, İstanbul-Turkey",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 2478,
+      "title": "Artificial Intelligence in Medical Imaging: An Overview of a Decade of Experience.",
+      "affiliations": "Nanox Vision, Petah Tikva, Israel",
+      "address": "Nanox Vision, Petah Tikva, Israel",
+      "deduced_countries": [
+        "Israel"
+      ]
+    },
+    {
+      "index": 2514,
+      "title": "Artificial intelligence in medicine: current trends and future possibilities",
+      "affiliations": "Cera Care, London",
+      "address": "Cera Care, London",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 2702,
+      "title": "Artificial Intelligence in Pediatric Nursing Care",
+      "affiliations": "Dongguk University WISE",
+      "address": "Author Affiliation: Department of Nursing, Dongguk University WISE, Gyeongju, Gyeongbuk, South Korea",
+      "deduced_countries": [
+        "South Korea"
+      ]
+    },
+    {
+      "index": 2831,
+      "title": "Artificial intelligence in retinal imaging: current status and future prospects",
+      "affiliations": "Department of Ophthalmology, Landesklinikum Mistelbach-Gaenserndorf, Mistelbach, Austria",
+      "address": "Department of Ophthalmology, Landesklinikum Mistelbach-Gaenserndorf, Mistelbach, Austria",
+      "deduced_countries": [
+        "Austria"
+      ]
+    },
+    {
+      "index": 2834,
+      "title": "Artificial Intelligence in Rheumatology: Quo Vadis?",
+      "affiliations": "Fourth Department of Internal Medicine, Hippokration Hospital, Thessaloniki, Greece",
+      "address": "Fourth Department of Internal Medicine, Hippokration Hospital, Thessaloniki, Greece",
+      "deduced_countries": [
+        "Greece"
+      ]
+    },
+    {
+      "index": 2887,
+      "title": "Artificial Intelligence in Surgery: The American College of Surgeons and the Future of the Profession",
+      "affiliations": "Baltimore, MD; Murray, UT",
+      "address": "Baltimore, MD; Murray, UT",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 3021,
+      "title": "Artificial intelligence is improving the detection of lung cancer",
+      "affiliations": "Elizabeth Svoboda is a freelance writer in San Jose, California",
+      "address": "Elizabeth Svoboda is a freelance writer in San Jose, California",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 3053,
+      "title": "Artificial intelligence, machine learning, and deep learning in orthopedic surgery",
+      "affiliations": "President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foundation, Mustafa Kemal Mah., Dumlupınar Bul., 274/2, C2 Blok, Ofis 5, 06900 Çankaya, Ankara, Türkiye. satikmd@gmail.com",
+      "address": "President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foundation, Mustafa Kemal Mah., Dumlupınar Bul., 274/2, C2 Blok, Ofis 5, 06900 Çankaya, Ankara, Türkiye. satikmd@gmail.com",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 3200,
+      "title": "Artificial intelligence technologies in nuclear medicine",
+      "affiliations": "Department of Nuclear Medicine, Prof. Dr. Cemil Tascioglu City Hospital, İstanbul 34381, Turkey. mugeoner@yahoo.com; High School, Uskudar American Academy, İstanbul 34145, Turkey",
+      "address": "Department of Nuclear Medicine, Prof. Dr. Cemil Tascioglu City Hospital, İstanbul 34381, Turkey. mugeoner@yahoo.com; High School, Uskudar American Academy, İstanbul 34145, Turkey",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 3263,
+      "title": "Artificial intelligence to predict task activation from resting state fMRI",
+      "affiliations": "İstanbul Başakşehir Çam ve Sakura Şehir Hastanesi",
+      "address": "Department of Radiology, Basaksehir Cam and Sakura City Hospital, Basaksehir, 34480, Istanbul, Turkey. drburakkocak@gmail.com; Department of Radiology, Basaksehir Cam and Sakura City Hospital, Istanbul, Turkey",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 3314,
+      "title": "Artificial intelligence: Who must have autonomy the machine or the human?",
+      "affiliations": "President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foundation, Mustafa Kemal Mah., Dumlupınar Bul., 274/2, C2 Blok, Ofis 5, 06900 Çankaya, Ankara, Türkiye. satikmd@gmail.com",
+      "address": "President, Turkish Joint Diseases Foundation, Ankara, Türkiye; Turkish Joint Diseases Foundation, Mustafa Kemal Mah., Dumlupınar Bul., 274/2, C2 Blok, Ofis 5, 06900 Çankaya, Ankara, Türkiye. satikmd@gmail.com",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 3493,
+      "title": "Artificial intelligence's interpretation of the neuroanatomical aspect of Peter Paul Rubens's copy of “The Battle of Anghiari” by Leonardo da Vinci",
+      "affiliations": "Clinic Helsicore, Georgia",
+      "address": "Clinic Helsicore, Georgia",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 3495,
+      "title": "Artificial Intelligence’s Ongoing Expansion in Pharmacy Practice: Opportunities, Challenges, and Unknowns",
+      "affiliations": "Dumbarton Group & Associates, Health Care Law and Policy Firm, The Foundry Building, 1050 30th Street, NW, Washington, DC 20007",
+      "address": "Dumbarton Group & Associates, Health Care Law and Policy Firm, The Foundry Building, 1050 30th Street, NW, Washington, DC 20007",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 3682,
+      "title": "Beyond AI literacy to irreplaceable human capacities: What nursing education must teach in the AI era",
+      "affiliations": "Center for Econometric Optimization in the Nursing Workforce, Seoul, Republic of Korea. Electronic address: clairesuyeonpark@gmail.com",
+      "address": "Center for Econometric Optimization in the Nursing Workforce, Seoul, Republic of Korea. Electronic address: clairesuyeonpark@gmail.com",
+      "deduced_countries": [
+        "South Korea"
+      ]
+    },
+    {
+      "index": 3708,
+      "title": "Beyond the AJR: Early Applications of Generative Artificial Intelligence for Radiology Report Interpretation.",
+      "affiliations": "University of Maryland Medical Intelligent Imaging Center, 22 S Greene St, Baltimore, MD 21201",
+      "address": "University of Maryland Medical Intelligent Imaging Center, 22 S Greene St, Baltimore, MD 21201",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 3793,
+      "title": "Boxing behavior recognition based on artificial intelligence convolutional neural network with sports psychology assistant",
+      "affiliations": "School of Science of Physical Culture and Sports, Kunsan University, Kunsan, 54150, Korea; School of Science of Physical Culture and Sports, Kunsan University, Kunsan, 54150, Korea. ZhiYuanDuan1996@163.com",
+      "address": "School of Science of Physical Culture and Sports, Kunsan University, Kunsan, 54150, Korea; School of Science of Physical Culture and Sports, Kunsan University, Kunsan, 54150, Korea. ZhiYuanDuan1996@163.com",
+      "deduced_countries": [
+        "South Korea"
+      ]
+    },
+    {
+      "index": 3878,
+      "title": "Can artificial intelligence be of help to psychoanalysis ... or ... vice versa?",
+      "affiliations": "320 East 54th Street, Suite 1D, 10022, New York, NY",
+      "address": "320 East 54th Street, Suite 1D, 10022, New York, NY",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 4002,
+      "title": "Chapitre 6. L’hybridation des réseaux",
+      "affiliations": "Professeur à l’Université des Sciences Sociales de Toulouse",
+      "address": "Professeur à l’Université des Sciences Sociales de Toulouse",
+      "deduced_countries": [
+        "France"
+      ]
+    },
+    {
+      "index": 4004,
+      "title": "Characterization of a beta subunit of the gastric H+/K(+)-transporting ATPase.",
+      "affiliations": "Center for Ulcer Research and Education, Wadsworth Veterans Administration Hospital, Los Angeles, CA",
+      "address": "Center for Ulcer Research and Education, Wadsworth Veterans Administration Hospital, Los Angeles, CA",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 4194,
+      "title": "Comment on “Can Large Artificial Intelligence‐Based Linguistic Models Help to Obtain Information About Burning Mouth Syndrome?”",
+      "affiliations": "Galala University; King Salman International University",
+      "address": "Oral Medicine and Periodontology, Faculty of Dentistry Galala University  Suez Egypt; Oral Medicine, Periodontology, and Oral Diagnosis, Faculty of Dentistry King Salman International University  El Tur Egypt",
+      "deduced_countries": [
+        "Egypt"
+      ]
+    },
+    {
+      "index": 4269,
+      "title": "Comparative analysis of artificial intelligence chatbots in orthodontic emergency scenarios: ChatGPT-3.5, ChatGPT-4.0, Copilot, and Gemini",
+      "affiliations": "Istanbul Health and Technology University",
+      "address": "Assistant Professor, Department of Orthodontics, Faculty of Dentistry, Istanbul Health and Technology University, Istanbul, Türkiye; Professor and Chair, Department of Orthodontics, Faculty of Dentistry, Istanbul Health and Technology University, Istanbul, Türkiye",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 4274,
+      "title": "Comparative Detector Analysis for the Identification of Academic Articles Synthesized by Artificial Intelligence in the Field of Ophthalmology",
+      "affiliations": "Department of Ophthalmology, Kocaeli State Hospital, Kocaeli, Türkiye",
+      "address": "Department of Ophthalmology, Kocaeli State Hospital, Kocaeli, Türkiye",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 4284,
+      "title": "Comparison efficiency of the artificial intelligence methods for the diagnosis of Acid - base and anion gap disorders.",
+      "affiliations": "College of Computer Science in Lodz, Poland; College of Computer Science in Lodz, Poland. e25kacki@cosmosnet.pl",
+      "address": "College of Computer Science in Lodz, Poland; College of Computer Science in Lodz, Poland. e25kacki@cosmosnet.pl",
+      "deduced_countries": [
+        "Poland"
+      ]
+    },
+    {
+      "index": 4347,
+      "title": "Cons of Artificial Intelligence as a Diagnostic Aid in Dermatology: A Threat to Quality of Care and the Role of the Dermatologist.",
+      "affiliations": "Keystone Dermatology Partners, Horsham, Pennsylvania; Mountainview Hospital, Las Vegas, Nevada. Electronic address: ibadsidra1@gmail.com; Zitelli, Brodland & Lim, Pittsburgh, Pennsylvania",
+      "address": "Keystone Dermatology Partners, Horsham, Pennsylvania; Mountainview Hospital, Las Vegas, Nevada. Electronic address: ibadsidra1@gmail.com; Zitelli, Brodland & Lim, Pittsburgh, Pennsylvania",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 4363,
+      "title": "Continuance intention to use artificial intelligence personal assistant: type, gender, and use experience",
+      "affiliations": "Department of Strategic Planning, RealSecu, 60 Centum Buk-daero, Haeundae-gu, Busan 48059, South Korea",
+      "address": "Department of Strategic Planning, RealSecu, 60 Centum Buk-daero, Haeundae-gu, Busan 48059, South Korea",
+      "deduced_countries": [
+        "South Korea"
+      ]
+    },
+    {
+      "index": 4382,
+      "title": "Conversations on the nature of reality",
+      "affiliations": "the Nour Foundation  New York New York; the Nour Foundation, New York, New York",
+      "address": "the Nour Foundation  New York New York; the Nour Foundation, New York, New York",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 4569,
+      "title": "Databases, artificial intelligence and knowledge-based systems for molecular biology",
+      "affiliations": "Biomedical Computing Unit, Imperial Cancer Research Fund, P.O. Box 123, Lincoln's Inn Fields, London WC2A 3PX, U.K",
+      "address": "Biomedical Computing Unit, Imperial Cancer Research Fund, P.O. Box 123, Lincoln's Inn Fields, London WC2A 3PX, U.K",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 4783,
+      "title": "Discussion: The Use of Emotional Artificial Intelligence in Plastic Surgery",
+      "affiliations": "Austin, Texas; Disclosure:The author has no financial interest in any of the products or devices mentioned in this Discussion or the article being discussed; From private practice; Received for publication February 10, 2019; accepted February 15, 2019",
+      "address": "Austin, Texas; Disclosure:The author has no financial interest in any of the products or devices mentioned in this Discussion or the article being discussed; From private practice; Received for publication February 10, 2019; accepted February 15, 2019",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 4838,
+      "title": "Earth hacker",
+      "affiliations": "Virginia Gewin is a freelance writer in Portland, Oregon",
+      "address": "Virginia Gewin is a freelance writer in Portland, Oregon",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 5273,
+      "title": "Estimating the risk of sudden death in hypertrophic cardiomyopathy might be solved by artificial intelligence.",
+      "affiliations": "JV Cardiology, Janský vršek, Prague 1, 110 00, Czech Republic; JV Cardiology, Janský vršek, Prague 1, 110 00, Czech Republic. Electronic address: Veselka.josef@seznam.cz",
+      "address": "JV Cardiology, Janský vršek, Prague 1, 110 00, Czech Republic; JV Cardiology, Janský vršek, Prague 1, 110 00, Czech Republic. Electronic address: Veselka.josef@seznam.cz",
+      "deduced_countries": [
+        "Czech Republic"
+      ]
+    },
+    {
+      "index": 5293,
+      "title": "Ethical Artificial Intelligence in Nursing Workforce Management and Policymaking: Bridging Philosophy and Practice",
+      "affiliations": "\"SECURE Team for You\" (Sweet Spot Consulting Research Team for the Next Generation, You), Center for Econometric Optimization in the Nursing Workforce, Seoul, Republic of Korea",
+      "address": "\"SECURE Team for You\" (Sweet Spot Consulting Research Team for the Next Generation, You), Center for Econometric Optimization in the Nursing Workforce, Seoul, Republic of Korea",
+      "deduced_countries": [
+        "South Korea"
+      ]
+    },
+    {
+      "index": 5523,
+      "title": "Explainable artificial intelligence to detect atrial fibrillation using electrocardiogram",
+      "affiliations": "Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, Incheon, South Korea; Department of Emergency Medicine, Mediplex Sejong Hospital, Incheon, South Korea; Division of Cardiology, Cardiovascular Center, Mediplex Sejong Hospital, Incheon, South Korea; Division of Cardiology, Cardiovascular Center, Mediplex Sejong Hospital, Incheon, South Korea; Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, Incheon, South Korea; Medical Research and Development Center, Bodyfriend, Seoul, South Korea; Medical research team, Medical AI, Seoul, South Korea; Medical research team, Medical AI, Seoul, South Korea; Medical Research and Development Center, Bodyfriend, Seoul, South Korea; Department of Emergency Medicine, Mediplex Sejong Hospital, Incheon, South Korea; Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, Incheon, South Korea. Electronic address: kwonjm@sejongh.co.kr",
+      "address": "Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, Incheon, South Korea; Department of Emergency Medicine, Mediplex Sejong Hospital, Incheon, South Korea; Division of Cardiology, Cardiovascular Center, Mediplex Sejong Hospital, Incheon, South Korea; Division of Cardiology, Cardiovascular Center, Mediplex Sejong Hospital, Incheon, South Korea; Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, Incheon, South Korea; Medical Research and Development Center, Bodyfriend, Seoul, South Korea; Medical research team, Medical AI, Seoul, South Korea; Medical research team, Medical AI, Seoul, South Korea; Medical Research and Development Center, Bodyfriend, Seoul, South Korea; Department of Emergency Medicine, Mediplex Sejong Hospital, Incheon, South Korea; Artificial Intelligence and Big Data Research Center, Sejong Medical Research Institute, Incheon, South Korea. Electronic address: kwonjm@sejongh.co.kr",
+      "deduced_countries": [
+        "South Korea"
+      ]
+    },
+    {
+      "index": 5634,
+      "title": "First passages of rolled-up Herculaneum scroll revealed.",
+      "affiliations": "Jo Marchant is a science journalist based in London",
+      "address": "Jo Marchant is a science journalist based in London",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 5647,
+      "title": "For whom the artificial intelligence bell tolls: preimplantation genetic testing for aneuploidy, does it toll for thee?",
+      "affiliations": "ART Compass, A Fertility Guidance Technology, Newport Beach, California",
+      "address": "ART Compass, A Fertility Guidance Technology, Newport Beach, California",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 5653,
+      "title": "Forget ChatGPT: why researchers now run small AIs on their laptops",
+      "affiliations": "Matthew Hutson is a science writer based in New York City",
+      "address": "Matthew Hutson is a science writer based in New York City",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 5668,
+      "title": "Four change-makers seek impact in medical research",
+      "affiliations": "Amy Coombs is a freelance science writer in Chicago, Illinois; Sandy Ong is a freelance writer based in Singapore",
+      "address": "Amy Coombs is a freelance science writer in Chicago, Illinois; Sandy Ong is a freelance writer based in Singapore",
+      "deduced_countries": [
+        "Singapore",
+        "United States"
+      ]
+    },
+    {
+      "index": 5944,
+      "title": "Guide, don’t hide: reprogramming learning in the wake of AI",
+      "affiliations": "Monique Brouillette is a science journalist in Cambridge, Massachusetts",
+      "address": "Monique Brouillette is a science journalist in Cambridge, Massachusetts",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 5953,
+      "title": "Hallucination: A key challenge to Artificial Intelligence-Generated writing",
+      "affiliations": "Klinik Kesihatan Bota Kiri, Jalan Bota Kiri, Bota Kiri, Perak Tengah, Perak, Malaysia; Klinik Kesihatan Sauk, Jalan Besar Lenggong, Sauk, Kuala Kangsar, Perak, Malaysia; Klinik Kesihatan Tanjung Malim Jalan Besar, Tanjung Malim, Perak, Malaysia; MD, MMed, Klinik Kesihatan Bota Kiri, Jalan Bota Kiri, Bota Kiri, Perak Tengah, Perak, Malaysia; MD, MMed, Klinik Kesihatan Sauk, Jalan Besar Lenggong, Sauk, Kuala Kangsar, Perak, Malaysia. Email: jazlanjamaluddin@gmail.com; MD, MMed, Klinik Kesihatan Tanjung Malim Jalan Besar, Tanjung Malim, Perak, Malaysia",
+      "address": "Klinik Kesihatan Bota Kiri, Jalan Bota Kiri, Bota Kiri, Perak Tengah, Perak, Malaysia; Klinik Kesihatan Sauk, Jalan Besar Lenggong, Sauk, Kuala Kangsar, Perak, Malaysia; Klinik Kesihatan Tanjung Malim Jalan Besar, Tanjung Malim, Perak, Malaysia; MD, MMed, Klinik Kesihatan Bota Kiri, Jalan Bota Kiri, Bota Kiri, Perak Tengah, Perak, Malaysia; MD, MMed, Klinik Kesihatan Sauk, Jalan Besar Lenggong, Sauk, Kuala Kangsar, Perak, Malaysia. Email: jazlanjamaluddin@gmail.com; MD, MMed, Klinik Kesihatan Tanjung Malim Jalan Besar, Tanjung Malim, Perak, Malaysia",
+      "deduced_countries": [
+        "Malaysia"
+      ]
+    },
+    {
+      "index": 5977,
+      "title": "Harnessing artificial intelligence, machine learning and novel approaches to tackle mortality in acute type A aortic dissection",
+      "affiliations": "Islamic International Medical College , Rawalpindi, Pakistan; MBBS, Islamic International Medical College Rawalpindi, Pakistan; MBBS, Islamic International Medical College, Rawalpindi, Pakistan",
+      "address": "Islamic International Medical College , Rawalpindi, Pakistan; MBBS, Islamic International Medical College Rawalpindi, Pakistan; MBBS, Islamic International Medical College, Rawalpindi, Pakistan",
+      "deduced_countries": [
+        "Pakistan"
+      ]
+    },
+    {
+      "index": 6158,
+      "title": "How to harness AI’s potential in research — responsibly and ethically",
+      "affiliations": "Jane Palmer is a freelance journalist in Colorado",
+      "address": "Jane Palmer is a freelance journalist in Colorado",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 6165,
+      "title": "How to read and review papers on machine learning and artificial intelligence in radiology: a survival guide to key methodological concepts",
+      "affiliations": "İstanbul Başakşehir Çam ve Sakura Şehir Hastanesi",
+      "address": "Department of Radiology, Basaksehir Cam and Sakura City Hospital, Basaksehir, 34480, Istanbul, Turkey; Department of Radiology, Basaksehir Cam and Sakura City Hospital, Basaksehir, 34480, Istanbul, Turkey. drburakkocak@gmail.com; Department of Radiology, Istanbul Training and Research Hospital, Samatya, 34098, Istanbul, Turkey",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 6325,
+      "title": "Improving Periodontal Disease Management With Artificial Intelligence.",
+      "affiliations": "Chief Compliance/Hygiene Officer, Passion Dental, Marlborough, Massachusetts; Clinical Director, Overjet, Inc., Boston, Massachusetts",
+      "address": "Chief Compliance/Hygiene Officer, Passion Dental, Marlborough, Massachusetts; Clinical Director, Overjet, Inc., Boston, Massachusetts",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 6330,
+      "title": "In AI, is bigger always better?",
+      "affiliations": "Anil Ananthaswamy is a freelance science writer based in California",
+      "address": "Anil Ananthaswamy is a freelance science writer based in California",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 6630,
+      "title": "Is There Value for Artificial Intelligence Applications in Molecular Imaging and Nuclear Medicine?",
+      "affiliations": "Department of Nuclear Medicine, Ambulatorium Döbling, Vienna, Austria; Department of Nuclear Medicine, Ambulatorium Döbling, Vienna, Austria gerold@porenta.com",
+      "address": "Department of Nuclear Medicine, Ambulatorium Döbling, Vienna, Austria; Department of Nuclear Medicine, Ambulatorium Döbling, Vienna, Austria gerold@porenta.com",
+      "deduced_countries": [
+        "Austria"
+      ]
+    },
+    {
+      "index": 6637,
+      "title": "Japanese robotics lags as AI captures global attention",
+      "affiliations": "Rachel Nuwer is a freelance writer based in New York City",
+      "address": "Rachel Nuwer is a freelance writer based in New York City",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 6639,
+      "title": "Join the disruptors of health science",
+      "affiliations": "Mindstrong Health, Palo Alto, California; president and co-founder at Mindstrong Health, Palo Alto, California",
+      "address": "Mindstrong Health, Palo Alto, California; president and co-founder at Mindstrong Health, Palo Alto, California",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 6887,
+      "title": "LTE: Enhancing colorectal cancer patient selection for cytoreductive surgery: The role of artificial intelligence and integration of pathological peritoneal cancer index in improving clinical outcomes.",
+      "affiliations": "Islamic International Medical College, Peshawar Road, Rawalpindi, 44000, Pakistan. Electronic address: drmoeezawais@gmail.com; Islamic International Medical College, Peshawar Road, Rawalpindi, 44000, Pakistan. Electronic address: raffayawais@gmail.com",
+      "address": "Islamic International Medical College, Peshawar Road, Rawalpindi, 44000, Pakistan. Electronic address: drmoeezawais@gmail.com; Islamic International Medical College, Peshawar Road, Rawalpindi, 44000, Pakistan. Electronic address: raffayawais@gmail.com",
+      "deduced_countries": [
+        "Pakistan"
+      ]
+    },
+    {
+      "index": 6893,
+      "title": "Machine ethics: The robot’s dilemma",
+      "affiliations": "Boer Deng is a news intern for Nature in Washington DC.,",
+      "address": "Boer Deng is a news intern for Nature in Washington DC.,",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 6936,
+      "title": "Maintaining Privacy in Artificial Intelligence-driven Bioinformatics: An Inquiry into the Suitability of Australia's Laws.",
+      "affiliations": "Solicitor, Kinneally Miley Law, Brisbane",
+      "address": "Solicitor, Kinneally Miley Law, Brisbane",
+      "deduced_countries": [
+        "Australia"
+      ]
+    },
+    {
+      "index": 6943,
+      "title": "Making digital government a better government",
+      "affiliations": "Neil Savage is a freelance writer in Lowell, Massachusetts",
+      "address": "Neil Savage is a freelance writer in Lowell, Massachusetts",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 6964,
+      "title": "Managing expectations of artificial intelligence",
+      "affiliations": "Jeff Hecht is a freelance writer based in Newton, Massachusetts",
+      "address": "Jeff Hecht is a freelance writer based in Newton, Massachusetts",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 7005,
+      "title": "[Medical ethic consideration of artificial intelligence medicine].",
+      "affiliations": "Springhill Medical Group, 2220 Gladstone Dr., Pittsburg, California 94565, U. S. A",
+      "address": "Springhill Medical Group, 2220 Gladstone Dr., Pittsburg, California 94565, U. S. A",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 7135,
+      "title": "NATO is boosting AI and climate research as scientific diplomacy remains on ice",
+      "affiliations": "Natasha Gilbert is a freelance writer in Washington, DC",
+      "address": "Natasha Gilbert is a freelance writer in Washington, DC",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 7141,
+      "title": "Navigating AI in clinical practice: A practical guide for physicians",
+      "affiliations": "1775 Eye St. NW, Suite 410, Washington, DC 20006. Electronic address: fmeyers@fsmb.org",
+      "address": "1775 Eye St. NW, Suite 410, Washington, DC 20006. Electronic address: fmeyers@fsmb.org",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 7272,
+      "title": "Objectivization of virus titration method in GMP-regulated environment using artificial intelligence-based classification system",
+      "affiliations": "Vaccines Product Development, Dechra Pharmaceuticals PLC, Svetonedeljska cesta 2, Kalinovica, HR-10436 Rakov Potok, Croatia; Vaccines Product Development, Dechra Pharmaceuticals PLC, Svetonedeljska cesta 2, Kalinovica, HR-10436 Rakov Potok, Croatia. Electronic address: anto.vrdoljak@dechra.com",
+      "address": "Vaccines Product Development, Dechra Pharmaceuticals PLC, Svetonedeljska cesta 2, Kalinovica, HR-10436 Rakov Potok, Croatia; Vaccines Product Development, Dechra Pharmaceuticals PLC, Svetonedeljska cesta 2, Kalinovica, HR-10436 Rakov Potok, Croatia. Electronic address: anto.vrdoljak@dechra.com",
+      "deduced_countries": [
+        "Croatia"
+      ]
+    },
+    {
+      "index": 7327,
+      "title": "Opinion paper: artificial intelligence in cardio-oncology: a clinical call to action",
+      "affiliations": "Cardiology Department, Clínica Bíblica, San José, Costa Rica; Health Research Department, Clínica Bíblica, San José, Costa Rica; Pharmacy Department, Clínica Bíblica, San José, Costa Rica",
+      "address": "Cardiology Department, Clínica Bíblica, San José, Costa Rica; Health Research Department, Clínica Bíblica, San José, Costa Rica; Pharmacy Department, Clínica Bíblica, San José, Costa Rica",
+      "deduced_countries": [
+        "Costa Rica"
+      ]
+    },
+    {
+      "index": 7340,
+      "title": "Opportunities for artificial intelligence in healthcare and in vitro fertilization",
+      "affiliations": "ALQIMI, Rockville, Maryland; ALQIMI, Rockville, Maryland. Electronic address: brian.miloski@alqimi.com",
+      "address": "ALQIMI, Rockville, Maryland; ALQIMI, Rockville, Maryland. Electronic address: brian.miloski@alqimi.com",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 7415,
+      "title": "Pediatric nurses' use of generative artificial intelligence and their competency levels",
+      "affiliations": "Kutahya Saglik Bilimleri Universitesi",
+      "address": "Department of Child Health and Diseases Nursing, Faculty of Health Sciences, Kütahya Health Sciences University, Turkey.. Electronic address: yigitdenizyigit@gmail.com",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 7495,
+      "title": "Piquing artificial intelligence towards drug discovery: Tools, techniques, and applications",
+      "affiliations": "Department of Biochemistry, College of Science Evangel University Akaeze Ebonyi State Nigeria; Department of Computer Sciences, Our Savior Institute of Science Agriculture, and Technology (OSISATECH Polytechnic) Enugu Nigeria",
+      "address": "Department of Biochemistry, College of Science Evangel University Akaeze Ebonyi State Nigeria; Department of Computer Sciences, Our Savior Institute of Science Agriculture, and Technology (OSISATECH Polytechnic) Enugu Nigeria",
+      "deduced_countries": [
+        "Nigeria"
+      ]
+    },
+    {
+      "index": 7601,
+      "title": "Prediction of patient cooperation before orthodontic treatment: Handwriting and artificial intelligence",
+      "affiliations": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+      "address": "Assistant professor, Department of Orthodontics, Afyonkarahisar Health Sciences University, Afyonkarahisar, Turkey; Assistant professor, Department of Orthodontics, Afyonkarahisar Health Sciences University, Afyonkarahisar, Turkey. Electronic address: ferhad_selmanpur@yahoo.com",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 7665,
+      "title": "Problems with Medical Claims that Artificial Intelligence (AI) and Blockchain Can Fix",
+      "affiliations": "Board Member, TachyHealth, Dubai, United Arab Emirates; Editor",
+      "address": "Board Member, TachyHealth, Dubai, United Arab Emirates; Editor",
+      "deduced_countries": [
+        "United Arab Emirates"
+      ]
+    },
+    {
+      "index": 7815,
+      "title": "Rammya Mathew: Could artificial intelligence be the key to transforming general practice?",
+      "affiliations": "London",
+      "address": "London",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 7845,
+      "title": "Ready or not, AI is coming to science education — and students have opinions",
+      "affiliations": "Sarah Wells is an independent science journalist based in Washington DC",
+      "address": "Sarah Wells is an independent science journalist based in Washington DC",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 8161,
+      "title": "Revolutionizing Nutrition: Artificial Intelligence–Driven Health Solutions and Personalized Diets",
+      "affiliations": "İzmir Demokrasi Üniversitesi",
+      "address": "Department of Nutrition and Dietetics, Faculty of Health Sciences, Izmir Democracy University, Güzelyalı/Konak/İzmir, Türkiye; Department of Nutrition and Dietetics, Faculty of Health Sciences, Izmir Democracy University, Güzelyalı/Konak/İzmir, Türkiye. Electronic address: hatice.karakoc@idu.edu.tr",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 8208,
+      "title": "Robo-writers: the rise and risks of language-generating AI",
+      "affiliations": "Matthew Hutson is a science writer based in New York City",
+      "address": "Matthew Hutson is a science writer based in New York City",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 8233,
+      "title": "Role of Artificial Intelligence in Imaging: From A Radiologist's Point of View with A Focus on Breast Imaging.",
+      "affiliations": "Department of Radiology, Radiologica Imaging center, İstanbul-Turkey",
+      "address": "Department of Radiology, Radiologica Imaging center, İstanbul-Turkey",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 8307,
+      "title": "Self-regulation needed for artificial intelligence tools.",
+      "affiliations": "VetCT, Hauser Forum, The Broers Building  21 JJ Thomson Avenue Cambridge CB3 0FA; VetCT, Hauser Forum, The Broers Building, 21 JJ Thomson Avenue, Cambridge, CB3 0FA",
+      "address": "VetCT, Hauser Forum, The Broers Building  21 JJ Thomson Avenue Cambridge CB3 0FA; VetCT, Hauser Forum, The Broers Building, 21 JJ Thomson Avenue, Cambridge, CB3 0FA",
+      "deduced_countries": [
+        "United Kingdom"
+      ]
+    },
+    {
+      "index": 8469,
+      "title": "[Study on the Clinical Evaluation of Image-based Artificial Intelligence Aided Diagnosis Software Approved in the United States].",
+      "affiliations": "Zhejiang Medical Device Evaluation Center, Hangzhou, 311121",
+      "address": "Zhejiang Medical Device Evaluation Center, Hangzhou, 311121",
+      "deduced_countries": [
+        "China"
+      ]
+    },
+    {
+      "index": 8558,
+      "title": "Technology driven by artificial intelligence advances professional growth and development",
+      "affiliations": "At Texas Health Resources in Arlington, Tex., Leisha Buller is a business intelligence administrator, and Ashley Hodo and Kimberly Williams are Magnet program managers",
+      "address": "At Texas Health Resources in Arlington, Tex., Leisha Buller is a business intelligence administrator, and Ashley Hodo and Kimberly Williams are Magnet program managers",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 8678,
+      "title": "The Challenges of Data Privacy and Cybersecurity in Cloud Computing and Artificial Intelligence (AI) Applications for EQA Organizations.",
+      "affiliations": "ESEAP & GSCC-CB, Athens, Greece; HeadWay Consultants, Athens, Greece",
+      "address": "ESEAP & GSCC-CB, Athens, Greece; HeadWay Consultants, Athens, Greece",
+      "deduced_countries": [
+        "Greece"
+      ]
+    },
+    {
+      "index": 8742,
+      "title": "The Editor's Desk: Artificial Intelligence.",
+      "affiliations": "Editor-in-Chief, AANA Journal, McLean, Virginia",
+      "address": "Editor-in-Chief, AANA Journal, McLean, Virginia",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 8746,
+      "title": "The Effect of Nursing Students' Artificial Intelligence Anxiety on Their Knowledge of Robotic Surgery: The Mediating Role of Individual Innovativeness",
+      "affiliations": "Afyonkarahisar Sağlık Bilimleri Üniversitesi",
+      "address": "Afyonkarahisar Sağlık Bilimleri Üniversitesi Sağlık Bilimleri Fakültesi, Hemşirelik Bölümü Afyonkarahisar Turkey; Surgical Nursing Department, Faculty of Health Sciences Afyonkarahisar Health Sciences University Afyonkarahisar Turkey; Surgical Nursing Department, Faculty of Health Sciences, Afyonkarahisar Health Sciences University, Afyonkarahisar, Turkey",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 8874,
+      "title": "The Future of Keratoconus Screening with Artificial Intelligence.",
+      "affiliations": "Port Washington, New York; Port Washington, New York. Electronic address: sklyce@klyce.com",
+      "address": "Port Washington, New York; Port Washington, New York. Electronic address: sklyce@klyce.com",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 8917,
+      "title": "The Humanistic Basis of Psychoanalytic Practice",
+      "affiliations": "Mitchell Wilson , 2960A Piedmont Avenue , Berkeley , CA 94705",
+      "address": "Mitchell Wilson , 2960A Piedmont Avenue , Berkeley , CA 94705",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 8945,
+      "title": "The impact of artificial intelligence on the risk analysis profession.",
+      "affiliations": "Principal Scientist, Risk and Decision Systems, Teknowledge, Inc., 1850 Embarcadero Road, P.O. Box 10119, Palo Alto, CA 94303",
+      "address": "Principal Scientist, Risk and Decision Systems, Teknowledge, Inc., 1850 Embarcadero Road, P.O. Box 10119, Palo Alto, CA 94303",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 9044,
+      "title": "The Performance of Artificial Intelligence in One Anastomosis Gastric Bypass Surgery: Comparative Efficacy of ChatGPT-4.0, ChatGPT-Omni, and Gemini AI",
+      "affiliations": "Department of General Surgery, Private Meditech Hospital, Ordu, Turkey. doktorerkanaksoy@hotmail.com",
+      "address": "Department of General Surgery, Private Meditech Hospital, Ordu, Turkey. doktorerkanaksoy@hotmail.com",
+      "deduced_countries": [
+        "Turkey"
+      ]
+    },
+    {
+      "index": 9121,
+      "title": "The Real Era of the Art of Medicine Begins with Artificial Intelligence",
+      "affiliations": "The Medical Futurist Institute, Budapest, Hungary",
+      "address": "The Medical Futurist Institute, Budapest, Hungary",
+      "deduced_countries": [
+        "Hungary"
+      ]
+    },
+    {
+      "index": 9143,
+      "title": "The rise of artificial intelligence: addressing the impact of large language models such as ChatGPT on scientific publications",
+      "affiliations": "Deputy Editor, Singapore Medical Journal, Singapore; Editor-in-Chief, Singapore Medical Journal, Singapore; Specialty Editor, Singapore Medical Journal, Singapore",
+      "address": "Deputy Editor, Singapore Medical Journal, Singapore; Editor-in-Chief, Singapore Medical Journal, Singapore; Specialty Editor, Singapore Medical Journal, Singapore",
+      "deduced_countries": [
+        "Singapore"
+      ]
+    },
+    {
+      "index": 9232,
+      "title": "The Role of Artificial Intelligence in Supporting the Core Mission of Nursing",
+      "affiliations": "Author Affiliation: Vice President, Clinical Advisory Services, Get Well, Bethesda, Maryland; Dr Virkstis, Clinical Advisory Services, Get Well, 7700 Old Georgetown Rd, Bethesda, MD 20814 ([email protected]); The author declares no conflicts of interest",
+      "address": "Author Affiliation: Vice President, Clinical Advisory Services, Get Well, Bethesda, Maryland; Dr Virkstis, Clinical Advisory Services, Get Well, 7700 Old Georgetown Rd, Bethesda, MD 20814 ([email protected]); The author declares no conflicts of interest",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 9268,
+      "title": "The shape of work to come",
+      "affiliations": "a science journalist in New York City,",
+      "address": "a science journalist in New York City,",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 9569,
+      "title": "Unlock the algorithms: regulation of adaptive algorithms in reproduction",
+      "affiliations": "ART Compass, an AIVF Technology, Newport Beach, California; ART Compass, an AIVF Technology, Newport Beach, California. Electronic address: carolc@aivf.co",
+      "address": "ART Compass, an AIVF Technology, Newport Beach, California; ART Compass, an AIVF Technology, Newport Beach, California. Electronic address: carolc@aivf.co",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 9609,
+      "title": "Use of artificial intelligence in analytical systems for the clinical laboratory",
+      "affiliations": "DAKO A/S Produktionsvej 42 Glostrup/Copenhagen 2600 Denmark; International Federation of Clinical Chemistry, Committee on Analytical Systems, DAKO, A/S Produktionsvej 42, 2600 Glostrup, Copenhagen, Denmark; International Federation of Clinical Chemistry, DAKO, Copenhagen, Denmark",
+      "address": "DAKO A/S Produktionsvej 42 Glostrup/Copenhagen 2600 Denmark; International Federation of Clinical Chemistry, Committee on Analytical Systems, DAKO, A/S Produktionsvej 42, 2600 Glostrup, Copenhagen, Denmark; International Federation of Clinical Chemistry, DAKO, Copenhagen, Denmark",
+      "deduced_countries": [
+        "Denmark"
+      ]
+    },
+    {
+      "index": 9765,
+      "title": "Views on artificial intelligence (AI) assisted clinical trials",
+      "affiliations": "Biohymns Innovations Pte ltd , Singapore ,; Biohymns Innovations Pte ltd, Singapore,",
+      "address": "Biohymns Innovations Pte ltd , Singapore ,; Biohymns Innovations Pte ltd, Singapore,",
+      "deduced_countries": [
+        "Singapore"
+      ]
+    },
+    {
+      "index": 9809,
+      "title": "What can the brain teach us about building artificial intelligence?",
+      "affiliations": "Vicarious,Union City,CA 94587.dileep@vicarious.comwww.vicarious.com",
+      "address": "Vicarious,Union City,CA 94587.dileep@vicarious.comwww.vicarious.com",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 9899,
+      "title": "Why AI might be a game-changer for Africa",
+      "affiliations": "Rachel Nuwer is a freelance writer based in New York City",
+      "address": "Rachel Nuwer is a freelance writer based in New York City",
+      "deduced_countries": [
+        "United States"
+      ]
+    },
+    {
+      "index": 9954,
+      "title": "With Power Comes Responsibility",
+      "affiliations": "Papillon Pathways, Landskron, Austria",
+      "address": "Papillon Pathways, Landskron, Austria",
+      "deduced_countries": [
+        "Austria"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1291 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-12 21:58:45 → 2026-10-12 22:10:21 (Duration: 11 minutes 36 seconds)
+
+=======================================================================
+             DOI IDENTIFICATION & DISCOVERY SUMMARY (UP TO NOW)
+=======================================================================
+• Total Records in Memory Dataset: 238
+• DOIs Originally Present at Ingestion: 40 (16.8%)
+• Missing DOI Records Investigated: 198
+• DOIs Successfully Discovered in Phase 0: 154 (77.8%)
+    - Discovered via Crossref Works Search: 89
+    - Discovered via OpenAlex BM25 Search: 46
+    - Discovered via PubMed eSearch/eFetch: 19
+    - Discovered via Semantic Scholar Match: 0
+    - Discovered via PubMed PMID Batch: 0
+• DOIs Discovered in Fallback Tiers (1.5 / 5): 0
+-----------------------------------------------------------------------
+• TOTAL DOIS FOUND UP TO NOW: 194 / 238 records (81.5% coverage)
+• Newly Discovered DOIs Added to Dataset: +154 records
+• Residual Records Still Without DOI: 44 records
+=======================================================================
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records Evaluated for Enrichment: 238
+• Post-Enrichment Duplicates Consolidated: 6
+• Fully Enriched Records (Found 100% of requested fields): 0 (0.0%)
+• Partially Enriched Records (Gained new data): 194 (81.5%)
+• Unresolved Records (Gained NO data): 44 (18.5%)
+
+Target Fields Requested (22 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 238
+• Total Records Evaluated for Enrichment: 238
+• Cluster Source Files Breakdown (3 files):
+    - AISpringer.csv: 200 records
+    - AIScopus.csv: 35 records
+    - AIIEEE.csv: 3 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• PHASE 0: Multi-Engine DOI Discovery (Crossref, OpenAlex, PubMed, Semantic Scholar)
+    - Missing DOI Records Evaluated: 198
+    - DOIs Discovered: 154
+    - Hit Rate: 77.8%
+    - Engine Breakdown: {'Crossref': 89, 'OpenAlex': 46, 'PubMed': 19}
+
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 188
+    - Records Resolved: 95 (50.5%)
+    - Total Field Values Populated: 1,727 lines
+    - Field Breakdown: {'OpenAlex ID': 95, 'Title': 95, 'Author': 94, 'Affiliations': 90, 'Country': 90, 'Address': 90, 'Location': 92, 'Abstract': 88, 'Keywords': 93, 'Concepts': 94, 'Publication Year': 95, 'Times Cited': 95, 'Publisher': 79, 'Journal': 92, 'ISSN': 87, 'Document Type': 95, 'Language': 93, 'Open Access': 95, 'Article References': 75}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 194
+    - Records Resolved: 194
+    - Total Field Values Populated: 1,649 lines
+    - Field Breakdown: {'Title': 194, 'Journal': 152, 'Publisher': 154, 'ISSN': 154, 'Document Type': 157, 'Language': 152, 'Open Access': 157, 'Article References': 144, 'Times Cited': 194, 'Abstract': 97, 'Funding': 91, 'Affiliations': 2, 'Country': 1}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 56
+    - Records Resolved: 52
+    - Total Field Values Populated: 91 lines
+    - Field Breakdown: {'Title': 52, 'Abstract': 39}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Residual Non-DOI Local Papers)
+    - Records Passed: 44 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. POST-ENRICHMENT HEURISTIC DEDUCTIONS & STANDARDIZATION
+--------------------------------------------------------------------------------
+• Affiliations Deduced from Address: 0 records
+• Country Deduced from Affiliations/Address: 0 records
+• Language Deduced from Country: 1 records
+• Author Western Name Normalization: Completed
+• Post-Enrichment Duplicates Consolidated: 6 records
+
+--------------------------------------------------------------------------------
+4. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 238 / 238
+
+• [Row 0] Source: AISpringer.csv
+  Title: 'A bibliometric review of interpretability and explainab' | DOI: '10.1007/s44163-026-01285-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 1] Source: AISpringer.csv
+  Title: 'A comparative analysis of predictive process monitoring' | DOI: '10.1007/s10115-025-02461-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 2] Source: AISpringer.csv
+  Title: 'A comprehensive review of AI methods in upper extremity' | DOI: '10.1007/s10462-025-11296-6'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 3] Source: AISpringer.csv
+  Title: 'A conversational tool for AI-driven feedback for UML mo' | DOI: '10.1007/s10270-026-01373-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 4] Source: AIScopus.csv
+  Title: 'A Decomposed Hybrid Approach to Business Process Modeli' | DOI: '10.1007/978-3-031-81375-7_14'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 5] Source: AIScopus.csv
+  Title: 'A Direct Manipulation Interface for LLM-based Process M' | DOI: '10.1145/3750069.3755960'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 6] Source: AISpringer.csv
+  Title: 'A knowledge-driven semantic framework for non-functiona' | DOI: '10.1007/s44163-026-01223-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 7] Source: AIScopus.csv
+  Title: 'A Method for Extracting BPMN Models from Textual Descri' | DOI: '10.1016/j.procs.2024.06.196'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 8] Source: AISpringer.csv
+  Title: 'A model for incorporating AI into ERP software' | DOI: '10.21203/rs.3.rs-7981218/v1'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Journal', 'Address', 'Location', 'Keywords', 'Concepts', 'Language', 'Funding', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 9] Source: AIScopus.csv
+  Title: 'A model-driven knowledge graph treatment for process-ce' | DOI: '10.1007/s10115-026-02819-w'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 10] Source: AISpringer.csv
+  Title: 'A model-driven knowledge graph treatment for process-ce' | DOI: '10.1007/s10115-026-02819-w'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 11] Source: AISpringer.csv
+  Title: 'A novel intelligent hybrid reinforcement learning frame' | DOI: '10.1038/s41598-026-50418-0'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 12] Source: AISpringer.csv
+  Title: 'A novel recommender framework with chatbot to stratify ' | DOI: '10.1007/s44337-024-00174-9'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 13] Source: AISpringer.csv
+  Title: 'A personal health large language model for sleep and fi' | DOI: '10.1038/s41591-025-03888-0'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 14] Source: AISpringer.csv
+  Title: 'A secured accreditation and equivalency certification u' | DOI: '10.1038/s41598-025-06789-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 15] Source: AISpringer.csv
+  Title: 'A smart community interactive art therapy platform base' | DOI: '10.1038/s41598-025-27129-z'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 16] Source: AIIEEE.csv
+  Title: 'A Systematic LLM-Assisted Approach for Deriving Skills ' | DOI: '10.1109/ACCESS.2026.3692408'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 17] Source: AISpringer.csv
+  Title: 'A systematic review and descriptive analysis of artific' | DOI: '10.1007/s44163-026-01488-6'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 18] Source: AISpringer.csv
+  Title: 'A systematic review of neurophysiological sensing for t' | DOI: '10.1038/s41746-023-00810-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 19] Source: AISpringer.csv
+  Title: 'A Taxonomy for Process Improvement and Innovation Syste' | DOI: '10.1007/s12599-025-00928-4'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 20] Source: AISpringer.csv
+  Title: 'A Teleological Approach to Information Systems Design' | DOI: '10.1007/s11023-024-09673-1'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 21] Source: AISpringer.csv
+  Title: 'A unified knowledge graph linking foodomics to chemical' | DOI: '10.1038/s41538-025-00680-9'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 22] Source: AISpringer.csv
+  Title: 'Abstracts of the ERICA ERN research conference' | DOI: '10.1186/s13023-026-04450-y'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 23] Source: AISpringer.csv
+  Title: 'Acoustic feature decoupling and pre-trained language mo' | DOI: '10.1038/s41598-026-58108-7'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 24] Source: AISpringer.csv
+  Title: 'Agentic AI' | DOI: '10.1007/978-3-031-90026-6'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Article References', 'Affiliations', 'Country', 'Address', 'Abstract', 'Funding', 'PMID']
+
+• [Row 25] Source: AISpringer.csv
+  Title: 'AI integration in financial services: a systematic revi' | DOI: '10.1057/s41599-025-04850-8'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 26] Source: AISpringer.csv
+  Title: 'AI-based remaining useful life prediction for civil inf' | DOI: '10.1007/s10462-026-11547-0'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 27] Source: AISpringer.csv
+  Title: 'AI−driven listening systems in language acquisition red' | DOI: '10.1007/s44163-025-00748-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 28] Source: AISpringer.csv
+  Title: 'AI-Enhanced Hybrid Decision Management' | DOI: '10.1007/s12599-023-00790-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 29] Source: AIScopus.csv
+  Title: 'AIMHI-sport: an AI-driven mobile human–computer interac' | DOI: '10.1007/s44163-026-01629-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 30] Source: AISpringer.csv
+  Title: 'AIMHI-sport: an AI-driven mobile human–computer interac' | DOI: '10.1007/s44163-026-01629-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 31] Source: AISpringer.csv
+  Title: 'Aligning Clinical Needs and AI Capabilities: A Survey o' | DOI: '10.1007/s11633-026-1659-4'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 32] Source: AISpringer.csv
+  Title: 'An ambient assisted living architecture for hospital at' | DOI: '10.1007/s12652-022-04388-6'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 33] Source: AISpringer.csv
+  Title: 'An empirical study of business process models and model' | DOI: '10.1007/s10664-024-10584-z'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 34] Source: AISpringer.csv
+  Title: 'Analyzing structural and semantic similarities between ' | DOI: '10.1007/s44311-026-00058-4'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 35] Source: AISpringer.csv
+  Title: 'Apnea detection using wrist actigraphy in patients with' | DOI: '10.1038/s41598-025-01430-3'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 36] Source: AISpringer.csv
+  Title: 'Application of artificial intelligence in schizophrenia' | DOI: '10.1038/s41398-026-03872-3'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 37] Source: AISpringer.csv
+  Title: 'Artificial intelligence in conformance checking: state ' | DOI: '10.1007/s44311-025-00015-7'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 38] Source: AISpringer.csv
+  Title: 'Artificial Intelligence-powered tiered early warning fr' | DOI: '10.1038/s41746-026-02522-8'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 39] Source: AISpringer.csv
+  Title: 'Assessing and&#xa0;Comparing Free Large Language Models' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 40] Source: AIScopus.csv
+  Title: 'Assessing the business process modeling competences of ' | DOI: '10.1016/j.is.2026.102761'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 41] Source: AISpringer.csv
+  Title: 'Augmenting software engineering with AI. The <i>ai4se</' | DOI: '10.1007/s11334-026-00652-6'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 42] Source: AIScopus.csv
+  Title: 'Automated Business Process Model Generation With Large ' | DOI: '10.1109/ACCESS.2026.3723936'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 43] Source: AISpringer.csv
+  Title: 'Automated consistency analysis for legal contracts' | DOI: '10.1007/978-3-031-15077-7_1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 44] Source: AISpringer.csv
+  Title: 'Automated cybersecurity compliance and threat response ' | DOI: '10.1007/s41870-024-02324-9'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 45] Source: AISpringer.csv
+  Title: 'Automated project scheduling from UML sequence diagrams' | DOI: '10.1038/s41598-025-32431-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 46] Source: AIScopus.csv
+  Title: 'Automatic Extraction and Formalization of Temporal Requ' | DOI: '10.1007/978-3-031-78338-8_14'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 47] Source: AIScopus.csv
+  Title: 'Automatically Generating BPMN 2.0 Process Models from N' | DOI: '10.1007/s12599-025-00983-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 48] Source: AISpringer.csv
+  Title: 'Automatically Generating BPMN 2.0 Process Models from N' | DOI: '10.1007/s12599-025-00983-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 49] Source: AIScopus.csv
+  Title: 'Automating Computation Independent Model Elicitation in' | DOI: '10.14569/IJACSA.2026.0170224'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 50] Source: AISpringer.csv
+  Title: 'Automating model management: a survey on metaheuristics' | DOI: '10.1007/s42488-022-00075-5'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 51] Source: AISpringer.csv
+  Title: 'Best Abstracts' | DOI: '10.1186/s40635-024-00658-z'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 52] Source: AISpringer.csv
+  Title: 'BioEnvSense: a human-centred security framework for pre' | DOI: '10.1186/s42400-026-00609-z'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 53] Source: AISpringer.csv
+  Title: 'Biologically inspired neuromorphic-XAI synergy for tran' | DOI: '10.1038/s41598-026-39515-2'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 54] Source: AIScopus.csv
+  Title: 'BPMN Assistant: An LLM-Based Approach to Business Proce' | DOI: '10.3390/app16052213'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 55] Source: AISpringer.csv
+  Title: 'Business Information System Consultant Competences' | DOI: '10.1007/978-981-96-9709-0_8'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 56] Source: AIScopus.csv
+  Title: 'Business Process Management and Artificial Intelligence' | DOI: '10.1007/s13218-025-00891-y'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 57] Source: AISpringer.csv
+  Title: 'Business Process Management and Artificial Intelligence' | DOI: '10.1007/s13218-025-00891-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 58] Source: AISpringer.csv
+  Title: 'Business process management in the age of AI – three es' | DOI: '10.1007/s10257-024-00689-9'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 59] Source: AISpringer.csv
+  Title: 'Can conformance checking monitor process compliance? A ' | DOI: '10.1007/s44311-026-00044-w'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 60] Source: AISpringer.csv
+  Title: 'Case ID Revealed HERE: Hybrid Elusive Case Repair Metho' | DOI: '10.1007/s12599-025-00935-5'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 61] Source: AISpringer.csv
+  Title: 'Challenges and prospects of visual contactless physiolo' | DOI: '10.1038/s41746-023-00973-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 62] Source: AISpringer.csv
+  Title: 'ChatGPT-4 versus emergency physicians for walk-in ED pa' | DOI: '10.1007/s44163-025-00667-1'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 63] Source: AISpringer.csv
+  Title: 'Cognitive and artificial intelligence evaluation framew' | DOI: '10.1007/s10462-026-11493-x'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 64] Source: AISpringer.csv
+  Title: 'Comparing deep learning and Fourier series models for e' | DOI: '10.1038/s41598-025-24497-4'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 65] Source: AISpringer.csv
+  Title: 'Construction of an Automatic Music Content Generation M' | DOI: '10.1007/s44196-025-01077-y'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 66] Source: AISpringer.csv
+  Title: 'Context is key for cybersecurity: leveraging external k' | DOI: '10.1007/s10207-026-01245-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 67] Source: AIScopus.csv
+  Title: 'Conversational Process Model Redesign' | DOI: '10.1142/S0218843026500048'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 68] Source: AIScopus.csv
+  Title: 'Conversing with business process-aware large language m' | DOI: '10.1007/s10844-024-00898-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 69] Source: AISpringer.csv
+  Title: 'Conversing with business process-aware large language m' | DOI: '10.1007/s10844-024-00898-1'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 70] Source: AISpringer.csv
+  Title: 'Critical success factors and challenges for individual ' | DOI: '10.1007/s10639-022-11394-w'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 71] Source: AISpringer.csv
+  Title: 'Data-Centric AI' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 72] Source: AISpringer.csv
+  Title: 'Deciphering clinical abbreviations with a privacy prote' | DOI: '10.1038/s41467-022-35007-9'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 73] Source: AISpringer.csv
+  Title: 'Decoupling Learning from Time and Space. Towards the Im' | DOI: '10.1007/s10758-025-09845-7'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 74] Source: AISpringer.csv
+  Title: 'Deep knowledge-driven multi-modal fusion for diagnosis ' | DOI: '10.1038/s43856-026-01638-y'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 75] Source: AISpringer.csv
+  Title: 'Design of classical-quantum systems with UML' | DOI: '10.1007/s00607-022-01091-4'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 76] Source: AISpringer.csv
+  Title: 'Design of explanation user interfaces for interactive m' | DOI: '10.1007/s00766-025-00437-6'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 77] Source: AISpringer.csv
+  Title: 'Development and external validation of an artificial in' | DOI: '10.1186/s13017-025-00650-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 78] Source: AISpringer.csv
+  Title: 'Development and validation of a deep learning-based eme' | DOI: '10.1186/s12873-026-01489-9'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 79] Source: AISpringer.csv
+  Title: 'Development of an artificial intelligence bacteremia pr' | DOI: '10.1038/s41598-023-40708-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 80] Source: AISpringer.csv
+  Title: 'Diagnosis of cardiac conditions from 12-lead electrocar' | DOI: '10.1038/s41746-025-02074-3'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 81] Source: AISpringer.csv
+  Title: 'Discovering operational decisions from data—a framework' | DOI: '10.1007/s40622-024-00402-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 82] Source: AISpringer.csv
+  Title: 'Disruptive business value models in the digital era' | DOI: '10.1186/s13731-022-00252-1'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 83] Source: AISpringer.csv
+  Title: 'Dual smart sensor data-based deep learning network for ' | DOI: '10.1038/s41598-025-03864-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 84] Source: AISpringer.csv
+  Title: 'Dynamic electrocardiogram detection and diagnosis based' | DOI: '10.1038/s41598-026-59403-z'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 85] Source: AIScopus.csv
+  Title: 'Dynamic Prompt-Based Framework for Pragmatic Quality Im' | DOI: '10.1109/ACCESS.2025.3580616'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 86] Source: AISpringer.csv
+  Title: 'Early prognostication for ICU patients with combined re' | DOI: '10.1038/s41598-026-59064-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 87] Source: AISpringer.csv
+  Title: 'ECR 2022 Book of Abstracts' | DOI: '10.1186/s13244-022-01337-x'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (11): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 88] Source: AISpringer.csv
+  Title: 'ECR 2023 Book of Abstracts' | DOI: '10.1186/s13244-023-01522-6'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 89] Source: AISpringer.csv
+  Title: 'ECR 2025 Book of Abstracts' | DOI: '10.1186/s13244-025-02003-8'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 90] Source: AISpringer.csv
+  Title: 'ECR 2026 Book of Abstracts' | DOI: '10.1186/s13244-026-02345-x'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID']
+
+• [Row 91] Source: AISpringer.csv
+  Title: 'Editorial: KI-SI: Business Process Management (BPM) in ' | DOI: '10.1007/s13218-025-00892-x'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 92] Source: AISpringer.csv
+  Title: 'Emotion induction by western music across personality t' | DOI: '10.1038/s41598-025-29934-y'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 93] Source: AISpringer.csv
+  Title: 'Enabling natural language analysis for object-centric e' | DOI: '10.1007/s44311-026-00037-9'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 94] Source: AISpringer.csv
+  Title: 'Enhancing declarative business process management avail' | DOI: '10.1007/s44311-025-00029-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 95] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2022: part 1' | DOI: '10.1186/s40635-022-00468-1'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (7): ['Article References', 'Affiliations', 'Country', 'Address', 'Keywords', 'Funding', 'PMID']
+
+• [Row 96] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2023' | DOI: '10.1186/s40635-023-00546-y'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 97] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2025' | DOI: '10.1186/s40635-025-00797-x'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 98] Source: AISpringer.csv
+  Title: 'ESICM LIVES 2026' | DOI: '10.1186/s40635-026-00962-w'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 99] Source: AISpringer.csv
+  Title: 'Evaluating large language models on business process mo' | DOI: '10.1007/s10270-025-01318-w'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 100] Source: AISpringer.csv
+  Title: 'Explanatory Capabilities of&#xa0;Large Language Models ' | DOI: '10.1007/978-3-031-70396-6_23'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 101] Source: AIScopus.csv
+  Title: 'Exploratory association between multimodal AI-derived d' | DOI: '10.1371/journal.pdig.0000960'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 102] Source: AISpringer.csv
+  Title: 'Exploring AI-driven approaches for unstructured documen' | DOI: '10.1186/s40537-024-00948-z'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 103] Source: AISpringer.csv
+  Title: 'Exploring Human Trust in Software Robots for Robotic Pr' | DOI: '10.1007/s12599-026-01007-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 104] Source: AISpringer.csv
+  Title: 'Exploring large language models in enterprise modeling' | DOI: '10.1007/s44163-025-00585-2'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 105] Source: AISpringer.csv
+  Title: 'Exploring modeling methods for information systems anal' | DOI: '10.1007/s10270-025-01302-4'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 106] Source: AIScopus.csv
+  Title: 'Exploring Natural Language Processing in Model-To-Model' | DOI: '10.1109/ACCESS.2022.3219455'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 107] Source: AISpringer.csv
+  Title: 'Exploring the application of Artificial Intelligence in' | DOI: '10.1186/s12904-026-02191-0'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 108] Source: AISpringer.csv
+  Title: 'Eye tracking insights into physician behaviour with saf' | DOI: '10.1038/s41746-024-01200-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 109] Source: AISpringer.csv
+  Title: 'Fib-4 score is able to predict intra-hospital mortality' | DOI: '10.1007/s11739-023-03310-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 110] Source: AISpringer.csv
+  Title: 'Foliar disease resistance phenomics of fungal pathogens' | DOI: '10.1007/s00122-025-05017-4'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 111] Source: AISpringer.csv
+  Title: 'From data to decision: a clinical pipeline for wearable' | DOI: '10.1186/s40959-026-00506-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 112] Source: AISpringer.csv
+  Title: 'From Legal Contracts to Formal Specifications: A System' | DOI: '10.1007/s42979-022-01228-4'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 113] Source: AISpringer.csv
+  Title: 'From process mining to augmented process execution' | DOI: '10.1007/s10270-023-01132-2'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 114] Source: AIScopus.csv
+  Title: 'From Sketch to Structure: Agentic Prompting for Busines' | DOI: '10.1109/ACCESS.2026.3678494'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 115] Source: AISpringer.csv
+  Title: 'From Source to Target: Leveraging Transfer Learning for' | DOI: '10.1007/s12599-025-00969-9'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 116] Source: AIScopus.csv
+  Title: 'Generating BPMN Healthcare Process Models Using LLMs' | DOI: '10.1007/978-3-032-28819-6_33'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 117] Source: AISpringer.csv
+  Title: 'Generating BPMN Healthcare Process Models Using LLMs' | DOI: '10.1007/978-3-032-28819-6_33'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 118] Source: AISpringer.csv
+  Title: 'Generating ICS vulnerability playbooks with open standa' | DOI: '10.1007/s10207-023-00760-5'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 119] Source: AISpringer.csv
+  Title: 'Generating semi-automated security playbooks for vulner' | DOI: '10.1007/s10207-026-01263-9'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 120] Source: AISpringer.csv
+  Title: 'Generating UML class diagrams as conceptual models thro' | DOI: '10.1007/s10270-026-01427-0'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 121] Source: AIScopus.csv
+  Title: 'Generative AI for Business Model Generation (GAI4BM): f' | DOI: '10.46354/i3m.2024.foodops.013'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 122] Source: AISpringer.csv
+  Title: 'Generative AI' | DOI: '10.1007/s12599-023-00834-7'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 123] Source: AIScopus.csv
+  Title: 'GIVUP: Automated Generation and Verification of Textual' | DOI: '10.1145/3696630.3728593'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 124] Source: AIScopus.csv
+  Title: 'Governance-Aware AI Workflow Infrastructure for Secure ' | DOI: '10.1109/OJCS.2026.3718448'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 125] Source: AISpringer.csv
+  Title: 'GPT- 4 as a virtual fitness coach: a case study assessi' | DOI: '10.1186/s12889-025-22739-8'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 126] Source: AISpringer.csv
+  Title: 'GRAPHxx: DSML engineering for knowledge graph building ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 127] Source: AISpringer.csv
+  Title: 'HRA-TPF: a Hierarchical Radiomics Feature Extraction an' | DOI: '10.1007/s44443-026-01290-5'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 128] Source: AISpringer.csv
+  Title: 'Hybrid CNN-BLSTM architecture for classification and de' | DOI: '10.1038/s41598-025-17671-1'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 129] Source: AISpringer.csv
+  Title: 'Hyperparameter optimization for cardiovascular disease ' | DOI: '10.1186/s42492-023-00143-6'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 130] Source: AIScopus.csv
+  Title: 'Identifying GDPR-Critical Tasks in Business Process Des' | DOI: '10.1007/s12599-026-01016-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 131] Source: AISpringer.csv
+  Title: 'Identifying GDPR-Critical Tasks in Business Process Des' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 132] Source: AISpringer.csv
+  Title: 'Incorporating Collaborative and Active Learning Strateg' | DOI: '10.1007/s10758-023-09679-1'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 133] Source: AIScopus.csv
+  Title: 'Information Technology for the Data Integrationin Intel' | DOI: '10.5815/ijieeb.2024.04.05'
+  Status: Enriched 13 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 134] Source: AISpringer.csv
+  Title: 'Innovating proficiency testing in software: a digital p' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 135] Source: AISpringer.csv
+  Title: 'Integrating deep learning in cardiology: a comprehensiv' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 136] Source: AIScopus.csv
+  Title: 'Integrating Machine Learning and a Rule-Based Approach ' | DOI: '10.5220/0014756000004015'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 137] Source: AISpringer.csv
+  Title: 'Integrating machine learning into business and manageme' | DOI: '10.1057/s41599-025-04361-6'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 138] Source: AIScopus.csv
+  Title: 'Intelligent Business Document Processing Using AI- and ' | DOI: '10.3390/analytics5030031'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 139] Source: AISpringer.csv
+  Title: 'Interpretable and explainable machine learning methods ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 140] Source: AISpringer.csv
+  Title: 'Interpretable depressive symptoms screening via statist' | DOI: '10.1038/s41598-026-47312-0'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 141] Source: AISpringer.csv
+  Title: 'Interpretable prediction of hospital mortality in bleed' | DOI: '10.1186/s12911-025-03101-9'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 142] Source: AISpringer.csv
+  Title: 'Large Action Models for Programmatic Orchestration' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 143] Source: AISpringer.csv
+  Title: 'Large language models and conditional rules in clinical' | DOI: '10.1007/s13755-026-00428-z'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 144] Source: AISpringer.csv
+  Title: 'Large Language Models for Process Knowledge Acquisition' | DOI: '10.1007/s12599-025-00976-w'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 145] Source: AISpringer.csv
+  Title: 'Large language models versus classical machine learning' | DOI: '10.1038/s41598-025-26705-7'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 146] Source: AISpringer.csv
+  Title: 'Large Process Models: A Vision for Business Process Man' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 147] Source: AIScopus.csv
+  Title: 'Leveraging large language models for enhanced process m' | DOI: '10.1016/j.dss.2025.114563'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 148] Source: AISpringer.csv
+  Title: 'LLM support for enterprise modelling based on integrati' | DOI: '10.1007/s44163-026-01056-y'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 149] Source: AISpringer.csv
+  Title: 'LLM support for non-expert enterprise modeling' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 150] Source: AISpringer.csv
+  Title: 'LLM-enabled cognitive metasurfaces' | DOI: '10.1038/s44455-026-00040-x'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 151] Source: AISpringer.csv
+  Title: 'Local Large Language Models for&#xa0;Business Process M' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 152] Source: AISpringer.csv
+  Title: 'Logic-based analysis of fake news diffusion on social m' | DOI: '10.1007/s13278-025-01472-5'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 153] Source: AISpringer.csv
+  Title: 'Low responsiveness of machine learning models to critic' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 154] Source: AISpringer.csv
+  Title: 'Machine learning for cognitive behavioral analysis: dat' | DOI: '10.1186/s40708-023-00196-6'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 155] Source: AISpringer.csv
+  Title: 'Machine learning-based model for predicting the occurre' | DOI: '10.1038/s41598-024-79899-7'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 156] Source: AISpringer.csv
+  Title: 'Machine learning-driven optimization of enterprise reso' | DOI: '10.1186/s43088-023-00460-y'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 157] Source: AISpringer.csv
+  Title: 'Measuring the Connection Between Open Innovation, Dynam' | DOI: '10.1007/s13132-024-02343-8'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 158] Source: AISpringer.csv
+  Title: 'MEGAEL: automated multimodal event generation for IoT-d' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 159] Source: AISpringer.csv
+  Title: 'Micro-variations in timing and loudness affect music-ev' | DOI: '10.1038/s41598-025-12604-4'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 160] Source: AIIEEE.csv
+  Title: 'MINDS: An NLP-Driven Process Mining Framework for Super' | DOI: '10.1109/ACCESS.2025.3639460'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 161] Source: AISpringer.csv
+  Title: 'Model-based digital twin engineering: insights, challen' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 162] Source: AIScopus.csv
+  Title: 'Modelling Engineering Processes in Natural Language: A ' | DOI: '10.1145/3646548.3672584'
+  Status: Enriched 15 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 163] Source: AISpringer.csv
+  Title: 'Modelling in low-code development: a multi-vocal system' | DOI: '10.1007/s10270-021-00964-0'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 164] Source: AISpringer.csv
+  Title: 'MSBA-LSTM: a multi-scale bidirectional attention long s' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 165] Source: AIIEEE.csv
+  Title: 'Multi-Graph Anomaly Detection in Business Processes Wit' | DOI: '10.1109/ACCESS.2025.3544268'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 166] Source: AISpringer.csv
+  Title: 'Multi-layer rhythmic modeling and interactive system fo' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 167] Source: AISpringer.csv
+  Title: 'Multi-modal fake news detection: A comprehensive survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 168] Source: AISpringer.csv
+  Title: 'Multimodal machine learning for risk-stratified bundled' | DOI: '10.1038/s41746-025-01915-5'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 169] Source: AISpringer.csv
+  Title: 'Narrative as cognitive infrastructure reduces semantic ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 170] Source: AISpringer.csv
+  Title: 'Neuroergonomic signatures of improved human–robot colla' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 171] Source: AISpringer.csv
+  Title: 'Non-Invasive Brain-Computer Interfaces: Converging Fron' | DOI: '10.1007/s40820-025-02042-2'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 172] Source: AISpringer.csv
+  Title: 'On the potential of large language models to solve sema' | DOI: '10.1007/s44311-025-00019-3'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 173] Source: AISpringer.csv
+  Title: 'Pediatric Gastrointestinal Bleeding: Emergency Departme' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 174] Source: AISpringer.csv
+  Title: 'Performance comparison of a neuro-symbolic large langua' | DOI: '10.1186/s12911-026-03593-z'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 175] Source: AISpringer.csv
+  Title: 'Personalized prediction of mortality in patients with a' | DOI: '10.1186/s40001-024-01940-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 176] Source: AISpringer.csv
+  Title: 'PhysFormer++: Facial Video-Based Physiological Measurem' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 177] Source: AISpringer.csv
+  Title: 'Predicting emergency department disposition using machi' | DOI: '10.1186/s12873-026-01487-x'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 178] Source: AISpringer.csv
+  Title: 'Predicting triage of pediatric patients in the emergenc' | DOI: '10.1186/s12245-025-00861-z'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 179] Source: AISpringer.csv
+  Title: 'Predicting unplanned readmissions in the intensive care' | DOI: '10.1038/s41598-023-42372-y'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 180] Source: AISpringer.csv
+  Title: 'Prediction of oxygen requirement in patients with COVID' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 181] Source: AISpringer.csv
+  Title: 'Pre-training in Medical Data: A Survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 182] Source: AISpringer.csv
+  Title: 'Proceedings of the 101st Annual Meeting of The Physiolo' | DOI: '10.1186/s12576-024-00921-8'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 183] Source: AIScopus.csv
+  Title: 'Process Knowledge Extraction and Knowledge Graph Constr' | DOI: '10.1145/3605098.3635957'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 184] Source: AISpringer.csv
+  Title: 'Process Modeler vs. Chatbot: Is Generative AI Taking ov' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 185] Source: AISpringer.csv
+  Title: 'Process science: the interdisciplinary study of socio-t' | DOI: '10.1007/s44311-024-00001-5'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 186] Source: AISpringer.csv
+  Title: 'Processes-of-business processes: a novel information so' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 187] Source: AIScopus.csv
+  Title: 'ProcessGPT: Transforming Business Process Management wi' | DOI: '10.1109/ICWS60048.2023.00099'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 188] Source: AISpringer.csv
+  Title: 'Providing Domain Knowledge for&#xa0;Process Mining with' | DOI: '10.1007/978-3-031-82225-4_49'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 189] Source: AISpringer.csv
+  Title: 'Public perceptions of AI energy consumption: Awareness,' | DOI: '10.1007/s12525-026-00908-w'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 190] Source: AISpringer.csv
+  Title: 'Quality control in open-ended crowdsourcing: a survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 191] Source: AISpringer.csv
+  Title: 'Recent advances in music generation: methods, evaluatio' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 192] Source: AISpringer.csv
+  Title: 'Recent advances of AI for engineering service and maint' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 193] Source: AISpringer.csv
+  Title: 'Recent applications of machine learning&#xa0;and deep l' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 194] Source: AISpringer.csv
+  Title: 'Repeat, reorder, rephrase: data augmentation for proces' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 195] Source: AISpringer.csv
+  Title: 'Reporting changes in right ventricular systolic pressur' | DOI: '10.1186/s44156-026-00120-8'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 196] Source: AISpringer.csv
+  Title: 'Roadmap on singular optics and its applications' | DOI: '10.1007/s00340-026-08645-w'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 197] Source: AISpringer.csv
+  Title: 'Selected abstracts from Sleep Medicine Disruptors 2025,' | DOI: '10.1007/s44470-026-00114-7'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 198] Source: AISpringer.csv
+  Title: 'Sensor-free, Camera-only: Low-cost multi-angle CPR skil' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 199] Source: AISpringer.csv
+  Title: 'Size matters less: how fine-tuned small LLMs excel in B' | DOI: '10.1186/s43067-025-00288-9'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 200] Source: AISpringer.csv
+  Title: 'Skill Learning Using Process Mining for&#xa0;Large Lang' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 201] Source: AISpringer.csv
+  Title: 'Small banks, big burdens: How regulatory requirements a' | DOI: '10.1007/s11301-026-00619-8'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 202] Source: AISpringer.csv
+  Title: 'Software and Systems
+Modeling journal celebrates its si' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 203] Source: AISpringer.csv
+  Title: 'Software comprehension in code-centric and model-driven' | DOI: '10.1007/s10270-026-01409-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 204] Source: AISpringer.csv
+  Title: 'Software-Tool Support for Collaborative, Virtual, Multi' | DOI: '10.1007/s42979-023-01771-8'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 205] Source: AISpringer.csv
+  Title: 'Specializing large language models for process modeling' | DOI: '10.21203/rs.3.rs-7646566/v1'
+  Status: Enriched 7 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Journal', 'Article References', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Language', 'Funding', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 206] Source: AISpringer.csv
+  Title: 'SPEED-TR: a self-distilled and pre-trained transformer ' | DOI: '10.1038/s41746-025-02011-4'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 207] Source: AISpringer.csv
+  Title: 'Static test flakiness prediction: How Far Can We Go?' | DOI: '10.1007/s10664-022-10227-1'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 208] Source: AISpringer.csv
+  Title: 'Still doing it yourself? Investigating determinants for' | DOI: '10.1007/s12525-024-00737-9'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 209] Source: AIScopus.csv
+  Title: 'Structured Extraction and BPMN Generation From Chinese ' | DOI: '10.1109/ACCESS.2025.3611811'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 210] Source: AISpringer.csv
+  Title: 'SurIoT: Automatic generation of Internet-of-Medical-Thi' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 211] Source: AIScopus.csv
+  Title: 'Synthesis of BPMN Models from Text Specification Using ' | DOI: '10.12700/APH.23.2.2026.2.3'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 212] Source: AISpringer.csv
+  Title: 'Synthesize high-dimensional longitudinal electronic hea' | DOI: '10.1038/s41467-023-41093-0'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 213] Source: AIScopus.csv
+  Title: 'Taming the Complexity of Legal Change for Business Proc' | DOI: '10.1007/s12599-026-01008-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 214] Source: AISpringer.csv
+  Title: 'Taming the Complexity of Legal Change for Business Proc' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 215] Source: AIScopus.csv
+  Title: 'Tell Me What to Do: Automatically Generating Process Im' | DOI: '10.24251/hicss.2025.676'
+  Status: Enriched 14 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Address', 'PMID']
+
+• [Row 216] Source: AISpringer.csv
+  Title: 'Terpsichora: A&#xa0;Tool to&#xa0;Generate Synthetic MP-' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 217] Source: AISpringer.csv
+  Title: 'The competitive esports physiological, affective, and v' | DOI: '10.1038/s41597-024-04364-z'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 218] Source: AISpringer.csv
+  Title: 'The democratization of software engineering: evolution,' | DOI: '10.1007/s11301-026-00603-2'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 219] Source: AISpringer.csv
+  Title: 'The evolution of web development: the role of AI in sha' | DOI: '10.1007/s44163-025-00567-4'
+  Status: Enriched 10 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 220] Source: AISpringer.csv
+  Title: 'The extended EA ModelSet—a FAIR dataset for researching' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 221] Source: AISpringer.csv
+  Title: 'The impact of GenAI-assisted instructional design on th' | DOI: '10.1038/s41598-026-55876-0'
+  Status: Enriched 9 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (10): ['Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 222] Source: AISpringer.csv
+  Title: 'The role of generative AI in improving the sustainabili' | DOI: '10.1007/s43621-025-01484-3'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 223] Source: AISpringer.csv
+  Title: 'The sound of emotions: an artificial intelligence appro' | DOI: '10.1007/s00530-026-02220-1'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 224] Source: AISpringer.csv
+  Title: 'Time series forecasting of weight for diuretic dose adj' | DOI: '10.1038/s41598-024-68663-6'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 225] Source: AISpringer.csv
+  Title: 'Toward LLM-enabled business process coherence checking ' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 226] Source: AISpringer.csv
+  Title: 'Toward robust automated cardiovascular arrhythmia detec' | DOI: '10.1038/s41598-026-41549-5'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 227] Source: AISpringer.csv
+  Title: 'Transformer-based heart language model with electrocard' | DOI: '10.1038/s41598-024-84270-x'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 228] Source: AISpringer.csv
+  Title: 'Transformers for 3D medical image analysis: a systemati' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 229] Source: AISpringer.csv
+  Title: 'Transforming higher education with robotic process auto' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 230] Source: AISpringer.csv
+  Title: 'Trustworthy human computation: a survey' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 231] Source: AISpringer.csv
+  Title: 'Unveiling AI-powered ERP systems: a systematic review o' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 232] Source: AISpringer.csv
+  Title: 'Using biometric data to improve our understanding and s' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 233] Source: AISpringer.csv
+  Title: 'Using convolutional neural networks with late fusion to' | DOI: '10.1038/s41598-025-25100-6'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 234] Source: AISpringer.csv
+  Title: 'Using machine learning and natural language processing ' | DOI: '10.1186/s12873-024-01152-1'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+• [Row 235] Source: AIScopus.csv
+  Title: 'WaterSeeker: Pioneering Efficient Detection of Watermar' | DOI: '10.18653/v1/2025.findings-naacl.156'
+  Status: Enriched 16 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['PMID', 'ISSN']
+
+• [Row 236] Source: AISpringer.csv
+  Title: 'What do we need from modeling tools for teaching? A sur' | DOI: 'No DOI'
+  Status: Enriched 0 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (19): ['Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+• [Row 237] Source: AISpringer.csv
+  Title: 'What Questions Can I Ask? A Taxonomy and Question Catal' | DOI: '10.1007/s12599-025-00971-1'
+  Status: Enriched 11 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (8): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'PMID', 'OpenAlex ID']
+
+================================================================================
+FINAL SUMMARY: 194/238 records received enhancement data. Audit saved to disk.
+TOTAL DOIS IDENTIFIED: 194 / 238 (81.5% coverage).
+================================================================================

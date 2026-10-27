@@ -282,6 +282,142 @@ def extract_countries(affiliation_str) -> list:
         return []
     return list(_extract_countries_cached(str(affiliation_str).strip()))
 
+def save_geographic_inference_log(df: pd.DataFrame, project_name: str = None) -> str:
+    """
+    Generates and saves a detailed audit log of geographic metadata provenance
+    and regex/gazetteer country deduction heuristics to Projects/<project_name>/logs/.
+    Saves both geographic_inference_audit.log (human-readable) and geographic_inference_audit.json.
+    Returns the formatted text log.
+    """
+    if df is None or df.empty or 'Country_Extracted' not in df.columns:
+        return ""
+        
+    from utils.project_manager import get_active_project_name, save_project_file
+    import datetime, json
+    from collections import Counter
+    
+    target_proj = project_name or get_active_project_name()
+    total_raw = len(df)
+    now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    has_aff = df['Affiliations'].apply(lambda x: pd.notna(x) and str(x).strip() != '' and str(x).lower() != 'nan').sum() if 'Affiliations' in df.columns else 0
+    has_addr = df['Address'].apply(lambda x: pd.notna(x) and str(x).strip() != '' and str(x).lower() != 'nan').sum() if 'Address' in df.columns else 0
+    has_orig = df['Country'].apply(lambda x: pd.notna(x) and str(x).strip() != '' and str(x).lower() != 'nan') if 'Country' in df.columns else pd.Series(False, index=df.index)
+    orig_count = int(has_orig.sum())
+    
+    has_extracted = df['Has_Country'] if 'Has_Country' in df.columns else df['Country_Extracted'].apply(lambda x: len(x) > 0)
+    identified_count = int(has_extracted.sum())
+    missing_count = total_raw - identified_count
+    
+    # Identify records whose country was deduced strictly via regex/gazetteer heuristics
+    deduced_mask = (~has_orig) & has_extracted
+    deduced_count = int(deduced_mask.sum())
+    
+    deduced_df = df[deduced_mask]
+    deduced_countries_flat = [c for sub in deduced_df['Country_Extracted'] for c in sub]
+    country_freq = Counter(deduced_countries_flat).most_common()
+    
+    # Build detailed deduction record list
+    deduced_records = []
+    for idx, r in deduced_df.iterrows():
+        deduced_records.append({
+            "index": int(idx) if str(idx).isdigit() else str(idx),
+            "title": str(r.get('Title', 'Untitled')),
+            "affiliations": str(r.get('Affiliations', '')) if pd.notna(r.get('Affiliations')) else "",
+            "address": str(r.get('Address', '')) if pd.notna(r.get('Address')) else "",
+            "deduced_countries": list(r.get('Country_Extracted', []))
+        })
+        
+    orig_pct = (orig_count / total_raw * 100) if total_raw else 0
+    deduced_pct = (deduced_count / total_raw * 100) if total_raw else 0
+    ident_pct = (identified_count / total_raw * 100) if total_raw else 0
+    missing_pct = (missing_count / total_raw * 100) if total_raw else 0
+    aff_pct = (has_aff / total_raw * 100) if total_raw else 0
+    addr_pct = (has_addr / total_raw * 100) if total_raw else 0
+    
+    # 1. Plain Text Human-Readable Log Report
+    lines = [
+        "=" * 80,
+        "GEOGRAPHIC PROVENANCE & DEMOGRAPHIC INFERENCE AUDIT LOG",
+        "=" * 80,
+        f"Project Name:                   {target_proj}",
+        f"Generated At:                   {now_str}",
+        f"Methodology:                    Rule-based gazetteer & administrative subdivision regex heuristics",
+        "",
+        "-" * 80,
+        "1. CORPUS SUMMARY & QUALITY AUDIT METRICS",
+        "-" * 80,
+        f"Total Publications in Corpus:          {total_raw:>6,} (100.0%)",
+        f"Affiliations Metadata Present:         {has_aff:>6,} ({aff_pct:.1f}%)",
+        f"Author Address Metadata Present:       {has_addr:>6,} ({addr_pct:.1f}%)",
+        f"Explicit Country Present in Raw Data:  {orig_count:>6,} ({orig_pct:.1f}%)",
+        f"Country Recovered by Regex Heuristics: {deduced_count:>6,} ({deduced_pct:.1f}%)",
+        "-" * 80,
+        f"Total Geographic Provenance Identified: {identified_count:>6,} ({ident_pct:.1f}%)",
+        f"Unresolved Records (Missing Country):   {missing_count:>6,} ({missing_pct:.1f}%)",
+        "-" * 80,
+        "",
+        "2. BREAKDOWN OF RECOVERED COUNTRIES VIA HEURISTICS",
+        "-" * 80
+    ]
+    if country_freq:
+        for cname, cnt in country_freq:
+            lines.append(f"  - {cname:<30}: {cnt:>4} records")
+    else:
+        lines.append("  (No records required heuristic country deduction)")
+        
+    lines.extend([
+        "",
+        "-" * 80,
+        f"3. DEDUCTION PROVENANCE RECORDS ({deduced_count} publications recovered from Affiliations/Address)",
+        "-" * 80
+    ])
+    
+    for item in deduced_records:
+        countries_str = ", ".join(item['deduced_countries'])
+        aff_display = item['affiliations'][:90] + ("..." if len(item['affiliations']) > 90 else "")
+        addr_display = item['address'][:90] + ("..." if len(item['address']) > 90 else "")
+        lines.append(f"[Record #{item['index']}]")
+        lines.append(f"  Title:    {item['title']}")
+        if aff_display:
+            lines.append(f"  Affil:    {aff_display}")
+        if addr_display:
+            lines.append(f"  Address:  {addr_display}")
+        lines.append(f"  Deduced:  {countries_str}")
+        lines.append("")
+        
+    lines.append("=" * 80)
+    log_text = "\n".join(lines)
+    
+    # 2. Structured JSON payload for automated parsing / replication
+    json_payload = {
+        "project_name": target_proj,
+        "generated_at": now_str,
+        "total_records": total_raw,
+        "affiliations_present": int(has_aff),
+        "affiliations_pct": round(aff_pct, 2),
+        "address_present": int(has_addr),
+        "address_pct": round(addr_pct, 2),
+        "explicit_country_count": orig_count,
+        "explicit_country_pct": round(orig_pct, 2),
+        "heuristic_deduced_count": deduced_count,
+        "heuristic_deduced_pct": round(deduced_pct, 2),
+        "total_identified_count": identified_count,
+        "total_identified_pct": round(ident_pct, 2),
+        "missing_country_count": missing_count,
+        "missing_country_pct": round(missing_pct, 2),
+        "recovered_countries_breakdown": dict(country_freq),
+        "deduced_records": deduced_records
+    }
+    
+    try:
+        save_project_file("logs", "geographic_inference_audit.log", log_text, mode="w", project_name=target_proj)
+        save_project_file("logs", "geographic_inference_audit.json", json.dumps(json_payload, indent=2, ensure_ascii=False), mode="w", project_name=target_proj)
+        return log_text
+    except Exception as e:
+        print(f"Error saving geographic audit log: {e}")
+        return log_text
+
 def show(df):
     st.markdown("<h2 style='font-size: 24px; font-weight: 700; color: #1E293B;'><i class='bi bi-globe-americas' style='color: #697aa2;'></i> Global Demographics & Governance</h2>", unsafe_allow_html=True)
     
@@ -322,6 +458,9 @@ def show(df):
     else:
         st.success(f"**Data Quality Notice:** All {total_raw} articles have identifiable country data.")
 
+    # Automatically save geographic deduction audit log to project logs folder
+    save_geographic_inference_log(df)
+
     df_valid = df[df['Has_Country']].copy()
     
     # Create Tabs for the unified module
@@ -352,7 +491,7 @@ def show(df):
             if not has_gender_data:
                 st.markdown("""
                 <div style="background-color: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 32px 20px; text-align: center; margin: 16px 0;">
-                    <div style="font-size: 36px; margin-bottom: 8px;">🔒</div>
+                    <div style="font-size: 36px; margin-bottom: 8px;"><i class="bi bi-lock-fill" style="color: #64748B;"></i></div>
                     <h4 style="font-size: 17px; font-weight: 700; color: #334155; margin-bottom: 6px;">
                         Gender-Segmented Spatial View Locked
                     </h4>
@@ -364,7 +503,7 @@ def show(df):
                 """, unsafe_allow_html=True)
                 c_lock_l, c_lock_m, c_lock_r = st.columns([1, 1.2, 1])
                 with c_lock_m:
-                    if st.button("👉 Run Gender Mapping to Unlock", type="primary", width="stretch", key="btn_unlock_gender_geo"):
+                    if st.button("Run Gender Mapping to Unlock", icon=":material/arrow_forward:", type="primary", width="stretch", key="btn_unlock_gender_geo"):
                         st.session_state.current_page = "Gender Mapping"
                         st.rerun()
             else:
@@ -401,7 +540,7 @@ def show(df):
             if not has_gender_data:
                 st.markdown("""
                 <div style="background-color: #F8FAFC; border: 2px dashed #CBD5E1; border-radius: 12px; padding: 32px 20px; text-align: center; margin: 16px 0;">
-                    <div style="font-size: 36px; margin-bottom: 8px;">🔒</div>
+                    <div style="font-size: 36px; margin-bottom: 8px;"><i class="bi bi-lock-fill" style="color: #64748B;"></i></div>
                     <h4 style="font-size: 17px; font-weight: 700; color: #334155; margin-bottom: 6px;">
                         Inferred Author-Level Geographic View Locked
                     </h4>
@@ -413,7 +552,7 @@ def show(df):
                 """, unsafe_allow_html=True)
                 c_lock_l, c_lock_m, c_lock_r = st.columns([1, 1.2, 1])
                 with c_lock_m:
-                    if st.button("👉 Run Gender Mapping to Unlock", type="primary", width="stretch", key="btn_unlock_author_geo"):
+                    if st.button("Run Gender Mapping to Unlock", icon=":material/arrow_forward:", type="primary", width="stretch", key="btn_unlock_author_geo"):
                         st.session_state.current_page = "Gender Mapping"
                         st.rerun()
             else:
@@ -633,7 +772,7 @@ def show(df):
                 threshold_pct = st.slider("Regulatory Indexer Threshold (e.g., SciELO Limit) %", min_value=0, max_value=100, value=20, step=1, help="Maximum allowed percentage of endogenous articles for compliance.")
 
             if not publisher_inst:
-                st.info("👆 Please provide the **Publisher Institution ($I_{pub}$)** above to calculate the Endogeneity Index.")
+                st.info("Please provide the **Publisher Institution ($I_{pub}$)** above to calculate the Endogeneity Index.")
             else:
                 pub_lower = publisher_inst.lower().strip()
                 
@@ -675,9 +814,9 @@ def show(df):
                 r_col3.metric("Endogeneity Index ($E_{inst}$)", f"{e_inst:.1f}%", delta=f"{threshold_pct - e_inst:.1f}% limit margin", delta_color=delta_color)
 
                 if e_inst > threshold_pct:
-                    st.error(f"🚨 **NON-COMPLIANCE ALERT:** The Endogeneity Index of **{e_inst:.1f}%** exceeds the stipulated regulatory threshold of **{threshold_pct}%**. Risk of de-indexing.")
+                    st.error(f"**NON-COMPLIANCE ALERT:** The Endogeneity Index of **{e_inst:.1f}%** exceeds the stipulated regulatory threshold of **{threshold_pct}%**. Risk of de-indexing.")
                 else:
-                    st.success(f"✅ **COMPLIANT:** The Endogeneity Index of **{e_inst:.1f}%** is within the stipulated regulatory threshold of **{threshold_pct}%**.")
+                    st.success(f"**COMPLIANT:** The Endogeneity Index of **{e_inst:.1f}%** is within the stipulated regulatory threshold of **{threshold_pct}%**.")
 
                 st.progress(min(e_inst / 100.0, 1.0))
                 
@@ -691,7 +830,8 @@ def show(df):
                         st.markdown("<h4 style='font-size: 16px; font-weight: 700; color: #1E293B; margin-top: 20px;'>Identified Endogenous Articles</h4>", unsafe_allow_html=True)
                     with endo_h2:
                         _download_button(endogenous_df[display_cols], "Download CSV", "endogenous_articles.csv", key="dl_endogenous_articles")
-                    st.dataframe(endogenous_df[display_cols], width='stretch')
+                    from utils.formatters import sanitize_df_for_streamlit
+                    st.dataframe(sanitize_df_for_streamlit(endogenous_df[display_cols]), width='stretch')
 
     with tab_audit:
         st.markdown("<h3 style='font-size: 19px; font-weight: 700; color: #1E293B;'>Geographic Metadata & Country Extraction Quality Audit</h3>", unsafe_allow_html=True)
@@ -719,6 +859,9 @@ def show(df):
         m4.metric("Explicit Country Present", f"{has_orig_country} ({(has_orig_country/total_records)*100:.1f}%)" if total_records else "0")
         m5.metric("Author Country Identified", f"{has_extracted} ({(has_extracted/total_records)*100:.1f}%)" if total_records else "0", delta=f"{has_extracted - has_orig_country} deduced" if has_extracted >= has_orig_country else None)
         
+        from utils.project_manager import get_active_project_name
+        st.caption(f"💾 **Project Audit Log:** All heuristic deductions and provenance details are saved to `Projects/{get_active_project_name()}/logs/geographic_inference_audit.log`")
+        
         st.divider()
         
         # Filter options for the audit table
@@ -733,8 +876,8 @@ def show(df):
             search_query = st.text_input("Search in Geographic Fields or Title", placeholder="e.g. Brazil, USP, University, etc.")
             
         display_audit_df = df[audit_cols].copy()
-        display_audit_df['Identified_Countries'] = display_audit_df['Country_Extracted'].apply(lambda lst: ", ".join(lst) if lst else "❌ None")
-        display_audit_df['Status'] = display_audit_df['Country_Extracted'].apply(lambda lst: "✅ Identified" if lst else "⚠️ Missing")
+        display_audit_df['Identified_Countries'] = display_audit_df['Country_Extracted'].apply(lambda lst: ", ".join(lst) if lst else "None")
+        display_audit_df['Status'] = display_audit_df['Country_Extracted'].apply(lambda lst: "Identified" if lst else "Missing")
         
         # Reorder columns for optimal inspection
         preferred_order = ['Status', 'Identified_Countries', 'Title', 'Affiliations', 'Address', 'Country', 'Location', 'Author', 'Publication Year']
@@ -742,9 +885,9 @@ def show(df):
         display_audit_df = display_audit_df[final_cols]
         
         if audit_filter == "Successfully Extracted":
-            display_audit_df = display_audit_df[display_audit_df['Status'] == "✅ Identified"]
+            display_audit_df = display_audit_df[display_audit_df['Status'] == "Identified"]
         elif audit_filter == "Missing Country Info":
-            display_audit_df = display_audit_df[display_audit_df['Status'] == "⚠️ Missing"]
+            display_audit_df = display_audit_df[display_audit_df['Status'] == "Missing"]
             
         if search_query.strip():
             sq = search_query.strip().lower()
@@ -754,8 +897,9 @@ def show(df):
         with filter_col3:
             _download_button(display_audit_df, "Download CSV", "geographic_metadata_audit_log.csv", key="dl_demog_audit")
             
+        from utils.formatters import sanitize_df_for_streamlit
         st.dataframe(
-            display_audit_df,
+            sanitize_df_for_streamlit(display_audit_df),
             width='stretch',
             height=420,
             column_config={
@@ -776,7 +920,8 @@ def show(df):
         fn_demo_log = format_timestamped_filename("geographic_metadata_audit_log.csv")
 
         st.download_button(
-            label="📥 Export Geographic Metadata Audit Log (CSV)",
+            label="Export Geographic Metadata Audit Log (CSV)",
+            icon=":material/download:",
             data=csv_data,
             file_name=fn_demo_log,
             mime="text/csv",

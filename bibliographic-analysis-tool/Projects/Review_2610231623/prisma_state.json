@@ -1,0 +1,30 @@
+{
+  "project_name": "Default_Project",
+  "mode": "advanced",
+  "file_db_mapping": {},
+  "db_initial_query_hits": {},
+  "db_ic_progression": {},
+  "inclusion_criteria": [],
+  "exclusion_criteria": [],
+  "ec_overrides": {},
+  "db_final_overrides": {},
+  "custom_reasons": [],
+  "exclusions": {},
+  "screened_ok": [],
+  "screening_queue": [
+    0
+  ],
+  "loaded_files": [
+    "beest.xlsx"
+  ],
+  "file_manifest": {
+    "beest.xlsx": 1
+  },
+  "prisma_imported_count": 1,
+  "duplicates_override": null,
+  "missing_abstracts_count": 0,
+  "missing_abstracts_override": null,
+  "auto_exclude_missing_abstracts": 0,
+  "saved_at": "2026-10-23T16:22:27.695142",
+  "prisma_duplicates": []
+}

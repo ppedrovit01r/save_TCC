@@ -3,6 +3,48 @@ import bibtexparser
 import rispy
 import io
 import re
+import urllib.parse
+
+# ---------------------------------------------------------
+# Robust DOI Extraction and Validation
+# ---------------------------------------------------------
+DOI_REGEX = re.compile(r'\b(10\.\d{4,9}/[^\s\"\'<>]+)', re.IGNORECASE)
+
+def extract_valid_doi(val) -> str | None:
+    """
+    Extracts and standardizes a genuine DOI from arbitrary text, URLs, or link fields.
+    Validates IDF standard DOI prefix (10.xxxx/...) and strips trailing punctuation,
+    query parameters, and markdown/HTML wrappers.
+    """
+    if val is None or pd.isna(val):
+        return None
+    val_str = str(val).strip()
+    if not val_str or val_str.lower() in ('nan', '<na>', 'none', 'null', ''):
+        return None
+    
+    if '%' in val_str:
+        try:
+            val_str = urllib.parse.unquote(val_str)
+        except Exception:
+            pass
+
+    # Strip URL query parameters or hash anchors
+    val_str = re.sub(r'[?#].*$', '', val_str)
+
+    match = DOI_REGEX.search(val_str)
+    if not match:
+        return None
+
+    candidate = match.group(1).strip()
+    # Strip trailing punctuation commonly appended by citations, brackets, or sentence endings
+    candidate = re.sub(r'[\.,;:\>\)\]\s]+$', '', candidate)
+    if candidate.count('(') < candidate.count(')'):
+        candidate = candidate.rstrip(')')
+
+    parts = candidate.split('/', 1)
+    if len(parts) == 2 and len(parts[1]) >= 2:
+        return candidate.lower()
+    return None
 
 # Target standardized columns
 TARGET_COLUMNS = [
@@ -130,13 +172,7 @@ def parse_nbib(text: str) -> pd.DataFrame:
             df[col] = df[col].apply(lambda x: ", ".join(map(str, x)) if isinstance(x, list) else x)
             
     if 'AID' in df.columns:
-        def extract_doi(val):
-            if pd.isna(val): return val
-            for item in str(val).split(', '):
-                if '[doi]' in item:
-                    return item.replace(' [doi]', '').strip()
-            return val
-        df['DOI'] = df['AID'].apply(extract_doi)
+        df['DOI'] = df['AID'].apply(extract_valid_doi)
     
     if 'DP' in df.columns:
         df['Publication Year'] = df['DP'].astype(str).str.extract(r'^(\d{4})')[0]
@@ -198,6 +234,14 @@ def deduplicate_and_merge_columns(df: pd.DataFrame) -> pd.DataFrame:
                                 unique_vals.append(cleaned_part)
                     return "; ".join(unique_vals) if unique_vals else pd.NA
                 combined = sub_cleaned.apply(combine_kw_row, axis=1)
+            elif col == 'Author':
+                def combine_author_row(row):
+                    vals = [str(v).strip() for v in row if pd.notna(v) and str(v).strip() and str(v).strip().lower() not in ('nan', '<na>', 'none')]
+                    if not vals:
+                        return pd.NA
+                    # Prefer longest author string (e.g. full names 'AF' over abbreviated initials 'AU')
+                    return max(vals, key=len)
+                combined = sub_cleaned.apply(combine_author_row, axis=1)
             elif col == 'Abstract':
                 def combine_abs_row(row):
                     vals = [str(v).strip() for v in row if pd.notna(v) and str(v).strip() and str(v).strip().lower() not in ('nan', '<na>', 'none')]
@@ -256,16 +300,20 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     df.columns = df.columns.astype(str).str.strip().str.replace(r'\s+', ' ', regex=True)
     cols_lower = df.columns.str.lower()
     
+    # Check if input columns represent a Web of Science export
+    is_wos = any(c in cols_lower for c in ['ut', 'pt', 'di', 'af'])
+    
     column_mapping = {
         # 1. Identificadores Básicos (Chaves de Busca e Indexação)
-        "doi": "DOI", "digital object identifier": "DOI", "doids": "DOI",
+        "doi": "DOI", "digital object identifier": "DOI", "doids": "DOI", "item doi": "DOI", "item_doi": "DOI",
+        "di": "DOI", "do": "DOI",
         "aid": "AID",
-        "pmid": "PMID", "pubmed id": "PMID",
+        "pmid": "PMID", "pubmed id": "PMID", "pm": "PMID",
         "pmcid": "PMCID", "pubmed central id": "PMCID", "pmc": "PMCID",
         "eid": "Scopus ID", "scopus id": "Scopus ID",
         "submission id": "Local ID", "id": "Local ID", "an": "Local ID", "oid": "Local ID", "lid": "Local ID", "accession number": "Local ID", "ut": "Local ID",
         "openalex id": "OpenAlex ID", "openalex_id": "OpenAlex ID", "openalex": "OpenAlex ID",
-        "issn": "ISSN", "issns": "ISSN", "journal issn (print version)": "ISSN", "journal eissn (online version)": "ISSN", "sn": "ISSN", "eissn": "ISSN", "pissn": "ISSN",
+        "issn": "ISSN", "issns": "ISSN", "journal issn (print version)": "ISSN", "journal eissn (online version)": "ISSN", "sn": "ISSN", "eissn": "ISSN", "pissn": "ISSN", "ei": "ISSN",
         "isbn": "ISBN", "isbns": "ISBN", "bn": "ISBN",
         "url": "URL", "fulltext url": "URL", "fulltext url ": "URL", "link": "URL", "plink": "URL", "journal url": "URL", "ur": "URL", "lk": "URL",
         "arxiv": "ArXiv ID", "arxiv id": "ArXiv ID", "eprint": "ArXiv ID", "archiveprefix": "ArXiv ID",
@@ -273,17 +321,17 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
         # 2. Títulos e Conteúdo
         "title": "Title", "article title": "Title", "document title": "Title", "título": "Title", "titulo": "Title", 
         "documenttitle": "Title", "journal title": "Title", "ti": "Title", "t1": "Title",
-        "primary_title": "Title", "primary title": "Title", "item title": "Title",
+        "primary_title": "Title", "primary title": "Title", "item title": "Title", "item_title": "Title",
         "short title": "Short Title", "shorttitle": "Short Title",
 
         # 3. Metadados de Autoria, Demografia, Endereço e Localização
         "authors": "Author", "author": "Author", "author(s)": "Author", "author full names": "Author", 
-        "creators": "Author", "autores": "Author", "contributors": "Author", "au": "Author", "fau": "Author", "first author": "First Author",
+        "creators": "Author", "autores": "Author", "contributors": "Author", "au": "Author", "fau": "Author", "af": "Author", "first author": "First Author",
         "affiliations": "Affiliations", "author affiliations": "Affiliations", "authors with affiliations": "Affiliations", 
         "institutions": "Affiliations", "institution": "Affiliations", "organization": "Affiliations", "school": "Affiliations", 
         "department": "Affiliations", "affiliation": "Affiliations",
         "address": "Address", "addresses": "Address", "author address": "Address", "author addresses": "Address", 
-        "correspondence address": "Address", "reprint address": "Address", "c1": "Address", "rp": "Address", "ad": "Address",
+        "correspondence address": "Address", "reprint address": "Address", "reprint addresses": "Address", "c1": "Address", "rp": "Address", "ad": "Address",
         "location": "Location", "conference location": "Location", "conference place": "Location", "conference venue": "Location", 
         "place": "Location", "city": "Location", "place of publication": "Location", "cl": "Location", "pl": "Location", "cy": "Location", 
         "event location": "Location", "venue": "Location", "place_published": "Location",
@@ -297,41 +345,48 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
         "keywords plus": "Keywords", "keyword plus": "Keywords", "palavras-chave": "Keywords", "palavras chave": "Keywords", 
         "palabras clave": "Keywords", "palabras clave ": "Keywords", "descriptors": "Keywords", "subjects": "Keywords", 
         "subject terms": "Keywords", "subject headings": "Keywords", "all keywords": "Keywords",
-        "ot": "Keywords", "kw": "Keywords", "de": "Keywords", "tags": "Keywords", "raw_keywords": "Keywords",
+        "ot": "Keywords", "kw": "Keywords", "de": "Keywords", "ak": "Keywords", "kp": "Keywords", "tags": "Keywords", "raw_keywords": "Keywords",
         "concepts": "Concepts", "mesh terms": "Concepts", "mesh": "Concepts", "categories": "Concepts", "subject areas": "Concepts", "mesh headings": "Concepts",
+        "wc": "Concepts", "sc": "Concepts", "web of science categories": "Concepts", "web of science category": "Concepts", "research areas": "Concepts", "research area": "Concepts",
 
         # 5. Contexto de Publicação (Distinção de Journal vs Publisher vs Detalhes)
         "journal": "Journal", "journal name": "Journal", "source title": "Journal", "publicationname": "Journal", "publication name": "Journal", 
+        "publication title": "Journal", "book series title": "Journal", "book_series_title": "Journal",
         "journal/book": "Journal", "source": "Journal", "booktitle": "Journal", "jt": "Journal", "jf": "Journal", "so": "Journal", 
-        "j2": "Journal", "t2": "Journal", "abbreviated source title": "Journal", "conference": "Journal", "proceedings": "Journal", "series": "Journal",
+        "j2": "Journal", "t2": "Journal", "j9": "Journal", "ji": "Journal", "abbreviated source title": "Journal", "conference": "Journal", "proceedings": "Journal", "series": "Journal",
         "publisher": "Publisher", "editor": "Publisher", "editors": "Publisher", "pb": "Publisher", "pu": "Publisher", "host organization": "Publisher", "publishing house": "Publisher",
-        "volume": "Volume", "vol": "Volume", "vl": "Volume", "vi": "Volume",
-        "issue": "Issue", "is": "Issue", "ip": "Issue", "number": "Issue", "no": "Issue",
-        "pages": "Pages", "page": "Pages", "page start": "Pages", "page end": "Pages", "sp": "Pages", "ep": "Pages", "pg": "Pages", 
-        "pages count": "Pages", "article number": "Pages", "artno": "Pages", "art. no.": "Pages",
+        "volume": "Volume", "vol": "Volume", "vl": "Volume", "vi": "Volume", "journal volume": "Volume",
+        "issue": "Issue", "is": "Issue", "ip": "Issue", "number": "Issue", "no": "Issue", "journal issue": "Issue",
+        "pages": "Pages", "page": "Pages", "page start": "Pages", "page end": "Pages", "start page": "Pages", "end page": "Pages", "sp": "Pages", "ep": "Pages", "bp": "Pages", "pg": "Pages", 
+        "pages count": "Pages", "article number": "Pages", "artno": "Pages", "art. no.": "Pages", "ar": "Pages",
 
         # 6. Métricas, Datas e Impacto
-        "publication year": "Publication Year", "publicationyear": "Publication Year", "year": "Publication Year", 
+        "publication year": "Publication Year", "publicationyear": "Publication Year", "year": "Publication Year", "year published": "Publication Year",
         "py": "Publication Year", "ano": "Publication Year", "publicationdate": "Publication Year", "publication date": "Publication Year", 
         "coverdate": "Publication Year", "printedpublicationyear": "Publication Year", "dp": "Publication Year", "date": "Publication Year",
         "times cited": "Times Cited", "citations": "Times Cited", "citation count": "Times Cited", 
         "cited by count": "Times Cited", "cited by": "Times Cited", "citedbycount": "Times Cited", "tc": "Times Cited", "cites": "Times Cited",
+        "z9": "Times Cited", "times cited, wos core": "Times Cited", "times cited (wos core)": "Times Cited", "times cited, all databases": "Times Cited", "times cited (all databases)": "Times Cited",
 
         # 7. Filtros de Exclusão Metodológica (PRISMA)
         "document type": "Document Type", "documenttype": "Document Type", "type": "Document Type", 
-        "item type": "Document Type", "tipo de documento": "Document Type", "doctypes": "Document Type", 
+        "item type": "Document Type", "content type": "Document Type", "content_type": "Document Type", "tipo de documento": "Document Type", "doctypes": "Document Type", 
         "pubtypes": "Document Type", "publicationtype": "Document Type", "pt": "Document Type", "ty": "Document Type", "section title": "Document Type", "dt": "Document Type",
         "language": "Language", "languages": "Language", "language(s)": "Language", "language of original document": "Language", "idioma": "Language", "la": "Language", "lang": "Language",
-        "open access": "Open Access", "oa status": "Open Access", "is_oa": "Open Access", "isopenaccess": "Open Access",
+        "open access": "Open Access", "oa status": "Open Access", "is_oa": "Open Access", "isopenaccess": "Open Access", "oa": "Open Access", "open access indicator": "Open Access",
 
         # 8. Redes de Fomento, Referências e Notas
         "funding": "Funding", "funding details": "Funding", "funding texts": "Funding", "sponsors": "Funding", "sponsor": "Funding", "fomento": "Funding", "gr": "Funding", "fu": "Funding", "fx": "Funding", "grant": "Funding",
+        "funding orgs": "Funding", "funding name preferred": "Funding", "funding text": "Funding",
         "references": "Article References", "article references": "Article References", "cited references": "Article References", "cr": "Article References",
         "notes": "Notes", "note": "Notes", "annote": "Notes", "n1": "Notes", "comments": "Notes"
     }
 
     new_cols = []
     for col in cols_lower:
+        if is_wos and col == 'id':
+            new_cols.append("Keywords")
+            continue
         mapped_name = column_mapping.get(col)
         if not mapped_name:
             col_normalized = col.replace('_', ' ').replace('-', ' ').strip()
@@ -352,9 +407,51 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
         elif col != 'Times Cited' and df[col].dtype != 'object':
             df[col] = df[col].astype(object)
 
+    # Clean and validate existing DOIs
+    if 'DOI' in df.columns:
+        df['DOI'] = df['DOI'].apply(extract_valid_doi)
+    else:
+        df['DOI'] = pd.Series(pd.NA, index=df.index, dtype=object)
+
+    # In-file DOI Extraction: If DOI is missing, scan URL, Link, Notes, Source, etc.
+    doi_missing = df['DOI'].isna() | (df['DOI'].astype(str).str.strip() == '')
+    if doi_missing.any():
+        cand_cols = [
+            c for c in df.columns 
+            if c != 'DOI' and any(k in c.lower() for k in ['url', 'link', 'note', 'source', 'aid', 'local id', 'plink', 'ur', 'lk'])
+        ]
+        for col_cand in cand_cols:
+            if not doi_missing.any():
+                break
+            extracted = df.loc[doi_missing, col_cand].apply(extract_valid_doi)
+            found = extracted.notna()
+            if found.any():
+                df.loc[doi_missing & found, 'DOI'] = extracted[found]
+                doi_missing = df['DOI'].isna() | (df['DOI'].astype(str).str.strip() == '')
+
+    # Guard PMCID vs PMID: ensure PMCID values (e.g. PMC1234567) are quarantined into PMCID and not treated as PMIDs
+    if 'PMID' in df.columns:
+        pmid_str = df['PMID'].astype(str).str.strip()
+        pmc_mask = pmid_str.str.upper().str.startswith('PMC')
+        if pmc_mask.any():
+            if 'PMCID' not in df.columns:
+                df['PMCID'] = pd.Series(pd.NA, index=df.index, dtype=object)
+            pmcid_empty = df['PMCID'].isna() | (df['PMCID'].astype(str).str.strip().isin(['', 'nan', '<NA>', 'None']))
+            df.loc[pmc_mask & pmcid_empty, 'PMCID'] = df.loc[pmc_mask & pmcid_empty, 'PMID']
+            df.loc[pmc_mask, 'PMID'] = pd.NA
+
     if 'Publication Year' in df.columns:
         from utils.formatters import clean_year_series
         df['Publication Year'] = clean_year_series(df['Publication Year'])
+
+    if 'Pages' in df.columns:
+        from utils.formatters import clean_pages_series
+        df['Pages'] = clean_pages_series(df['Pages'])
+
+    for meta_col in ['Volume', 'Issue', 'PMID', 'ISSN']:
+        if meta_col in df.columns:
+            from utils.formatters import clean_metadata_series
+            df[meta_col] = clean_metadata_series(df[meta_col])
 
     # Cross-field deduction: Populate Affiliations from Address if Affiliations is missing
     if 'Affiliations' in df.columns and 'Address' in df.columns:
@@ -394,6 +491,51 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
+# [NOTE: Web of Science Plain Text (.txt) parsing disabled for this version]
+# def parse_wos_plaintext(text: str) -> pd.DataFrame:
+#     """Parses Web of Science plain text (.txt) exports with standard 2-letter tags (e.g. PT, AU, TI... ER)."""
+#     entries = []
+#     current_entry = {}
+#     current_tag = None
+#     
+#     for line in text.splitlines():
+#         line_clean = line.rstrip()
+#         if not line_clean or line_clean in ('EF', 'VR 1.0') or line_clean.startswith('FN '):
+#             continue
+#         if line_clean == 'ER':
+#             if current_entry:
+#                 entries.append(current_entry)
+#                 current_entry = {}
+#             current_tag = None
+#             continue
+#             
+#         if len(line_clean) >= 3 and line_clean[:2].isupper() and line_clean[2] == ' ':
+#             tag = line_clean[:2]
+#             val = line_clean[3:].strip()
+#             current_tag = tag
+#             if tag in current_entry:
+#                 if isinstance(current_entry[tag], list):
+#                     current_entry[tag].append(val)
+#                 else:
+#                     current_entry[tag] = [current_entry[tag], val]
+#             else:
+#                 current_entry[tag] = val
+#         elif line_clean.startswith('   ') and current_tag:
+#             val = line_clean.strip()
+#             if isinstance(current_entry[current_tag], list):
+#                 current_entry[current_tag][-1] += " " + val
+#             else:
+#                 current_entry[current_tag] += " " + val
+#                 
+#     if current_entry:
+#         entries.append(current_entry)
+#         
+#     df = pd.DataFrame(entries)
+#     for col in df.columns:
+#         if df[col].apply(lambda x: isinstance(x, list)).any():
+#             df[col] = df[col].apply(lambda x: "; ".join(map(str, x)) if isinstance(x, list) else x)
+#     return df
+
 def parse_file(uploaded_file) -> pd.DataFrame:
     ext = uploaded_file.name.split('.')[-1].lower()
     
@@ -402,36 +544,72 @@ def parse_file(uploaded_file) -> pd.DataFrame:
     elif ext == 'csv':
         parsed_df = None
         encodings = ['utf-8-sig', 'utf-8', 'latin1', 'cp1252', 'iso-8859-1']
+        raw_bytes = uploaded_file.getvalue()
         
         for enc in encodings:
-            uploaded_file.seek(0)
             try:
-                parsed_df = pd.read_csv(uploaded_file, sep=',', encoding=enc, skipinitialspace=True)
-                break
+                text_str = raw_bytes.decode(enc)
             except Exception:
-                uploaded_file.seek(0)
-                try:
-                    parsed_df = pd.read_csv(uploaded_file, sep=';', encoding=enc, skipinitialspace=True)
-                    break
-                except Exception:
-                    uploaded_file.seek(0)
-                    try:
-                        parsed_df = pd.read_csv(uploaded_file, sep=None, engine='python', encoding=enc, skipinitialspace=True)
-                        break
-                    except Exception:
-                        continue
+                continue
+                
+            lines = [l for l in text_str.splitlines() if l.strip()]
+            if not lines:
+                parsed_df = pd.DataFrame()
+                break
 
-        if parsed_df is None:
-            uploaded_file.seek(0)
-            raw_bytes = uploaded_file.getvalue()
-            for enc in encodings:
+            # [NOTE: WoS Plain Text (.txt) and Tab-Delimited (.tsv) disabled for this version]
+            # # 1. Check for Web of Science Plain Text tagged format (PT ..., AU ..., ER)
+            # has_wos_pt = (
+            #     any('FN Clarivate' in l or 'FN Thomson' in l for l in lines[:5]) or
+            #     (re.match(r'^[A-Z]{2}\s', lines[0]) and any(l.strip() == 'ER' for l in lines))
+            # )
+            # if has_wos_pt and '\t' not in lines[0] and (len(lines) < 2 or '\t' not in lines[1]):
+            #     try:
+            #         pt_df = parse_wos_plaintext(text_str)
+            #         if not pt_df.empty:
+            #             parsed_df = pt_df
+            #             break
+            #     except Exception:
+            #         pass
+            #
+            # # 2. Check for Tab-delimited file (Web of Science tab-delimited or generic TSV)
+            # has_tabs = any('\t' in l for l in lines[:10])
+            # if has_tabs or ext == 'tsv':
+            #     start_idx = 0
+            #     for i, l in enumerate(lines[:10]):
+            #         if l.startswith('PT\t') or '\tTI\t' in l or '\tSO\t' in l or l.count('\t') >= 2:
+            #             start_idx = i
+            #             break
+            #     clean_lines = [l for l in lines[start_idx:] if l.strip() and l.strip() != 'EF']
+            #     try:
+            #         tab_df = pd.read_csv(io.StringIO("\n".join(clean_lines)), sep='\t', skipinitialspace=True, low_memory=False)
+            #         if not tab_df.empty:
+            #             parsed_df = tab_df
+            #             break
+            #     except Exception:
+            #         pass
+
+            # Semicolon vs Comma delimited CSV
+            first_data_line = lines[0]
+            sep_order = [';', ','] if first_data_line.count(';') > first_data_line.count(',') else [',', ';']
+            for s in sep_order:
                 try:
-                    text_str = raw_bytes.decode(enc, errors='ignore')
-                    clean_lines = [re.sub(r'^\s+"', '"', l.strip()) for l in text_str.splitlines() if l.strip()]
-                    parsed_df = pd.read_csv(io.StringIO("\n".join(clean_lines)), sep=',', skipinitialspace=True)
-                    break
+                    test_df = pd.read_csv(io.StringIO(text_str), sep=s, skipinitialspace=True, low_memory=False)
+                    if test_df.shape[1] > 1:
+                        parsed_df = test_df
+                        break
                 except Exception:
                     continue
+            if parsed_df is not None and not parsed_df.empty:
+                break
+
+            # Fallback python sniffer
+            try:
+                parsed_df = pd.read_csv(io.StringIO(text_str), sep=None, engine='python', skipinitialspace=True)
+                if not parsed_df.empty:
+                    break
+            except Exception:
+                continue
 
         if parsed_df is None:
             raise ValueError(f"Could not parse CSV file '{uploaded_file.name}'. Please verify formatting.")
@@ -443,6 +621,11 @@ def parse_file(uploaded_file) -> pd.DataFrame:
         df = pd.DataFrame(entries)
         if 'authors' in df.columns: df.rename(columns={'authors': 'Author'}, inplace=True)
         if 'year' in df.columns: df.rename(columns={'year': 'Publication Year'}, inplace=True)
+        for tag in ['doi', 'do', 'di', 'DO', 'DI', 'url', 'ur', 'l3', 'm3']:
+            if tag in df.columns:
+                extracted = df[tag].apply(extract_valid_doi)
+                if extracted.notna().any():
+                    df['DOI'] = extracted if 'DOI' not in df.columns else df['DOI'].combine_first(extracted)
         for col in df.columns:
             if df[col].apply(lambda x: isinstance(x, (list, tuple))).any():
                 df[col] = df[col].apply(lambda x: ", ".join(map(str, x)) if isinstance(x, (list, tuple)) else x)
@@ -450,6 +633,11 @@ def parse_file(uploaded_file) -> pd.DataFrame:
         text = uploaded_file.getvalue().decode("utf-8", errors='ignore')
         bib_database = bibtexparser.loads(text)
         df = pd.DataFrame(bib_database.entries)
+        for tag in ['doi', 'url', 'eprint', 'note', 'howpublished']:
+            if tag in df.columns:
+                extracted = df[tag].apply(extract_valid_doi)
+                if extracted.notna().any():
+                    df['DOI'] = extracted if 'DOI' not in df.columns else df['DOI'].combine_first(extracted)
         for col in df.columns:
             if df[col].apply(lambda x: isinstance(x, (list, tuple))).any():
                 df[col] = df[col].apply(lambda x: ", ".join(map(str, x)) if isinstance(x, (list, tuple)) else x)

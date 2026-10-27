@@ -1,4 +1,4 @@
-﻿\section{Methodology}
+\section{Methodology}
 \label{sec:methodology}
 % ==============================================================================
 %introduÃ§Ã£o sobre as ferramentas? 
@@ -177,32 +177,31 @@ N_{\text{screened}} = |D_{\text{raw}}|, \quad N_{\text{included}} = N_{\text{scr
 \end{equation}
 The computational core dynamically synthesizes a Graphviz DOT script mapping the review flow, computing exact differences between imported records, deduplicated sets, full-text screening assessments, and categorized exclusions. The flow renders as an interactive SVG diagram and exports reproducible \texttt{.dot} and vector source files for publication.
 
-\subsection{Institutional Endogeneity and Governance (\texttt{features/governance.py})}
-This module serves as an automated editorial compliance audit by computing the Institutional Endogeneity Index ($E_{\text{inst}}$) \cite{marziale2014editorial, Nazarovets2025, pinto2024endogamia, stumpf1996periodicos}. In scientometrics, institutional endogeneity measures the proportion of published articles authored by individuals affiliated with the journal's publishing institution. High endogeneity undermines editorial impartiality and serves as an explicit disqualification criterion for indexing databases such as SciELO \cite{scielo2020criterios}, Scopus \cite{pranckute2021web}, and the Brazilian Qualis/CAPES framework.The algorithm normalizes affiliation strings across the dataset and performs a vectorized boolean scan against the host institutional identifier ($I_{\text{pub}}$):
+\subsection{Institutional Endogeneity and Governance (\texttt{features/demographics.py})}
+This module serves as an automated editorial compliance audit by computing the Institutional Endogeneity Index ($E_{\text{inst}}$) \cite{marziale2014editorial, Nazarovets2025, pinto2024endogamia, stumpf1996periodicos}. In scientometrics, institutional endogeneity measures the proportion of published articles authored by individuals affiliated with the journal's publishing institution. High endogeneity undermines editorial impartiality and serves as an explicit disqualification criterion in major indexing systems. In particular, the official SciELO guidelines (\textit{Critérios, políticas e procedimentos para a admissão e a permanência de periódicos na Coleção SciELO Brasil}, Section~5.3.2: \textit{Avaliação de formato e endogenia}) establish institutional and geographic concentration among authors and editorial actors as an explicit limiting factor (\textit{fator limitante}) for journal indexing and retention \cite{scielo2020criterios}.
+
+To audit compliance, the algorithm normalizes affiliation strings across the dataset and performs a vectorized boolean scan against the host institutional identifier ($I_{\text{pub}}$) and its disambiguated aliases:
 \begin{equation}
 \label{eq:endogenia}
 E_{\text{inst}} = \left( \frac{\sum_{a=1}^{A} \mathbb{I}(I_a \cap I_{\text{pub}} \neq \emptyset)}{A} \right) \times 100
 \end{equation}
-where $A$ denotes the total number of articles evaluated, and $\mathbb{I}$ represents the indicator function returning $1$ if an intersection exists, and $0$ otherwise.The safety distance to regulatory thresholds (typically $\text{Threshold}_{\text{reg}} = 20\%$ in SciELO guidelines \cite{scielo2020criterios}) is monitored via:
-\begin{equation}
-\label{eq:margem_reg}
-\Delta_{\text{reg}} = \text{Threshold}{\text{reg}} - E{\text{inst}}.
-\end{equation}
-If $E_{\text{inst}}$ exceeds safety bounds ($\Delta_{\text{reg}} < 0$), the module dispatches automated diagnostic warnings within the user interface, highlighting specific volume outliers and editorial compliance risks \cite{marziale2014editorial, Nazarovets2025}.
+where $A$ denotes the total number of evaluated articles with valid affiliation records, and $I_a = \{\text{aff}_{a,1}, \dots, \text{aff}_{a,m}\}$ represents the set of all institutional affiliations declared across all co-authors of article $a$. The indicator function $\mathbb{I}(\cdot)$ evaluates to $1$ if \textit{any} author is affiliated with the publishing institution $I_{\text{pub}}$ (or its user-selected aliases), and $0$ otherwise. Counting articles containing any internal co-author establishes a strict, conservative audit upper bound, mitigating false-negative risks and accounting for the fact that heterogeneous multi-database exports do not systematically isolate reprint or corresponding author affiliations.
 
-\subsection{Cache Strategy and Data Compliance Architecture}
+The safety margin relative to the tolerance threshold is dynamically monitored via:
+\begin{equation}
+\label{eq:margem_ref}
+\Delta_{\text{ref}} = \text{Threshold}_{\text{ref}} - E_{\text{inst}}
+\end{equation}
+While SciELO qualitatively defines institutional concentration as a limiting factor, Brazilian scientometric practice and CAPES/Qualis evaluation committees empirically adopt an upper tolerance benchmark of $\text{Threshold}_{\text{ref}} = 20\%$ for affiliated authors \cite{marziale2014editorial, pinto2024endogamia, stumpf1996periodicos}. The module implements this $20\%$ benchmark as a default reference while exposing an interactive configuration slider ($0\% \le \text{Threshold}_{\text{ref}} \le 100\%$) in the user interface, enabling editorial teams to calibrate thresholds according to domain-specific indexing mandates. If endogeneity exceeds this reference bound ($\Delta_{\text{ref}} < 0$), the module dispatches automated diagnostic warnings within the UI, highlighting specific volume outliers and editorial compliance risks \cite{marziale2014editorial, Nazarovets2025}.
+
+\subsection{Data Compliance and Caching Architecture (\texttt{utils/cache/})}
 \label{subsec:cache_compliance}
 
-From a data privacy, General Data Protection Regulation (GDPR), and regulatory compliance perspective, the persistent artifacts stored within \texttt{utils/cache/} (e.g., \texttt{gender_cache.json}, \texttt{openalex_authors_cache.json}, and \texttt{translation_cache.json}) represent entirely non-sensitive, benign data structures. They do not retain proprietary user information, confidential institutional analytics, or unprocessed primary datasets.
+To optimize performance and mitigate rate-limiting against external services (e.g., NamSor, OpenAlex, and translation engines) \cite{priem2022openalex, santamaria2018comparison}, the platform implements a deterministic caching architecture. Operating strictly as an \textit{API Quota Preserver}, the system utilizes flat key-value JSON stores to suppress redundant network calls. For example, \texttt{gender\_cache.json} maps normalized given names to inferred gender probabilities, executing a billable API transaction only upon a cache miss. Similarly, \texttt{translation\_cache.json} maps an MD5 \rev{hash (used as a deterministic content key, not for cryptographic security)} of foreign-language abstracts to their English counterparts, while \texttt{openalex\_works\_cache.json} caches \rev{public-domain} academic metadata.
 
-Functionally, these components operate as \textit{Deterministic API Quota Preservers}. Because scientometric evaluations involve high-frequency requests to external services governed by rate limits and financial quotas (such as NamSor, OpenAlex, and Google Translate) \cite{priem2022openalex, santamaria2018comparison}, the architecture employs flat key-value JSON stores to suppress redundant network calls:
-\begin{itemize}
-\item \textbf{Gender Metadata Caches (\texttt{gender_cache.json}):} Map normalized author given names to inferential gender probabilities. Recurring names execute only a single billable network transaction against external endpoints. The packaged baseline lexicon (\texttt{gender_cache_init.json}) acts as a cold-start initialization cache.
-\item \textbf{Academic Graph Caches (\texttt{openalex_*_cache.json}):} Map public entity identifiers (OpenAlex entity IDs, author strings) to resolved academic graph metadata, including standardized institutional affiliations and ORCID identifiers \cite{priem2022openalex}. Stored records consist strictly of public-domain bibliometric metadata.
-\item \textbf{Translation Cache (\texttt{translation_cache.json}):} Maps an MD5 cryptographic digest of a non-English abstract directly to its translated English string, mitigating redundant translation calls across disjoint execution sessions.
-\end{itemize}
-
-Because these cache registries are confined to public-domain scientific metadata and cryptographic lookup keys, they are structurally safe for distributed version control, persistence, and open sharing. In the event of cache eviction or deletion, the system degrades gracefully by dynamically reconstructing records on-demand via fallback API requests.
+\begin{revbblock}
+From a regulatory compliance perspective, including the General Data Protection Regulation (GDPR), the Brazilian General Data Protection Law (LGPD), and third-party API Terms of Service, the caches were designed to minimize the retention of personal data. The system does not store raw institutional credentials, harvest private analytics, or circumvent anti-scraping policies. The gender cache stores inferred probabilities keyed by isolated given names rather than by fully identified individuals, and the OpenAlex and ORCID caches store scholarly metadata released under the Creative Commons CC0 1.0 Universal Public Domain Dedication. Nevertheless, inferred gender attributes linked to identifiable author lists may constitute personal data under the GDPR and LGPD, the redistribution of third-party inference results may be restricted by commercial API service agreements (e.g., NamSor), and translated abstracts may remain subject to publisher copyright. Accordingly, users are advised to evaluate these legal and contractual constraints before distributing cache files in public repositories. In the event of cache eviction or manual deletion, the platform degrades gracefully, reconstructing required metadata on-demand via standard fallback API queries.
+\end{revbblock}
 
 \subsection{Computational Core and Algorithmic Bindings (\texttt{lib/})}
 \label{subsec:lib_core}

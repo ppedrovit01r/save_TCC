@@ -1,0 +1,545 @@
+=======================================================================
+        5-TIER BIBLIOMETRIC DATA ENRICHMENT AUDIT & EXECUTION LOG
+=======================================================================
+Execution Timestamp: 2026-10-13 13:17:36 → 2026-10-13 13:19:17 (Duration: 1 minute 42 seconds)
+
+=======================================================================
+             DOI IDENTIFICATION & DISCOVERY SUMMARY (UP TO NOW)
+=======================================================================
+• Total Records in Memory Dataset: 89
+• DOIs Originally Present at Ingestion: 89 (100.0%)
+• Missing DOI Records Investigated: 0
+• DOIs Successfully Discovered in Phase 0: 0 (0.0%)
+    - Discovered via Crossref Works Search: 0
+    - Discovered via OpenAlex BM25 Search: 0
+    - Discovered via PubMed eSearch/eFetch: 0
+    - Discovered via Semantic Scholar Match: 0
+    - Discovered via PubMed PMID Batch: 0
+• DOIs Discovered in Fallback Tiers (1.5 / 5): 0
+-----------------------------------------------------------------------
+• TOTAL DOIS FOUND UP TO NOW: 89 / 89 records (100.0% coverage)
+• Newly Discovered DOIs Added to Dataset: +0 records
+• Residual Records Still Without DOI: 0 records
+=======================================================================
+
+[OVERALL DATASET CONTEXT & METRICS]
+• Total Records Evaluated for Enrichment: 89
+• Post-Enrichment Duplicates Consolidated: 0
+• Fully Enriched Records (Found 100% of requested fields): 0 (0.0%)
+• Partially Enriched Records (Gained new data): 89 (100.0%)
+• Unresolved Records (Gained NO data): 0 (0.0%)
+
+Target Fields Requested (22 fields): ['Title', 'Author', 'Publication Year', 'Times Cited', 'Publisher', 'Journal', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Document Type', 'Language', 'Open Access', 'Funding', 'DOI', 'PMID', 'OpenAlex ID', 'ISSN']
+
+--------------------------------------------------------------------------------
+1. MEMORY CLUSTER & FILE PROVENANCE CONTEXT
+--------------------------------------------------------------------------------
+• Total Records in Memory Dataset: 89
+• Total Records Evaluated for Enrichment: 89
+• Cluster Source Files Breakdown (3 files):
+    - MSEScopus2.csv: 22 records
+    - MSESpringer2.csv: 67 records
+    - MSEIEEE2.csv: 1 records
+
+--------------------------------------------------------------------------------
+2. TIER-BY-TIER METRICS & FIELD-LEVEL LINE POPULATION BREAKDOWN
+--------------------------------------------------------------------------------
+• PHASE 0: Multi-Engine DOI Discovery (Crossref, OpenAlex, PubMed, Semantic Scholar)
+    - Missing DOI Records Evaluated: 0
+    - DOIs Discovered: 0
+    - Hit Rate: 0.0%
+    - Engine Breakdown: None
+
+• TIER 1: OpenAlex Batch API (Bulk DOI Filtering)
+    - DOIs Queried: 89
+    - Records Resolved: 82 (92.1%)
+    - Total Field Values Populated: 1,537 lines
+    - Field Breakdown: {'OpenAlex ID': 82, 'Title': 82, 'Author': 82, 'Affiliations': 81, 'Country': 81, 'Address': 82, 'Location': 82, 'Abstract': 80, 'Keywords': 82, 'Concepts': 82, 'Article References': 76, 'Publication Year': 82, 'Times Cited': 82, 'Journal': 82, 'ISSN': 79, 'Document Type': 82, 'Language': 80, 'Open Access': 82, 'Publisher': 76}
+
+• TIER 2: Crossref REST API (DOI Metadata Fallback)
+    - Records Passed: 89
+    - Records Resolved: 89
+    - Total Field Values Populated: 629 lines
+    - Field Breakdown: {'Title': 89, 'Publisher': 67, 'ISSN': 67, 'Language': 67, 'Open Access': 67, 'Article References': 64, 'Times Cited': 89, 'Funding': 31, 'Abstract': 62, 'Author': 22, 'Affiliations': 4}
+
+• TIER 3: PubMed eUtils API (Biomedical MeSH/Abstract Fallback)
+    - Records Passed: 0 (with valid PMID)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+• TIER 4: Semantic Scholar API (Abstract & AI TLDR Fallback)
+    - Records Passed: 10
+    - Records Resolved: 10
+    - Total Field Values Populated: 17 lines
+    - Field Breakdown: {'Title': 10, 'Abstract': 5, 'Author': 2}
+
+• TIER 5: OpenAlex Fuzzy Title Search (Residual Non-DOI Local Papers)
+    - Records Passed: 0 (searched by Title)
+    - Records Resolved: 0
+    - Total Field Values Populated: 0 lines
+    - Field Breakdown: None
+
+--------------------------------------------------------------------------------
+3. POST-ENRICHMENT HEURISTIC DEDUCTIONS & STANDARDIZATION
+--------------------------------------------------------------------------------
+• Affiliations Deduced from Address: 1 records
+• Country Deduced from Affiliations/Address: 1 records
+• Language Deduced from Country: 0 records
+• Author Western Name Normalization: Completed
+• Post-Enrichment Duplicates Consolidated: 0 records
+
+--------------------------------------------------------------------------------
+4. UNRESOLVED RECORDS & SPECIFIC MISSING COLUMNS AUDIT
+--------------------------------------------------------------------------------
+Total Records with Remaining Missing Fields: 89 / 89
+
+• [Row 0] Source: MSESpringer2.csv
+  Title: 'A comprehensive review on building information modellin' | DOI: '10.1007/s44290-025-00342-5'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 1] Source: MSESpringer2.csv
+  Title: 'A conceptual framework for AI adoption in business arch' | DOI: '10.1007/s44163-025-00673-3'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 2] Source: MSESpringer2.csv
+  Title: 'A dynamic order acceptance and scheduling approach for ' | DOI: '10.1007/s00170-019-03796-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 3] Source: MSESpringer2.csv
+  Title: 'A Masterplan-based system for lead time prediction in s' | DOI: '10.1007/s11740-025-01385-4'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 4] Source: MSESpringer2.csv
+  Title: 'A Portfolio Management Method for Process Mining-Enable' | DOI: '10.1007/s12599-024-00906-2'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 5] Source: MSESpringer2.csv
+  Title: 'Abstracts from The XXV Brazilian Diabetes Society Meeti' | DOI: '10.1186/s13098-026-02095-2'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 6] Source: MSESpringer2.csv
+  Title: 'AI integration in financial services: a systematic revi' | DOI: '10.1057/s41599-025-04850-8'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 7] Source: MSEScopus2.csv
+  Title: 'Applying Process Mining: The Reality of a Software Deve' | DOI: '10.3390/app14041402'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 8] Source: MSESpringer2.csv
+  Title: 'Big data in relation with business intelligence capabil' | DOI: '10.1186/s43093-023-00221-4'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 9] Source: MSESpringer2.csv
+  Title: 'Building an energizing customer bond model in the consu' | DOI: '10.2478/mmcks-2023-0011'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 10] Source: MSESpringer2.csv
+  Title: 'Business model innovation in SMEs for sustainable and d' | DOI: '10.1186/s43093-026-00949-9'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 11] Source: MSESpringer2.csv
+  Title: 'Business sustainability in the era of Fintech and Regte' | DOI: '10.1007/s43621-024-00767-5'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 12] Source: MSESpringer2.csv
+  Title: 'Can industry 5.0 technologies overcome supply chain dis' | DOI: '10.1007/s12063-023-00410-y'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 13] Source: MSESpringer2.csv
+  Title: 'Cloud based manufacturing: A review of recent developme' | DOI: '10.1007/s00170-024-12989-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 14] Source: MSESpringer2.csv
+  Title: 'Clusters as institutional entrepreneurs: lessons from R' | DOI: '10.1186/s13731-021-00149-5'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 15] Source: MSESpringer2.csv
+  Title: 'Comparative analysis of industry 4.0 and blockchain ado' | DOI: '10.1186/s43093-026-00731-x'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 16] Source: MSESpringer2.csv
+  Title: 'Context-Aware Business Process Management' | DOI: '10.1007/s12599-021-00685-0'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 17] Source: MSESpringer2.csv
+  Title: 'Cost accounting practices in SMEs: liability of age and' | DOI: '10.1007/s11365-023-00938-2'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 18] Source: MSESpringer2.csv
+  Title: 'Creating New Knowledge while Solving a Relevant Practic' | DOI: '10.1007/s11213-022-09628-6'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 19] Source: MSESpringer2.csv
+  Title: 'Current landscape and influence of big data on finance' | DOI: '10.1186/s40537-020-00291-z'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 20] Source: MSEScopus2.csv
+  Title: 'Design and Implementation of Industrial Internet of Thi' | DOI: '10.1109/access.2026.3674418'
+  Status: Enriched 4 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (5): ['Location', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 21] Source: MSESpringer2.csv
+  Title: 'Design of blockchain-based applications using model-dri' | DOI: '10.1007/s10270-023-01109-1'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 22] Source: MSESpringer2.csv
+  Title: 'Digital competence development in a few countries of th' | DOI: '10.2478/mmcks-2022-0010'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 23] Source: MSEScopus2.csv
+  Title: 'Digitalization, internationalization and scaling of onl' | DOI: '10.22215/timreview/1346'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 24] Source: MSEScopus2.csv
+  Title: 'DOCUMENTING SME PROCESSES WITH CONVERSATIONAL AI: FROM ' | DOI: '10.1049/icp.2025.3640'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 25] Source: MSESpringer2.csv
+  Title: 'ECR 2019: Book of Abstracts' | DOI: '10.1186/s13244-019-0713-y'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Article References', 'Abstract', 'Funding', 'PMID']
+
+• [Row 26] Source: MSESpringer2.csv
+  Title: 'ECR 2026 Book of Abstracts' | DOI: '10.1186/s13244-026-02345-x'
+  Status: Enriched 6 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (12): ['Author', 'Article References', 'Affiliations', 'Country', 'Address', 'Location', 'Abstract', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 27] Source: MSEScopus2.csv
+  Title: 'Eliminating Non-Value-Added Activities and Optimizing M' | DOI: '10.3390/su16041694'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 28] Source: MSESpringer2.csv
+  Title: 'Entrepreneurial universities and the third mission para' | DOI: '10.1007/s10961-024-10080-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 29] Source: MSEScopus2.csv
+  Title: 'Evaluation of process orientation dimensions in the app' | DOI: '10.3390/su12104145'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 30] Source: MSESpringer2.csv
+  Title: 'Evolving sustainability communication in small and medi' | DOI: '10.1007/s43621-026-03973-5'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 31] Source: MSESpringer2.csv
+  Title: 'Exploring AI Integration in SME Production Planning: De' | DOI: '10.1007/s10606-025-09512-6'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 32] Source: MSEScopus2.csv
+  Title: 'Exploring blockchain for green logistics: how instituti' | DOI: '10.1108/jeim-07-2025-0655'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 33] Source: MSESpringer2.csv
+  Title: 'Exploring Collaborative Marketing Experience Between Sm' | DOI: '10.1007/978-981-95-7607-4_45'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 34] Source: MSEScopus2.csv
+  Title: 'Exploring MSME Owners’ Expectations of Data-Driven Appr' | DOI: '10.3390/systems13040265'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 35] Source: MSESpringer2.csv
+  Title: 'FCC-ee: The Lepton Collider' | DOI: '10.1140/epjst/e2019-900045-4'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 36] Source: MSESpringer2.csv
+  Title: 'FCC-hh: The Hadron Collider' | DOI: '10.1140/epjst/e2019-900087-0'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 37] Source: MSEScopus2.csv
+  Title: 'From Theory to Practice: Empirical Insights on BPM Life' | DOI: '10.1109/access.2025.3585261'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 38] Source: MSESpringer2.csv
+  Title: 'Government roles in legalizing China’s digital business' | DOI: '10.1057/s41599-026-06811-1'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 39] Source: MSESpringer2.csv
+  Title: 'HE-LHC: The High-Energy Large Hadron Collider' | DOI: '10.1140/epjst/e2019-900088-6'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 40] Source: MSESpringer2.csv
+  Title: 'Higher Ethical Objective (<i>Maqasid al</i>-<i>Shari’ah' | DOI: '10.1007/s10551-019-04331-4'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 41] Source: MSESpringer2.csv
+  Title: 'Human–AI hybrid finance: from AI tools to decision syst' | DOI: '10.1186/s40854-026-00941-w'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 42] Source: MSESpringer2.csv
+  Title: 'Impact of generative AI and green process innovation on' | DOI: '10.1007/s43621-026-02780-2'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 43] Source: MSESpringer2.csv
+  Title: 'Improved MRI detection of inflammation-induced changes ' | DOI: '10.1186/s41747-025-00574-1'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 44] Source: MSESpringer2.csv
+  Title: 'Information and communication technology in SMEs: a sys' | DOI: '10.1186/s13731-024-00392-6'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 45] Source: MSESpringer2.csv
+  Title: 'Interoperability of digital twin data exchange in engin' | DOI: '10.1007/s00163-026-00489-x'
+  Status: Enriched 8 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (9): ['Affiliations', 'Country', 'Address', 'Location', 'Keywords', 'Concepts', 'Funding', 'PMID', 'OpenAlex ID']
+
+• [Row 46] Source: MSESpringer2.csv
+  Title: 'Key performance indicators for business models: a syste' | DOI: '10.1007/s10257-023-00650-2'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 47] Source: MSESpringer2.csv
+  Title: 'Knowledge Management and Data Analysis Techniques for D' | DOI: '10.1007/s13132-023-01607-z'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 48] Source: MSESpringer2.csv
+  Title: 'Large language models and conditional rules in clinical' | DOI: '10.1007/s13755-026-00428-z'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 49] Source: MSESpringer2.csv
+  Title: 'Lean and Industry 4.0 mitigating common losses in Engin' | DOI: '10.1007/s10696-023-09503-z'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 50] Source: MSEScopus2.csv
+  Title: 'Lean Service Application to Improve On-Time Project Del' | DOI: '10.3233/atde260687'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 51] Source: MSESpringer2.csv
+  Title: 'LLM support for enterprise modelling based on integrati' | DOI: '10.1007/s44163-026-01056-y'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 52] Source: MSEScopus2.csv
+  Title: 'Major concerns about Enterprise Resource Planning (ERP)' | DOI: '10.1016/j.procs.2023.01.303'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 53] Source: MSESpringer2.csv
+  Title: 'Managerial experimental approaches and business model d' | DOI: '10.1007/s11846-025-00886-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 54] Source: MSESpringer2.csv
+  Title: 'Managing big data and blockchain for enterprise interna' | DOI: '10.2478/mmcks-2024-0007'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 55] Source: MSESpringer2.csv
+  Title: 'Method engineering in information systems analysis and ' | DOI: '10.1007/s10270-018-0692-3'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 56] Source: MSEScopus2.csv
+  Title: 'Methodology for Business Process Automation in SMEs: Fr' | DOI: '10.28991/esj-2025-09-03-022'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 57] Source: MSESpringer2.csv
+  Title: 'Navigating Business Model Redesign: The Compass Method ' | DOI: '10.1007/s12599-024-00892-5'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 58] Source: MSESpringer2.csv
+  Title: 'Open innovation: status quo and quo vadis - an analysis' | DOI: '10.1007/s11846-023-00655-8'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 59] Source: MSEScopus2.csv
+  Title: 'Optimizing energy efficiency through smart manufacturin' | DOI: '10.18686/cest628'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 60] Source: MSEScopus2.csv
+  Title: 'PADDME—Process Analysis for Digital Development in Mech' | DOI: '10.3390/pr12010173'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 61] Source: MSEScopus2.csv
+  Title: 'PM4SMEs: A Process Mining Methodology for Small and Med' | DOI: '10.5220/0014691800004018'
+  Status: Enriched 16 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 62] Source: MSESpringer2.csv
+  Title: 'Port economics, management and policy studies (2009–202' | DOI: '10.1007/s13437-023-00325-2'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 63] Source: MSEScopus2.csv
+  Title: 'Priority Factors for the Adoption of Cloud ERP Based on' | DOI: '10.46338/ijetae1221_14'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 64] Source: MSEScopus2.csv
+  Title: 'Process Discovery in Industrial Valve Maintenance Using' | DOI: '10.1016/j.procs.2026.02.078'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 65] Source: MSESpringer2.csv
+  Title: 'Process Mining Success Factors and Their Interrelations' | DOI: '10.1007/s12599-024-00860-z'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 66] Source: MSEScopus2.csv
+  Title: 'PROMISE: A Process Mining Methodology for Small and Med' | DOI: '10.5220/0014834400004018'
+  Status: Enriched 16 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 67] Source: MSESpringer2.csv
+  Title: 'Protecting Citizens’ Personal Data and Privacy: Joint E' | DOI: '10.1007/s42979-020-00218-8'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 68] Source: MSESpringer2.csv
+  Title: 'Research on the automation of intelligent accounting in' | DOI: '10.1038/s41598-025-31005-1'
+  Status: Enriched 17 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (4): ['Affiliations', 'Country', 'Funding', 'PMID']
+
+• [Row 69] Source: MSESpringer2.csv
+  Title: 'Resilience analysis of service-oriented collaboration p' | DOI: '10.1007/s11761-018-0233-5'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 70] Source: MSESpringer2.csv
+  Title: 'Risk-based predictive modelling for audit verification:' | DOI: '10.1007/s11135-026-02725-x'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 71] Source: MSESpringer2.csv
+  Title: 'Role of the orexin 2 receptor in palatable-food consump' | DOI: '10.1038/s41598-018-30970-0'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 72] Source: MSEScopus2.csv
+  Title: 'RPA Experiments in SMEs Through a Collaborative Network' | DOI: '10.1007/978-3-031-42622-3_54'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 73] Source: MSESpringer2.csv
+  Title: 'Small banks, big burdens: How regulatory requirements a' | DOI: '10.1007/s11301-026-00619-8'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 74] Source: MSESpringer2.csv
+  Title: 'Suitability- and utilization-based cost–benefit analysi' | DOI: '10.1007/s10257-023-00658-8'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 75] Source: MSESpringer2.csv
+  Title: 'Systematic analysis of data governance frameworks and t' | DOI: '10.1007/s11301-025-00545-1'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 76] Source: MSEScopus2.csv
+  Title: 'The Design of IoT-based Business Process for SME Digita' | DOI: '10.47738/jads.v5i2.247'
+  Status: Enriched 18 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 77] Source: MSESpringer2.csv
+  Title: 'The determinants of green innovations in manufacturing ' | DOI: '10.1186/s43093-025-00461-6'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 78] Source: MSESpringer2.csv
+  Title: 'The Five Diamond Method for Explorative Business Proces' | DOI: '10.1007/s12599-021-00703-1'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 79] Source: MSESpringer2.csv
+  Title: 'The future of rare disease drug development: the rare d' | DOI: '10.1007/s10928-023-09859-7'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 80] Source: MSESpringer2.csv
+  Title: 'Towards a lightweight framework for service management ' | DOI: '10.1007/s10257-022-00576-1'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 81] Source: MSESpringer2.csv
+  Title: 'Towards a process selection method for embedded analyti' | DOI: '10.1007/s10257-024-00675-1'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 82] Source: MSESpringer2.csv
+  Title: 'Towards an integrated risk analysis security framework ' | DOI: '10.1007/s11704-023-1582-6'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 83] Source: MSEScopus2.csv
+  Title: 'Understanding Agile Innovation Management Adoption for ' | DOI: '10.1109/tem.2022.3148341'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 84] Source: MSESpringer2.csv
+  Title: 'Unveiling challenges and insights in cloud Enterprise R' | DOI: '10.2478/mmcks-2024-0029'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (2): ['Funding', 'PMID']
+
+• [Row 85] Source: MSEScopus2.csv
+  Title: 'Unveiling how business process management capabilities ' | DOI: '10.1108/bpmj-06-2024-0467'
+  Status: Enriched 19 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 86] Source: MSESpringer2.csv
+  Title: 'Validating a parsimonious two-dimensional business inte' | DOI: '10.1007/s43621-026-03315-5'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 87] Source: MSESpringer2.csv
+  Title: 'Virtual reality for prospective and process-related com' | DOI: '10.1007/s41449-023-00355-9'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+• [Row 88] Source: MSESpringer2.csv
+  Title: 'Visualization of Digital Transformation Initiatives Ele' | DOI: '10.1007/s10796-023-10469-4'
+  Status: Enriched 20 field(s) during run.
+  ❌ FAILED / STILL MISSING COLUMNS (1): ['PMID']
+
+================================================================================
+FINAL SUMMARY: 89/89 records received enhancement data. Audit saved to disk.
+TOTAL DOIS IDENTIFIED: 89 / 89 (100.0% coverage).
+================================================================================
